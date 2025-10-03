@@ -1,0 +1,11 @@
+<div id="tcomment"></div>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
+<script>
+twikoo.init({
+  envId: '<%= config.twikoo.envId %>', // 腾讯云环境填 envId；Vercel 环境填地址
+  el: '#tcomment',
+  // region: 'ap-guangzhou', // 可选，根据需要填写
+  path: location.pathname,
+  lang: '<%= config.twikoo.lang %>'
+})
+</script>

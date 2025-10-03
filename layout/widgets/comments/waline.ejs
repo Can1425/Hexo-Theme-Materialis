@@ -1,0 +1,17 @@
+<!-- 样式文件 -->
+<link
+  rel="stylesheet"
+  href="https://unpkg.com/@waline/client@v3/dist/waline.css"
+/>
+<!-- 评论容器 -->
+<div id="waline"></div>
+<!-- 脚本文件 -->
+<script type="module">
+  import { init } from 'https://unpkg.com/@waline/client@v3/dist/waline.js';
+
+  init({
+    el: '#waline',
+    serverURL: '<%= config.waline.serverURL %>',
+    lang: '<%= config.waline.lang %>'
+  });
+</script>

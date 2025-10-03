@@ -1,0 +1,22 @@
+#欢迎使用 Materialis 主题
+#主题作者：W-Can1425 system:error
+#Comment 请选择一个
+#---start---
+comment: twikoo # 可选值：twikoo, waline, giscus
+twikoo:
+  envId: your_env_id # 腾讯云环境ID
+  lang: zh-CN # 语言，支持 'zh-CN', 'en'
+waline:
+  serverURL: your_server_url # 填写你的 Waline 服务器地址
+  lang: zh-CN # 语言，支持 'zh-CN', 'en'
+giscus:
+  repo: your_repo # 你的 GitHub 仓库，格式为 username/repo
+  repoId: your_repo_id # 你的 GitHub 仓库ID
+  category: your_category # 你的 GitHub Discussions 分类
+  categoryId: your_category_id # 你的 GitHub Discussions 分类ID
+  mapping: pathname # 映射方式，支持 'url', 'title', 'og:title', 'specific'
+  reactionsEnabled: true # 是否启用表情反应
+  emitMetadata: false # 是否发送元数据
+  inputPosition: bottom # 输入框位置，支持 'top', 'bottom'
+  lang: zh-CN # 语言，支持 'zh-CN', 'en'
+#---end---

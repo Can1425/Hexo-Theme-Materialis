@@ -1,0 +1,67 @@
+<style>
+.card-wide {
+    max-width: 900px;
+    margin: 32px auto;
+    background: #ffffff;
+    color: #222;
+    box-shadow: 0 4px 24px rgba(229, 234, 238, 0.1);
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.card-wide mdui-card-content {
+    padding: 32px;
+    width: 100%;
+    text-align: center;
+}
+.card-wide mdui-card-header {
+    padding: 24px 32px 0 32px;
+    width: 100%;
+    text-align: center;
+}
+@media (max-width: 960px) {
+    .card-wide {
+        max-width: 90%;
+        margin: 16px;
+        border-radius: 8px;
+    }
+    .card-wide mdui-card-content,
+    .card-wide mdui-card-header {
+        padding: 16px;
+    }
+}
+</style>
+
+
+<%- include('widgets/appbar.ejs') %>
+<mdui-layout-main>
+    <!-- 文章内容卡片 -->
+    <mdui-card class="card-wide">
+        <mdui-card-header>
+            <mdui-card-title style="font-size:2.2em;"><%= page.title %></mdui-card-title>
+            <hr>
+            <mdui-card-subtitle>
+                <%= page.date.toISOString().slice(0, 10) %>
+            </mdui-card-subtitle>
+        </mdui-card-header>
+        <mdui-card-content class="mdui-prose">
+            <%- page.content %>
+        </mdui-card-content>
+    </mdui-card>
+    <!-- 评论卡片 -->
+    <mdui-card class="card-wide">
+        <mdui-card-content>
+            <mdui-card class="card-wide">
+                <% if (config.comment === 'twikoo') { %>
+                    <%- include('widgets/comments/twikoo.ejs') %>
+                <% } else if (config.comment === 'waline') { %>
+                    <%- include('widgets/comments/waline.ejs') %>
+                <% } else if (config.comment === 'giscus') { %>
+                    <%- include('widgets/comments/giscus.ejs') %>
+                <% } %>
+            </mdui-card>
+        </mdui-card-content>
+    </mdui-card>
+</mdui-layout-main>
