@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+    <mdui-navigation-drawer open="true" style="top: 64px;">
+        <mdui-list>
+            <mdui-list-item icon="book">Test</mdui-list-item>
+        </mdui-list>
+    </mdui-navigation-drawer>
+
+    <mdui-layout-main>
+        <mdui-top-app-bar variant="small" scroll-behavior="shrink elevate">
+            <mdui-button-icon>
+                <mdui-icon name="menu"></mdui-icon>
+            </mdui-button-icon>
+            <mdui-top-app-bar-title>CanNook</mdui-top-app-bar-title>
+        </mdui-top-app-bar>
+        <mdui-list>
+            <% site.posts.forEach((post) => { %>
+                <mdui-list-item>
+                    <%- post.title %>
+                    <span slot="description">
+                        <%- truncate(strip_html(post.content), {length: 200}) %>
+                    </span>
+                </mdui-list-item>
+            <% }); %>
+        </mdui-list>
+    </mdui-layout-main>
+</body>
+</html>
