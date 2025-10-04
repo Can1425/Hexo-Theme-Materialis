@@ -1,0 +1,8 @@
+<mdui-card class="home-post-card">
+    <mdui-list-item onclick="location.href='<%= url_for(post.path) %>'">
+        <%- post.title %>
+        <span slot="description">
+            <%- truncate(strip_html(post.content), { length: 200 }) %>
+        </span>
+    </mdui-list-item>
+</mdui-card>

@@ -1,40 +1,17 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
+<%- include('widgets/appbar') %>
+<%- include('widgets/sidebar') %>
 
-    <mdui-navigation-drawer open="true" style="top: 64px; width: 350px;">
-        
-        <mdui-card style="margin: 50px; padding: 50px; text-align: center; font-size: 1.2em; aspect-ratio: 1/1; display: flex; flex-direction: column; justify-content: center;   align-items: center;">
-            <mdui-avatar style="margin-bottom: 25px; width: 96px; height: 96px; border-radius: 50%;" src="/images/avatar.png"></mdui-avatar>
-            <div style="font-weight: bold; font-size: 1.5em;">作者昵称</div>
-            <div style="font-size: 14px; color: #666; margin-top: 10px;">一句个性签名</div>
+<mdui-layout-main>
+<mdui-list>
+    <% site.posts.forEach((post) => { %>
+        <mdui-card style="background: #ffffff; margin: 24px 0;">
+            <mdui-list-item onclick="location.href='<%= url_for(post.path) %>'">
+                <%- post.title %>
+                <span slot="description">
+                    <%- truncate(strip_html(post.content), {length: 200}) %>
+                </span>
+            </mdui-list-item>
         </mdui-card>
-        <mdui-list>
-            <% site.categories.forEach(function(category) { %>
-                <mdui-list-item icon="folder" onclick="location.href='<%= url_for(category.path) %>'">
-                    <%= category.name %>
-                </mdui-list-item>
-            <% }); %>
-        </mdui-list>
-    </mdui-navigation-drawer>
-    <mdui-layout-main>
-        <%- include('widgets/appbar.ejs') %> <!-- 引入导航栏模板 -->
-    <mdui-list>
-        <% site.posts.forEach((post) => { %>
-            <mdui-card style="background: #ffffff; margin: 24px 0;">
-                <mdui-list-item onclick="location.href='<%= url_for(post.path) %>'">
-                    <%- post.title %>
-                    <span slot="description">
-                        <%- truncate(strip_html(post.content), {length: 200}) %>
-                    </span>
-                </mdui-list-item>
-            </mdui-card>
-        <% }); %>
-    </mdui-list>
-    </mdui-layout-main>
-</body>
-</html>
+    <% }); %>
+</mdui-list>
+</mdui-layout-main>
