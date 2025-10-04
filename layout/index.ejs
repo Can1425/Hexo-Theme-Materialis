@@ -1,31 +1,11 @@
-<!-- <%- include('widgets/appbar') %>
-<%- include('widgets/sidebar') %>
-<%- include('widgets/banner') %>
-
-
-<mdui-layout-main>
-<mdui-list>
-    <% site.posts.forEach((post) => { %>
-        <mdui-card style="background: #ffffff; margin: 24px 0;">
-            <mdui-list-item onclick="location.href='<%= url_for(post.path) %>'">
-                <%- post.title %>
-                <span slot="description">
-                    <%- truncate(strip_html(post.content), {length: 200}) %>
-                </span>
-            </mdui-list-item>
-        </mdui-card>
-    <% }); %>
-</mdui-list>
-</mdui-layout-main> -->
 <%- include('widgets/appbar') %>
 <%- include('widgets/sidebar') %>
-<%- include('widgets/banner') %>
 
 <style>
 .articles-container {
-    max-width: 900px;
     margin: 0 auto;
     padding: 0 16px;
+    column-count: 3;
 }
 
 .article-card {
@@ -33,20 +13,18 @@
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
     border-radius: 16px;
-    min-height: 140px;
+    min-height: 110px;
     display: flex;
     align-items: center;
 }
 
 .article-card:hover {
     transform: translateY(-3px);
-    box-shadow: var(--mdui-elevation-4);
 }
 
 .article-content {
-    padding: 2rem;
+    padding: 1.25rem;
     width: 100%;
-    display: flex;
     justify-content: space-between;
     align-items: center;
 }
@@ -68,7 +46,7 @@
 .article-meta {
     display: flex;
     align-items: center;
-    gap: 1.5rem;
+    gap: 0.5rem;
 }
 
 .article-date {
@@ -90,7 +68,7 @@
     flex-direction: column;
     align-items: flex-end;
     gap: 1rem;
-    margin-left: 2rem;
+    margin-top: 20px;
 }
 
 .article-read-more {
@@ -113,49 +91,15 @@
     align-items: center;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1200px) {
     .articles-container {
-        padding: 0 12px;
-    }
-    
-    .article-card {
-        min-height: 120px;
-        margin: 16px 0;
-    }
-    
-    .article-content {
-        padding: 1.5rem;
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 1rem;
-    }
-    
-    .article-side {
-        margin-left: 0;
-        width: 100%;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-    }
-    
-    .article-meta {
-        gap: 1rem;
+        column-count: 2;
     }
 }
 
-@media (max-width: 480px) {
-    .article-content {
-        padding: 1.25rem;
-    }
-    
-    .article-card {
-        min-height: 110px;
-    }
-    
-    .article-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.5rem;
+@media (max-width: 500px) {
+    .articles-container {
+        column-count: 1;
     }
 }
 </style>
@@ -175,6 +119,8 @@
                             <mdui-typography variant="h4" class="article-title">
                                 <%= post.title %>
                             </mdui-typography>
+
+                            <span><%- truncate(strip_html(post.content), { length: 200 }) %></span>
                             
                             <div class="article-meta">
                                 <mdui-typography variant="body2" class="article-date">
@@ -215,12 +161,9 @@
                         </div>
                         
                         <!-- 右侧：阅读更多 -->
-                        <div class="article-side">
-                            <mdui-typography variant="body1" class="article-read-more">
-                                阅读全文
-                                <mdui-icon name="arrow_forward" style="font-size: 1.2rem;"></mdui-icon>
-                            </mdui-typography>
-                        </div>
+                        <mdui-button class="article-side">
+                            <mdui-icon name="arrow_forward" style="font-size: 1.2rem;"></mdui-icon>
+                        </mdui-button>
                     </div>
                 </mdui-card>
             <% }); %>

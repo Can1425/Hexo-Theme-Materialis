@@ -3,8 +3,6 @@
     text-align: center;
     padding: 2rem 1rem;
     margin: 1rem;
-    background: var(--mdui-color-surface-container);
-    border-radius: 12px;
 }
 
 .sidebar-user-avatar {
@@ -17,7 +15,7 @@
 
 <mdui-navigation-drawer class="sidebar-content" close-on-overlay-click>
     <% if (theme.sidebar && (theme.sidebar.avatar || theme.sidebar.name || theme.sidebar.slogen)) { %>
-    <mdui-card class="sidebar-user-card">
+    <mdui-card class="sidebar-user-card" variant="filled">
         <% if (theme.sidebar.avatar) { %>
             <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
         <% } %>

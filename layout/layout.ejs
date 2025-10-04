@@ -4,10 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body>
     <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
     <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+    <script src="/js/main.js"></script>
+</head>
+<body>
 
     <%- css('css/style.css') %>
 
@@ -15,4 +16,8 @@
         <%- body %>
     </main>
 </body>
+<script type="module">
+    import { snackbar } from 'https://unpkg.com/mdui@2/mdui.esm.js';
+    setColorScheme('#0061a4');
+</script>
 </html>
