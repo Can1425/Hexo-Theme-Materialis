@@ -29,16 +29,19 @@ banner:
   title: "欢迎来到我的博客"    # 可选：横幅标题
   subtitle: "分享技术与生活"   # 可选：横幅副标题
   #---end---
-  # 侧边栏设置
-  #---start
-# 确保主题配置中有这些值
-# 在主题的 _config.yml 中添加
-
 # 侧边栏配置
+#---start---
 sidebar:
   # 用户信息
   name: "system:error"
   slogen: "长风破浪会有时，直挂云帆济沧海。"
   avatar: "https://blog.yizhixiaozhu.top/images/1.png"
-  
+#---end---
+#友链配置
+#---start---
+links:
+  use: 1 # 0关闭友链 1使用qexo友链 2使用主题友链
+  qexo:
+    url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
+#---end--- 
 
