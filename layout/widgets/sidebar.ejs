@@ -1,9 +1,35 @@
+<style>
+.sidebar-user-card {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin: 1rem;
+    background: var(--mdui-color-surface-container);
+    border-radius: 12px;
+}
+
+.sidebar-user-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto 1rem auto;
+    display: block;
+}
+</style>
+
 <mdui-navigation-drawer class="sidebar-content" close-on-overlay-click>
+    <% if (theme.sidebar && (theme.sidebar.avatar || theme.sidebar.name || theme.sidebar.slogen)) { %>
     <mdui-card class="sidebar-user-card">
-        <mdui-avatar class="sidebar-user-avatar" src="/images/avatar.png"></mdui-avatar>
-        <div style="font-weight: bold; font-size: 1.5em;">作者昵称</div>
-        <div style="font-size: 14px; color: #666; margin-top: 10px;">一句个性签名</div>
+        <% if (theme.sidebar.avatar) { %>
+            <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
+        <% } %>
+        <% if (theme.sidebar.name) { %>
+            <div style="font-weight: bold; font-size: 1.5em;"><%= theme.sidebar.name %></div>
+        <% } %>
+        <% if (theme.sidebar.slogen) { %>
+            <div style="font-size: 14px; color: #666; margin-top: 10px;"><%= theme.sidebar.slogen %></div>
+        <% } %>
     </mdui-card>
+    <% } %>
+    
     <mdui-list>
         <% site.categories.forEach(function(category) { %>
             <mdui-list-item icon="folder" onclick="location.href='<%= url_for(category.path) %>'">

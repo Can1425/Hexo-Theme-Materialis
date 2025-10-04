@@ -1,11 +1,23 @@
+<% if (theme.twikoo && theme.twikoo.envId) { %>
 <div id="tcomment"></div>
-<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.35/dist/twikoo.all.min.js"></script>
 <script>
 twikoo.init({
-  envId: '<%= config.twikoo.envId %>', // 腾讯云环境填 envId；Vercel 环境填地址
+  envId: '<%= theme.twikoo.envId %>',
   el: '#tcomment',
-  // region: 'ap-guangzhou', // 可选，根据需要填写
+  // region: 'ap-guangzhou', // 腾讯云环境时需要，Vercel 不需要
   path: location.pathname,
-  lang: '<%= config.twikoo.lang %>'
-})
+  lang: '<%= theme.twikoo.lang || "zh-CN" %>'
+}).then(function () {
+  console.log('Twikoo 评论系统加载成功');
+}).catch(function (err) {
+  console.error('Twikoo 评论系统加载失败:', err);
+});
 </script>
+<% } else { %>
+<div style="text-align: center; padding: 2rem;">
+    <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
+        Twikoo 评论系统未正确配置
+    </mdui-typography>
+</div>
+<% } %>

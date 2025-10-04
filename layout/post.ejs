@@ -1,67 +1,258 @@
+<%- include('widgets/sidebar') %>
+<script src="/js/widgets/sidebar.js"></script>
 <style>
 .card-wide {
     max-width: 900px;
     margin: 32px auto;
-    background: #ffffff;
-    color: #222;
-    box-shadow: 0 4px 24px rgba(229, 234, 238, 0.1);
+    background: var(--mdui-color-surface);
+    color: var(--mdui-color-on-surface);
+    box-shadow: var(--mdui-elevation-1);
     border-radius: 16px;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
     align-items: center;
+    justify-content: center;
+    /* background-color: rgb(242, 242, 253); */
 }
+.card-title {
+    max-width: 900px;
+    margin: 32px auto;
+    background: var(--mdui-color-surface);
+    color: var(--mdui-color-on-surface);
+    box-shadow: var(--mdui-elevation-1);
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgb(242, 242, 253); */
+}
+
+.card-comment {
+    max-width: 900px;
+    margin: 32px auto;
+    background: var(--mdui-color-surface);
+    color: var(--mdui-color-on-surface);
+    box-shadow: var(--mdui-elevation-1);
+    border-radius: 16px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* background-color: rgb(242, 242, 253); */
+}
+
 .card-wide mdui-card-content {
     padding: 32px;
     width: 100%;
-    text-align: center;
 }
+
 .card-wide mdui-card-header {
     padding: 24px 32px 0 32px;
     width: 100%;
-    text-align: center;
 }
+
+/* 文章内容样式 */
+.article-content {
+    line-height: 1.8;
+    font-size: 16px;
+}
+
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4,
+.article-content h5,
+.article-content h6 {
+    margin: 2rem 0 1rem 0;
+    color: var(--mdui-color-primary);
+}
+
+.article-content h1 {
+    font-size: 2.2em;
+    border-bottom: 2px solid var(--mdui-color-outline);
+    padding-bottom: 0.5rem;
+}
+
+.article-content h2 {
+    font-size: 1.8em;
+    border-bottom: 1px solid var(--mdui-color-outline);
+    padding-bottom: 0.3rem;
+}
+
+.article-content h3 {
+    font-size: 1.5em;
+}
+
+.article-content p {
+    margin: 1rem 0;
+    text-align: left;
+}
+
+.article-content ul,
+.article-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    text-align: left;
+}
+
+.article-content li {
+    margin: 0.5rem 0;
+}
+
+.article-content blockquote {
+    border-left: 4px solid var(--mdui-color-primary);
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    background: var(--mdui-color-surface-container);
+    border-radius: 0 8px 8px 0;
+}
+
+.article-content code {
+    background: var(--mdui-color-surface-container-high);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    font-family: 'Consolas', 'Monaco', monospace;
+    font-size: 0.9em;
+}
+
+.article-content pre {
+    background: var(--mdui-color-surface-container-high);
+    padding: 1.5rem;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+}
+
+.article-content pre code {
+    background: none;
+    padding: 0;
+}
+
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    text-align: left;
+}
+
+.article-content th,
+.article-content td {
+    border: 1px solid var(--mdui-color-outline);
+    padding: 0.75rem;
+}
+
+.article-content th {
+    background: var(--mdui-color-surface-container);
+    font-weight: bold;
+}
+
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+}
+
+.article-content a {
+    color: var(--mdui-color-primary);
+    text-decoration: none;
+}
+
+.article-content a:hover {
+    text-decoration: underline;
+}
+
 @media (max-width: 960px) {
     .card-wide {
-        max-width: 90%;
+        max-width: calc(100% - 32px);
         margin: 16px;
         border-radius: 8px;
     }
+    
     .card-wide mdui-card-content,
     .card-wide mdui-card-header {
         padding: 16px;
     }
+    
+    .article-content {
+        font-size: 14px;
+    }
+    
+    .article-content h1 {
+        font-size: 1.8em;
+    }
+    
+    .article-content h2 {
+        font-size: 1.5em;
+    }
+    
+    .article-content h3 {
+        font-size: 1.3em;
+    }
 }
 </style>
 
-
 <%- include('widgets/appbar.ejs') %>
+
 <mdui-layout-main>
-    <!-- 文章内容卡片 -->
-    <mdui-card class="card-wide">
+    <!-- 标题卡片 -->
+    <mdui-card class="card-title">
         <mdui-card-header>
-            <mdui-card-title style="font-size:2.2em;"><%= page.title %></mdui-card-title>
-            <hr>
-            <mdui-card-subtitle>
-                <%= page.date.toISOString().slice(0, 10) %>
-            </mdui-card-subtitle>
+            <mdui-card-title style="font-size: 2.0em; margin-bottom: 1rem; text-align: center;">
+                <%= page.title %>
+            </mdui-card-title>
+            <mdui-divider style="margin: 1rem 0;"></mdui-divider>
+            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
+                <mdui-chip variant="filled" style="background: var(--mdui-color-primary-container); color: var(--mdui-color-on-primary-container);">
+                    <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
+                    <%= page.date.format('YYYY-MM-DD') %>
+                </mdui-chip>
+                
+                <% if (page.categories && page.categories.length > 0) { %>
+                    <mdui-chip variant="filled" style="background: var(--mdui-color-secondary-container); color: var(--mdui-color-on-secondary-container);">
+                        <mdui-icon name="folder" slot="icon"></mdui-icon>
+                        <%= page.categories.data[0].name %>
+                    </mdui-chip>
+                <% } %>
+                
+                <% if (page.tags && page.tags.length > 0) { %>
+                    <mdui-chip variant="filled" style="background: var(--mdui-color-tertiary-container); color: var(--mdui-color-on-tertiary-container);">
+                        <mdui-icon name="tag" slot="icon"></mdui-icon>
+                        <%= page.tags.data[0].name %>
+                    </mdui-chip>
+                <% } %>
+            </div>
         </mdui-card-header>
-        <mdui-card-content class="mdui-prose">
-            <%- page.content %>
-        </mdui-card-content>
     </mdui-card>
-    <!-- 评论卡片 -->
+
+    <!-- 内容卡片 -->
     <mdui-card class="card-wide">
         <mdui-card-content>
-            <mdui-card class="card-wide">
-                <% if (config.comment === 'twikoo') { %>
-                    <%- include('widgets/comments/twikoo.ejs') %>
-                <% } else if (config.comment === 'waline') { %>
-                    <%- include('widgets/comments/waline.ejs') %>
-                <% } else if (config.comment === 'giscus') { %>
-                    <%- include('widgets/comments/giscus.ejs') %>
-                <% } %>
-            </mdui-card>
+            <div class="article-content">
+                <%- page.content %>
+            </div>
+        </mdui-card-content>
+    </mdui-card>
+
+    <!-- 评论卡片 -->
+    <mdui-card class="card-comment">
+        <mdui-card-content>
+            <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
+            </mdui-typography>
+            <% if (config.comment === 'twikoo') { %>
+                <%- include('widgets/comments/twikoo.ejs') %>
+            <% } else if (config.comment === 'waline') { %>
+                <%- include('widgets/comments/waline.ejs') %>
+            <% } else if (config.comment === 'giscus') { %>
+                <%- include('widgets/comments/giscus.ejs') %>
+            <% } else { %>
+                <div style="text-align: center; padding: 2rem;">
+                    <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
+                        评论功能未启用
+                    </mdui-typography>
+                </div>
+            <% } %>
         </mdui-card-content>
     </mdui-card>
 </mdui-layout-main>

@@ -4,7 +4,7 @@
 #---start---
 comment: twikoo # 可选值：twikoo, waline, giscus
 twikoo:
-  envId: your_env_id # 腾讯云环境ID
+  envId: https://pinglun.yizhixiaozhu.top # 腾讯云环境ID,vercel填写域名
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
 waline:
   serverURL: your_server_url # 填写你的 Waline 服务器地址
@@ -20,3 +20,25 @@ giscus:
   inputPosition: bottom # 输入框位置，支持 'top', 'bottom'
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
 #---end---
+# Banner 配置
+#---start---
+banner:
+  enable: true
+  img: "https://blog.yizhixiaozhu.top/image/10.webp"  # 图片路径
+  alt: "网站横幅"             # 图片描述
+  title: "欢迎来到我的博客"    # 可选：横幅标题
+  subtitle: "分享技术与生活"   # 可选：横幅副标题
+  #---end---
+  # 侧边栏设置
+  #---start
+# 确保主题配置中有这些值
+# 在主题的 _config.yml 中添加
+
+# 侧边栏配置
+sidebar:
+  # 用户信息
+  name: "system:error"
+  slogen: "长风破浪会有时，直挂云帆济沧海。"
+  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+  
+
