@@ -1,8 +1,58 @@
-<mdui-card class="home-post-card">
-    <mdui-list-item onclick="location.href='<%= url_for(post.path) %>'">
-        <%- post.title %>
-        <span slot="description">
-            <%- truncate(strip_html(post.content), { length: 200 }) %>
-        </span>
-    </mdui-list-item>
+<mdui-card 
+    class="article-card" 
+    variant="filled"
+    onclick="location.href='<%= url_for(post.path) %>'">
+    
+    <div class="article-content">
+        <!-- 左侧：标题和元信息 -->
+        <div class="article-main">
+            <mdui-typography variant="h4" class="article-title">
+                <%= post.title %>
+            </mdui-typography>
+
+            <span><%- truncate(strip_html(post.content), { length: 200 }) %></span>
+            
+            <div class="article-meta">
+                <mdui-typography variant="body2" class="article-date">
+                    <mdui-icon name="calendar_today" style="font-size: 1.1rem;"></mdui-icon>
+                    <%= post.date.format('YYYY-MM-DD') %>
+                </mdui-typography>
+                
+                <div class="article-tags">
+                    <% if (post.tags && post.tags.length > 0) { %>
+                        <% post.tags.data.slice(0, 2).forEach((tag) => { %>
+                            <mdui-chip 
+                                size="small" 
+                                variant="filled"
+                                style="background: var(--mdui-color-secondary-container); color: var(--mdui-color-on-secondary-container);">
+                                <mdui-icon name="sell" slot="icon" style="font-size: 1rem;"></mdui-icon>
+                                <%= tag.name %>
+                            </mdui-chip>
+                        <% }); %>
+                        <% if (post.tags.length > 2) { %>
+                            <mdui-chip 
+                                size="small" 
+                                variant="filled"
+                                style="background: var(--mdui-color-tertiary-container); color: var(--mdui-color-on-tertiary-container);">
+                                +<%= post.tags.length - 2 %>
+                            </mdui-chip>
+                        <% } %>
+                    <% } else if (post.categories && post.categories.length > 0) { %>
+                        <mdui-chip 
+                            size="small" 
+                            variant="filled"
+                            style="background: var(--mdui-color-primary-container); color: var(--mdui-color-on-primary-container);">
+                            <mdui-icon name="folder" slot="icon" style="font-size: 1rem;"></mdui-icon>
+                            <%= post.categories.data[0].name %>
+                        </mdui-chip>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 右侧：阅读更多 -->
+        <mdui-button class="article-side">
+            <mdui-icon name="arrow_forward" style="font-size: 1.2rem;"></mdui-icon>
+        </mdui-button>
+    </div>
 </mdui-card>

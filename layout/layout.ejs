@@ -14,13 +14,12 @@
     <% } else if (theme.font.primary === 'pingfang') { %>
         <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
     <% } %>
-    <link rel="stylesheet" href="/css/style.css">
+    <%- css('css/style.css') %>
 </head>
 <body>
-
-    <%- css('css/style.css') %>
-
     <main class="main">
+        <%- include('widgets/appbar') %>
+        <%- include('widgets/sidebar') %>
         <%- body %>
     </main>
 </body>
