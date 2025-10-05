@@ -1,0 +1,216 @@
+<!-- 简化版 Footer 组件 -->
+<br>
+<mdui-divider></mdui-divider>
+<mdui-footer class="site-footer">
+  <div class="footer-content">
+    
+    <!-- 主要信息区域 -->
+    <div class="footer-main">
+      <!-- 版权信息 -->
+      <div class="copyright">
+        <mdui-typography variant="body2">
+          &copy; <%= new Date().getFullYear() %> 
+          <a href="<%= url_for() %>" class="site-link"><%= config.title %></a>
+          <% if (theme.footer && theme.footer.copyright) { %>
+            · <%= theme.footer.copyright %>
+          <% } %>
+        </mdui-typography>
+      </div>
+
+      <!-- 备案信息 -->
+      <% if (theme.footer && theme.footer.beian) { %>
+        <div class="beian-info">
+          <% if (theme.footer.beian.icp) { %>
+            <mdui-typography variant="body2">
+              <a href="https://beian.miit.gov.cn/" target="_blank" class="beian-link">
+                <%= theme.footer.beian.icp %>
+              </a>
+            </mdui-typography>
+          <% } %>
+          <% if (theme.footer.beian.ps) { %>
+            <mdui-typography variant="body2">
+              <a href="http://www.beian.gov.cn/" target="_blank" class="beian-link">
+                <%= theme.footer.beian.ps %>
+              </a>
+            </mdui-typography>
+          <% } %>
+        </div>
+      <% } %>
+
+      <!-- 主题信息 -->
+      <div class="theme-info">
+        <mdui-typography variant="body2">
+          Powered by 
+          <a href="https://hexo.io/" target="_blank">Hexo</a> 
+          & 
+          <a href="https://github.com/Can1425/Hexo-Theme-Materialis" target="_blank">Materialis</a>
+          <% if (theme.footer && theme.footer.theme_name) { %>
+            · Theme: <%= theme.footer.theme_name %>
+          <% } %>
+        </mdui-typography>
+      </div>
+
+
+      <!-- 自定义徽章 -->
+      <% if (theme.footer && theme.footer.badges) { %>
+        <div class="custom-badges">
+          <% theme.footer.badges.forEach(function(badge) { %>
+            <mdui-badge 
+              variant="<%= badge.variant || 'small' %>"
+              class="custom-badge"
+              <%= badge.href ? `href="${badge.href}" target="_blank"` : '' %>
+            >
+              <% if (badge.icon) { %>
+                <mdui-icon slot="icon" name="<%= badge.icon %>"></mdui-icon>
+              <% } %>
+              <%= badge.text %>
+            </mdui-badge>
+          <% }); %>
+        </div>
+      <% } %>
+    </div>
+
+  </div>
+</mdui-footer>
+
+<style>
+/* 强制底部布局 */
+.site-footer {
+  background: var(--mdui-color-surface);
+  border-top: 1px solid var(--mdui-color-outline-variant);
+  margin-top: auto !important;
+  width: 100%;
+  flex-shrink: 0;
+}
+
+.footer-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+/* 主要信息区域 */
+.footer-main {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+/* 版权信息 */
+.copyright {
+  color: var(--mdui-color-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.site-link {
+  color: var(--mdui-color-primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.site-link:hover {
+  text-decoration: underline;
+}
+
+/* 备案信息 */
+.beian-info {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+  flex-shrink: 0;
+}
+
+.beian-link {
+  color: var(--mdui-color-on-surface-variant);
+  text-decoration: none;
+  font-size: 0.875rem;
+}
+
+.beian-link:hover {
+  color: var(--mdui-color-primary);
+  text-decoration: underline;
+}
+
+/* 主题信息 */
+.theme-info {
+  color: var(--mdui-color-on-surface-variant);
+  flex-shrink: 0;
+}
+
+.theme-info a {
+  color: var(--mdui-color-primary);
+  text-decoration: none;
+}
+
+.theme-info a:hover {
+  text-decoration: underline;
+}
+
+
+/* 自定义徽章 */
+.custom-badges {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  flex-shrink: 0;
+}
+
+.custom-badge {
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.custom-badge:hover {
+  transform: translateY(-1px);
+}
+
+/* 当没有徽章时，移除悬停效果 */
+.custom-badges:empty .custom-badge {
+  cursor: default;
+}
+
+/* 响应式设计 */
+@media (max-width: 1024px) {
+  .footer-main {
+    justify-content: center;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer-content {
+    padding: 1rem;
+  }
+  
+  .footer-main {
+    flex-direction: column;
+    text-align: center;
+    gap: 1rem;
+  }
+  
+  .site-stats {
+    justify-content: center;
+  }
+  
+  .custom-badges {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-content {
+    padding: 0.75rem;
+  }
+  
+  .site-stats {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .stat-item {
+    font-size: 0.8rem;
+  }
+}
+</style>

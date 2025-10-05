@@ -96,3 +96,33 @@ custom:
 font:
   primary: false  # 只能选择一个: lxwk  dingtalk pingfang 或者false
 #---end---
+#Footer
+#---start---
+# Footer 配置
+footer:
+  # 版权信息
+  copyright: "保留所有权利"
+  
+  # 备案信息（中国用户）
+  beian:
+    icp: "京ICP备12345678号"
+    ps: "京公网安备 12345678901234号"
+  
+  # 主题名称
+  theme_name: "Materialis"
+  
+  # 自定义徽章
+  # badges:
+  #   - text: "开源"
+  #     variant: "small"
+  #     icon: "code"
+  #     href: "https://github.com/yourname/your-theme"
+    
+  #   - text: "v1.0.0"
+  #     variant: "small"
+  #     icon: "tag"
+    
+  #   - text: "在线"
+  #     variant: "small"
+  #     icon: "wifi"
+#---end---
