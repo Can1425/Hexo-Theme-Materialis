@@ -1,0 +1,11 @@
+@font-face {
+  font-family: 'lxwk';
+  src: url('lxwk.eot'); /* IE9 */
+  src: url('lxwk.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('lxwk.woff2') format('woff2'), /* Modern Browsers */
+       url('lxwk.woff') format('woff'), /* Modern Browsers */
+       url('lxwk.ttf') format('truetype'); /* Safari, Android, iOS */
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}

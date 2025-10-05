@@ -7,6 +7,14 @@
     <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
     <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
     <script src="/js/main.js"></script>
+    <% if (theme.font.primary === 'lxwk') { %>
+        <link rel="stylesheet" href="/fonts/lxwk/lxwk.css">
+    <% } else if (theme.font.primary === 'dingtalk') { %>
+        <link rel="stylesheet" href="/fonts/dingtalk/DingTalk.css">
+    <% } else if (theme.font.primary === 'pingfang') { %>
+        <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
+    <% } %>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
@@ -18,6 +26,29 @@
 </body>
 <script type="module">
     import { snackbar } from 'https://unpkg.com/mdui@2/mdui.esm.js';
-    setColorScheme('#0061a4');
+    setColorScheme('<%- theme.color.main %>');
 </script>
+<!-- 引入自定义 CSS -->
+<% if (theme.custom && theme.custom.css) { %>
+    <% theme.custom.css.forEach(function(cssFile) { %>
+        <link rel="stylesheet" href="<%- url_for(cssFile) %>">
+    <% }) %>
+<% } %>
+
+<!-- 自定义头部代码 -->
+<% if (theme.custom && theme.custom.head) { %>
+    <%- theme.custom.head %>
+<% } %>
+<!-- 引入自定义 JS -->
+<% if (theme.custom && theme.custom.js) { %>
+    <% theme.custom.js.forEach(function(jsFile) { %>
+        <script src="<%- url_for(jsFile) %>"></script>
+    <% }) %>
+<% } %>
+
+<!-- 自定义底部代码 -->
+<% if (theme.custom && theme.custom.footer) { %>
+    <%- theme.custom.footer %>
+<% } %>
+
 </html>

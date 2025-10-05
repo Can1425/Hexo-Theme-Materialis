@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'DingTalk';
+    src: url('DingTalk.eot');
+    src: url('DingTalk.eot?#iefix') format('embedded-opentype'),
+         url('DingTalk.woff2') format('woff2'),
+         url('DingTalk.woff') format('woff'),
+         url('DingTalk.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

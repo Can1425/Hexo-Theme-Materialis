@@ -21,15 +21,6 @@ giscus:
   inputPosition: bottom # 输入框位置，支持 'top', 'bottom'
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
 #---end---
-# Banner 配置
-#---start---
-banner:
-  enable: true
-  img: "https://blog.yizhixiaozhu.top/image/10.webp"  # 图片路径
-  alt: "网站横幅"             # 图片描述
-  title: "欢迎来到我的博客"    # 可选：横幅标题
-  subtitle: "分享技术与生活"   # 可选：横幅副标题
-  #---end---
 # 侧边栏配置
 #---start---
 sidebar:
@@ -66,3 +57,42 @@ links:
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 #---end--- 
+#颜色设置
+#---start---
+color:
+  main: "#d9e2ff"
+#--end---
+#自定义代码
+#---start---
+# 自定义资源文件配置
+custom:
+  # 自定义 CSS 文件
+  # css:
+  #   - /css/custom.css
+  #   - /css/user-style.css
+  #   - https://cdn.example.com/external.css
+  
+  # 自定义 JavaScript 文件
+  # js:
+  #   - /js/custom.js
+  #   - /js/user-script.js
+  #   - https://cdn.example.com/external.js
+  
+  # 自定义头部代码
+  # head: |
+
+  #   <!-- 自定义 meta 标签或其他 head 内容 -->
+  #   <meta name="custom-meta" content="value">
+  
+  # 自定义底部代码
+  # footer: |
+  #   <!-- 自定义统计代码等 -->
+  #   <script>
+  #     console.log('自定义脚本');
+  #   </script>
+#---end---
+#字体设置
+#---start---
+font:
+  primary: false  # 只能选择一个: lxwk  dingtalk pingfang 或者false
+#---end---
