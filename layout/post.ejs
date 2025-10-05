@@ -198,7 +198,7 @@
 
 <mdui-layout-main>
     <!-- 标题卡片 -->
-    <mdui-card class="card-title">
+    <mdui-card variant="filled" class="card-title">
         <mdui-card-header>
             <mdui-card-title style="font-size: 2.0em; margin-bottom: 1rem; text-align: center;">
                 <%= page.title %>
@@ -228,7 +228,7 @@
     </mdui-card>
 
     <!-- 内容卡片 -->
-    <mdui-card class="card-wide">
+    <mdui-card variant="filled" class="card-wide">
         <mdui-card-content>
             <div class="article-content">
                 <%- page.content %>
@@ -237,16 +237,25 @@
     </mdui-card>
 
     <!-- 评论卡片 -->
-    <mdui-card class="card-comment">
+<!-- 修复后的评论系统部分 -->
+    <mdui-card variant="filled" class="card-comment">
         <mdui-card-content>
             <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
             </mdui-typography>
-            <% if (config.comment === 'twikoo') { %>
-                <%- include('widgets/comments/twikoo.ejs') %>
-            <% } else if (config.comment === 'waline') { %>
-                <%- include('widgets/comments/waline.ejs') %>
-            <% } else if (config.comment === 'giscus') { %>
-                <%- include('widgets/comments/giscus.ejs') %>
+            <% if (theme.comment && theme.comment.service) { %>
+                <% if (theme.comment.service === 'twikoo') { %>
+                    <%- include('widgets/comments/twikoo.ejs') %>
+                <% } else if (theme.comment.service === 'waline') { %>
+                    <%- include('widgets/comments/waline.ejs') %>
+                <% } else if (theme.comment.service === 'giscus') { %>
+                    <%- include('widgets/comments/giscus.ejs') %>
+                <% } else { %>
+                    <div style="text-align: center; padding: 2rem;">
+                        <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
+                            评论功能未启用
+                        </mdui-typography>
+                    </div>
+                <% } %>
             <% } else { %>
                 <div style="text-align: center; padding: 2rem;">
                     <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">

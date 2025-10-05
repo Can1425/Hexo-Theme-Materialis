@@ -2,7 +2,8 @@
 #主题作者：W-Can1425 system:error
 #Comment 请选择一个
 #---start---
-comment: twikoo # 可选值：twikoo, waline, giscus
+comment:
+  service: twikoo  # 可选: twikoo, waline, giscus
 twikoo:
   envId: https://pinglun.yizhixiaozhu.top # 腾讯云环境ID,vercel填写域名
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
@@ -36,6 +37,27 @@ sidebar:
   name: "system:error"
   slogen: "长风破浪会有时，直挂云帆济沧海。"
   avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+# 导航菜单
+nav:
+  - name: "首页"
+    icon: "home"
+    url: "/"
+    
+  - name: "文章归档"
+    icon: "article"
+    url: "/archives/"
+    
+  - name: "分类"
+    icon: "category"
+    url: "/categories/"
+    
+  - name: "标签"
+    icon: "tag"
+    url: "/tags/"
+    
+  - name: "关于"
+    icon: "person"
+    url: "/about/"
 #---end---
 #友链配置
 #---start---
@@ -44,4 +66,3 @@ links:
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 #---end--- 
-
