@@ -1,0 +1,445 @@
+<head>
+    <title><%= page.title || '归档' %> - <%= config.title %></title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
+    <style>
+        .archive-page {
+            background-color: var(--mdui-color-primary-light);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .archive-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .archive-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 40px 20px;
+        }
+
+        .archive-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--mdui-color-on-background);
+            margin-bottom: 16px;
+        }
+
+        .archive-stats {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            flex-wrap: wrap;
+            margin-top: 24px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 16px 24px;
+            background: var(--mdui-color-surface-container);
+            border-radius: 12px;
+            min-width: 120px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--mdui-color-primary);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: var(--mdui-color-on-surface-variant);
+            margin-top: 4px;
+        }
+
+        .year-section {
+            margin-bottom: 32px;
+        }
+
+        .year-card {
+            background: var(--mdui-color-primary);
+            border-radius: 16px;
+            padding: 0;
+            overflow: hidden;
+            box-shadow: 0 2px 8px var(--mdui-color-shadow);
+            border: 1px solid var(--mdui-color-outline-variant);
+        }
+
+        .year-header {
+            background: linear-gradient(135deg, var(--mdui-color-primary-container) 0%, var(--mdui-color-secondary-container) 100%);
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .year-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--mdui-color-on-primary-container);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .year-count {
+            background: var(--mdui-color-primary);
+            color: var(--mdui-color-on-primary);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        .month-section {
+            border-bottom: 1px solid var(--mdui-color-outline-variant);
+        }
+
+        .month-section:last-child {
+            border-bottom: none;
+        }
+
+        .month-header {
+            padding: 16px 24px;
+            background: var(--mdui-color-surface-container-low);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .month-header:hover {
+            background: var(--mdui-color-surface-container-hover);
+        }
+
+        .month-title {
+            font-size: 1.125rem;
+            font-weight: 500;
+            color: var(--mdui-color-on-surface);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .month-count {
+            background: var(--mdui-color-secondary-container);
+            color: var(--mdui-color-on-secondary-container);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .month-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .month-content {
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .month-content.expanded {
+            max-height: 2000px;
+        }
+
+        .post-list {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .post-item {
+            padding: 16px 24px;
+            border-bottom: 1px solid var(--mdui-color-outline-variant);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .post-item:hover {
+            background: var(--mdui-color-surface-container-hover);
+        }
+
+        .post-item:last-child {
+            border-bottom: none;
+        }
+
+        .post-date {
+            color: var(--mdui-color-on-surface-variant);
+            font-size: 0.875rem;
+            min-width: 80px;
+        }
+
+        .post-title {
+            flex: 1;
+            color: var(--mdui-color-on-surface);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .post-title:hover {
+            color: var(--mdui-color-primary);
+        }
+
+        .post-categories {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .category-tag {
+            background: var(--mdui-color-tertiary-container);
+            color: var(--mdui-color-on-tertiary-container);
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--mdui-color-on-surface-variant);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 600px) {
+            .archive-header {
+                padding: 20px 0;
+            }
+
+            .archive-title {
+                font-size: 2rem;
+            }
+
+            .archive-stats {
+                gap: 16px;
+            }
+
+            .stat-item {
+                min-width: 100px;
+                padding: 12px 16px;
+            }
+
+            .stat-number {
+                font-size: 1.5rem;
+            }
+
+            .year-header,
+            .month-header,
+            .post-item {
+                padding: 16px 20px;
+            }
+
+            .post-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .post-date {
+                min-width: auto;
+            }
+        }
+
+        /* 暗色模式优化 */
+        [data-mdui-theme="dark"] .year-card {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="archive-page">
+        <div class="archive-container">
+            <!-- 页面头部 -->
+            <header class="archive-header">
+                <h1 class="archive-title">文章归档</h1>
+                <p class="mdui-typo-subheading mdui-text-color-theme-secondary">
+                    共收录 <%= site.posts.length %> 篇文章
+                </p>
+                <div id="hitokoto">
+                    <span id="hitokoto_text">✨ 正在加载中...</span>
+                </div>
+                <script>
+                fetch('https://v1.hitokoto.cn')
+                    .then(response => response.json())
+                    .then(data => {
+                        document.getElementById('hitokoto_text').textContent = 
+                            `${data.hitokoto} —— ${data.from || ''}`
+                    })
+                    .catch(error => {
+                        document.getElementById('hitokoto_text').textContent = '每日一言加载失败'
+                    })
+                </script>
+                
+                <!-- 统计信息 -->
+                <div class="archive-stats">
+                    <div class="stat-item">
+                        <span class="stat-number"><%= site.posts.length %></span>
+                        <span class="stat-label">总文章数</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= site.categories.length %></span>
+                        <span class="stat-label">分类数量</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= site.tags.length %></span>
+                        <span class="stat-label">标签数量</span>
+                    </div>
+                    <% 
+                        const archiveYears = {};
+                        site.posts.each(function(post) {
+                            const year = post.date.year();
+                            archiveYears[year] = true;
+                        });
+                        const yearsCount = Object.keys(archiveYears).length;
+                    %>
+                    <div class="stat-item">
+                        <span class="stat-number"><%= yearsCount %></span>
+                        <span class="stat-label">归档年份</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- 归档内容 -->
+            <main>
+                <% 
+                // 按年份和月份分组文章
+                const postsByYear = {};
+                
+                site.posts.sort('date', -1).each(function(post) {
+                    const year = post.date.year();
+                    const month = post.date.month() + 1; // 月份从0开始
+                    const monthStr = post.date.format('MM');
+                    const monthName = post.date.format('MMMM');
+                    
+                    if (!postsByYear[year]) {
+                        postsByYear[year] = {};
+                    }
+                    
+                    if (!postsByYear[year][month]) {
+                        postsByYear[year][month] = {
+                            name: monthName,
+                            posts: []
+                        };
+                    }
+                    
+                    postsByYear[year][month].posts.push(post);
+                });
+                
+                // 获取所有年份并排序
+                const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
+                
+                if (sortedYears.length === 0) {
+                %>
+                    <div class="empty-state">
+                        <div class="empty-icon">📝</div>
+                        <h3 class="mdui-typo-headline">暂无文章</h3>
+                        <p class="mdui-typo-body-1">还没有发布任何文章，快去写一篇吧！</p>
+                    </div>
+                <%
+                } else {
+                    sortedYears.forEach(function(year) {
+                        const yearPosts = postsByYear[year];
+                        const yearPostCount = Object.values(yearPosts).reduce((total, month) => total + month.posts.length, 0);
+                        const months = Object.keys(yearPosts).sort((a, b) => b - a);
+                %>
+                        <section class="year-section">
+                            <div class="mdui-card year-card">
+                                <div class="year-header">
+                                    <div class="year-title">
+                                        <i class="mdui-icon material-icons">calendar_today</i>
+                                        <%= year %> 年
+                                    </div>
+                                    <div class="year-count"><%= yearPostCount %> 篇</div>
+                                </div>
+                                
+                                <div class="mdui-card-content" style="padding: 0;">
+                                    <% months.forEach(function(month) { 
+                                        const monthData = yearPosts[month];
+                                        const monthKey = year + '-' + month;
+                                    %>
+                                        <div class="month-section">
+                                            <div class="month-header" onclick="toggleMonth('<%= monthKey %>')">
+                                                <div class="month-title">
+                                                    <i class="mdui-icon material-icons month-icon" id="icon-<%= monthKey %>">chevron_right</i>
+                                                    <%= monthData.name %> (<%= month.toString().padStart(2, '0') %>月)
+                                                </div>
+                                                <div class="month-count"><%= monthData.posts.length %> 篇</div>
+                                            </div>
+                                            
+                                            <div class="month-content" id="content-<%= monthKey %>">
+                                                <ul class="post-list">
+                                                    <% monthData.posts.forEach(function(post) { %>
+                                                        <li class="post-item">
+                                                            <span class="post-date"><%= post.date.format('MM-DD') %></span>
+                                                            <a href="<%= url_for(post.path) %>" class="post-title">
+                                                                <%= post.title || '无标题' %>
+                                                            </a>
+                                                            <div class="post-categories">
+                                                                <% if (post.categories && post.categories.length > 0) { %>
+                                                                    <% post.categories.each(function(category) { %>
+                                                                        <span class="category-tag"><%= category.name %></span>
+                                                                    <% }); %>
+                                                                <% } %>
+                                                            </div>
+                                                        </li>
+                                                    <% }); %>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    <% }); %>
+                                </div>
+                            </div>
+                        </section>
+                <%
+                    });
+                }
+                %>
+            </main>
+        </div>
+    </div>
+
+    <script>
+        // 月份展开/收起功能
+        function toggleMonth(monthKey) {
+            const content = document.getElementById('content-' + monthKey);
+            const icon = document.getElementById('icon-' + monthKey);
+            
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                icon.style.transform = 'rotate(0deg)';
+            } else {
+                content.classList.add('expanded');
+                icon.style.transform = 'rotate(90deg)';
+            }
+        }
+
+        // 初始化所有月份为收起状态
+        document.addEventListener('DOMContentLoaded', function() {
+            // 可以在这里添加默认展开最近月份的逻辑
+            // 例如：const currentMonth = new Date().getFullYear() + '-' + (new Date().getMonth() + 1);
+            // toggleMonth(currentMonth);
+        });
+
+        // 初始化 MDUI 组件
+        mdui.mutation();
+    </script>
+</body>
+</html>

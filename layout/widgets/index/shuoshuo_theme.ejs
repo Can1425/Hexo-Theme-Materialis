@@ -1,0 +1,201 @@
+<head>
+    <title><%= page.title %> - <%= config.title %></title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
+    <style>
+        .shuoshuo-page {
+            background: var(--mdui-color-background);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .page-title {
+            text-align: center;
+            color: var(--mdui-color-on-background);
+            margin-bottom: 30px;
+        }
+        
+        .moment-card {
+            background: var(--mdui-color-surface);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+            border: 1px solid var(--mdui-color-outline-variant);
+        }
+        
+        .moment-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--mdui-color-primary);
+        }
+        
+        .user-info {
+            flex: 1;
+        }
+        
+        .username {
+            font-weight: bold;
+            color: var(--mdui-color-on-surface);
+            margin: 0;
+        }
+        
+        .time {
+            color: var(--mdui-color-on-surface-variant);
+            font-size: 0.875rem;
+            margin: 2px 0 0;
+        }
+        
+        .content {
+            color: var(--mdui-color-on-surface);
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .actions {
+            display: flex;
+            gap: 20px;
+            padding-top: 12px;
+            border-top: 1px solid var(--mdui-color-outline-variant);
+        }
+        
+        .action-btn {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--mdui-color-on-surface-variant);
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+        }
+        
+        .action-btn:hover {
+            background: var(--mdui-color-surface-container-hover);
+        }
+        
+        .action-btn.liked {
+            color: var(--mdui-color-error);
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--mdui-color-on-surface-variant);
+        }
+    </style>
+</head>
+<body>
+    <div class="shuoshuo-page">
+        <div class="container">
+            <h1 class="page-title">📝 我的说说</h1>
+            
+            <div id="moments-list">
+                <% if (site.data.shuoshuo && site.data.shuoshuo.length > 0) { %>
+                    <% site.data.shuoshuo.forEach(function(moment) { %>
+                        <div class="moment-card">
+                            <div class="moment-header">
+                                <div class="avatar">
+                                    <% if (moment.avatar) { %>
+                                        <img src="<%= moment.avatar %>" alt="<%= moment.username %>" 
+                                            style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
+                                    <% } else { %>
+                                        <!-- 默认头像 -->
+                                        <div style="width: 100%; height: 100%; border-radius: 50%; 
+                                                background: rgb(173, 173, 173); 
+                                                display: flex; align-items: center; justify-content: center;
+                                                color: rgb(255, 255, 255); font-weight: bold;">
+                                            <%= moment.username.charAt(0) %>
+                                        </div>
+                                    <% } %>
+                                </div>
+                                <div class="user-info">
+                                    <div class="username"><%= moment.username %></div>
+                                    <div class="time"><%= moment.time %></div>
+                                </div>
+                            </div>
+                            
+                            <div class="content">
+                                <%= moment.content %>
+                            </div>
+                            
+                            <div class="actions">
+                                <button class="action-btn <%= moment.liked ? 'liked' : '' %>" 
+                                        data-moment-id="<%= moment.id %>"
+                                        onclick="toggleLike(this.dataset.momentId)">
+                                    <i class="mdui-icon material-icons">
+                                        <%= moment.liked ? 'favorite' : 'favorite_border' %>
+                                    </i>
+                                    <span><%= moment.likes %></span>
+                                </button>
+                                
+                                <button class="action-btn">
+                                    <i class="mdui-icon material-icons">chat_bubble_outline</i>
+                                    <span><%= moment.comments %></span>
+                                </button>
+                                
+                                <button class="action-btn">
+                                    <i class="mdui-icon material-icons">share</i>
+                                    <span>分享</span>
+                                </button>
+                            </div>
+                        </div>
+                    <% }); %>
+                <% } else { %>
+                    <div class="empty-state">
+                        <div style="font-size: 4rem; margin-bottom: 16px;">📝</div>
+                        <h3>还没有说说</h3>
+                        <p>快去发布第一条说说吧！</p>
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleLike(momentId) {
+            const btn = event.currentTarget;
+            const icon = btn.querySelector('.mdui-icon');
+            const countSpan = btn.querySelector('span');
+            
+            let isLiked = btn.classList.contains('liked');
+            let count = parseInt(countSpan.textContent);
+            
+            if (isLiked) {
+                // 取消点赞
+                btn.classList.remove('liked');
+                icon.textContent = 'favorite_border';
+                countSpan.textContent = count - 1;
+            } else {
+                // 点赞
+                btn.classList.add('liked');
+                icon.textContent = 'favorite';
+                countSpan.textContent = count + 1;
+            }
+            
+            // 显示提示
+            mdui.snackbar({
+                message: isLiked ? '取消点赞' : '点赞成功',
+                position: 'right-top'
+            });
+        }
+        
+        // 初始化 MDUI
+        mdui.mutation();
+    </script>
+</body>
+</html>

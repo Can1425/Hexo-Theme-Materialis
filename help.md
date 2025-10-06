@@ -174,3 +174,59 @@ type: diary
 layout: diary
 ---
 ```
+## 说说页面
+创建页面shuoshuo
+在shuoshuo里面替换掉内容
+```markdown
+---
+title: shuoshuo
+date: 2025-10-04 19:04:54
+type: shuoshuo
+layout: shuoshuo
+---
+## 添加说说
+## 添加说说
+1. 创建一个md文件，在source/_data/文件名格式为：shuoshuo.yml
+2. 将内容替换为如下内容：
+```yml
+- id: 1
+  username: "我"
+  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+  content: "今天天气真好，出去散步看到了美丽的夕阳！🌅"
+  time: "2小时前"
+  images: []
+  likes: 12
+  comments: 3
+  liked: false
+
+- id: 2
+  username: "我"
+  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+  content: "分享一首好听的歌：周杰伦 - 晴天 ☀️"
+  time: "昨天"
+  images: []
+  likes: 8
+  comments: 2
+  liked: true
+
+- id: 3
+  username: "我"
+  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+  content: "学习了一整天，终于把 Hexo 主题搞定了！💪"
+  time: "2天前"
+  images: []
+  likes: 15
+  comments: 5
+  liked: false
+
+- id: 4
+  username: "我"
+  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+  content: "发现了一家超棒的咖啡店，推荐给大家！☕"
+  time: "3天前"
+  images: []
+  likes: 20
+  comments: 8
+  liked: true
+```
+

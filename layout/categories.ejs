@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <title><%= page.title %> - <%= config.title %></title>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
+</head>
+<body>
+
+    <div class="mdui-container" style="margin-top: 20px;">
+        <!-- 统计信息 -->
+        <div class="mdui-typo">
+            <h2>文章分类</h2>
+            <p class="mdui-text-color-theme-secondary">
+                共有 <%- site.categories.length %> 个分类，<%- site.posts.length %> 篇文章
+            </p>
+        </div>
+
+        <!-- 分类列表 -->
+        <div class="mdui-list">
+            <%
+            site.categories.each(function(category) {
+            %>
+                <a href="<%- url_for(category.path) %>" class="mdui-list-item mdui-ripple">
+                    <div class="mdui-list-item-avatar">
+                        <i class="mdui-icon material-icons">folder</i>
+                    </div>
+                    <div class="mdui-list-item-content">
+                        <div class="mdui-list-item-title"><%- category.name %></div>
+                        <div class="mdui-list-item-text mdui-list-item-one-line">
+                            <%- category.length %> 篇文章
+                        </div>
+                    </div>
+                    <i class="mdui-list-item-icon mdui-icon material-icons">chevron_right</i>
+                </a>
+            <%
+            });
+            %>
+        </div>
+
+        <!-- 空状态 -->
+        <% if (site.categories.length === 0) { %>
+            <div class="mdui-typo" style="text-align: center; padding: 60px 20px;">
+                <i class="mdui-icon material-icons" style="font-size: 64px; opacity: 0.5;">folder_open</i>
+                <h3>暂无分类</h3>
+                <p class="mdui-text-color-theme-secondary">还没有创建任何分类</p>
+            </div>
+        <% } %>
+    </div>
+
+    <script>
+        mdui.mutation();
+    </script>
+</body>
+</html>

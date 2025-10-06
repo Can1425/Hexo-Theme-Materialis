@@ -1,0 +1,9 @@
+<%- include('widgets/appbar') %>
+<%- include('widgets/sidebar') %>
+<% if (theme.shuoshuo.use == 0) { %>
+    <p>暂无说说配置，请查看文档添加</p>
+<% } else if (theme.shuoshuo.use == 1) { %>
+    <%- include('widgets/index/shuoshuo_qexo.ejs') %>
+<% } else if (theme.shuoshuo.use == 2) { %>
+    <%- include('widgets/index/shuoshuo_theme.ejs') %>
+<% } %>
