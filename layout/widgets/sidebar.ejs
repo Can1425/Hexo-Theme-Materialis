@@ -6,10 +6,10 @@
             <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
         <% } %>
         <% if (theme.sidebar.name) { %>
-            <div style="font-weight: bold; font-size: 1.5em;"><%= theme.sidebar.name %></div>
+            <div class="sidebar-user-name"><%= theme.sidebar.name %></div>
         <% } %>
         <% if (theme.sidebar.slogen) { %>
-            <div style="font-size: 14px; color: #666; margin-top: 10px;"><%= theme.sidebar.slogen %></div>
+            <div class="sidebar-user-slogen"><%= theme.sidebar.slogen %></div>
         <% } %>
         </div>
     <% } %>
@@ -32,9 +32,6 @@
             <% }) %>
         <% } %>
     </mdui-list>
-
-    <!-- 添加间距 -->
-    <div class="section-spacing"></div>
 
     <!-- 分类列表 -->
     <mdui-list>

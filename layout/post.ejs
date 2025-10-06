@@ -1,8 +1,8 @@
 <mdui-layout-main>
     <!-- 标题卡片 -->
-    <mdui-card variant="filled" class="card-title">
+    <mdui-card variant="filled" class="post-card-title">
         <mdui-card-header>
-            <mdui-card-title style="font-size: 2.0em; margin-bottom: 1rem; text-align: center; color: rgb(var(--mdui-color-primary));">
+            <mdui-card-title class="post-card-title-text">
                 <%= page.title %>
             </mdui-card-title>
             <mdui-divider style="margin: 1rem 0;"></mdui-divider>
@@ -30,7 +30,7 @@
     </mdui-card>
 
     <!-- 内容卡片 -->
-    <mdui-card variant="filled" class="card-wide">
+    <mdui-card variant="filled" class="post-card-wide">
         <mdui-card-content>
             <div class="article-content">
                 <%- page.content %>
@@ -40,7 +40,7 @@
 
     <!-- 评论卡片 -->
 <!-- 修复后的评论系统部分 -->
-    <mdui-card variant="filled" class="card-comment">
+    <mdui-card variant="filled" class="post-card-comment">
         <mdui-card-content>
             <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
             </mdui-typography>
@@ -53,19 +53,18 @@
                     <%- include('widgets/comments/giscus.ejs') %>
                 <% } else { %>
                     <div style="text-align: center; padding: 2rem;">
-                        <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
+                        <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
                             评论功能未启用
                         </mdui-typography>
                     </div>
                 <% } %>
             <% } else { %>
                 <div style="text-align: center; padding: 2rem;">
-                    <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
+                    <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
                         评论功能未启用
                     </mdui-typography>
                 </div>
             <% } %>
         </mdui-card-content>
     </mdui-card>
-    <%- include('widgets/footer') %>
 </mdui-layout-main>

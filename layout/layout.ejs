@@ -15,12 +15,14 @@
         <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
     <% } %>
     <%- css('css/style.css') %>
+    <%- css('css/color.css') %>
 </head>
 <body>
     <main class="main">
         <%- include('widgets/appbar') %>
         <%- include('widgets/sidebar') %>
         <%- body %>
+        <%- include('widgets/footer') %>
     </main>
 </body>
 <script type="module">
