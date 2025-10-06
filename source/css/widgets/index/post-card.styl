@@ -68,8 +68,6 @@
 }
 
 .article-read-more {
-    color: var(--mdui-color-primary);
-    font-weight: 500;
     display: flex;
     align-items: center;
     gap: 0.5rem;
@@ -87,14 +85,10 @@
     align-items: center;
 }
 
-@media (max-width: 1200px) {
-    .articles-container {
-        column-count: 2;
-    }
-}
+@media (max-width: 1200px)
+    .articles-container
+        column-count: 2
 
-@media (max-width: 500px) {
-    .articles-container {
-        column-count: 1;
-    }
-}
+@media (max-width: 500px)
+    .articles-container
+        column-count: 1

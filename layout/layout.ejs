@@ -26,8 +26,8 @@
     </main>
 </body>
 <script type="module">
-    import { snackbar } from 'https://unpkg.com/mdui@2/mdui.esm.js';
-    setColorScheme('<%- theme.color.main %>');
+    import { setColorScheme } from 'https://unpkg.com/mdui@2/functions/setColorScheme.js';
+    setColorScheme('#0061a4');
 </script>
 <!-- 引入自定义 CSS -->
 <% if (theme.custom && theme.custom.css) { %>
