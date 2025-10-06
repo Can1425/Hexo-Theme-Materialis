@@ -36,7 +36,7 @@ nav:
     
   - name: "文章归档"
     icon: "article"
-    url: "/archives/"
+    url: "/diary/"
     
   - name: "分类"
     icon: "category"
@@ -126,3 +126,9 @@ footer:
   #     variant: "small"
   #     icon: "wifi"
 #---end---
+#说说
+#---start---
+shuoshuo:
+  use: 2 # 0关闭说说 1使用qexo说说 2使用主题说说
+  qexo:
+    url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
