@@ -1,5 +1,6 @@
 hexo.extend.helper.register('get_path', function() {
     if (!this.page) return '/';
+    if (this.page.__post) return '/post/';
     if (this.page.__index) return this.config.root || '/';
     if (this.page.archive) return '/archives/';
     if (this.page.category) return '/category';

@@ -1,0 +1,27 @@
+<div class="banner-container">
+    <mdui-card class="banner-title">
+        <div class="banner-title-text1"><%- titleText1 %></div>
+        <div class="banner-title-text2"><%- titleText2 %></div>
+        <% if (get_path() === '/post/') { %>
+        <mdui-chip variant="filled">
+            <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
+            <%= page.date.format('YYYY-MM-DD') %>
+        </mdui-chip>
+        
+        <% if (page.categories && page.categories.length > 0) { %>
+            <mdui-chip variant="filled">
+                <mdui-icon name="folder" slot="icon"></mdui-icon>
+                <%= page.categories.data[0].name %>
+            </mdui-chip>
+        <% } %>
+        
+        <% if (page.tags && page.tags.length > 0) { %>
+            <mdui-chip variant="filled">
+                <mdui-icon name="tag" slot="icon"></mdui-icon>
+                <%= page.tags.data[0].name %>
+            </mdui-chip>
+        <% } %>
+        <% } %>
+    </mdui-card>
+    <mdui-card class="banner-image"></mdui-card>
+</div>

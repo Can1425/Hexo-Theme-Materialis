@@ -1,81 +1,24 @@
-<!-- <mdui-top-app-bar scroll-behavior="elevate" >
+<mdui-top-app-bar variant="center-aligned" scroll-behavior="elevate">
     <mdui-button-icon class="appbar-menu-button">
         <mdui-icon name="menu"></mdui-icon>
     </mdui-button-icon>
-        <mdui-button-icon onclick="location.href='/'">
-        <mdui-icon name="home"></mdui-icon>
-    </mdui-button-icon>
     <mdui-top-app-bar-title><%= config.title %></mdui-top-app-bar-title>
-    <mdui-top-app-bar-actions>
         <mdui-button-icon>
             <mdui-icon name="search"></mdui-icon>
         </mdui-button-icon>
-    </mdui-top-app-bar-actions>
-</mdui-top-app-bar> -->
-<mdui-top-app-bar scroll-behavior="elevate" id="top-app-bar" style="transition: transform 0.3s ease-out;">
-    <mdui-button-icon class="appbar-menu-button">
-        <mdui-icon name="menu"></mdui-icon>
-    </mdui-button-icon>
-        <mdui-button-icon onclick="location.href='/'">
-        <mdui-icon name="home"></mdui-icon>
-    </mdui-button-icon>
-    <mdui-top-app-bar-title><%= config.title %></mdui-top-app-bar-title>
-    <mdui-top-app-bar-actions>
-        <mdui-button-icon>
-            <mdui-icon name="search"></mdui-icon>
-        </mdui-button-icon>
-    </mdui-top-app-bar-actions>
+        <mdui-dropdown>
+            <div slot="trigger">
+                <mdui-tooltip content="主题">
+                    <mdui-button-icon>
+                        <mdui-icon name="auto_mode" class="appbar-display-mode-icon"></mdui-icon>
+                    </mdui-button-icon>
+                </mdui-tooltip>
+            </div>
+            <mdui-menu selects="single" value="auto" class="appbar-display-mode">
+                <mdui-menu-item value="light">亮色模式</mdui-menu-item>
+                <mdui-menu-item value="dark">暗色模式</mdui-menu-item>
+                <mdui-divider></mdui-divider>
+                <mdui-menu-item value="auto">跟随系统</mdui-menu-item>
+            </mdui-menu>
+        </mdui-dropdown>
 </mdui-top-app-bar>
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const topAppBar = document.getElementById("top-app-bar");
-        let lastScrollY = window.scrollY;
-        let ticking = false;
-        let previousScrollY = window.scrollY;
-
-        function updateAppBar() {
-            const currentScrollY = window.scrollY;
-            const scrollDelta = currentScrollY - previousScrollY;
-            const appBarHeight = topAppBar.offsetHeight;
-            
-            // 获取当前的transform值
-            const currentTransform = getComputedStyle(topAppBar).transform;
-            let currentTranslateY = 0;
-            
-            if (currentTransform !== 'none') {
-                const matrix = new DOMMatrixReadOnly(currentTransform);
-                currentTranslateY = matrix.m42;
-            }
-            
-            // 计算新的translateY值
-            let newTranslateY = currentTranslateY - scrollDelta;
-            
-            // 限制在[0, -appBarHeight]范围内
-            newTranslateY = Math.min(0, Math.max(-appBarHeight, newTranslateY));
-            
-            // 应用变换
-            topAppBar.style.transform = `translateY(${newTranslateY}px)`;
-            
-            previousScrollY = currentScrollY;
-            ticking = false;
-        }
-
-        function requestTick() {
-            if (!ticking) {
-                requestAnimationFrame(updateAppBar);
-                ticking = true;
-            }
-        }
-
-        window.addEventListener('scroll', requestTick);
-        
-        // 重置previousScrollY值，当用户停止滚动一段时间后
-        let scrollTimer;
-        window.addEventListener('scroll', function() {
-            clearTimeout(scrollTimer);
-            scrollTimer = setTimeout(function() {
-                previousScrollY = window.scrollY;
-            }, 150);
-        });
-    });
-</script>
