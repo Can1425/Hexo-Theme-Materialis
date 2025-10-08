@@ -1,0 +1,654 @@
+<!-- 搜索按钮 -->
+<mdui-button-icon id="search-toggle">
+    <mdui-icon name="search"></mdui-icon>
+</mdui-button-icon>
+
+<!-- 搜索弹窗 -->
+<mdui-dialog 
+    id="search-dialog" 
+    class="search-dialog"
+    close-on-esc
+    close-on-overlay-click
+>
+    <div class="search-header">
+        <mdui-text-field class="search-input" placeholder="搜索文章、标签、分类..." id="search-input">
+            <mdui-icon name="search" slot="icon"></mdui-icon>
+        </mdui-text-field>
+        <mdui-button-icon class="close-btn" id="search-close">
+            <mdui-icon name="close"></mdui-icon>
+        </mdui-button-icon>
+    </div>
+
+    <div class="search-content">
+        <div id="search-results" class="search-results">
+            <div class="search-placeholder" id="search-placeholder">
+                <mdui-icon name="search" class="placeholder-icon"></mdui-icon>
+                <div>输入关键词开始搜索</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="search-footer">
+        <span class="result-count" id="result-count"></span>
+        <mdui-button id="search-close-btn">关闭</mdui-button>
+    </div>
+</mdui-dialog>
+
+<style>
+.search-dialog {
+    --mdui-dialog-width: 600px;
+    --mdui-dialog-height: 70vh;
+}
+
+/* 对话框进入动画 */
+.search-dialog::part(overlay) {
+    animation: overlay-fade-in 0.3s ease-out;
+}
+
+.search-dialog::part(panel) {
+    animation: dialog-slide-in 0.3s ease-out;
+}
+
+.search-dialog[closing]::part(overlay) {
+    animation: overlay-fade-out 0.2s ease-in;
+}
+
+.search-dialog[closing]::part(panel) {
+    animation: dialog-slide-out 0.2s ease-in;
+}
+
+@keyframes overlay-fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes overlay-fade-out {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes dialog-slide-in {
+    from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+@keyframes dialog-slide-out {
+    from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+    }
+}
+
+.search-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 20px 24px 0;
+    margin-bottom: 16px;
+}
+
+.search-input {
+    flex: 1;
+}
+
+.close-btn {
+    margin-left: auto;
+}
+
+.search-content {
+    padding: 0 24px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.search-results {
+    height: 100%;
+    overflow-y: auto;
+}
+
+/* 自定义滚动条 */
+.search-results::-webkit-scrollbar {
+    width: 6px;
+}
+
+.search-results::-webkit-scrollbar-track {
+    background: var(--mdui-color-surface-container);
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-thumb {
+    background: var(--mdui-color-outline-variant);
+    border-radius: 3px;
+}
+
+.search-results::-webkit-scrollbar-thumb:hover {
+    background: var(--mdui-color-on-surface-variant);
+}
+
+.search-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--mdui-color-on-surface-variant);
+}
+
+.placeholder-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.search-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-top: 1px solid var(--mdui-color-outline-variant);
+}
+
+.result-count {
+    font-size: 0.875rem;
+    color: var(--mdui-color-on-surface-variant);
+}
+
+/* 搜索结果项 */
+.search-result-item {
+    padding: 16px;
+    border-radius: 12px;
+    margin-bottom: 8px;
+    border: 1px solid var(--mdui-color-outline-variant);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: var(--mdui-color-surface);
+    animation: result-item-fade-in 0.3s ease-out;
+}
+
+.search-result-item:hover {
+    background: var(--mdui-color-surface-container-hover);
+    border-color: var(--mdui-color-primary);
+    transform: translateY(-2px);
+}
+
+.search-result-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    color: var(--mdui-color-on-surface);
+    margin-bottom: 8px;
+}
+
+.search-result-content {
+    color: var(--mdui-color-on-surface-variant);
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-bottom: 8px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.search-result-meta {
+    display: flex;
+    gap: 12px;
+    font-size: 0.75rem;
+    color: var(--mdui-color-on-surface-variant);
+}
+
+.search-highlight {
+    background: var(--mdui-color-primary-container);
+    color: var(--mdui-color-on-primary-container);
+    padding: 1px 4px;
+    border-radius: 4px;
+    font-weight: 600;
+}
+
+.no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--mdui-color-on-surface-variant);
+    animation: result-item-fade-in 0.3s ease-out;
+}
+
+.search-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 20px;
+    color: var(--mdui-color-on-surface-variant);
+    flex-direction: column;
+    gap: 12px;
+    animation: result-item-fade-in 0.3s ease-out;
+}
+
+/* 搜索结果项动画 */
+@keyframes result-item-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* 为搜索结果项添加延迟动画 */
+.search-result-item:nth-child(1) { animation-delay: 0.05s; }
+.search-result-item:nth-child(2) { animation-delay: 0.1s; }
+.search-result-item:nth-child(3) { animation-delay: 0.15s; }
+.search-result-item:nth-child(4) { animation-delay: 0.2s; }
+.search-result-item:nth-child(5) { animation-delay: 0.25s; }
+
+/* 移动端适配 */
+@media (max-width: 600px) {
+    .search-dialog {
+        --mdui-dialog-width: 95vw;
+        --mdui-dialog-height: 80vh;
+    }
+    
+    .search-header {
+        padding: 16px 16px 0;
+    }
+    
+    .search-content {
+        padding: 0 16px;
+    }
+    
+    .search-footer {
+        padding: 12px 16px;
+    }
+    
+    /* 移动端动画调整 */
+    @keyframes dialog-slide-in {
+        from {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+    }
+    
+    @keyframes dialog-slide-out {
+        from {
+            opacity: 1;
+            transform: scale(1) translateY(0);
+        }
+        to {
+            opacity: 0;
+            transform: scale(0.95) translateY(20px);
+        }
+    }
+}
+
+/* 大屏幕适配 */
+@media (min-width: 1200px) {
+    .search-dialog {
+        --mdui-dialog-width: 700px;
+    }
+}
+
+/* 减少动画用户偏好 */
+@media (prefers-reduced-motion: reduce) {
+    .search-dialog::part(overlay),
+    .search-dialog::part(panel),
+    .search-result-item {
+        animation: none !important;
+    }
+}
+</style>
+
+<script>
+class HexoSearch {
+    constructor() {
+        this.searchData = null;
+        this.dialog = null;
+        this.isLoading = false;
+        this.init();
+    }
+
+    async init() {
+        this.bindEvents();
+        this.preloadSearchData();
+    }
+
+    async preloadSearchData() {
+        this.isLoading = true;
+        try {
+            const searchUrl = '<%- url_for("/search.json") %>';
+            const response = await fetch(searchUrl);
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+            }
+            this.searchData = await response.json();
+        } catch (error) {
+            console.error('搜索数据加载失败:', error);
+            this.showError(`搜索数据加载失败: ${error.message}`);
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+    bindEvents() {
+        const searchToggle = document.getElementById('search-toggle');
+        const searchInput = document.getElementById('search-input');
+        const searchClose = document.getElementById('search-close');
+        const searchCloseBtn = document.getElementById('search-close-btn');
+        this.dialog = document.getElementById('search-dialog');
+
+        // 打开搜索对话框
+        searchToggle.addEventListener('click', () => {
+            this.dialog.open = true;
+            setTimeout(() => searchInput.focus(), 150); // 等待动画开始后再聚焦
+        });
+
+        // 关闭搜索对话框
+        const closeDialog = () => {
+            this.dialog.open = false;
+            searchInput.value = '';
+            this.showPlaceholder();
+        };
+
+        searchClose.addEventListener('click', closeDialog);
+        searchCloseBtn.addEventListener('click', closeDialog);
+
+        // 搜索输入事件
+        searchInput.addEventListener('input', this.debounce((e) => {
+            this.performSearch(e.target.value);
+        }, 300));
+
+        // 键盘事件 - Enter 选择第一个结果
+        searchInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const firstResult = document.querySelector('.search-result-item');
+                if (firstResult) {
+                    firstResult.click();
+                }
+            }
+        });
+
+        // 对话框打开时动画准备
+        this.dialog.addEventListener('open', () => {
+            this.prepareForOpen();
+        });
+
+        // 对话框关闭时清理
+        this.dialog.addEventListener('close', () => {
+            searchInput.value = '';
+            this.showPlaceholder();
+        });
+    }
+
+    prepareForOpen() {
+        // 确保搜索框内容清空
+        const searchInput = document.getElementById('search-input');
+        searchInput.value = '';
+        
+        // 显示初始占位符
+        this.showPlaceholder();
+    }
+
+    debounce(func, wait) {
+        let timeout;
+        return function executedFunction(...args) {
+            const later = () => {
+                clearTimeout(timeout);
+                func(...args);
+            };
+            clearTimeout(timeout);
+            timeout = setTimeout(later, wait);
+        };
+    }
+
+    performSearch(query) {
+        if (!query.trim()) {
+            this.showPlaceholder();
+            return;
+        }
+
+        if (this.isLoading) {
+            this.showLoading();
+            return;
+        }
+
+        if (!this.searchData) {
+            this.showError('搜索数据未加载，请稍后重试');
+            return;
+        }
+
+        const results = this.searchPosts(query);
+        this.displayResults(results, query);
+    }
+
+    searchPosts(query) {
+        const keywords = query.toLowerCase().split(' ').filter(k => k.length > 0);
+        const allItems = [...(this.searchData.posts || []), ...(this.searchData.pages || [])];
+        
+        if (allItems.length === 0) {
+            return [];
+        }
+
+        return allItems
+            .map(item => {
+                let score = 0;
+                let matches = [];
+
+                keywords.forEach(keyword => {
+                    const title = item.title || '';
+                    const content = item.content || '';
+                    
+                    if (title.toLowerCase().includes(keyword)) {
+                        score += 10;
+                        matches.push('title');
+                    }
+
+                    if (content.toLowerCase().includes(keyword)) {
+                        score += 2;
+                        matches.push('content');
+                    }
+
+                    if (item.tags && Array.isArray(item.tags)) {
+                        const tagMatch = item.tags.some(tag => 
+                            tag.toLowerCase().includes(keyword)
+                        );
+                        if (tagMatch) {
+                            score += 5;
+                            matches.push('tag');
+                        }
+                    }
+
+                    if (item.categories && Array.isArray(item.categories)) {
+                        const categoryMatch = item.categories.some(cat => 
+                            cat.toLowerCase().includes(keyword)
+                        );
+                        if (categoryMatch) {
+                            score += 3;
+                            matches.push('category');
+                        }
+                    }
+                });
+
+                return { ...item, score, matches: [...new Set(matches)] };
+            })
+            .filter(item => item.score > 0)
+            .sort((a, b) => b.score - a.score)
+            .slice(0, 20);
+    }
+
+    displayResults(results, query) {
+        const container = document.getElementById('search-results');
+        const countElement = document.getElementById('result-count');
+        
+        if (results.length === 0) {
+            container.innerHTML = `
+                <div class="no-results">
+                    <mdui-icon name="search_off" style="font-size: 48px; margin-bottom: 16px;"></mdui-icon>
+                    <div>没有找到包含 "${this.escapeHtml(query)}" 的内容</div>
+                    <div style="font-size: 0.875rem; margin-top: 8px;">尝试使用其他关键词</div>
+                </div>
+            `;
+            countElement.textContent = '';
+            return;
+        }
+
+        const resultsHTML = results.map(item => this.createResultItem(item, query)).join('');
+        container.innerHTML = resultsHTML;
+        countElement.textContent = `找到 ${results.length} 个结果`;
+        
+        container.querySelectorAll('.search-result-item').forEach((item, index) => {
+            item.addEventListener('click', () => {
+                if (results[index].url) {
+                    window.location.href = results[index].url;
+                    this.dialog.open = false;
+                }
+            });
+        });
+    }
+
+    createResultItem(item, query) {
+        const title = item.title || '无标题';
+        const content = item.content || '';
+        const highlightedTitle = this.highlightText(title, query);
+        const excerpt = this.createExcerpt(content, query, 120);
+        const isPost = item.tags !== undefined;
+        const typeIcon = isPost ? 'article' : 'description';
+        const date = item.date || '';
+
+        return `
+            <div class="search-result-item">
+                <div class="search-result-title">
+                    <mdui-icon name="${typeIcon}" style="font-size: 16px;"></mdui-icon>
+                    ${highlightedTitle}
+                </div>
+                <div class="search-result-content">${excerpt}</div>
+                <div class="search-result-meta">
+                    ${date ? `<span>${date}</span>` : ''}
+                    ${isPost && item.categories && item.categories.length > 0 ? `<span>${this.escapeHtml(item.categories[0])}</span>` : ''}
+                    ${this.getMatchesText(item.matches)}
+                </div>
+            </div>
+        `;
+    }
+
+    highlightText(text, query) {
+        const keywords = query.toLowerCase().split(' ').filter(k => k.length > 0);
+        let highlighted = this.escapeHtml(text);
+        
+        keywords.forEach(keyword => {
+            const regex = new RegExp(`(${this.escapeRegex(keyword)})`, 'gi');
+            highlighted = highlighted.replace(regex, '<span class="search-highlight">$1</span>');
+        });
+        
+        return highlighted;
+    }
+
+    createExcerpt(content, query, maxLength = 120) {
+        const keywords = query.toLowerCase().split(' ').filter(k => k.length > 0);
+        let excerpt = this.escapeHtml(content.substring(0, maxLength));
+        
+        keywords.forEach(keyword => {
+            const index = content.toLowerCase().indexOf(keyword);
+            if (index > -1) {
+                const start = Math.max(0, index - 30);
+                const end = Math.min(content.length, index + 90);
+                excerpt = this.escapeHtml(content.substring(start, end));
+            }
+        });
+
+        keywords.forEach(keyword => {
+            const regex = new RegExp(`(${this.escapeRegex(keyword)})`, 'gi');
+            excerpt = excerpt.replace(regex, '<span class="search-highlight">$1</span>');
+        });
+
+        return excerpt + (content.length > maxLength ? '...' : '');
+    }
+
+    getMatchesText(matches) {
+        const matchMap = {
+            title: '标题',
+            content: '内容', 
+            tag: '标签',
+            category: '分类'
+        };
+        
+        const matchText = matches.map(match => matchMap[match]).join(', ');
+        return matchText ? `<span>匹配: ${matchText}</span>` : '';
+    }
+
+    escapeRegex(string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    showPlaceholder() {
+        document.getElementById('search-results').innerHTML = `
+            <div class="search-placeholder">
+                <mdui-icon name="search" class="placeholder-icon"></mdui-icon>
+                <div>输入关键词开始搜索</div>
+            </div>
+        `;
+        document.getElementById('result-count').textContent = '';
+    }
+
+    showLoading() {
+        document.getElementById('search-results').innerHTML = `
+            <div class="search-loading">
+                <mdui-circular-progress></mdui-circular-progress>
+                <div>正在加载搜索数据...</div>
+            </div>
+        `;
+        document.getElementById('result-count').textContent = '';
+    }
+
+    showError(message) {
+        document.getElementById('search-results').innerHTML = `
+            <div class="no-results">
+                <mdui-icon name="error" style="color: var(--mdui-color-error);"></mdui-icon>
+                <div>${message}</div>
+            </div>
+        `;
+        document.getElementById('result-count').textContent = '';
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    new HexoSearch();
+});
+
+// 键盘快捷键 
+document.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        document.getElementById('search-toggle').click();
+    }
+});
+</script>

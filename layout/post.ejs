@@ -1,56 +1,36 @@
 <mdui-layout-main>
-    <!-- 标题卡片 -->
-    <mdui-card variant="filled" class="post-card-title">
-        <mdui-card-header>
-            <mdui-card-title class="post-card-title-text">
-                <%= page.title %>
-            </mdui-card-title>
-            <mdui-divider style="margin: 1rem 0;"></mdui-divider>
-            <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; margin-top: 1rem;">
-                <mdui-chip variant="filled" style="background: var(--mdui-color-primary-container); color: var(--mdui-color-on-primary-container);">
-                    <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
-                    <%= page.date.format('YYYY-MM-DD') %>
-                </mdui-chip>
-                
-                <% if (page.categories && page.categories.length > 0) { %>
-                    <mdui-chip variant="filled" style="background: var(--mdui-color-secondary-container); color: var(--mdui-color-on-secondary-container);">
-                        <mdui-icon name="folder" slot="icon"></mdui-icon>
-                        <%= page.categories.data[0].name %>
-                    </mdui-chip>
-                <% } %>
-                
-                <% if (page.tags && page.tags.length > 0) { %>
-                    <mdui-chip variant="filled" style="background: var(--mdui-color-tertiary-container); color: var(--mdui-color-on-tertiary-container);">
-                        <mdui-icon name="tag" slot="icon"></mdui-icon>
-                        <%= page.tags.data[0].name %>
-                    </mdui-chip>
-                <% } %>
-            </div>
-        </mdui-card-header>
-    </mdui-card>
+    <%- include('widgets/banner', {titleText1: page.title, titleText2: ''}) %>
 
-    <!-- 内容卡片 -->
-    <mdui-card variant="filled" class="post-card-wide">
-        <mdui-card-content>
-            <div class="article-content">
-                <%- page.content %>
-            </div>
-        </mdui-card-content>
-    </mdui-card>
+    <div class="post-container">
+        <!-- 内容卡片 -->
+        <mdui-card variant="filled" class="post-card-wide">
+            <mdui-card-content>
+                <div class="article-content">
+                    <%- page.content %>
+                </div>
+            </mdui-card-content>
+        </mdui-card>
 
-    <!-- 评论卡片 -->
-<!-- 修复后的评论系统部分 -->
-    <mdui-card variant="filled" class="post-card-comment">
-        <mdui-card-content>
-            <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
-            </mdui-typography>
-            <% if (theme.comment && theme.comment.service) { %>
-                <% if (theme.comment.service === 'twikoo') { %>
-                    <%- include('widgets/comments/twikoo.ejs') %>
-                <% } else if (theme.comment.service === 'waline') { %>
-                    <%- include('widgets/comments/waline.ejs') %>
-                <% } else if (theme.comment.service === 'giscus') { %>
-                    <%- include('widgets/comments/giscus.ejs') %>
+        <!-- 评论卡片 -->
+    <!-- 修复后的评论系统部分 -->
+        <mdui-card variant="filled" class="post-card-comment">
+            <mdui-card-content>
+                <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
+                </mdui-typography>
+                <% if (theme.comment && theme.comment.service) { %>
+                    <% if (theme.comment.service === 'twikoo') { %>
+                        <%- include('widgets/comments/twikoo.ejs') %>
+                    <% } else if (theme.comment.service === 'waline') { %>
+                        <%- include('widgets/comments/waline.ejs') %>
+                    <% } else if (theme.comment.service === 'giscus') { %>
+                        <%- include('widgets/comments/giscus.ejs') %>
+                    <% } else { %>
+                        <div style="text-align: center; padding: 2rem;">
+                            <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
+                                评论功能未启用
+                            </mdui-typography>
+                        </div>
+                    <% } %>
                 <% } else { %>
                     <div style="text-align: center; padding: 2rem;">
                         <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
@@ -58,13 +38,7 @@
                         </mdui-typography>
                     </div>
                 <% } %>
-            <% } else { %>
-                <div style="text-align: center; padding: 2rem;">
-                    <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
-                        评论功能未启用
-                    </mdui-typography>
-                </div>
-            <% } %>
-        </mdui-card-content>
-    </mdui-card>
+            </mdui-card-content>
+        </mdui-card>
+    </div>
 </mdui-layout-main>

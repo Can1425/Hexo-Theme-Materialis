@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'banner';
+    src: url('banner.eot');
+    src: url('banner.eot?#iefix') format('embedded-opentype'),
+         url('banner.woff2') format('woff2'),
+         url('banner.woff') format('woff'),
+         url('banner.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

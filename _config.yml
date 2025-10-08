@@ -94,7 +94,7 @@ custom:
 #字体设置
 #---start---
 font:
-  primary: false  # 只能选择一个: lxwk  dingtalk pingfang 或者false
+  primary: lxwk  # 只能选择一个: lxwk  dingtalk pingfang 或者false
 #---end---
 #Footer
 #---start---

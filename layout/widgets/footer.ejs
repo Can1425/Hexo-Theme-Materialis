@@ -1,4 +1,3 @@
-<!-- 简化版 Footer 组件 -->
 <br>
 <mdui-divider></mdui-divider>
 <mdui-footer class="site-footer">
@@ -8,63 +7,72 @@
     <div class="footer-main">
       <!-- 版权信息 -->
       <div class="copyright">
-        <mdui-typography variant="body2">
+        <mdui-chip variant="filled" class="footer-chip">
+          <mdui-icon name="copyright" slot="icon"></mdui-icon>
           &copy; <%= new Date().getFullYear() %> 
           <a href="<%= url_for() %>" class="site-link"><%= config.title %></a>
           <% if (theme.footer && theme.footer.copyright) { %>
             · <%= theme.footer.copyright %>
           <% } %>
-        </mdui-typography>
+        </mdui-chip>
       </div>
 
       <!-- 备案信息 -->
       <% if (theme.footer && theme.footer.beian) { %>
         <div class="beian-info">
           <% if (theme.footer.beian.icp) { %>
-            <mdui-typography variant="body2">
-              <a href="https://beian.miit.gov.cn/" target="_blank" class="beian-link">
-                <%= theme.footer.beian.icp %>
-              </a>
-            </mdui-typography>
+            <mdui-chip 
+              variant="filled-tonal" 
+              class="footer-chip beian-chip"
+              href="https://beian.miit.gov.cn/" 
+              target="_blank"
+            >
+              <mdui-icon name="verified" slot="icon"></mdui-icon>
+              <%= theme.footer.beian.icp %>
+            </mdui-chip>
           <% } %>
           <% if (theme.footer.beian.ps) { %>
-            <mdui-typography variant="body2">
-              <a href="http://www.beian.gov.cn/" target="_blank" class="beian-link">
-                <%= theme.footer.beian.ps %>
-              </a>
-            </mdui-typography>
+            <mdui-chip 
+              variant="filled-tonal" 
+              class="footer-chip beian-chip"
+              href="http://www.beian.gov.cn/" 
+              target="_blank"
+            >
+              <mdui-icon name="security" slot="icon"></mdui-icon>
+              <%= theme.footer.beian.ps %>
+            </mdui-chip>
           <% } %>
         </div>
       <% } %>
 
       <!-- 主题信息 -->
       <div class="theme-info">
-        <mdui-typography variant="body2">
+        <mdui-chip variant="outlined" class="footer-chip">
+          <mdui-icon name="code" slot="icon"></mdui-icon>
           Powered by 
-          <a href="https://hexo.io/" target="_blank">Hexo</a> 
+          <a href="https://hexo.io/" target="_blank" class="tech-link">Hexo</a> 
           & 
-          <a href="https://github.com/Can1425/Hexo-Theme-Materialis" target="_blank">Materialis</a>
+          <a href="https://github.com/Can1425/Hexo-Theme-Materialis" target="_blank" class="tech-link">Materialis</a>
           <% if (theme.footer && theme.footer.theme_name) { %>
             · Theme: <%= theme.footer.theme_name %>
           <% } %>
-        </mdui-typography>
+        </mdui-chip>
       </div>
-
 
       <!-- 自定义徽章 -->
       <% if (theme.footer && theme.footer.badges) { %>
         <div class="custom-badges">
           <% theme.footer.badges.forEach(function(badge) { %>
-            <mdui-badge 
-              variant="<%= badge.variant || 'small' %>"
-              class="custom-badge"
+            <mdui-chip 
+              variant="<%= badge.variant || 'filled-tonal' %>"
+              class="footer-chip custom-badge"
               <%= badge.href ? `href="${badge.href}" target="_blank"` : '' %>
             >
               <% if (badge.icon) { %>
                 <mdui-icon slot="icon" name="<%= badge.icon %>"></mdui-icon>
               <% } %>
               <%= badge.text %>
-            </mdui-badge>
+            </mdui-chip>
           <% }); %>
         </div>
       <% } %>
@@ -95,59 +103,69 @@
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1.5rem;
+  gap: 1rem;
 }
 
-/* 版权信息 */
-.copyright {
-  color: var(--mdui-color-on-surface-variant);
-  flex-shrink: 0;
+/* Chip 通用样式 */
+.footer-chip {
+  --mdui-chip-height: 32px;
+  --mdui-chip-container-color: var(--mdui-color-surface-container);
+  --mdui-chip-outline-color: var(--mdui-color-outline-variant);
+  transition: all 0.3s ease;
 }
 
+.footer-chip:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* 版权信息 Chip */
+.copyright .footer-chip {
+  --mdui-chip-container-color: var(--mdui-color-primary-container);
+  --mdui-chip-label-text-color: var(--mdui-color-on-primary-container);
+}
+
+/* 备案信息 Chip */
+.beian-chip {
+  --mdui-chip-container-color: var(--mdui-color-secondary-container);
+  --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+}
+
+/* 主题信息 Chip */
+.theme-info .footer-chip {
+  --mdui-chip-outline-color: var(--mdui-color-primary);
+  --mdui-chip-label-text-color: var(--mdui-color-primary);
+}
+
+/* 链接样式 */
 .site-link {
-  color: var(--mdui-color-primary);
+  color: inherit;
   text-decoration: none;
   font-weight: 500;
+  margin: 0 2px;
 }
 
 .site-link:hover {
   text-decoration: underline;
 }
 
+.tech-link {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 0 2px;
+}
+
+.tech-link:hover {
+  text-decoration: underline;
+}
+
 /* 备案信息 */
 .beian-info {
   display: flex;
-  flex-direction: row;
-  gap: 0.25rem;
+  gap: 0.5rem;
   flex-shrink: 0;
 }
-
-.beian-link {
-  color: var(--mdui-color-on-surface-variant);
-  text-decoration: none;
-  font-size: 0.875rem;
-}
-
-.beian-link:hover {
-  color: var(--mdui-color-primary);
-  text-decoration: underline;
-}
-
-/* 主题信息 */
-.theme-info {
-  color: var(--mdui-color-on-surface-variant);
-  flex-shrink: 0;
-}
-
-.theme-info a {
-  color: var(--mdui-color-primary);
-  text-decoration: none;
-}
-
-.theme-info a:hover {
-  text-decoration: underline;
-}
-
 
 /* 自定义徽章 */
 .custom-badges {
@@ -159,16 +177,6 @@
 
 .custom-badge {
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.custom-badge:hover {
-  transform: translateY(-1px);
-}
-
-/* 当没有徽章时，移除悬停效果 */
-.custom-badges:empty .custom-badge {
-  cursor: default;
 }
 
 /* 响应式设计 */
@@ -187,15 +195,16 @@
   .footer-main {
     flex-direction: column;
     text-align: center;
-    gap: 1rem;
-  }
-  
-  .site-stats {
-    justify-content: center;
+    gap: 0.75rem;
   }
   
   .custom-badges {
     justify-content: center;
+  }
+  
+  .beian-info {
+    flex-direction: column;
+    align-items: center;
   }
 }
 
@@ -204,13 +213,9 @@
     padding: 0.75rem;
   }
   
-  .site-stats {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .stat-item {
-    font-size: 0.8rem;
+  .footer-chip {
+    --mdui-chip-height: 28px;
+    font-size: 0.875rem;
   }
 }
 </style>

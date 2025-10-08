@@ -1,7 +1,7 @@
 <mdui-navigation-drawer class="sidebar-content" close-on-overlay-click>
     <!-- 用户信息卡片 -->
     <% if (theme.sidebar && (theme.sidebar.avatar || theme.sidebar.name || theme.sidebar.slogen)) { %>
-    <div class="sidebar-user-card" variant="outlined">
+    <div class="sidebar-user-card">
         <% if (theme.sidebar.avatar) { %>
             <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
         <% } %>
@@ -42,5 +42,3 @@
         <% }); %>
     </mdui-list>
 </mdui-navigation-drawer>
-
-<script src="/js/widgets/sidebar.js"></script>

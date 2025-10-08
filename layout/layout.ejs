@@ -6,7 +6,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
     <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
-    <script src="/js/main.js"></script>
+
     <% if (theme.font.primary === 'lxwk') { %>
         <link rel="stylesheet" href="/fonts/lxwk/lxwk.css">
     <% } else if (theme.font.primary === 'dingtalk') { %>
@@ -14,21 +14,24 @@
     <% } else if (theme.font.primary === 'pingfang') { %>
         <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
     <% } %>
+
+
     <%- css('css/style.css') %>
     <%- css('css/color.css') %>
 </head>
 <body>
+    <%- include('widgets/appbar') %>
+    <%- include('widgets/sidebar') %>
     <main class="main">
-        <%- include('widgets/appbar') %>
-        <%- include('widgets/sidebar') %>
         <%- body %>
-        <%- include('widgets/footer') %>
     </main>
+    <%- include('widgets/footer') %>
 </body>
-<script type="module">
-    import { setColorScheme } from 'https://unpkg.com/mdui@2/functions/setColorScheme.js';
-    setColorScheme('#0061a4');
-</script>
+
+<script type="module" src="/js/main.js"></script>
+<script src="/js/widgets/appbar.js"></script>
+<script src="/js/widgets/sidebar.js"></script>
+
 <!-- 引入自定义 CSS -->
 <% if (theme.custom && theme.custom.css) { %>
     <% theme.custom.css.forEach(function(cssFile) { %>
