@@ -4,7 +4,7 @@
     <div class="post-container">
         <!-- 内容卡片 -->
         <mdui-card variant="filled" class="post-card-wide">
-            <mdui-card-content>
+            <mdui-card-content style="padding: 2.5rem;">
                 <div class="article-content">
                     <%- page.content %>
                 </div>
@@ -12,10 +12,10 @@
         </mdui-card>
 
         <!-- 评论卡片 -->
-    <!-- 修复后的评论系统部分 -->
         <mdui-card variant="filled" class="post-card-comment">
-            <mdui-card-content>
+            <mdui-card-content style="padding: 2rem;">
                 <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center;">
+                    评论
                 </mdui-typography>
                 <% if (theme.comment && theme.comment.service) { %>
                     <% if (theme.comment.service === 'twikoo') { %>
@@ -26,14 +26,14 @@
                         <%- include('widgets/comments/giscus.ejs') %>
                     <% } else { %>
                         <div style="text-align: center; padding: 2rem;">
-                            <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
+                            <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
                                 评论功能未启用
                             </mdui-typography>
                         </div>
                     <% } %>
                 <% } else { %>
                     <div style="text-align: center; padding: 2rem;">
-                        <mdui-typography variant="body2" style="color: rgb(var(--mdui-color-on-surface-variant));">
+                        <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
                             评论功能未启用
                         </mdui-typography>
                     </div>

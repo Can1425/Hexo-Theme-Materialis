@@ -1,368 +1,41 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>标签 - <%= config.title %></title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
-    <style>
-        .tags-page {
-            background-color: var(--mdui-color-background);
-            min-height: 100vh;
-            padding: 20px;
-        }
+<style>
+.tags-simple {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
 
-        .tags-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+.tags-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
 
-        .tags-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 20px;
-        }
+.simple-chip {
+    --mdui-chip-height: 32px;
+    --mdui-chip-container-color: var(--mdui-color-primary-container);
+    --mdui-chip-label-text-color: var(--mdui-color-on-primary-container);
+    transition: all 0.2s ease;
+}
 
-        .tags-title {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: var(--mdui-color-on-background);
-            margin-bottom: 16px;
-        }
+.simple-chip:hover {
+    transform: translateY(-1px);
+    --mdui-chip-container-color: var(--mdui-color-primary);
+    --mdui-chip-label-text-color: var(--mdui-color-on-primary);
+}
+</style>
 
-        .tags-stats {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            margin-top: 24px;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 16px 24px;
-            background: var(--mdui-color-surface-container);
-            border-radius: 12px;
-            min-width: 120px;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--mdui-color-primary);
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--mdui-color-on-surface-variant);
-            margin-top: 4px;
-        }
-
-        .tags-cloud {
-            background: var(--mdui-color-surface-container);
-            border-radius: 16px;
-            padding: 24px;
-            margin-bottom: 32px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--mdui-color-outline-variant);
-        }
-
-        .cloud-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--mdui-color-on-surface);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .tags-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            justify-content: center;
-        }
-
-        .tag-item {
-            display: inline-flex;
-            align-items: center;
-            background: var(--mdui-color-primary-container);
-            color: var(--mdui-color-on-primary-container);
-            border-radius: 20px;
-            padding: 6px 16px;
-            text-decoration: none;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .tag-item:hover {
-            background: var(--mdui-color-primary);
-            color: var(--mdui-color-on-primary);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-        }
-
-        .tag-count {
-            background: var(--mdui-color-primary);
-            color: var(--mdui-color-on-primary);
-            border-radius: 50%;
-            width: 20px;
-            height: 20px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            margin-left: 8px;
-        }
-
-        .tag-item:hover .tag-count {
-            background: var(--mdui-color-on-primary);
-            color: var(--mdui-color-primary);
-        }
-
-        .tag-size-1 { font-size: 1rem; }
-        .tag-size-2 { font-size: 1.1rem; }
-        .tag-size-3 { font-size: 1.2rem; }
-        .tag-size-4 { font-size: 1.3rem; }
-        .tag-size-5 { font-size: 1.4rem; }
-
-        .categories-section {
-            background: var(--mdui-color-surface-container);
-            border-radius: 16px;
-            padding: 24px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-            border: 1px solid var(--mdui-color-outline-variant);
-        }
-
-        .categories-title {
-            font-size: 1.5rem;
-            font-weight: 500;
-            color: var(--mdui-color-on-surface);
-            margin-bottom: 24px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .categories-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 16px;
-        }
-
-        .category-card {
-            background: var(--mdui-color-surface);
-            border-radius: 12px;
-            padding: 20px;
-            transition: all 0.3s ease;
-            border: 1px solid var(--mdui-color-outline-variant);
-        }
-
-        .category-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
-        }
-
-        .category-name {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: var(--mdui-color-on-surface);
-            margin-bottom: 8px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .category-count {
-            background: var(--mdui-color-secondary-container);
-            color: var(--mdui-color-on-secondary-container);
-            border-radius: 12px;
-            padding: 2px 8px;
-            font-size: 0.8rem;
-            font-weight: 500;
-        }
-
-        .category-description {
-            color: var(--mdui-color-on-surface-variant);
-            font-size: 0.9rem;
-            margin-bottom: 12px;
-            line-height: 1.5;
-        }
-
-        .category-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-        }
-
-        .category-tag {
-            background: var(--mdui-color-tertiary-container);
-            color: var(--mdui-color-on-tertiary-container);
-            border-radius: 12px;
-            padding: 2px 8px;
-            font-size: 0.75rem;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--mdui-color-on-surface-variant);
-        }
-
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 600px) {
-            .tags-header {
-                padding: 20px 0;
-            }
-
-            .tags-title {
-                font-size: 2rem;
-            }
-
-            .tags-stats {
-                gap: 16px;
-            }
-
-            .stat-item {
-                min-width: 100px;
-                padding: 12px 16px;
-            }
-
-            .stat-number {
-                font-size: 1.5rem;
-            }
-
-            .tags-cloud,
-            .categories-section {
-                padding: 16px;
-            }
-
-            .categories-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        /* 暗色模式优化 */
-        [data-mdui-theme="dark"] .tags-cloud,
-        [data-mdui-theme="dark"] .categories-section {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
-<body>
-    <div class="tags-page">
-        <div class="tags-container">
-            <!-- 页面头部 -->
-            <header class="tags-header">
-                <h1 class="tags-title">标签</h1>
-                <p class="mdui-typo-subheading mdui-text-color-theme-secondary">
-                    本博客共有 <%= site.tags.length %> 个标签
-                </p>
-                
-                <!-- 统计信息 -->
-                <div class="tags-stats">
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.posts.length %></span>
-                        <span class="stat-label">总文章数</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.categories.length %></span>
-                        <span class="stat-label">分类数量</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.tags.length %></span>
-                        <span class="stat-label">标签数量</span>
-                    </div>
-                </div>
-            </header>
-
-            <main>
-                <% if (site.tags.length > 0) { %>
-                    <section class="tags-cloud">
-                        <h2 class="cloud-title">
-                            <i class="mdui-icon material-icons">local_offer</i>
-                            所有标签
-                        </h2>
-                        <div class="tags-list">
-                            <% 
-                                const sortedTags = site.tags.sort('length', -1).toArray();
-                                const maxCount = sortedTags.length > 0 ? sortedTags[0].length : 1;
-                                const minCount = sortedTags.length > 0 ? sortedTags[sortedTags.length-1].length : 1;
-                                const diff = maxCount - minCount;
-                                
-                                sortedTags.forEach(function(tag, index) {
-                                    // 计算标签大小级别 (1-5)
-                                    let sizeLevel = 1;
-                                    if (diff > 0) {
-                                        sizeLevel = Math.floor(((tag.length - minCount) / diff) * 4) + 1;
-                                    }
-                            %>
-                                <a href="<%= url_for(tag.path) %>" class="tag-item tag-size-<%= sizeLevel %>">
-                                    <%= tag.name %>
-                                    <span class="tag-count"><%= tag.length %></span>
-                                </a>
-                            <% }); %>
-                        </div>
-                    </section>
-
-                    <!-- 分类列表 -->
-                    <% if (site.categories.length > 0) { %>
-                        <section class="categories-section">
-                            <h2 class="categories-title">
-                                <i class="mdui-icon material-icons">folder</i>
-                                所有分类
-                            </h2>
-                            <div class="categories-grid">
-                                <% 
-                                    // 按文章数量排序分类
-                                    const sortedCategories = site.categories.sort('length', -1).toArray();
-                                    
-                                    sortedCategories.forEach(function(category) {
-                                %>
-                                    <div class="category-card">
-                                        <div class="category-name">
-                                            <i class="mdui-icon material-icons">folder_open</i>
-                                            <%= category.name %>
-                                            <span class="category-count"><%= category.length %> 篇</span>
-                                        </div>
-                                        <% if (category.description) { %>
-                                            <div class="category-description">
-                                                <%= category.description %>
-                                            </div>
-                                        <% } %>
-                                        <% if (category.tags && category.tags.length > 0) { %>
-                                            <div class="category-tags">
-                                                <% category.tags.slice(0, 5).forEach(function(tag) { %>
-                                                    <span class="category-tag"><%= tag.name %></span>
-                                                <% }); %>
-                                                <% if (category.tags.length > 5) { %>
-                                                    <span class="category-tag">+<%= category.tags.length - 5 %> 更多</span>
-                                                <% } %>
-                                            </div>
-                                        <% } %>
-                                    </div>
-                                <% }); %>
-                            </div>
-                        </section>
-                    <% } %>
-                <% } else { %>
-                    <div class="empty-state">
-                        <h3 class="mdui-typo-headline">暂无标签</h3>
-                    </div>
-                <% } %>
-            </main>
-        </div>
+<div class="tags-simple">
+    <div class="tags-container">
+        <% site.tags.sort('name').each(function(tag) { %>
+            <mdui-chip 
+                class="simple-chip"
+                href="<%- url_for(tag.path) %>"
+            >
+                <%= tag.name %>
+                <mdui-badge slot="end"><%= tag.length %></mdui-badge>
+            </mdui-chip>
+        <% }); %>
     </div>
-
-    <script>
-        mdui.mutation();
-    </script>
-</body>
-</html>
+</div>

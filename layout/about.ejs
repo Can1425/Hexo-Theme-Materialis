@@ -1,692 +1,303 @@
+<div style="padding: 0 5%;">
+    <!-- 第一行：个人信息 -->
+    <mdui-card style="width: 100%; height: 50%;">
+        <mdui-card-content style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+            min-height: 300px;
+        ">
+            <!-- 左侧：头像和基本信息 -->
+            <div style="width: 100%;">
+                <mdui-card style="width: 100%; height: 100%;">
+                    <mdui-card-content style="
+                        padding: 2rem 1.5rem;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        text-align: center;
+                    ">
+                        <div class="avatar-container">
+                            <% if (site.data.about.img) { %>
+                                <img 
+                                    src="<%= site.data.about.img %>" 
+                                    alt="<%= config.author %>的头像" 
+                                    class="avatar-image"
+                                >
+                            <% } else { %>
+                                <div class="avatar-placeholder">
+                                    <mdui-icon name="person"></mdui-icon>
+                                </div>
+                            <% } %>
+                        </div>
+                        
+                        <div class="user-info">
+                            <mdui-typography variant="h5" class="username">
+                                <%= config.author || '用户名' %>
+                            </mdui-typography>
+                            
+                            <% if (site.data.about.bio) { %>
+                                <mdui-typography variant="body1" class="user-bio">
+                                    <%= site.data.about.bio %>
+                                </mdui-typography>
+                            <% } %>
+                            
+                            <!-- 标签 -->
+                            <% if (site.data.about.tags) { %>
+                                <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 1rem;">
+                                    <% site.data.about.tags.forEach(function(tag) { %>
+                                        <mdui-chip variant="filled" size="small">
+                                            <%= tag %>
+                                        </mdui-chip>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </div>
+                    </mdui-card-content>
+                </mdui-card>
+            </div>
+            
+            <!-- 右侧：个人介绍 -->
+            <div style="width: 100%;">
+                <mdui-card style="width: 100%; height: 100%;">
+                    <mdui-card-content style="
+                        padding: 2rem 1.5rem;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                    ">
+                        <mdui-typography variant="h6" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+                            <mdui-icon name="info"></mdui-icon>
+                            关于我
+                        </mdui-typography>
+                        <mdui-typography variant="body1" style="line-height: 1.6;">
+                            <%= site.data.about.talk || '这里可以写一些个人介绍...' %>
+                        </mdui-typography>
+                    </mdui-card-content>
+                </mdui-card>
+            </div>
+        </mdui-card-content>
+    </mdui-card>
+
+    <br>
+    <br>
+    <br>
+    <!-- 第二行：技术栈 + 联系方式 + 统计 -->
+    <mdui-card style="width: 100%; height: 50%;">
+        <mdui-card-content style="
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            align-items: stretch;
+            min-height: 400px;
+        ">
+            <!-- 左侧：技术栈 -->
+            <div style="width: 100%;">
+                <mdui-card style="width: 100%; height: 100%;">
+                    <mdui-card-content style="
+                        padding: 2rem 1.5rem;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                    ">
+                        <mdui-typography variant="h6" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
+                            <mdui-icon name="code"></mdui-icon>
+                            技术栈
+                        </mdui-typography>
+                        
+                        <div style="
+                            display: grid;
+                            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+                            gap: 1.5rem;
+                            align-items: center;
+                            justify-items: center;
+                            flex: 1;
+                        ">
+                            <% if (site.data.about.skills) { %>
+                                <% site.data.about.skills.forEach(function(skill) { %>
+                                    <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
+                                        <% if (skill.svg) { %>
+                                            <img 
+                                                src="<%= skill.svg %>" 
+                                                alt="<%= skill.name %>" 
+                                                style="width: 48px; height: 48px;"
+                                            >
+                                        <% } else if (skill.icon) { %>
+                                            <mdui-icon name="<%= skill.icon %>" style="font-size: 2.5rem; color: var(--mdui-color-primary);"></mdui-icon>
+                                        <% } %>
+                                        <mdui-typography variant="body2" style="font-size: 0.75rem;"><%= skill.name %></mdui-typography>
+                                    </div>
+                                <% }); %>
+                            <% } %>
+                        </div>
+                    </mdui-card-content>
+                </mdui-card>
+            </div>
+            
+            <!-- 右侧：联系方式 + 统计 -->
+            <div style="width: 100%;">
+                <mdui-card style="width: 100%; height: 100%;">
+                    <mdui-card-content style="
+                        padding: 2rem 1.5rem;
+                        height: 100%;
+                        display: flex;
+                        flex-direction: column;
+                    ">
+                        <!-- 联系方式 -->
+                        <div style="margin-bottom: 2rem;">
+                            <mdui-typography variant="h6" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
+                                <mdui-icon name="link"></mdui-icon>
+                                联系方式
+                            </mdui-typography>
+                            
+                            <div style="display: flex; flex-direction: column; gap: 1rem;">
+                                <% if (site.data.about.socials) { %>
+                                    <% site.data.about.socials.forEach(function(social) { %>
+                                        <mdui-button 
+                                            variant="outlined" 
+                                            href="<%= social.url %>" 
+                                            target="_blank" 
+                                            style="justify-content: start;"
+                                        >
+                                            <div style="display: flex; align-items: center; gap: 12px;">
+                                                <% if (social.svg) { %>
+                                                    <img 
+                                                        src="<%= social.svg %>" 
+                                                        alt="<%= social.name %>" 
+                                                        style="width: 24px; height: 24px;"
+                                                    >
+                                                <% } else if (social.icon) { %>
+                                                    <mdui-icon name="<%= social.icon %>"></mdui-icon>
+                                                <% } %>
+                                                <%= social.name %>
+                                            </div>
+                                        </mdui-button>
+                                    <% }); %>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <!-- 统计数据 -->
+                        <div style="border-top: 1px solid var(--mdui-color-outline-variant); padding-top: 1.5rem;">
+                            <mdui-typography variant="h6" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
+                                <mdui-icon name="analytics"></mdui-icon>
+                                数据统计
+                            </mdui-typography>
+                            
+                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+                                <div style="text-align: center;">
+                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
+                                        <%= site.posts.length %>
+                                    </mdui-typography>
+                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">文章</mdui-typography>
+                                </div>
+                                
+                                <div style="text-align: center;">
+                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
+                                        <%= site.tags.length %>
+                                    </mdui-typography>
+                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">标签</mdui-typography>
+                                </div>
+                                
+                                <div style="text-align: center;">
+                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
+                                        <%= site.categories.length %>
+                                    </mdui-typography>
+                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">分类</mdui-typography>
+                                </div>
+                                
+                                <div style="text-align: center;">
+                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
+                                        <% 
+                                            const archiveYears = {};
+                                            site.posts.each(function(post) {
+                                                const year = post.date.year();
+                                                archiveYears[year] = true;
+                                            });
+                                        %>
+                                        <%= Object.keys(archiveYears).length %>
+                                    </mdui-typography>
+                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">年份</mdui-typography>
+                                </div>
+                            </div>
+                        </div>
+                    </mdui-card-content>
+                </mdui-card>
+            </div>
+        </mdui-card-content>
+    </mdui-card>
+</div>
+
 <style>
-.about-container {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 0 16px;
-}
-
-/* 大标题卡片 */
-.about-hero-card {
-    background: linear-gradient(135deg, var(--mdui-color-primary-container) 0%, var(--mdui-color-secondary-container) 100%);
-    border-radius: 24px;
-    padding: 3rem 2.5rem;
-    margin-bottom: 3rem;
-    box-shadow: var(--mdui-elevation-4);
-    border: 1px solid var(--mdui-color-outline);
-    text-align: center;
-    position: relative;
+.avatar-container {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin: 0 auto 1.5rem auto;
     overflow: hidden;
+    border: 3px solid var(--mdui-color-primary);
+    background: var(--mdui-color-surface-container);
 }
 
-.about-hero-card::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    right: -50%;
+.avatar-image {
     width: 100%;
     height: 100%;
-    background: radial-gradient(circle, var(--mdui-color-primary) 0%, transparent 70%);
-    opacity: 0.05;
-    animation: float 6s ease-in-out infinite;
+    object-fit: cover;
 }
 
-@keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(180deg); }
-}
-
-.hero-title {
-    font-size: 3.5rem !important;
-    font-weight: 800 !important;
-    background: linear-gradient(135deg, var(--mdui-color-primary) 0%, var(--mdui-color-secondary) 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    margin-bottom: 1rem !important;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-}
-
-.hero-subtitle {
-    font-size: 1.4rem !important;
-    color: var(--mdui-color-on-surface-variant) !important;
-    margin-bottom: 2rem !important;
-    font-weight: 500 !important;
-}
-
-/* 名片样式 */
-.about-card {
-    background: var(--mdui-color-surface);
-    border-radius: 20px;
-    padding: 2.5rem;
-    margin-bottom: 3rem;
-    box-shadow: var(--mdui-elevation-2);
-    border: 1px solid var(--mdui-color-outline);
-    text-align: center;
-}
-
-.about-card-content {
-    display: flex;
-    align-items: center;
-    gap: 2.5rem;
-    justify-content: center;
-}
-
-.about-avatar-section {
-    flex-shrink: 0;
-}
-
-.about-avatar {
-    width: 140px;
-    height: 140px;
-    border-radius: 50%;
-    border: 4px solid var(--mdui-color-primary);
-    box-shadow: var(--mdui-elevation-4);
-    transition: transform 0.3s ease;
-}
-
-.about-avatar:hover {
-    transform: scale(1.05);
-}
-
-.about-info {
-    flex: 1;
-    text-align: left;
-}
-
-.about-name {
-    margin: 0 0 0.5rem 0;
-    color: var(--mdui-color-on-surface);
-    font-weight: 700;
-}
-
-.about-bio {
-    font-size: 1.1rem;
-    color: var(--mdui-color-on-surface-variant);
-    margin-bottom: 1.5rem;
-    line-height: 1.6;
-}
-
-.about-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 1.5rem;
-}
-
-.about-social-mini {
-    display: flex;
-    gap: 0.75rem;
-    justify-content: flex-start;
-}
-
-.social-mini-link {
+.avatar-placeholder {
+    width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
     background: var(--mdui-color-primary-container);
     color: var(--mdui-color-on-primary-container);
-    border-radius: 50%;
-    text-decoration: none;
-    transition: all 0.3s ease;
 }
 
-.social-mini-link:hover {
-    background: var(--mdui-color-primary);
-    color: white;
-    transform: translateY(-2px);
-}
-
-/* 技能区域 - 动画效果 */
-.skills-section {
-    margin: 3rem 0;
-}
-
-.skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.skill-category {
-    background: var(--mdui-color-surface);
-    padding: 2rem;
-    border-radius: 16px;
-    border: 1px solid var(--mdui-color-outline);
-    box-shadow: var(--mdui-elevation-1);
-    transition: all 0.3s ease;
-    position: relative;
-    overflow: hidden;
-}
-
-.skill-category::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, var(--mdui-color-primary-container), transparent);
-    transition: left 0.5s ease;
-}
-
-.skill-category:hover::before {
-    left: 100%;
-}
-
-.skill-category:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--mdui-elevation-4);
-    border-color: var(--mdui-color-primary);
-}
-
-.skill-header {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 1.5rem;
-}
-
-.skill-icon {
-    width: 50px;
-    height: 50px;
-    background: var(--mdui-color-primary-container);
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--mdui-color-primary);
-    font-size: 1.5rem;
-}
-
-.skill-list {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-
-.skill-item {
-    padding: 0.75rem 0;
-    border-bottom: 1px solid var(--mdui-color-outline);
-    position: relative;
-    overflow: hidden;
-}
-
-.skill-item:last-child {
-    border-bottom: none;
-}
-
-.skill-name {
-    font-weight: 500;
-    color: var(--mdui-color-on-surface);
-    margin-bottom: 0.25rem;
-}
-
-.skill-bar {
-    height: 4px;
-    background: var(--mdui-color-surface-container-high);
-    border-radius: 2px;
-    overflow: hidden;
-    position: relative;
-}
-
-.skill-progress {
-    height: 100%;
-    background: linear-gradient(90deg, var(--mdui-color-primary), var(--mdui-color-secondary));
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.5s ease-out;
-}
-
-.skill-level {
-    font-size: 0.8rem;
-    color: var(--mdui-color-on-surface-variant);
-    text-align: right;
-    margin-top: 0.25rem;
-}
-
-/* 其他样式保持不变 */
-.about-stats {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    margin: 3rem 0;
-}
-
-.stat-card {
-    text-align: center;
-    padding: 1.5rem;
-    border-radius: 12px;
-    background: var(--mdui-color-surface-container);
-}
-
-.stat-number {
+.avatar-placeholder mdui-icon {
     font-size: 2.5rem;
-    font-weight: bold;
-    color: var(--mdui-color-primary);
-    margin-bottom: 0.5rem;
 }
 
-.stat-label {
+.user-info {
+    text-align: center;
+}
+
+.username {
+    color: var(--mdui-color-on-surface);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.user-bio {
     color: var(--mdui-color-on-surface-variant);
-    font-size: 0.9rem;
+    line-height: 1.5;
 }
 
-.about-section {
-    margin: 3rem 0;
-}
-
-.section-title {
-    margin-bottom: 1.5rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--mdui-color-primary);
-    color: var(--mdui-color-on-surface);
-}
-
-.section-content {
-    line-height: 1.8;
-    color: var(--mdui-color-on-surface);
-}
-
-.timeline {
-    position: relative;
-    margin: 2rem 0;
-}
-
-.timeline::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 0;
-    bottom: 0;
-    width: 2px;
-    background: var(--mdui-color-primary);
-}
-
-.timeline-item {
-    position: relative;
-    margin-bottom: 2rem;
-    padding-left: 2rem;
-}
-
-.timeline-date {
-    font-weight: 500;
-    color: var(--mdui-color-primary);
-    margin-bottom: 0.5rem;
-}
-
-.timeline-content {
-    background: var(--mdui-color-surface-container);
-    padding: 1.5rem;
-    border-radius: 8px;
-    border-left: 4px solid var(--mdui-color-primary);
-}
-
-.social-links {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
-}
-
-.social-link {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.75rem 1.5rem;
-    background: var(--mdui-color-primary);
-    color: white;
-    text-decoration: none;
-    border-radius: 25px;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.social-link:hover {
-    transform: translateY(-2px);
-    background: var(--mdui-color-primary-hover);
-    color: white;
-}
-
-.contact-info {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
-}
-
-.contact-item {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: var(--mdui-color-surface-container);
-    border-radius: 8px;
-}
-
+/* 响应式设计 */
 @media (max-width: 768px) {
-    .about-container {
-        padding: 0 12px;
+    div[style*="grid-template-columns: 1fr 1fr"] {
+        grid-template-columns: 1fr !important;
     }
     
-    .about-hero-card {
-        padding: 2rem 1.5rem;
+    .avatar-container {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 1rem;
     }
     
-    .hero-title {
-        font-size: 2.5rem !important;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.2rem !important;
-    }
-    
-    .about-card {
-        padding: 2rem 1.5rem;
-    }
-    
-    .about-card-content {
-        flex-direction: column;
-        text-align: center;
-        gap: 1.5rem;
-    }
-    
-    .about-info {
-        text-align: center;
-    }
-    
-    .about-avatar {
-        width: 120px;
-        height: 120px;
-    }
-    
-    .about-social-mini {
-        justify-content: center;
-    }
-    
-    .skills-grid {
-        grid-template-columns: 1fr;
-    }
-    
-    .about-stats {
-        grid-template-columns: 1fr;
-    }
-    
-    .social-links {
-        flex-direction: column;
-        align-items: center;
-    }
-    
-    .social-link {
-        width: 200px;
-        justify-content: center;
+    .avatar-placeholder mdui-icon {
+        font-size: 2rem;
     }
 }
 
 @media (max-width: 480px) {
-    .about-hero-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .hero-title {
-        font-size: 2rem !important;
-    }
-    
-    .about-card {
-        padding: 1.5rem 1rem;
-    }
-    
-    .about-avatar {
-        width: 100px;
-        height: 100px;
+    div[style*="padding: 0 5%"] {
+        padding: 0 2% !important;
     }
 }
 </style>
-
-<mdui-layout-main>
-    <div class="about-container">
-        <!-- 大标题卡片 -->
-        <mdui-card class="about-hero-card" variant="filled">
-            <mdui-typography variant="h1" class="hero-title">
-                关于我
-            </mdui-typography>
-            <mdui-typography variant="h5" class="hero-subtitle">
-                探索技术的无限可能，创造卓越的数字体验
-            </mdui-typography>
-            <mdui-button variant="filled" size="large" onclick="scrollToContent()">
-                <mdui-icon name="expand_more" slot="icon"></mdui-icon>
-                了解更多
-            </mdui-button>
-        </mdui-card>
-
-        <!-- 名片区域 -->
-        <section class="about-card">
-            <div class="about-card-content">
-                <!-- 头像区域 -->
-                <div class="about-avatar-section">
-                    <% if (site.data.about.avatar) { %>
-                        <img src="<%= site.data.about.avatar %>" alt="<%= site.data.about.name %>" class="about-avatar">
-                    <% } else { %>
-                        <div class="about-avatar" style="background: var(--mdui-color-primary-container); display: flex; align-items: center; justify-content: center; color: var(--mdui-color-on-primary-container); font-size: 3rem;">
-                            <mdui-icon name="person"></mdui-icon>
-                        </div>
-                    <% } %>
-                </div>
-                
-                <!-- 个人信息区域 -->
-                <div class="about-info">
-                    <mdui-typography variant="h3" class="about-name">
-                        <%= site.data.about.name || config.author %>
-                    </mdui-typography>
-                    
-                    <mdui-typography variant="h6" class="about-bio">
-                        <%= site.data.about.bio %>
-                    </mdui-typography>
-                    
-                    <% if (site.data.about.tags) { %>
-                        <div class="about-tags">
-                            <% site.data.about.tags.forEach(function(tag) { %>
-                                <mdui-chip variant="filled" size="small">
-                                    <%= tag %>
-                                </mdui-chip>
-                            <% }); %>
-                        </div>
-                    <% } %>
-                    
-                    <!-- 迷你社交链接 -->
-                    <% if (site.data.about.social_links) { %>
-                        <div class="about-social-mini">
-                            <% site.data.about.social_links.slice(0, 4).forEach(function(link) { %>
-                                <a href="<%= link.url %>" class="social-mini-link" target="_blank" rel="noopener" title="<%= link.name %>">
-                                    <mdui-icon name="<%= link.icon %>"></mdui-icon>
-                                </a>
-                            <% }); %>
-                        </div>
-                    <% } %>
-                </div>
-            </div>
-        </section>
-
-        <!-- 统计数据 -->
-        <% if (site.data.about.stats) { %>
-            <section class="about-stats">
-                <% site.data.about.stats.forEach(function(stat) { %>
-                    <div class="stat-card">
-                        <div class="stat-number"><%= stat.value %></div>
-                        <div class="stat-label"><%= stat.label %></div>
-                    </div>
-                <% }); %>
-            </section>
-        <% } %>
-
-        <!-- 关于我 -->
-        <% if (site.data.about.sections) { %>
-            <% site.data.about.sections.forEach(function(section) { %>
-                <section class="about-section">
-                    <mdui-typography variant="h4" class="section-title">
-                        <%= section.title %>
-                    </mdui-typography>
-                    <div class="section-content mdui-prose">
-                        <%- section.content %>
-                    </div>
-                </section>
-            <% }); %>
-        <% } %>
-
-        <!-- 技能专长 - 动画版本 -->
-        <% if (site.data.about.skills) { %>
-            <section class="skills-section">
-                <mdui-typography variant="h4" class="section-title">技能专长</mdui-typography>
-                <div class="skills-grid" id="skills-grid">
-                    <% site.data.about.skills.forEach(function(skillGroup, index) { %>
-                        <div class="skill-category" data-delay="<%= index * 100 %>">
-                            <div class="skill-header">
-                                <div class="skill-icon">
-                                    <mdui-icon name="<%= skillGroup.icon || 'code' %>"></mdui-icon>
-                                </div>
-                                <mdui-typography variant="h6">
-                                    <%= skillGroup.category %>
-                                </mdui-typography>
-                            </div>
-                            <ul class="skill-list">
-                                <% skillGroup.items.forEach(function(skill) { %>
-                                    <li class="skill-item">
-                                        <div class="skill-name"><%= skill.name %></div>
-                                        <div class="skill-bar">
-                                            <div class="skill-progress" data-level="<%= skill.level %>"></div>
-                                        </div>
-                                        <div class="skill-level"><%= skill.level %>% 掌握</div>
-                                    </li>
-                                <% }); %>
-                            </ul>
-                        </div>
-                    <% }); %>
-                </div>
-            </section>
-        <% } %>
-
-        <!-- 工作经历 -->
-        <% if (site.data.about.experience) { %>
-            <section class="about-section">
-                <mdui-typography variant="h4" class="section-title">工作经历</mdui-typography>
-                <div class="timeline">
-                    <% site.data.about.experience.forEach(function(exp) { %>
-                        <div class="timeline-item">
-                            <div class="timeline-date"><%= exp.period %></div>
-                            <div class="timeline-content">
-                                <mdui-typography variant="h6" style="margin-bottom: 0.5rem;">
-                                    <%= exp.position %> · <%= exp.company %>
-                                </mdui-typography>
-                                <mdui-typography variant="body2">
-                                    <%= exp.description %>
-                                </mdui-typography>
-                            </div>
-                        </div>
-                    <% }); %>
-                </div>
-            </section>
-        <% } %>
-
-        <!-- 联系我 -->
-        <section class="about-section">
-            <mdui-typography variant="h4" class="section-title">联系我</mdui-typography>
-            
-            <% if (site.data.about.social_links) { %>
-                <div class="social-links">
-                    <% site.data.about.social_links.forEach(function(link) { %>
-                        <a href="<%= link.url %>" class="social-link" target="_blank" rel="noopener">
-                            <mdui-icon name="<%= link.icon %>"></mdui-icon>
-                            <%= link.name %>
-                        </a>
-                    <% }); %>
-                </div>
-            <% } %>
-            
-            <% if (site.data.about.contact) { %>
-                <div class="contact-info">
-                    <% site.data.about.contact.forEach(function(contact) { %>
-                        <div class="contact-item">
-                            <mdui-icon name="<%= contact.icon %>" style="color: var(--mdui-color-primary);"></mdui-icon>
-                            <div>
-                                <mdui-typography variant="body2" style="font-weight: 500;">
-                                    <%= contact.type %>
-                                </mdui-typography>
-                                <mdui-typography variant="body2">
-                                    <%= contact.value %>
-                                </mdui-typography>
-                            </div>
-                        </div>
-                    <% }); %>
-                </div>
-            <% } %>
-        </section>
-    </div>
-</mdui-layout-main>
-
-<script>
-// 滚动到内容区域
-function scrollToContent() {
-    document.querySelector('.about-card').scrollIntoView({ 
-        behavior: 'smooth' 
-    });
-}
-
-// 技能动画
-function animateSkills() {
-    const skillItems = document.querySelectorAll('.skill-item');
-    
-    skillItems.forEach((item, index) => {
-        setTimeout(() => {
-            const progressBar = item.querySelector('.skill-progress');
-            const level = progressBar.getAttribute('data-level');
-            progressBar.style.transform = `scaleX(${level / 100})`;
-        }, index * 200);
-    });
-}
-
-// 滚动触发动画
-function initScrollAnimations() {
-    const skillsSection = document.querySelector('.skills-section');
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateSkills();
-                observer.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.3 });
-    
-    if (skillsSection) {
-        observer.observe(skillsSection);
-    }
-}
-
-// 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    initScrollAnimations();
-    
-    // 为技能卡片添加延迟动画
-    const skillCategories = document.querySelectorAll('.skill-category');
-    skillCategories.forEach(category => {
-        const delay = category.getAttribute('data-delay') || 0;
-        category.style.animationDelay = `${delay}ms`;
-    });
-});
-
-// 鼠标移动效果
-document.addEventListener('mousemove', function(e) {
-    const heroCard = document.querySelector('.about-hero-card');
-    if (heroCard) {
-        const x = (e.clientX / window.innerWidth) * 100;
-        const y = (e.clientY / window.innerHeight) * 100;
-        heroCard.style.background = `
-            radial-gradient(circle at ${x}% ${y}%, 
-                var(--mdui-color-primary-container) 0%, 
-                var(--mdui-color-secondary-container) 100%)
-        `;
-    }
-});
-</script>

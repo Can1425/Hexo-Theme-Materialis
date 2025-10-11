@@ -1,143 +1,275 @@
-.post-container
-    max-width: 70rem
-    margin: 0 auto 2rem auto
-    padding: 0 1rem
+.post-container {
+    max-width: 70rem;
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+}
 
-.post-card-wide
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
+.post-card-wide {
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+}
 
-.post-card-comment
-    max-width: 900px
-    margin: 32px auto
-    background: var(--mdui-color-surface)
-    box-sizing: border-box
-    display: flex
-    align-items: center
-    justify-content: center
+.post-card-comment {
+    max-width: 900px;
+    margin: 32px auto;
+    background: var(--mdui-color-surface);
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.post-card-wide mdui-card-content
-    padding: 32px
-    width: 100%
+.post-card-wide mdui-card-content {
+    padding: 32px;
+    width: 100%;
+}
 
-.post-card-wide mdui-card-header
-    padding: 24px 32px 0 32px
-    width: 100%
+.post-card-wide mdui-card-header {
+    padding: 24px 32px 0 32px;
+    width: 100%;
+}
 
 /* 文章内容样式 */
-.article-content
-    line-height: var(--mdui-typescale-body-large-line-height)
-    font-size: var(--mdui-typescale-body-large-size)
-    letter-spacing: var(--mdui-typescale-body-large-tracking)
-    font-weight: var(--mdui-typescale-body-large-weight)
+.article-content {
+    line-height: 1.8;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content h1,
-.article-content h2,
-.article-content h3,
-.article-content h4,
-.article-content h5,
-.article-content h6
-    margin: 2rem 0 1rem 0
-    color: var(--mdui-color-primary)
+/* 标题样式 */
+.article-content h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 2.5rem 0 1.5rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--mdui-color-primary);
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content h1
-    font-size: 2.2em
-    border-bottom: 2px solid var(--mdui-color-outline)
-    padding-bottom: 0.5rem
+.article-content h2 {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin: 2rem 0 1rem 0;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content h2
-    font-size: 1.8em
-    border-bottom: 1px solid var(--mdui-color-outline)
-    padding-bottom: 0.3rem
+.article-content h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.8rem 0;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content h3
-    font-size: 1.5em
+.article-content h4 {
+    font-size: 1.3rem;
+    font-weight: 500;
+    margin: 1.2rem 0 0.6rem 0;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content p
-    margin: 1rem 0
-    text-align: left
+.article-content h5, .article-content h6 {
+    font-size: 1.1rem;
+    font-weight: 500;
+    margin: 1rem 0 0.5rem 0;
+    color: var(--mdui-color-on-surface-variant);
+}
 
-.article-content ul,
-.article-content ol
-    margin: 1rem 0
-    padding-left: 2rem
-    text-align: left
+/* 段落和文字 */
+.article-content p {
+    margin: 1rem 0;
+    line-height: 1.7;
+    text-align: left;
+}
 
-.article-content li
-    margin: 0.5rem 0
+.article-content strong {
+    font-weight: 600;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content blockquote
-    border-left: 4px solid var(--mdui-color-primary)
-    margin: 1.5rem 0
-    padding: 1rem 1.5rem
-    background: var(--mdui-color-surface-container)
-    border-radius: 0 8px 8px 0
+.article-content em {
+    font-style: italic;
+    color: var(--mdui-color-on-surface-variant);
+}
 
-.article-content code
-    background: var(--mdui-color-surface-container-high)
-    padding: 0.2rem 0.4rem
-    border-radius: 4px
-    font-family: 'Consolas', 'Monaco', monospace
-    font-size: 0.9em
+/* 列表样式 */
+.article-content ul, .article-content ol {
+    margin: 1rem 0;
+    padding-left: 2rem;
+    text-align: left;
+}
 
-.article-content pre
-    background: var(--mdui-color-surface-container-high)
-    padding: 1.5rem
-    border-radius: 8px
-    overflow-x: auto
-    margin: 1.5rem 0
+.article-content li {
+    margin: 0.5rem 0;
+    line-height: 1.6;
+}
 
-.article-content pre code
-    background: none
-    padding: 0
+.article-content ul {
+    list-style-type: disc;
+}
 
-.article-content table
-    width: 100%
-    border-collapse: collapse
-    margin: 1.5rem 0
-    text-align: left
+.article-content ol {
+    list-style-type: decimal;
+}
 
-.article-content th,
-.article-content td 
-    border: 1px solid var(--mdui-color-outline)
-    padding: 0.75rem
+.article-content ul ul, .article-content ol ol {
+    margin: 0.5rem 0;
+}
 
-.article-content th
-    background: var(--mdui-color-surface-container)
-    font-weight: bold
+/* 代码块样式 */
+.article-content pre {
+    background: var(--mdui-color-surface-container-highest);
+    border: 1px solid var(--mdui-color-outline);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
 
-.article-content img
-    max-width: 100%
-    height: auto
-    border-radius: 8px
-    margin: 1.5rem 0
+.article-content code {
+    background: var(--mdui-color-surface-container-high);
+    border: 1px solid var(--mdui-color-outline-variant);
+    border-radius: 4px;
+    padding: 0.2rem 0.4rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--mdui-color-primary);
+}
 
-.article-content a
-    color: var(--mdui-color-primary)
-    text-decoration: none
+.article-content pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--mdui-color-on-surface);
+}
 
-.article-content a:hover
-    text-decoration: underline
+/* 引用块 */
+.article-content blockquote {
+    background: var(--mdui-color-surface-container);
+    border-left: 4px solid var(--mdui-color-primary);
+    margin: 1.5rem 0;
+    padding: 1rem 1.5rem;
+    border-radius: 0 8px 8px 0;
+}
 
-@media (max-width: 960px)
-    .post-card-wide, .post-card-comment
-        max-width: calc(100% - 32px)
-        margin: 16px
+.article-content blockquote p {
+    margin: 0;
+    color: var(--mdui-color-on-surface-variant);
+    font-style: italic;
+}
+
+/* 表格样式 */
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    background: var(--mdui-color-surface-container);
+    border-radius: 8px;
+    overflow: hidden;
+    text-align: left;
+}
+
+.article-content th, .article-content td {
+    padding: 0.8rem 1rem;
+    border: 1px solid var(--mdui-color-outline-variant);
+    text-align: left;
+}
+
+.article-content th {
+    background: var(--mdui-color-surface-container-high);
+    font-weight: 600;
+    color: var(--mdui-color-on-surface);
+}
+
+.article-content tr:nth-child(even) {
+    background: var(--mdui-color-surface-container-low);
+}
+
+/* 链接样式 */
+.article-content a {
+    color: var(--mdui-color-primary);
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+.article-content a:hover {
+    color: var(--mdui-color-primary-hover);
+    text-decoration: underline;
+}
+
+/* 图片样式 */
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    box-shadow: var(--mdui-elevation-2);
+}
+
+/* 水平线 */
+.article-content hr {
+    border: none;
+    height: 1px;
+    background: var(--mdui-color-outline-variant);
+    margin: 2rem 0;
+}
+
+/* 响应式设计 */
+@media (max-width: 960px) {
+    .post-card-wide, .post-card-comment {
+        max-width: calc(100% - 32px);
+        margin: 16px;
+    }
     
     .post-card-wide mdui-card-content,
-    .post-card-wide mdui-card-header 
-        padding: 16px
+    .post-card-wide mdui-card-header {
+        padding: 16px;
+    }
     
-    .article-content
-        font-size: 14px
+    .article-content {
+        font-size: 14px;
+    }
     
-    .article-content h1
-        font-size: 1.8em
+    .article-content h1 {
+        font-size: 1.8rem;
+    }
     
-    .article-content h2
-        font-size: 1.5em
+    .article-content h2 {
+        font-size: 1.5rem;
+    }
     
-    .article-content h3
-        font-size: 1.3em
+    .article-content h3 {
+        font-size: 1.3rem;
+    }
+    
+    .article-content pre {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+    
+    .article-content ul, .article-content ol {
+        padding-left: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .post-container {
+        padding: 0 0.5rem;
+    }
+    
+    .article-content h1 {
+        font-size: 1.6rem;
+    }
+    
+    .article-content h2 {
+        font-size: 1.4rem;
+    }
+    
+    .article-content h3 {
+        font-size: 1.2rem;
+    }
+}
