@@ -11,7 +11,6 @@ layout: about
 ```
 然后新建source/_posts/about.yml文件，将内容替换为如下内容：
 ```yml
-# 关于页面数据配置
 # 基本信息
 img: "/images/avatar.jpg"
 bio: "前端开发者 | 技术爱好者"
@@ -24,24 +23,25 @@ tags:
   - "前端开发"
 
 # 技能列表 (使用 SVG 图标链接)
-skills:
+# 图标配置
+icons:
   - name: "JavaScript"
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-  - name: "TypeScript"
+    
+  - name: "TypeScript" 
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
+    
   - name: "Vue"
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
+    
   - name: "React"
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
+    
   - name: "Node.js"
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-  - name: "Python"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg"
+    
   - name: "Git"
     svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-  - name: "Docker"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg"
-
 # 社交链接
 socials:
   - name: "GitHub"
@@ -106,47 +106,21 @@ layout: shuoshuo
 ---
 ## 添加说说
 ## 添加说说
-1. 创建一个md文件，在source/_data/文件名格式为：shuoshuo.yml
+1. 创建一个md文件，在source/_data/文件名格式为：talks.yml
 2. 将内容替换为如下内容：
 ```yml
-- id: 1
-  username: "我"
-  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
-  content: "今天天气真好，出去散步看到了美丽的夕阳！🌅"
-  time: "2小时前"
-  images: []
-  likes: 12
-  comments: 3
-  liked: false
+# 说说数据配置
+talks:
+  - date: "2024-01-15 14:30"
+    author: "测试"
+    avatar: "/images/avatar.jpg"  # 可选，不填使用默认头像
+    content: "测试"
 
-- id: 2
-  username: "我"
-  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
-  content: "分享一首好听的歌：周杰伦 - 晴天 ☀️"
-  time: "昨天"
-  images: []
-  likes: 8
-  comments: 2
-  liked: true
-
-- id: 3
-  username: "我"
-  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
-  content: "学习了一整天，终于把 Hexo 主题搞定了！💪"
-  time: "2天前"
-  images: []
-  likes: 15
-  comments: 5
-  liked: false
-
-- id: 4
-  username: "我"
-  avatar: "https://blog.yizhixiaozhu.top/images/1.png"
-  content: "发现了一家超棒的咖啡店，推荐给大家！☕"
-  time: "3天前"
-  images: []
-  likes: 20
-  comments: 8
-  liked: true
+# 配置说明
+# date: 发布时间 (格式: YYYY-MM-DD HH:mm)
+# author: 作者 (可选，默认使用 config.author)
+# avatar: 头像链接 (可选)
+# content: 说说内容
+# images: 图片列表 (可选)
 ```
 

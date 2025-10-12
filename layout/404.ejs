@@ -6,6 +6,12 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     
     <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        
         .error-page {
             min-height: 100vh;
             display: flex;
@@ -13,6 +19,7 @@
             justify-content: center;
             background: linear-gradient(135deg, var(--mdui-color-primary) 0%, var(--mdui-color-secondary) 100%);
             padding: 2rem;
+            box-sizing: border-box;
         }
         
         .error-content {

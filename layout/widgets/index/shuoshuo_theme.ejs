@@ -1,201 +1,153 @@
 <head>
-    <title><%= page.title %> - <%= config.title %></title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
+    <title>说说 - <%= config.title %></title>
+
+    
     <style>
-        .shuoshuo-page {
-            background: var(--mdui-color-background);
-            min-height: 100vh;
-            padding: 20px;
+        .talk-card {
+            margin-bottom: 1.5rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
         }
         
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
+        .talk-card-content {
+            padding: 2rem;
         }
         
-        .page-title {
-            text-align: center;
-            color: var(--mdui-color-on-background);
-            margin-bottom: 30px;
-        }
-        
-        .moment-card {
-            background: var(--mdui-color-surface);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 16px;
-            border: 1px solid var(--mdui-color-outline-variant);
-        }
-        
-        .moment-header {
+        .talk-header {
             display: flex;
             align-items: center;
             gap: 12px;
-            margin-bottom: 12px;
+            margin-bottom: 1rem;
         }
         
-        .avatar {
+        .talk-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid var(--mdui-color-primary);
+        }
+        
+        .talk-avatar-placeholder {
             width: 40px;
             height: 40px;
             border-radius: 50%;
             background: var(--mdui-color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
-        .user-info {
+        .talk-author-info {
             flex: 1;
         }
         
-        .username {
-            font-weight: bold;
-            color: var(--mdui-color-on-surface);
-            margin: 0;
-        }
-        
-        .time {
-            color: var(--mdui-color-on-surface-variant);
-            font-size: 0.875rem;
-            margin: 2px 0 0;
-        }
-        
-        .content {
-            color: var(--mdui-color-on-surface);
+        .talk-content {
             line-height: 1.6;
-            margin-bottom: 12px;
+            margin-bottom: 1rem;
+            margin-top: 0;
         }
         
-        .actions {
-            display: flex;
-            gap: 20px;
-            padding-top: 12px;
-            border-top: 1px solid var(--mdui-color-outline-variant);
+        .talk-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 8px;
+            margin: 1rem 0;
         }
         
-        .action-btn {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            color: var(--mdui-color-on-surface-variant);
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 4px 8px;
-            border-radius: 6px;
-            font-size: 0.875rem;
+        .talk-image {
+            width: 100%;
+            border-radius: 8px;
         }
         
-        .action-btn:hover {
-            background: var(--mdui-color-surface-container-hover);
-        }
-        
-        .action-btn.liked {
-            color: var(--mdui-color-error);
-        }
-        
-        .empty-state {
+        .no-talks-card {
             text-align: center;
-            padding: 60px 20px;
+            padding: 4rem 2rem;
             color: var(--mdui-color-on-surface-variant);
+            width: 100%;
+        }
+        
+        .no-talks-icon {
+            font-size: 4rem;
+            opacity: 0.5;
+            margin-bottom: 1rem;
         }
     </style>
 </head>
 <body>
-    <div class="shuoshuo-page">
-        <div class="container">
-            <h1 class="page-title">📝 我的说说</h1>
-            
-            <div id="moments-list">
-                <% if (site.data.shuoshuo && site.data.shuoshuo.length > 0) { %>
-                    <% site.data.shuoshuo.forEach(function(moment) { %>
-                        <div class="moment-card">
-                            <div class="moment-header">
-                                <div class="avatar">
-                                    <% if (moment.avatar) { %>
-                                        <img src="<%= moment.avatar %>" alt="<%= moment.username %>" 
-                                            style="width: 100%; height: 100%; border-radius: 50%; object-fit: cover;">
-                                    <% } else { %>
-                                        <!-- 默认头像 -->
-                                        <div style="width: 100%; height: 100%; border-radius: 50%; 
-                                                background: rgb(173, 173, 173); 
-                                                display: flex; align-items: center; justify-content: center;
-                                                color: rgb(255, 255, 255); font-weight: bold;">
-                                            <%= moment.username.charAt(0) %>
-                                        </div>
-                                    <% } %>
-                                </div>
-                                <div class="user-info">
-                                    <div class="username"><%= moment.username %></div>
-                                    <div class="time"><%= moment.time %></div>
+    
+    <mdui-layout-main>
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+            <!-- 说说列表 -->
+            <% if (site.data.talks && site.data.talks.talks && site.data.talks.talks.length > 0) { %>
+                <% site.data.talks.talks.forEach(function(talk) { %>
+                    <mdui-card variant="filled" class="talk-card">
+                        <mdui-card-content class="talk-card-content">
+                            <!-- 头部信息 -->
+                            <div class="talk-header">
+                                <% if (talk.avatar) { %>
+                                    <img src="<%= talk.avatar %>" alt="头像" class="talk-avatar">
+                                <% } else { %>
+                                    <div class="talk-avatar-placeholder">
+                                        <mdui-icon name="person" style="color: white; font-size: 1.2rem;"></mdui-icon>
+                                    </div>
+                                <% } %>
+                                <div class="talk-author-info">
+                                    <mdui-typography variant="body1" style="font-weight: 600; margin: 0;"><%= talk.author || config.author %></mdui-typography>
+                                    <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant); margin: 0;"><%= talk.date %></mdui-typography>
                                 </div>
                             </div>
-                            
-                            <div class="content">
-                                <%= moment.content %>
-                            </div>
-                            
-                            <div class="actions">
-                                <button class="action-btn <%= moment.liked ? 'liked' : '' %>" 
-                                        data-moment-id="<%= moment.id %>"
-                                        onclick="toggleLike(this.dataset.momentId)">
-                                    <i class="mdui-icon material-icons">
-                                        <%= moment.liked ? 'favorite' : 'favorite_border' %>
-                                    </i>
-                                    <span><%= moment.likes %></span>
-                                </button>
-                                
-                                <button class="action-btn">
-                                    <i class="mdui-icon material-icons">chat_bubble_outline</i>
-                                    <span><%= moment.comments %></span>
-                                </button>
-                                
-                                <button class="action-btn">
-                                    <i class="mdui-icon material-icons">share</i>
-                                    <span>分享</span>
-                                </button>
-                            </div>
-                        </div>
-                    <% }); %>
-                <% } else { %>
-                    <div class="empty-state">
-                        <div style="font-size: 4rem; margin-bottom: 16px;">📝</div>
-                        <h3>还没有说说</h3>
-                        <p>快去发布第一条说说吧！</p>
-                    </div>
-                <% } %>
-            </div>
+
+                            <!-- 内容 -->
+                            <mdui-typography variant="body1" class="talk-content">
+                                <%= talk.content %>
+                            </mdui-typography>
+
+                            <!-- 图片 -->
+                            <% if (talk.images && talk.images.length > 0) { %>
+                                <div class="talk-images">
+                                    <% talk.images.forEach(function(image) { %>
+                                        <img src="<%= image %>" alt="说说图片" class="talk-image">
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                        </mdui-card-content>
+                    </mdui-card>
+                <% }); %>
+            <% } else { %>
+                <mdui-card variant="filled" class="no-talks-card">
+                    <mdui-card-content>
+                        <mdui-icon name="chat" class="no-talks-icon"></mdui-icon>
+                        <mdui-typography variant="h6" style="margin-bottom: 0.5rem;">暂无说说</mdui-typography>
+                        <mdui-typography variant="body2">还没有发布任何说说</mdui-typography>
+                    </mdui-card-content>
+                </mdui-card>
+            <% } %>
         </div>
-    </div>
+    </mdui-layout-main>
 
     <script>
-        function toggleLike(momentId) {
-            const btn = event.currentTarget;
-            const icon = btn.querySelector('.mdui-icon');
-            const countSpan = btn.querySelector('span');
+        // 初始化 MDUI 组件
+        document.addEventListener('DOMContentLoaded', function() {
+            mdui.mutation();
             
-            let isLiked = btn.classList.contains('liked');
-            let count = parseInt(countSpan.textContent);
+            // 添加侧边栏开关功能
+            const sidebar = document.querySelector('.sidebar-content');
+            const menuButton = document.querySelector('.appbar-menu-button');
             
-            if (isLiked) {
-                // 取消点赞
-                btn.classList.remove('liked');
-                icon.textContent = 'favorite_border';
-                countSpan.textContent = count - 1;
-            } else {
-                // 点赞
-                btn.classList.add('liked');
-                icon.textContent = 'favorite';
-                countSpan.textContent = count + 1;
+            if (menuButton && sidebar) {
+                menuButton.addEventListener('click', function() {
+                    sidebar.open = !sidebar.open;
+                });
             }
             
-            // 显示提示
-            mdui.snackbar({
-                message: isLiked ? '取消点赞' : '点赞成功',
-                position: 'right-top'
-            });
-        }
-        
-        // 初始化 MDUI
-        mdui.mutation();
+            // 在大屏幕上默认打开侧边栏
+            if (window.innerWidth >= 840) {
+                if (sidebar) {
+                    sidebar.open = true;
+                }
+            }
+        });
     </script>
 </body>
 </html>

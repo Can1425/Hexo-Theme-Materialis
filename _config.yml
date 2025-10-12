@@ -132,3 +132,6 @@ shuoshuo:
   use: 2 # 0关闭说说 1使用qexo说说 2使用主题说说
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
+banner:
+  title: "CanNook"
+  subtitle: "一个基于Hexo的静态博客主题"

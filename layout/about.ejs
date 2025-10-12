@@ -10,7 +10,7 @@
         ">
             <!-- 左侧：头像和基本信息 -->
             <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%;">
+                <mdui-card style="width: 100%; height: 100%; border: none;">
                     <mdui-card-content style="
                         padding: 2rem 1.5rem;
                         height: 100%;
@@ -62,7 +62,7 @@
             
             <!-- 右侧：个人介绍 -->
             <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%;">
+                <mdui-card style="width: 100%; height: 100%; border: none;">
                     <mdui-card-content style="
                         padding: 2rem 1.5rem;
                         height: 100%;
@@ -97,50 +97,37 @@
         ">
             <!-- 左侧：技术栈 -->
             <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%;">
-                    <mdui-card-content style="
-                        padding: 2rem 1.5rem;
-                        height: 100%;
-                        display: flex;
-                        flex-direction: column;
+                <mdui-card style="width: 100%; height: 100%; border: none;">
+                    <div style="
+                        display: grid;
+                        grid-template-columns: repeat(3, 1fr);
+                        gap: 1rem;
                     ">
-                        <mdui-typography variant="h6" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
-                            <mdui-icon name="code"></mdui-icon>
-                            技术栈
-                        </mdui-typography>
-                        
-                        <div style="
-                            display: grid;
-                            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
-                            gap: 1.5rem;
-                            align-items: center;
-                            justify-items: center;
-                            flex: 1;
-                        ">
-                            <% if (site.data.about.skills) { %>
-                                <% site.data.about.skills.forEach(function(skill) { %>
-                                    <div style="text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;">
-                                        <% if (skill.svg) { %>
-                                            <img 
-                                                src="<%= skill.svg %>" 
-                                                alt="<%= skill.name %>" 
-                                                style="width: 48px; height: 48px;"
-                                            >
-                                        <% } else if (skill.icon) { %>
-                                            <mdui-icon name="<%= skill.icon %>" style="font-size: 2.5rem; color: var(--mdui-color-primary);"></mdui-icon>
-                                        <% } %>
-                                        <mdui-typography variant="body2" style="font-size: 0.75rem;"><%= skill.name %></mdui-typography>
-                                    </div>
-                                <% }); %>
-                            <% } %>
-                        </div>
-                    </mdui-card-content>
+                        <% if (site.data.about.icons) { %>
+                            <% site.data.about.icons.forEach(function(icon, index) { %>
+                                <div style="
+                                    aspect-ratio: 1;
+                                    background: var(--mdui-color-surface-container-high);
+                                    border-radius: 12px;
+                                    display: flex;
+                                    align-items: center;
+                                    justify-content: center;
+                                ">
+                                    <img 
+                                        src="<%= icon.svg %>" 
+                                        alt="<%= icon.name %>" 
+                                        style="width: 48px; height: 48px;"
+                                    >
+                                </div>
+                            <% }); %>
+                        <% } %>
+                    </div>
                 </mdui-card>
             </div>
             
             <!-- 右侧：联系方式 + 统计 -->
             <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%;">
+                <mdui-card style="width: 100%; height: 100%; border: none;">
                     <mdui-card-content style="
                         padding: 2rem 1.5rem;
                         height: 100%;
