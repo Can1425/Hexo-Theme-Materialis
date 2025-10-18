@@ -49,6 +49,14 @@ nav:
   - name: "关于"
     icon: "person"
     url: "/about/"
+
+  - name: "友链"
+    icon: "link"
+    url: "/links/"
+
+  - name: "说说"
+    icon: "chat"
+    url: "/shuoshuo/"
 #---end---
 #友链配置
 #---start---
@@ -133,5 +141,15 @@ shuoshuo:
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 banner:
-  title: "CanNook"
+  title: "Materialis"
   subtitle: "一个基于Hexo的静态博客主题"
+#---end---
+#纪念日设置
+#---start---
+memorial_days:
+  enable: true  # 是否启用纪念日黑白效果
+  dates:  # 纪念日日期列表 (月-日格式)
+    - 7.7
+    - 9.18
+    - 12.13
+#---end---

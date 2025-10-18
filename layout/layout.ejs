@@ -30,6 +30,17 @@
 <script type="module" src="/js/main.js"></script>
 <script src="/js/widgets/appbar.js"></script>
 <script src="/js/widgets/sidebar.js"></script>
+<script>        
+
+console.log(`
+███╗   ███╗ █████╗ ████████╗███████╗██████╗ ██╗ █████╗ ██╗     ██╗███████╗
+████╗ ████║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║██╔══██╗██║     ██║██╔════╝
+██╔████╔██║███████║   ██║   █████╗  ██████╔╝██║███████║██║     ██║███████╗
+██║╚██╔╝██║██╔══██║   ██║   ██╔══╝  ██╔══██╗██║██╔══██║██║     ██║╚════██║
+██║ ╚═╝ ██║██║  ██║   ██║   ███████╗██║  ██║██║██║  ██║███████╗██║███████║
+╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝
+`);
+</script>
 
 <!-- 引入自定义 CSS -->
 <% if (theme.custom && theme.custom.css) { %>
@@ -52,6 +63,41 @@
 <!-- 自定义底部代码 -->
 <% if (theme.custom && theme.custom.footer) { %>
     <%- theme.custom.footer %>
+<% } %>
+
+<!-- 纪念日黑白效果 -->
+<% if (theme.memorial_days && theme.memorial_days.enable) { %>
+<script>
+(function() {
+    // 获取今天的日期（月-日格式）
+    const today = new Date();
+    const month = today.getMonth() + 1; // 月份从0开始，需要+1
+    const day = today.getDate();
+    const todayStr = month + '.' + day;
+    
+    // 获取配置的纪念日列表
+    const memorialDays = JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>');
+    
+    // 检查今天是否为纪念日
+    if (memorialDays.includes(todayStr)) {
+        // 应用黑白效果
+        const style = document.createElement('style');
+        style.innerHTML = `
+            html {
+                filter: grayscale(100%);
+                -webkit-filter: grayscale(100%);
+                -moz-filter: grayscale(100%);
+                -ms-filter: grayscale(100%);
+                -o-filter: grayscale(100%);
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // 在控制台输出提醒信息
+        console.log('今天是纪念日，网站已切换为黑白模式以示纪念');
+    }
+})();
+</script>
 <% } %>
 
 </html>
