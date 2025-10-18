@@ -1,99 +1,280 @@
-<% if (site.data.links && site.data.links.length > 0) { %>
-<div class="friends-container">
-  <% site.data.links.forEach(function(link) { %>
-    <div class="friend-card">
-      <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer">
-        <div class="friend-avatar">
-          <% if (link.avatar) { %>
-            <img src="<%= link.avatar %>" alt="<%= link.name %>">
-          <% } else { %>
-            <div class="default-avatar"><%= link.name.charAt(0) %></div>
-          <% } %>
-        </div>
-        <div class="friend-info">
-          <h3 class="friend-name"><%= link.name %></h3>
-          <% if (link.desc) { %>
-            <p class="friend-desc"><%= link.desc %></p>
-          <% } %>
-        </div>
-      </a>
-    </div>
-  <% }); %>
-</div>
-<% } else { %>
-  <p>暂无友链数据</p>
-<% } %>
-
 <style>
-.friends-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
-  padding: 20px 0;
+.links-page {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
 }
 
-.friend-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  overflow: hidden;
-  transition: all 0.3s ease;
-  background: #fff;
+.links-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
 }
 
-.friend-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+.links-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    width: 100%;
 }
 
-.friend-card a {
-  text-decoration: none;
-  color: inherit;
-  display: block;
+.link-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+    transition: all 0.3s ease;
 }
 
-.friend-avatar {
-  height: 120px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #f5f5f5;
+.link-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
 }
 
-.friend-avatar img {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  object-fit: cover;
+.link-card a {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
 }
 
-.default-avatar {
-  width: 80px;
-  height: 80px;
-  border-radius: 50%;
-  background-color: #3f51b5;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 32px;
-  font-weight: bold;
+.link-avatar {
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(var(--mdui-color-surface-container-high));
 }
 
-.friend-info {
-  padding: 16px;
-  text-align: center;
+.link-avatar img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
 }
 
-.friend-name {
-  margin: 0 0 8px 0;
-  font-size: 18px;
-  font-weight: 500;
+.link-default-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: bold;
 }
 
-.friend-desc {
-  margin: 0;
-  font-size: 14px;
-  color: #666;
-  line-height: 1.4;
+.link-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.link-name {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    font-weight: 500;
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.link-desc {
+    margin: 0;
+    font-size: 14px;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    line-height: 1.4;
+}
+
+.links-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.links-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.links-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
+
+.links-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .links-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .links-header {
+        padding: 32px 24px;
+    }
+    
+    .links-grid {
+        gap: 16px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .links-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .links-header {
+        padding: 24px 20px;
+    }
+    
+    .links-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 16px;
+    }
+    
+    .link-info {
+        padding: 16px;
+    }
+    
+    .link-avatar {
+        height: 100px;
+    }
+    
+    .link-avatar img,
+    .link-default-avatar {
+        width: 70px;
+        height: 70px;
+        font-size: 28px;
+    }
+    
+    .links-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .links-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .links-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .links-header {
+        padding: 20px 16px;
+    }
+    
+    .links-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .link-info {
+        padding: 16px;
+    }
+    
+    .link-avatar {
+        height: 90px;
+    }
+    
+    .link-avatar img,
+    .link-default-avatar {
+        width: 60px;
+        height: 60px;
+        font-size: 24px;
+    }
+    
+    .link-name {
+        font-size: 16px;
+    }
+    
+    .link-desc {
+        font-size: 13px;
+    }
 }
 </style>
+
+<div class="links-page">
+    <!-- 页面标题 -->
+    <mdui-card class="links-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">友情链接</mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            <% if (site.data.links && site.data.links.length > 0) { %>
+                共 <mdui-badge style="margin: 0 8px;"><%= site.data.links.length %></mdui-badge> 个友链
+            <% } else { %>
+                暂无友链
+            <% } %>
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 友链列表 -->
+    <% if (site.data.links && site.data.links.length > 0) { %>
+        <div class="links-grid">
+            <% site.data.links.forEach(function(link) { %>
+                <mdui-card class="link-card">
+                    <a href="<%= link.url %>" target="_blank" rel="noopener noreferrer">
+                        <div class="link-avatar">
+                            <% if (link.avatar) { %>
+                                <img src="<%= link.avatar %>" alt="<%= link.name %>">
+                            <% } else { %>
+                                <div class="link-default-avatar"><%= link.name.charAt(0) %></div>
+                            <% } %>
+                        </div>
+                        <div class="link-info">
+                            <h3 class="link-name"><%= link.name %></h3>
+                            <% if (link.desc) { %>
+                                <p class="link-desc"><%= link.desc %></p>
+                            <% } %>
+                        </div>
+                    </a>
+                </mdui-card>
+            <% }); %>
+        </div>
+    <% } else { %>
+        <!-- 空状态 -->
+        <div class="links-empty-state">
+            <mdui-card class="links-empty-card">
+                <mdui-icon class="links-empty-icon">link</mdui-icon>
+                <div class="links-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        暂无友链
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        还没有添加任何友情链接，欢迎联系我交换友链
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
+</div>

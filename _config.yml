@@ -53,7 +53,7 @@ nav:
 #友链配置
 #---start---
 links:
-  use: 1 # 0关闭友链 1使用qexo友链 2使用主题友链
+  use: 2 # 0关闭友链 1使用qexo友链 2使用主题友链
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 #---end--- 

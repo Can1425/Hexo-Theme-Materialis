@@ -2,7 +2,9 @@
     <mdui-button-icon class="appbar-menu-button">
         <mdui-icon name="menu"></mdui-icon>
     </mdui-button-icon>
-    <mdui-top-app-bar-title><%= config.title %></mdui-top-app-bar-title>
+    <mdui-top-app-bar-title onclick="window.location.href='<%= url_for('/') %>'" style="cursor: pointer;">
+        <%= config.title %>
+    </mdui-top-app-bar-title>
         <mdui-dropdown>
             <div slot="trigger">
                 <mdui-tooltip content="主题">

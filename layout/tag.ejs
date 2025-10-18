@@ -1,41 +1,202 @@
 <style>
-.tags-simple {
-    max-width: 1000px;
+.tags-page {
+    max-width: 900px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
+
+.tags-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.tags-cloud {
+    width: 100%;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+    border-radius: 20px;
+    padding: 32px;
 }
 
 .tags-container {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 12px;
     justify-content: center;
 }
 
-.simple-chip {
-    --mdui-chip-height: 32px;
-    --mdui-chip-container-color: var(--mdui-color-primary-container);
-    --mdui-chip-label-text-color: var(--mdui-color-on-primary-container);
+.tag-chip {
+    --mdui-chip-height: 36px;
+    --mdui-chip-container-color: var(--mdui-color-secondary-container);
+    --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+    border-radius: 18px;
     transition: all 0.2s ease;
 }
 
-.simple-chip:hover {
-    transform: translateY(-1px);
-    --mdui-chip-container-color: var(--mdui-color-primary);
-    --mdui-chip-label-text-color: var(--mdui-color-on-primary);
+.tag-chip:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    --mdui-chip-container-color: var(--mdui-color-primary-container);
+    --mdui-chip-label-text-color: var(--mdui-color-on-primary-container);
+}
+
+.tags-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.tags-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.tags-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
+
+.tags-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .tags-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .tags-header {
+        padding: 32px 24px;
+    }
+    
+    .tags-cloud {
+        padding: 24px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .tags-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .tags-header {
+        padding: 24px 20px;
+    }
+    
+    .tags-cloud {
+        padding: 20px;
+    }
+    
+    .tags-container {
+        gap: 10px;
+    }
+    
+    .tags-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .tags-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .tags-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .tags-header {
+        padding: 20px 16px;
+    }
+    
+    .tags-cloud {
+        padding: 16px;
+    }
+    
+    .tags-container {
+        gap: 8px;
+    }
+    
+    .tag-chip {
+        --mdui-chip-height: 32px;
+        font-size: 14px;
+    }
 }
 </style>
 
-<div class="tags-simple">
-    <div class="tags-container">
-        <% site.tags.sort('name').each(function(tag) { %>
-            <mdui-chip 
-                class="simple-chip"
-                href="<%- url_for(tag.path) %>"
-            >
-                <%= tag.name %>
-                <mdui-badge slot="end"><%= tag.length %></mdui-badge>
-            </mdui-chip>
-        <% }); %>
-    </div>
+<div class="tags-page">
+    <!-- 页面标题 -->
+    <mdui-card class="tags-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">标签</mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            <% if (site.tags.length > 0) { %>
+                共 <mdui-badge style="margin: 0 8px;"><%= site.tags.length %></mdui-badge> 个标签
+            <% } else { %>
+                暂无标签
+            <% } %>
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 标签云 -->
+    <% if (site.tags.length > 0) { %>
+        <mdui-card class="tags-cloud">
+            <div class="tags-container">
+                <% site.tags.sort('name').each(function(tag) { %>
+                    <mdui-chip 
+                        class="tag-chip"
+                        href="<%- url_for(tag.path) %>"
+                        variant="filled"
+                    >
+                        <%= tag.name %>
+                        <mdui-badge slot="end"><%= tag.length %></mdui-badge>
+                    </mdui-chip>
+                <% }); %>
+            </div>
+        </mdui-card>
+    <% } else { %>
+        <!-- 空状态 -->
+        <div class="tags-empty-state">
+            <mdui-card class="tags-empty-card">
+                <mdui-icon class="tags-empty-icon">local_offer</mdui-icon>
+                <div class="tags-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        暂无标签
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        还没有创建任何标签，开始写作时可以为文章添加标签
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
 </div>

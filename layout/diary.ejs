@@ -1,443 +1,391 @@
-<head>
-    <title><%= page.title || '归档' %> - <%= config.title %></title>
-    <style>
-        .archive-page {
-            background-color: var(--mdui-color-primary);
-            min-height: 100vh;
-            padding: 20px;
-        }
+<style>
+.post-card-title {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
 
-        .archive-container {
-            max-width: 900px;
-            margin: 0 auto;
-        }
+.post-card-title-text {
+    color: rgb(var(--mdui-color-on-surface-container-low));
+}
 
-        .archive-header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 40px 20px;
-        }
+.article-title {
+    color: rgb(var(--mdui-color-primary));
+}
 
-        .archive-title {
-            font-size: 2.5rem;
-            font-weight: 300;
-            color: var(--mdui-color-on-background);
-            margin-bottom: 16px;
-        }
+.article-card {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
 
-        .archive-stats {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            flex-wrap: wrap;
-            margin-top: 24px;
-        }
+.banner-title {
+    background-color: rgb(var(--mdui-color-primary));
+}
 
-        .stat-item {
-            text-align: center;
-            padding: 16px 24px;
-            background: var(--mdui-color-surface-container);
-            border-radius: 12px;
-            min-width: 120px;
-        }
+.banner-title-text1 {
+    color: rgb(var(--mdui-color-surface-container-low));
+}
 
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--mdui-color-primary);
-            display: block;
-        }
+.banner-title-text2 {
+    color: rgb(var(--mdui-color-surface-container-low));
+}
 
-        .stat-label {
-            font-size: 0.875rem;
-            color: var(--mdui-color-on-surface-variant);
-            margin-top: 4px;
-        }
+.post-card-wide {
+    background-color: rgb(var(--mdui-color-surface-container-low));
+}
 
-        .year-section {
-            margin-bottom: 32px;
-        }
+.article-content {
+    color: rgb(var(--mdui-color-on-surface));
+}
 
-        .year-card {
-            background: var(--mdui-color-primary);
-            border-radius: 16px;
-            padding: 0;
-            overflow: hidden;
-            box-shadow: 0 2px 8px var(--mdui-color-shadow);
-            border: 1px solid var(--mdui-color-outline-variant);
-        }
+.archives-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
 
-        .year-header {
-            background: linear-gradient(135deg, var(--mdui-color-primary-container) 0%, var(--mdui-color-secondary-container) 100%);
-            padding: 20px 24px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+.archives-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
 
-        .year-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--mdui-color-on-primary-container);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.archives-year-card {
+    width: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
 
-        .year-count {
-            background: var(--mdui-color-primary);
-            color: var(--mdui-color-on-primary);
-            padding: 4px 12px;
-            border-radius: 16px;
-            font-size: 0.875rem;
-            font-weight: 600;
-        }
+.archives-year-header {
+    padding: 24px 32px;
+    background: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
 
-        .month-section {
-            border-bottom: 1px solid var(--mdui-color-outline-variant);
-        }
+.archives-year-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+}
 
-        .month-section:last-child {
-            border-bottom: none;
-        }
+.archives-year-info {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    flex: 1;
+}
 
-        .month-header {
-            padding: 16px 24px;
-            background: var(--mdui-color-surface-container-low);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+.archives-post-list {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
 
-        .month-header:hover {
-            background: var(--mdui-color-surface-container-hover);
-        }
+.archives-post-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 32px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
+}
 
-        .month-title {
-            font-size: 1.125rem;
-            font-weight: 500;
-            color: var(--mdui-color-on-surface);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+.archives-post-item:last-child {
+    border-bottom: none;
+}
 
-        .month-count {
-            background: var(--mdui-color-secondary-container);
-            color: var(--mdui-color-on-secondary-container);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
+.archives-post-item:hover {
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+    transform: translateX(4px);
+}
 
-        .month-icon {
-            transition: transform 0.3s ease;
-        }
+.archives-post-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
 
-        .month-content {
-            padding: 0;
-            max-height: 0;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
+.archives-post-title {
+    font-weight: 500;
+    margin-bottom: 6px;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
 
-        .month-content.expanded {
-            max-height: 2000px;
-        }
+.archives-post-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    opacity: 0.7;
+    line-height: 1.4;
+    flex-wrap: wrap;
+}
 
-        .post-list {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
+.archives-post-categories {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
 
-        .post-item {
-            padding: 16px 24px;
-            border-bottom: 1px solid var(--mdui-color-outline-variant);
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+.archives-post-category {
+    background: rgb(var(--mdui-color-surface-container-highest));
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+}
 
-        .post-item:hover {
-            background: var(--mdui-color-surface-container-hover);
-        }
+.archives-post-arrow {
+    flex-shrink: 0;
+    color: rgb(var(--mdui-color-outline));
+    transition: transform 0.2s ease;
+}
 
-        .post-item:last-child {
-            border-bottom: none;
-        }
+.archives-post-item:hover .archives-post-arrow {
+    transform: translateX(4px);
+}
 
-        .post-date {
-            color: var(--mdui-color-on-surface-variant);
-            font-size: 0.875rem;
-            min-width: 80px;
-        }
+.archives-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
 
-        .post-title {
-            flex: 1;
-            color: var(--mdui-color-on-surface);
-            text-decoration: none;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
+.archives-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
 
-        .post-title:hover {
-            color: var(--mdui-color-primary);
-        }
+.archives-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
 
-        .post-categories {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
+.archives-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
 
-        .category-tag {
-            background: var(--mdui-color-tertiary-container);
-            color: var(--mdui-color-on-tertiary-container);
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            font-weight: 500;
-        }
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .archives-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .archives-header {
+        padding: 32px 24px;
+    }
+    
+    .archives-year-header {
+        padding: 20px 24px;
+    }
+    
+    .archives-post-item {
+        padding: 18px 24px;
+    }
+}
 
-        .empty-state {
-            text-align: center;
-            padding: 60px 20px;
-            color: var(--mdui-color-on-surface-variant);
-        }
+/* 手机设备 */
+@media (max-width: 768px) {
+    .archives-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .archives-header {
+        padding: 24px 20px;
+    }
+    
+    .archives-year-header {
+        padding: 16px 20px;
+    }
+    
+    .archives-year-content {
+        gap: 16px;
+    }
+    
+    .archives-post-item {
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .archives-post-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+    
+    .archives-post-categories {
+        gap: 6px;
+    }
+    
+    .archives-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .archives-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
 
-        .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 16px;
-            opacity: 0.5;
-        }
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .archives-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .archives-header {
+        padding: 20px 16px;
+    }
+    
+    .archives-year-header {
+        padding: 16px;
+    }
+    
+    .archives-year-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+        text-align: left;
+    }
+    
+    .archives-year-info {
+        align-items: flex-start;
+    }
+    
+    .archives-post-item {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+    
+    .archives-post-title {
+        font-size: 15px;
+    }
+    
+    .archives-post-meta {
+        font-size: 13px;
+    }
+}
 
-        /* 响应式设计 */
-        @media (max-width: 600px) {
-            .archive-header {
-                padding: 20px 0;
+
+</style>
+
+<div class="archives-page">
+    
+    <!-- 页面标题 -->
+    <mdui-card class="mdui-primary archives-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">文章归档</mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            共 <mdui-badge style="margin: 0 8px;"><%= site.posts.length %></mdui-badge> 篇文章
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 按年份分组 -->
+    <% 
+        const postsByYear = {};
+        site.posts.sort('-date').each(function(post) {
+            const year = post.date.year();
+            if (!postsByYear[year]) {
+                postsByYear[year] = [];
             }
-
-            .archive-title {
-                font-size: 2rem;
-            }
-
-            .archive-stats {
-                gap: 16px;
-            }
-
-            .stat-item {
-                min-width: 100px;
-                padding: 12px 16px;
-            }
-
-            .stat-number {
-                font-size: 1.5rem;
-            }
-
-            .year-header,
-            .month-header,
-            .post-item {
-                padding: 16px 20px;
-            }
-
-            .post-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 8px;
-            }
-
-            .post-date {
-                min-width: auto;
-            }
-        }
-
-        /* 暗色模式优化 */
-        [data-mdui-theme="dark"] .year-card {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-    </style>
-</head>
-<body>
-    <div class="archive-page">
-        <div class="archive-container">
-            <!-- 页面头部 -->
-            <header class="archive-header">
-                <h1 class="archive-title">文章归档</h1>
-                <p class="mdui-typo-subheading mdui-text-color-theme-secondary">
-                    共收录 <%= site.posts.length %> 篇文章
-                </p>
-                <div id="hitokoto">
-                    <span id="hitokoto_text">✨ 正在加载中...</span>
-                </div>
-                <script>
-                fetch('https://v1.hitokoto.cn')
-                    .then(response => response.json())
-                    .then(data => {
-                        document.getElementById('hitokoto_text').textContent = 
-                            `${data.hitokoto} —— ${data.from || ''}`
-                    })
-                    .catch(error => {
-                        document.getElementById('hitokoto_text').textContent = '每日一言加载失败'
-                    })
-                </script>
-                
-                <!-- 统计信息 -->
-                <div class="archive-stats">
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.posts.length %></span>
-                        <span class="stat-label">总文章数</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.categories.length %></span>
-                        <span class="stat-label">分类数量</span>
-                    </div>
-                    <div class="stat-item">
-                        <span class="stat-number"><%= site.tags.length %></span>
-                        <span class="stat-label">标签数量</span>
-                    </div>
-                    <% 
-                        const archiveYears = {};
-                        site.posts.each(function(post) {
-                            const year = post.date.year();
-                            archiveYears[year] = true;
-                        });
-                        const yearsCount = Object.keys(archiveYears).length;
-                    %>
-                    <div class="stat-item">
-                        <span class="stat-number"><%= yearsCount %></span>
-                        <span class="stat-label">归档年份</span>
-                    </div>
-                </div>
-            </header>
-
-            <!-- 归档内容 -->
-            <main>
-                <% 
-                // 按年份和月份分组文章
-                const postsByYear = {};
-                
-                site.posts.sort('date', -1).each(function(post) {
-                    const year = post.date.year();
-                    const month = post.date.month() + 1; // 月份从0开始
-                    const monthStr = post.date.format('MM');
-                    const monthName = post.date.format('MMMM');
-                    
-                    if (!postsByYear[year]) {
-                        postsByYear[year] = {};
-                    }
-                    
-                    if (!postsByYear[year][month]) {
-                        postsByYear[year][month] = {
-                            name: monthName,
-                            posts: []
-                        };
-                    }
-                    
-                    postsByYear[year][month].posts.push(post);
-                });
-                
-                // 获取所有年份并排序
-                const sortedYears = Object.keys(postsByYear).sort((a, b) => b - a);
-                
-                if (sortedYears.length === 0) {
-                %>
-                    <div class="empty-state">
-                        <div class="empty-icon">📝</div>
-                        <h3 class="mdui-typo-headline">暂无文章</h3>
-                        <p class="mdui-typo-body-1">还没有发布任何文章，快去写一篇吧！</p>
-                    </div>
-                <%
-                } else {
-                    sortedYears.forEach(function(year) {
-                        const yearPosts = postsByYear[year];
-                        const yearPostCount = Object.values(yearPosts).reduce((total, month) => total + month.posts.length, 0);
-                        const months = Object.keys(yearPosts).sort((a, b) => b - a);
-                %>
-                        <section class="year-section">
-                            <div class="mdui-card year-card">
-                                <div class="year-header">
-                                    <div class="year-title">
-                                        <i class="mdui-icon material-icons">calendar_today</i>
-                                        <%= year %> 年
-                                    </div>
-                                    <div class="year-count"><%= yearPostCount %> 篇</div>
-                                </div>
-                                
-                                <div class="mdui-card-content" style="padding: 0;">
-                                    <% months.forEach(function(month) { 
-                                        const monthData = yearPosts[month];
-                                        const monthKey = year + '-' + month;
-                                    %>
-                                        <div class="month-section">
-                                            <div class="month-header" onclick="toggleMonth('<%= monthKey %>')">
-                                                <div class="month-title">
-                                                    <i class="mdui-icon material-icons month-icon" id="icon-<%= monthKey %>">chevron_right</i>
-                                                    <%= monthData.name %> (<%= month.toString().padStart(2, '0') %>月)
-                                                </div>
-                                                <div class="month-count"><%= monthData.posts.length %> 篇</div>
-                                            </div>
-                                            
-                                            <div class="month-content" id="content-<%= monthKey %>">
-                                                <ul class="post-list">
-                                                    <% monthData.posts.forEach(function(post) { %>
-                                                        <li class="post-item">
-                                                            <span class="post-date"><%= post.date.format('MM-DD') %></span>
-                                                            <a href="<%= url_for(post.path) %>" class="post-title">
-                                                                <%= post.title || '无标题' %>
-                                                            </a>
-                                                            <div class="post-categories">
-                                                                <% if (post.categories && post.categories.length > 0) { %>
-                                                                    <% post.categories.each(function(category) { %>
-                                                                        <span class="category-tag"><%= category.name %></span>
-                                                                    <% }); %>
-                                                                <% } %>
-                                                            </div>
-                                                        </li>
-                                                    <% }); %>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    <% }); %>
-                                </div>
-                            </div>
-                        </section>
-                <%
-                    });
-                }
-                %>
-            </main>
-        </div>
-    </div>
-
-    <script>
-        // 月份展开/收起功能
-        function toggleMonth(monthKey) {
-            const content = document.getElementById('content-' + monthKey);
-            const icon = document.getElementById('icon-' + monthKey);
-            
-            if (content.classList.contains('expanded')) {
-                content.classList.remove('expanded');
-                icon.style.transform = 'rotate(0deg)';
-            } else {
-                content.classList.add('expanded');
-                icon.style.transform = 'rotate(90deg)';
-            }
-        }
-
-        // 初始化所有月份为收起状态
-        document.addEventListener('DOMContentLoaded', function() {
-            // 可以在这里添加默认展开最近月份的逻辑
-            // 例如：const currentMonth = new Date().getFullYear() + '-' + (new Date().getMonth() + 1);
-            // toggleMonth(currentMonth);
+            postsByYear[year].push(post);
         });
+    %>
+    
+    <% Object.keys(postsByYear).sort().reverse().forEach(function(year) { %>
+        <!-- 年份卡片 -->
+        <mdui-card class="mdui-primary archives-year-card">
+            <!-- 年份标题 -->
+            <div class="archives-year-header">
+                <div class="archives-year-content">
+                    <mdui-avatar variant="rounded" size="50px" class="archives-year-avatar">
+                        <mdui-icon>calendar_today</mdui-icon>
+                    </mdui-avatar>
+                    <div class="archives-year-info">
+                        <mdui-typography variant="h5" style="font-weight: 500;">
+                            <%= year %> 年
+                        </mdui-typography>
+                        <mdui-typography variant="body" style="opacity: 0.8;">
+                            <%= postsByYear[year].length %> 篇文章
+                        </mdui-typography>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 文章列表 -->
+            <div class="archives-post-list">
+                <% postsByYear[year].forEach(function(post, index) { %>
+                    <a href="<%= url_for(post.path) %>" class="archives-post-item">
+                        <mdui-icon class="archives-post-icon">article</mdui-icon>
+                        
+                        <div class="archives-post-content">
+                            <div class="archives-post-title">
+                                <%= post.title %>
+                            </div>
+                            <div class="archives-post-meta">
+                                <span><%= post.date.format('MM-DD') %></span>
+                                <% if (post.categories && post.categories.length) { %>
+                                    <div class="archives-post-categories">
+                                        <span>·</span>
+                                        <% post.categories.forEach(function(cat, catIndex) { %>
+                                            <span class="archives-post-category"><%= cat.name %></span>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+                            </div>
+                        </div>
+                        
+                        <mdui-icon class="archives-post-arrow">chevron_right</mdui-icon>
+                    </a>
+                <% }); %>
+            </div>
+        </mdui-card>
+    <% }); %>
 
-        // 初始化 MDUI 组件
-        mdui.mutation();
-    </script>
-</body>
-</html>
+    <!-- 空状态 -->
+    <% if (!site.posts || site.posts.length === 0) { %>
+        <div class="archives-empty-state">
+            <mdui-card class="mdui-primary archives-empty-card">
+                <mdui-icon class="archives-empty-icon">article</mdui-icon>
+                <div class="archives-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        暂无文章
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        还没有发布任何文章，开始写作来创建你的第一篇博客吧
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
+
+</div>

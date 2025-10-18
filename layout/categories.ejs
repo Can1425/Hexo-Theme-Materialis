@@ -1,53 +1,277 @@
-<head>
-    <title><%= page.title %> - <%= config.title %></title>
-    <script type="module" src="https://cdn.jsdelivr.net/npm/mdui@2.0.1/+esm"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mdui@2.0.1/css/mdui.min.css">
-</head>
-<body>
+<style>
+.categories-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+}
 
-    <div class="mdui-container" style="margin-top: 20px;">
-        <!-- 统计信息 -->
-        <div class="mdui-typo">
-            <h2>文章分类</h2>
-            <p class="mdui-text-color-theme-secondary">
-                共有 <%- site.categories.length %> 个分类，<%- site.posts.length %> 篇文章
-            </p>
-        </div>
+.categories-header {
+    width: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
 
-        <!-- 分类列表 -->
-        <div class="mdui-list">
-            <%
-            site.categories.each(function(category) {
-            %>
-                <a href="<%- url_for(category.path) %>" class="mdui-list-item mdui-ripple">
-                    <div class="mdui-list-item-avatar">
-                        <i class="mdui-icon material-icons">folder</i>
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px 32px;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 16px;
+    background-color: rgb(var(--mdui-color-surface-container));
+    transition: all 0.2s ease;
+    border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+}
+
+.category-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: rgb(var(--mdui-color-surface-container-high));
+}
+
+.category-icon {
+    flex-shrink: 0;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+    font-size: 24px;
+}
+
+.category-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+}
+
+.category-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 6px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.category-description {
+    font-size: 14px;
+    opacity: 0.7;
+    line-height: 1.4;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.category-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+.category-arrow {
+    flex-shrink: 0;
+    color: rgb(var(--mdui-color-outline));
+    transition: transform 0.2s ease;
+}
+
+.category-item:hover .category-arrow {
+    transform: translateX(4px);
+}
+
+.categories-empty-state {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 40px;
+}
+
+.categories-empty-card {
+    width: 100%;
+    max-width: 500px;
+    padding: 60px 40px;
+    text-align: center;
+    border-radius: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.categories-empty-icon {
+    font-size: 80px;
+    margin-bottom: 24px;
+    opacity: 0.6;
+    color: rgb(var(--mdui-color-primary-container));
+}
+
+.categories-empty-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .categories-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .categories-header {
+        padding: 32px 24px;
+    }
+    
+    .category-item {
+        padding: 18px 24px;
+    }
+}
+
+/* 手机设备 */
+@media (max-width: 768px) {
+    .categories-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+    
+    .categories-header {
+        padding: 24px 20px;
+    }
+    
+    .category-item {
+        padding: 16px 20px;
+        gap: 12px;
+    }
+    
+    .category-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .categories-empty-card {
+        padding: 40px 24px;
+    }
+    
+    .categories-empty-icon {
+        font-size: 60px;
+        margin-bottom: 20px;
+    }
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .categories-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .categories-header {
+        padding: 20px 16px;
+    }
+    
+    .category-item {
+        padding: 14px 16px;
+        gap: 10px;
+    }
+    
+    .category-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .category-name {
+        font-size: 16px;
+    }
+    
+    .category-description {
+        font-size: 13px;
+    }
+    
+    .category-meta {
+        font-size: 12px;
+    }
+}
+</style>
+
+<div class="categories-page">
+    <!-- 页面标题 -->
+    <mdui-card class="categories-header">
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">文章分类</mdui-typography>
+        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            共 <mdui-badge style="margin: 0 8px;"><%= site.categories.length %></mdui-badge> 个分类
+        </mdui-typography>
+    </mdui-card>
+
+    <!-- 分类列表 -->
+    <% if (site.categories.length > 0) { %>
+        <div class="categories-list">
+            <% site.categories.sort('name').each(function(category) { %>
+                <a href="<%= url_for(category.path) %>" class="category-item">
+                    <div class="category-icon">
+                        <mdui-icon>folder</mdui-icon>
                     </div>
-                    <div class="mdui-list-item-content">
-                        <div class="mdui-list-item-title"><%- category.name %></div>
-                        <div class="mdui-list-item-text mdui-list-item-one-line">
-                            <%- category.length %> 篇文章
+                    
+                    <div class="category-content">
+                        <div class="category-name">
+                            <%= category.name %>
+                        </div>
+                        <% if (category.description) { %>
+                            <div class="category-description">
+                                <%= category.description %>
+                            </div>
+                        <% } %>
+                        <div class="category-meta">
+                            <span><%= category.posts.length %> 篇文章</span>
                         </div>
                     </div>
-                    <i class="mdui-list-item-icon mdui-icon material-icons">chevron_right</i>
+                    
+                    <mdui-icon class="category-arrow">chevron_right</mdui-icon>
                 </a>
-            <%
-            });
-            %>
+            <% }); %>
         </div>
+    <% } %>
 
-        <!-- 空状态 -->
-        <% if (site.categories.length === 0) { %>
-            <div class="mdui-typo" style="text-align: center; padding: 60px 20px;">
-                <i class="mdui-icon material-icons" style="font-size: 64px; opacity: 0.5;">folder_open</i>
-                <h3>暂无分类</h3>
-                <p class="mdui-text-color-theme-secondary">还没有创建任何分类</p>
-            </div>
-        <% } %>
-    </div>
-
-    <script>
-        mdui.mutation();
-    </script>
-</body>
-</html>
+    <!-- 空状态 -->
+    <% if (!site.categories || site.categories.length === 0) { %>
+        <div class="categories-empty-state">
+            <mdui-card class="categories-empty-card">
+                <mdui-icon class="categories-empty-icon">category</mdui-icon>
+                <div class="categories-empty-content">
+                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                        暂无分类
+                    </mdui-typography>
+                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                        还没有创建任何分类，开始写作时可以为文章添加分类
+                    </mdui-typography>
+                </div>
+            </mdui-card>
+        </div>
+    <% } %>
+</div>

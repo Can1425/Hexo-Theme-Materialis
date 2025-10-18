@@ -1,135 +1,25 @@
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>页面未找到 - <%= config.title %></title>
+<div style="min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px;">
     
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    
-    <style>
-        html, body {
-            margin: 0;
-            padding: 0;
-            height: 100%;
-        }
-        
-        .error-page {
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: linear-gradient(135deg, var(--mdui-color-primary) 0%, var(--mdui-color-secondary) 100%);
-            padding: 2rem;
-            box-sizing: border-box;
-        }
-        
-        .error-content {
-            text-align: center;
-            color: rgb(0, 0, 0);
-            max-width: 500px;
-            width: 100%;
-        }
-        
-        .error-code {
-            font-size: 8rem;
-            font-weight: 700;
-            margin: 0;
-            line-height: 1;
-            opacity: 0.9;
-        }
-        
-        .error-title {
-            font-size: 2rem;
-            margin: 1rem 0 0.5rem 0;
-            font-weight: 600;
-        }
-        
-        .error-description {
-            font-size: 1.1rem;
-            opacity: 0.8;
-            margin-bottom: 2rem;
-            line-height: 1.6;
-        }
-        
-        .error-actions {
-            display: flex;
-            gap: 1rem;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        
-        @media (max-width: 768px) {
-            .error-code {
-                font-size: 6rem;
-            }
-            
-            .error-title {
-                font-size: 1.5rem;
-            }
-            
-            .error-actions {
-                flex-direction: column;
-            }
-            
-            .error-actions mdui-button {
-                width: 100%;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .error-code {
-                font-size: 4rem;
-            }
-            
-            .error-page {
-                padding: 1rem;
-            }
-        }
-    </style>
-</head>
-<body class="mdui-theme-primary-indigo mdui-theme-accent-pink error-page">
-    <div class="error-content">
-        <!-- 错误代码 -->
-        <h1 class="error-code">404</h1>
-        
-        <!-- 错误标题 -->
-        <h2 class="error-title">页面未找到</h2>
-        <br>
-        
-        <!-- 错误描述 -->
-        
-        <!-- 操作按钮 -->
-        <div class="error-actions">
-            <mdui-button variant="filled" href="<%- url_for() %>">
-                <mdui-icon slot="icon" name="home"></mdui-icon>
+    <mdui-card class="mdui-primary" style="width: 100%; max-width: 400px; padding: 40px 32px;">
+        <div style="text-align: center;">
+            <mdui-typography variant="h2" style="margin-bottom: 16px;">404</mdui-typography>
+            <br>
+            <mdui-typography variant="h6" style="opacity: 0.8;">页面未找到</mdui-typography>
+        </div>
+    </mdui-card>
+
+    <mdui-card class="mdui-primary" style="width: 100%; max-width: 400px; padding: 32px;">
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+            <mdui-button variant="filled" href="<%= url_for('/') %>" full-width>
+                <mdui-icon slot="icon">home</mdui-icon>
                 返回首页
             </mdui-button>
             
-            <mdui-button variant="outlined" onclick="history.back()">
-                <mdui-icon slot="icon" name="arrow_back"></mdui-icon>
+            <mdui-button variant="outlined" onclick="history.back()" full-width>
+                <mdui-icon slot="icon">arrow_back</mdui-icon>
                 返回上页
             </mdui-button>
-            
-            <mdui-button variant="outlined" onclick="location.reload()">
-                <mdui-icon slot="icon" name="refresh"></mdui-icon>
-                刷新页面
-            </mdui-button>
         </div>
-    </div>
+    </mdui-card>
 
-    <!-- 引入 MDUI JS -->
-    <script src="https://unpkg.com/mdui@2.1.4/mdui.global.js"></script>
-    
-    <script>
-        // 添加一些交互动画
-        document.addEventListener('DOMContentLoaded', function() {
-            // 为按钮添加点击效果
-            const buttons = document.querySelectorAll('mdui-button');
-            buttons.forEach(button => {
-                button.addEventListener('click', function() {
-                    // MDUI 按钮自带波纹效果
-                });
-            });
-        });
-    </script>
-</body>
-</html>
+</div>

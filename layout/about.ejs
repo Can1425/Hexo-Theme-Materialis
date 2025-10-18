@@ -1,290 +1,382 @@
-<div style="padding: 0 5%;">
-    <!-- 第一行：个人信息 -->
-    <mdui-card style="width: 100%; height: 50%;">
-        <mdui-card-content style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            align-items: stretch;
-            min-height: 300px;
-        ">
-            <!-- 左侧：头像和基本信息 -->
-            <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%; border: none;">
-                    <mdui-card-content style="
-                        padding: 2rem 1.5rem;
-                        height: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                        align-items: center;
-                        text-align: center;
-                    ">
-                        <div class="avatar-container">
-                            <% if (site.data.about.img) { %>
-                                <img 
-                                    src="<%= site.data.about.img %>" 
-                                    alt="<%= config.author %>的头像" 
-                                    class="avatar-image"
-                                >
-                            <% } else { %>
-                                <div class="avatar-placeholder">
-                                    <mdui-icon name="person"></mdui-icon>
-                                </div>
-                            <% } %>
-                        </div>
-                        
-                        <div class="user-info">
-                            <mdui-typography variant="h5" class="username">
-                                <%= config.author || '用户名' %>
-                            </mdui-typography>
-                            
-                            <% if (site.data.about.bio) { %>
-                                <mdui-typography variant="body1" class="user-bio">
-                                    <%= site.data.about.bio %>
-                                </mdui-typography>
-                            <% } %>
-                            
-                            <!-- 标签 -->
-                            <% if (site.data.about.tags) { %>
-                                <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 1rem;">
-                                    <% site.data.about.tags.forEach(function(tag) { %>
-                                        <mdui-chip variant="filled" size="small">
-                                            <%= tag %>
-                                        </mdui-chip>
-                                    <% }); %>
-                                </div>
-                            <% } %>
-                        </div>
-                    </mdui-card-content>
-                </mdui-card>
-            </div>
-            
-            <!-- 右侧：个人介绍 -->
-            <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%; border: none;">
-                    <mdui-card-content style="
-                        padding: 2rem 1.5rem;
-                        height: 100%;
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: center;
-                    ">
-                        <mdui-typography variant="h6" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
-                            <mdui-icon name="info"></mdui-icon>
-                            关于我
-                        </mdui-typography>
-                        <mdui-typography variant="body1" style="line-height: 1.6;">
-                            <%= site.data.about.talk || '这里可以写一些个人介绍...' %>
-                        </mdui-typography>
-                    </mdui-card-content>
-                </mdui-card>
-            </div>
-        </mdui-card-content>
-    </mdui-card>
-
-    <br>
-    <br>
-    <br>
-    <!-- 第二行：技术栈 + 联系方式 + 统计 -->
-    <mdui-card style="width: 100%; height: 50%;">
-        <mdui-card-content style="
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            align-items: stretch;
-            min-height: 400px;
-        ">
-            <!-- 左侧：技术栈 -->
-            <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%; border: none;">
-                    <div style="
-                        display: grid;
-                        grid-template-columns: repeat(3, 1fr);
-                        gap: 1rem;
-                    ">
-                        <% if (site.data.about.icons) { %>
-                            <% site.data.about.icons.forEach(function(icon, index) { %>
-                                <div style="
-                                    aspect-ratio: 1;
-                                    background: var(--mdui-color-surface-container-high);
-                                    border-radius: 12px;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;
-                                ">
-                                    <img 
-                                        src="<%= icon.svg %>" 
-                                        alt="<%= icon.name %>" 
-                                        style="width: 48px; height: 48px;"
-                                    >
-                                </div>
-                            <% }); %>
-                        <% } %>
-                    </div>
-                </mdui-card>
-            </div>
-            
-            <!-- 右侧：联系方式 + 统计 -->
-            <div style="width: 100%;">
-                <mdui-card style="width: 100%; height: 100%; border: none;">
-                    <mdui-card-content style="
-                        padding: 2rem 1.5rem;
-                        height: 100%;
-                        display: flex;
-                        flex-direction: column;
-                    ">
-                        <!-- 联系方式 -->
-                        <div style="margin-bottom: 2rem;">
-                            <mdui-typography variant="h6" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px;">
-                                <mdui-icon name="link"></mdui-icon>
-                                联系方式
-                            </mdui-typography>
-                            
-                            <div style="display: flex; flex-direction: column; gap: 1rem;">
-                                <% if (site.data.about.socials) { %>
-                                    <% site.data.about.socials.forEach(function(social) { %>
-                                        <mdui-button 
-                                            variant="outlined" 
-                                            href="<%= social.url %>" 
-                                            target="_blank" 
-                                            style="justify-content: start;"
-                                        >
-                                            <div style="display: flex; align-items: center; gap: 12px;">
-                                                <% if (social.svg) { %>
-                                                    <img 
-                                                        src="<%= social.svg %>" 
-                                                        alt="<%= social.name %>" 
-                                                        style="width: 24px; height: 24px;"
-                                                    >
-                                                <% } else if (social.icon) { %>
-                                                    <mdui-icon name="<%= social.icon %>"></mdui-icon>
-                                                <% } %>
-                                                <%= social.name %>
-                                            </div>
-                                        </mdui-button>
-                                    <% }); %>
-                                <% } %>
-                            </div>
-                        </div>
-                        
-                        <!-- 统计数据 -->
-                        <div style="border-top: 1px solid var(--mdui-color-outline-variant); padding-top: 1.5rem;">
-                            <mdui-typography variant="h6" style="margin-bottom: 1rem; display: flex; align-items: center; gap: 8px;">
-                                <mdui-icon name="analytics"></mdui-icon>
-                                数据统计
-                            </mdui-typography>
-                            
-                            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
-                                <div style="text-align: center;">
-                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
-                                        <%= site.posts.length %>
-                                    </mdui-typography>
-                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">文章</mdui-typography>
-                                </div>
-                                
-                                <div style="text-align: center;">
-                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
-                                        <%= site.tags.length %>
-                                    </mdui-typography>
-                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">标签</mdui-typography>
-                                </div>
-                                
-                                <div style="text-align: center;">
-                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
-                                        <%= site.categories.length %>
-                                    </mdui-typography>
-                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">分类</mdui-typography>
-                                </div>
-                                
-                                <div style="text-align: center;">
-                                    <mdui-typography variant="h5" style="color: var(--mdui-color-primary);">
-                                        <% 
-                                            const archiveYears = {};
-                                            site.posts.each(function(post) {
-                                                const year = post.date.year();
-                                                archiveYears[year] = true;
-                                            });
-                                        %>
-                                        <%= Object.keys(archiveYears).length %>
-                                    </mdui-typography>
-                                    <mdui-typography variant="body2" style="font-size: 0.75rem;">年份</mdui-typography>
-                                </div>
-                            </div>
-                        </div>
-                    </mdui-card-content>
-                </mdui-card>
-            </div>
-        </mdui-card-content>
-    </mdui-card>
-</div>
-
 <style>
-.avatar-container {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    margin: 0 auto 1.5rem auto;
-    overflow: hidden;
-    border: 3px solid var(--mdui-color-primary);
-    background: var(--mdui-color-surface-container);
+.about-page {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
 }
 
-.avatar-image {
+.about-header {
     width: 100%;
-    height: 100%;
+    text-align: center;
+    padding: 40px 32px;
+    border-radius: 24px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.about-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    margin: 0 auto 20px;
     object-fit: cover;
 }
 
-.avatar-placeholder {
+.about-name {
+    font-size: 28px;
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.about-title {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 16px;
+}
+
+.about-description {
+    font-size: 16px;
+    line-height: 1.6;
+    opacity: 0.8;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.about-section {
     width: 100%;
-    height: 100%;
+    border-radius: 20px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.about-section-header {
+    padding: 24px 32px;
+    background: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.about-section-content {
+    padding: 32px;
+}
+
+.skills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.skill-chip {
+    --mdui-chip-height: 36px;
+    --mdui-chip-container-color: var(--mdui-color-secondary-container);
+    --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+    border-radius: 18px;
+}
+
+.contacts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.contact-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    border-radius: 16px;
+    background-color: rgb(var(--mdui-color-surface-container-high));
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+}
+
+.contact-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    background-color: rgb(var(--mdui-color-surface-container-highest));
+}
+
+.contact-icon {
+    width: 50px;
+    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: var(--mdui-color-primary-container);
-    color: var(--mdui-color-on-primary-container);
+    border-radius: 12px;
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+    font-size: 24px;
 }
 
-.avatar-placeholder mdui-icon {
-    font-size: 2.5rem;
+.contact-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
-.user-info {
-    text-align: center;
+.contact-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 4px;
 }
 
-.username {
-    color: var(--mdui-color-on-surface);
-    margin-bottom: 0.5rem;
-    font-weight: 600;
+.contact-link {
+    font-size: 14px;
+    opacity: 0.7;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
-.user-bio {
-    color: var(--mdui-color-on-surface-variant);
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.project-card {
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container-high));
+    transition: all 0.2s ease;
+}
+
+.project-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.project-content {
+    padding: 24px;
+}
+
+.project-name {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.project-description {
+    font-size: 14px;
     line-height: 1.5;
+    opacity: 0.8;
+    margin-bottom: 20px;
 }
 
-/* 响应式设计 */
+.project-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    text-decoration: none;
+    color: rgb(var(--mdui-color-primary));
+    font-weight: 500;
+}
+
+.project-link:hover {
+    text-decoration: underline;
+}
+
+/* 平板设备 */
+@media (max-width: 1024px) {
+    .about-page {
+        padding: 32px 20px;
+        gap: 20px;
+    }
+    
+    .about-header {
+        padding: 32px 24px;
+    }
+    
+    .about-section-content {
+        padding: 24px;
+    }
+    
+    .contacts-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 20px;
+    }
+}
+
+/* 手机设备 */
 @media (max-width: 768px) {
-    div[style*="grid-template-columns: 1fr 1fr"] {
-        grid-template-columns: 1fr !important;
+    .about-page {
+        padding: 24px 16px;
+        gap: 16px;
     }
     
-    .avatar-container {
-        width: 80px;
-        height: 80px;
-        margin-bottom: 1rem;
+    .about-header {
+        padding: 24px 20px;
     }
     
-    .avatar-placeholder mdui-icon {
-        font-size: 2rem;
+    .about-avatar {
+        width: 100px;
+        height: 100px;
+    }
+    
+    .about-name {
+        font-size: 24px;
+    }
+    
+    .about-title {
+        font-size: 16px;
+    }
+    
+    .about-section-content {
+        padding: 20px;
+    }
+    
+    .contacts-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+    
+    .contact-card {
+        padding: 16px;
+    }
+    
+    .projects-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .project-content {
+        padding: 20px;
     }
 }
 
+/* 小屏手机 */
 @media (max-width: 480px) {
-    div[style*="padding: 0 5%"] {
-        padding: 0 2% !important;
+    .about-page {
+        padding: 20px 12px;
+        gap: 12px;
+    }
+    
+    .about-header {
+        padding: 20px 16px;
+    }
+    
+    .about-avatar {
+        width: 90px;
+        height: 90px;
+    }
+    
+    .about-name {
+        font-size: 22px;
+    }
+    
+    .about-description {
+        font-size: 14px;
+    }
+    
+    .about-section-content {
+        padding: 16px;
+    }
+    
+    .contact-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 20px;
+    }
+    
+    .contact-name {
+        font-size: 15px;
+    }
+    
+    .project-name {
+        font-size: 16px;
     }
 }
 </style>
+
+<div class="about-page">
+    <!-- 页面标题 -->
+    <mdui-card class="about-header">
+        <% if (theme.sidebar.avatar) { %>
+            <img src="<%= theme.sidebar.avatar %>" alt="Avatar" class="about-avatar">
+        <% } %>
+        <div class="about-name"><%= theme.sidebar.name || site.data.about.name %></div>
+        <div class="about-title"><%= site.data.about.title %></div>
+        <div class="about-description"><%= site.data.about.description %></div>
+    </mdui-card>
+
+    <!-- 技能部分 -->
+    <% if (site.data.about.skills && site.data.about.skills.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;">技能</mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="skills-container">
+                    <% site.data.about.skills.forEach(function(skill) { %>
+                        <mdui-chip class="skill-chip" variant="filled">
+                            <%= skill %>
+                        </mdui-chip>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+
+    <!-- 联系方式 -->
+    <% if (site.data.about.contacts && site.data.about.contacts.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;">联系方式</mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="contacts-grid">
+                    <% site.data.about.contacts.forEach(function(contact) { %>
+                        <a href="<%= contact.link %>" class="contact-card" target="_blank" rel="noopener">
+                            <div class="contact-icon">
+                                <mdui-icon><%= contact.icon || 'link' %></mdui-icon>
+                            </div>
+                            <div class="contact-content">
+                                <div class="contact-name"><%= contact.name %></div>
+                                <div class="contact-link"><%= contact.link.replace('mailto:', '').replace('https://', '').replace('http://', '') %></div>
+                            </div>
+                        </a>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+
+    <!-- 项目展示 -->
+    <% if (site.data.about.projects && site.data.about.projects.length > 0) { %>
+        <mdui-card class="about-section">
+            <div class="about-section-header">
+                <mdui-typography variant="h5" style="font-weight: 500;">项目</mdui-typography>
+            </div>
+            <div class="about-section-content">
+                <div class="projects-grid">
+                    <% site.data.about.projects.forEach(function(project) { %>
+                        <div class="project-card">
+                            <div class="project-content">
+                                <div class="project-name"><%= project.name %></div>
+                                <div class="project-description"><%= project.description %></div>
+                                <% if (project.link) { %>
+                                    <a href="<%= project.link %>" class="project-link" target="_blank" rel="noopener">
+                                        查看详情
+                                        <mdui-icon>arrow_forward</mdui-icon>
+                                    </a>
+                                <% } %>
+                            </div>
+                        </div>
+                    <% }); %>
+                </div>
+            </div>
+        </mdui-card>
+    <% } %>
+</div>
