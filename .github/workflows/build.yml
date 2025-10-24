@@ -1,0 +1,185 @@
+name: Build Hexo Theme
+
+on:
+  push:
+    branches: [ main, master ]
+    workflow_dispatch:
+    paths:
+      - 'src/**'
+      - 'layout/**'
+      - 'scripts/**'
+      - '*.js'
+      - '*.yml'
+      - 'package.json'
+
+jobs:
+  publish-theme:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        registry-url: 'https://registry.npmjs.org'
+        cache: 'npm'
+
+    - name: Install dependencies
+      run: |
+        npm ci
+        npm list
+
+    - name: Determine version from commit messages
+      id: version
+      run: |
+        # 获取最近的提交信息
+        COMMIT_MSG=$(git log -1 --pretty=%B)
+        echo "Latest commit: $COMMIT_MSG"
+        
+        # 读取当前 package.json 版本
+        CURRENT_VERSION=$(node -p "require('./package.json').version")
+        echo "Current version: $CURRENT_VERSION"
+        
+        # 基于 Conventional Commits 决定版本号更新类型
+        if [[ "$COMMIT_MSG" =~ ^[[:space:]]*(BREAKING CHANGE|break|major)(\([^)]+\))?:[[:space:]]* ]] || 
+           [[ "$COMMIT_MSG" == *"!"* ]] || 
+           [[ "$COMMIT_MSG" =~ ^[[:space:]]*major:[[:space:]]* ]]; then
+          BUMP_TYPE="major"
+          echo "Detected: MAJOR change"
+        elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(feat|feature)(\([^)]+\))?:[[:space:]]* ]] || 
+              [[ "$COMMIT_MSG" =~ ^[[:space:]]*feat:[[:space:]]* ]] || 
+              [[ "$COMMIT_MSG" =~ ^[[:space:]]*feature:[[:space:]]* ]]; then
+          BUMP_TYPE="minor"
+          echo "Detected: MINOR change (feature)"
+        elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(fix|perf|style|refactor)(\([^)]+\))?:[[:space:]]* ]] || 
+              [[ "$COMMIT_MSG" =~ ^[[:space:]]*fix:[[:space:]]* ]] || 
+              [[ "$COMMIT_MSG" =~ ^[[:space:]]*chore:[[:space:]]* ]] || 
+              [[ "$COMMIT_MSG" =~ ^[[:space:]]*docs:[[:space:]]* ]]; then
+          BUMP_TYPE="patch"
+          echo "Detected: PATCH change"
+        else
+          BUMP_TYPE="patch"
+          echo "Detected: DEFAULT PATCH change"
+        fi
+        
+        echo "Bump type: $BUMP_TYPE"
+        
+        # 使用 npm version 计算新版本（不实际提交）
+        NEW_VERSION=$(npm version $BUMP_TYPE --no-git-tag-version)
+        NEW_VERSION=${NEW_VERSION#v}  # 移除 'v' 前缀
+        echo "New version: $NEW_VERSION"
+        
+        # 设置输出变量
+        echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+        echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+
+    - name: Build theme assets
+      run: |
+        echo "Building theme assets..."
+        npm run build
+        echo "Build completed!"
+
+    - name: Lint code
+      run: |
+        echo "Running linters..."
+        npm run lint || echo "Linting completed with warnings"
+        echo "Lint completed!"
+
+    - name: Run tests
+      run: |
+        echo "Running tests..."
+        npm test
+        echo "Tests completed!"
+
+    - name: Verify build output
+      run: |
+        echo "Checking build output..."
+        ls -la source/css/ || echo "No CSS directory"
+        ls -la source/js/ || echo "No JS directory"
+        echo "Build verification completed!"
+
+    - name: Publish to npm
+      run: |
+        echo "Publishing to npm..."
+        npm publish
+        echo "✅ Successfully published to npm!"
+      env:
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+    - name: Commit version changes
+      run: |
+        git config --local user.email "github-actions[bot]@users.noreply.github.com"
+        git config --local user.name "github-actions[bot]"
+        git add package.json
+        # 如果有构建产物，也添加到提交
+        if [ -d "source/css" ]; then
+          git add source/css/
+        fi
+        if [ -d "source/js" ]; then
+          git add source/js/
+        fi
+        git commit -m "chore: release v${{ steps.version.outputs.new_version }} [skip ci]"
+        git push
+        echo "✅ Version changes committed!"
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        tag_name: v${{ steps.version.outputs.new_version }}
+        name: "v${{ steps.version.outputs.new_version }}"
+        body: |
+          ## 🎉 Hexo Theme Release v${{ steps.version.outputs.new_version }}
+          
+          ### 📝 Latest Changes
+          **Commit Message:** ${{ github.event.head_commit.message }}
+          
+          **Version Bump Type:** ${{ steps.version.outputs.bump_type }}
+          
+          ### 📦 Installation
+          ```bash
+          npm install hexo-theme-your-theme-name@${{ steps.version.outputs.new_version }}
+          ```
+          
+          ### 🔧 Usage
+          Update your Hexo site's `_config.yml`:
+          ```yaml
+          theme: your-theme-name
+          ```
+          
+          ### 📋 Changelog
+          - Automated release via GitHub Actions
+          - Built from commit: ${{ github.sha }}
+          
+          ---
+          *This release was automatically generated by GitHub Actions*
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: publish-theme
+    if: always()
+    
+    steps:
+    - name: Notify success
+      if: needs.publish-theme.result == 'success'
+      run: |
+        echo "🎉 Theme published successfully!"
+        echo "Version: ${{ needs.publish-theme.outputs.new_version }}"
+        echo "NPM: https://www.npmjs.com/package/hexo-theme-your-theme-name"
+        echo "Release: https://github.com/${{ github.repository }}/releases/tag/v${{ needs.publish-theme.outputs.new_version }}"
+        
+    - name: Notify failure
+      if: needs.publish-theme.result == 'failure'
+      run: |
+        echo "❌ Theme publication failed!"
+        echo "Please check the workflow logs for details."

@@ -1,153 +1,131 @@
-<head>
-    <title>说说 - <%= config.title %></title>
+<%
+const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks : [];
+%>
 
-    
-    <style>
-        .talk-card {
-            margin-bottom: 1.5rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .talk-card-content {
-            padding: 2rem;
-        }
-        
-        .talk-header {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1rem;
-        }
-        
-        .talk-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 2px solid var(--mdui-color-primary);
-        }
-        
-        .talk-avatar-placeholder {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: var(--mdui-color-primary);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .talk-author-info {
-            flex: 1;
-        }
-        
-        .talk-content {
-            line-height: 1.6;
-            margin-bottom: 1rem;
-            margin-top: 0;
-        }
-        
-        .talk-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-            gap: 8px;
-            margin: 1rem 0;
-        }
-        
-        .talk-image {
-            width: 100%;
-            border-radius: 8px;
-        }
-        
-        .no-talks-card {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: var(--mdui-color-on-surface-variant);
-            width: 100%;
-        }
-        
-        .no-talks-icon {
-            font-size: 4rem;
-            opacity: 0.5;
-            margin-bottom: 1rem;
-        }
-    </style>
-</head>
-<body>
-    
-    <mdui-layout-main>
-        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <!-- 说说列表 -->
-            <% if (site.data.talks && site.data.talks.talks && site.data.talks.talks.length > 0) { %>
-                <% site.data.talks.talks.forEach(function(talk) { %>
-                    <mdui-card variant="filled" class="talk-card">
-                        <mdui-card-content class="talk-card-content">
-                            <!-- 头部信息 -->
-                            <div class="talk-header">
-                                <% if (talk.avatar) { %>
-                                    <img src="<%= talk.avatar %>" alt="头像" class="talk-avatar">
-                                <% } else { %>
-                                    <div class="talk-avatar-placeholder">
-                                        <mdui-icon name="person" style="color: white; font-size: 1.2rem;"></mdui-icon>
-                                    </div>
-                                <% } %>
-                                <div class="talk-author-info">
-                                    <mdui-typography variant="body1" style="font-weight: 600; margin: 0;"><%= talk.author || config.author %></mdui-typography>
-                                    <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant); margin: 0;"><%= talk.date %></mdui-typography>
-                                </div>
-                            </div>
+<style>
+.talk-card {
+    width: 100%;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: rgb(var(--mdui-color-surface-container-low));
+    color: rgb(var(--mdui-color-on-surface));
+    margin-bottom: 20px;
+    padding: 10px;
+}
 
-                            <!-- 内容 -->
-                            <mdui-typography variant="body1" class="talk-content">
-                                <%= talk.content %>
-                            </mdui-typography>
+.talk-card-content {
+    padding: 24px;
+}
 
-                            <!-- 图片 -->
-                            <% if (talk.images && talk.images.length > 0) { %>
-                                <div class="talk-images">
-                                    <% talk.images.forEach(function(image) { %>
-                                        <img src="<%= image %>" alt="说说图片" class="talk-image">
-                                    <% }); %>
+.talk-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.talk-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid rgba(var(--mdui-color-primary), 0.5);
+    object-fit: cover;
+}
+
+.talk-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgb(var(--mdui-color-primary));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.talk-author-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.talk-date {
+    font-size: 14px;
+    opacity: 0.8;
+}
+
+.talk-content {
+    font-size: 15px;
+    line-height: 1.6;
+    margin-bottom: 16px;
+}
+
+.talk-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.talk-image {
+    width: 100%;
+    border-radius: 8px;
+    aspect-ratio: 1;
+    object-fit: cover;
+}
+
+.no-talks {
+    width: 100%;
+    text-align: center;
+    padding: 40px 24px;
+    border-radius: 16px;
+    background-color: rgb(var(--mdui-color-surface-container-low));
+    color: rgb(var(--mdui-color-on-surface-variant));
+}
+</style>
+
+<mdui-layout-main>
+    <div class="articles-container">
+        <!-- 说说列表 -->
+        <% if (talks && talks.length > 0) { %>
+            <% talks.forEach(function(talk) { %>
+                <mdui-card variant="filled" class="talk-card">
+                    <mdui-card-content class="talk-card-content">
+                        <!-- 头部信息 -->
+                        <div class="talk-header">
+                            <% if (talk.avatar) { %>
+                                <img src="<%= talk.avatar %>" alt="头像" class="talk-avatar">
+                            <% } else { %>
+                                <div class="talk-avatar-placeholder">
+                                    <mdui-icon name="person" style="color: white; font-size: 1.2rem;"></mdui-icon>
                                 </div>
                             <% } %>
-                        </mdui-card-content>
-                    </mdui-card>
-                <% }); %>
-            <% } else { %>
-                <mdui-card variant="filled" class="no-talks-card">
-                    <mdui-card-content>
-                        <mdui-icon name="chat" class="no-talks-icon"></mdui-icon>
-                        <mdui-typography variant="h6" style="margin-bottom: 0.5rem;">暂无说说</mdui-typography>
-                        <mdui-typography variant="body2">还没有发布任何说说</mdui-typography>
+                            <div>
+                                <div class="talk-author-name"><%= talk.author || config.author %></div>
+                                <div class="talk-date"><%= talk.date %></div>
+                            </div>
+                        </div>
+
+                        <!-- 内容 -->
+                        <div class="talk-content">
+                            <%= talk.content %>
+                        </div>
+
+                        <!-- 图片 -->
+                        <% if (talk.images && talk.images.length > 0) { %>
+                            <div class="talk-images">
+                                <% talk.images.forEach(function(image) { %>
+                                    <img src="<%= image %>" alt="说说图片" class="talk-image">
+                                <% }); %>
+                            </div>
+                        <% } %>
                     </mdui-card-content>
                 </mdui-card>
-            <% } %>
-        </div>
-    </mdui-layout-main>
-
-    <script>
-        // 初始化 MDUI 组件
-        document.addEventListener('DOMContentLoaded', function() {
-            mdui.mutation();
-            
-            // 添加侧边栏开关功能
-            const sidebar = document.querySelector('.sidebar-content');
-            const menuButton = document.querySelector('.appbar-menu-button');
-            
-            if (menuButton && sidebar) {
-                menuButton.addEventListener('click', function() {
-                    sidebar.open = !sidebar.open;
-                });
-            }
-            
-            // 在大屏幕上默认打开侧边栏
-            if (window.innerWidth >= 840) {
-                if (sidebar) {
-                    sidebar.open = true;
-                }
-            }
-        });
-    </script>
-</body>
-</html>
+            <% }); %>
+        <% } else { %>
+            <div class="no-talks">
+                <mdui-icon name="chat" style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px;"></mdui-icon>
+                <mdui-typography variant="h6">暂无说说</mdui-typography>
+                <mdui-typography variant="body2" style="margin-top: 8px;">还没有发布任何说说</mdui-typography>
+            </div>
+        <% } %>
+    </div>
+</mdui-layout-main>
