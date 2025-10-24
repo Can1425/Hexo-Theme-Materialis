@@ -32,8 +32,7 @@ jobs:
 
     - name: Install dependencies
       run: |
-        npm ci
-        npm list
+        npm install
 
     - name: Determine version from commit messages
       id: version
