@@ -1,71 +1,28 @@
 {
-  "name": "hexo-theme-materialis", 
+  "name": "hexo-theme-materialis",
   "version": "1.0.0",
-  "description": "A beautiful Hexo theme designed by material3",
+  "description": "A Material Design theme for Hexo",
+  "main": "index.js",
   "scripts": {
-    "build": "npm run build:css && npm run build:js",
-    "build:css": "sass src/scss/:source/css/ --style compressed --no-source-map",
-    "build:js": "webpack --mode production",
-    "dev": "npm run dev:css & npm run dev:js",
-    "dev:css": "sass src/scss/:source/css/ --watch --style expanded --source-map",
-    "dev:js": "webpack --mode development --watch",
-    "lint": "npm run lint:css && npm run lint:js",
-    "lint:css": "stylelint 'src/scss/**/*.scss' --fix || true",
-    "lint:js": "eslint src/js/ --fix || true",
     "test": "echo 'No tests specified' && exit 0",
-    "clean": "rimraf source/css source/js",
-    "prepublishOnly": "npm run clean && npm run build && npm run lint",
-    "version": "npm run build && git add -A source/css source/js",
-    "prepare": "npm run build",
-    "prebuild": "npm run clean"
+    "build": "echo 'No build process needed for this theme'",
+    "version": "echo 'Version update completed'"
   },
   "keywords": [
     "hexo",
     "theme",
-    "blog",
-    "responsive",
-    "modern"
+    "material-design"
   ],
-  "author": "Your Name <your.email@example.com>",
+  "author": "Can1425 system:error",
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "https://github.com/Can1425/Hexo-Theme-Materialis.git"
   },
-  "bugs": {
-    "url": "https://github.com/Can1425/Hexo-Theme-Materialis/issues"
-  },
-  "homepage": "https://github.com/Can1425/Hexo-Theme-Materialis#readme",
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
-  },
-  "engines": {
-    "node": ">=16.0.0",
-    "hexo": ">=6.0.0"
-  },
-  "devDependencies": {
-    "sass": "^1.69.5",
-    "webpack": "^5.89.0",
-    "webpack-cli": "^5.1.4",
-    "eslint": "^8.52.0",
-    "stylelint": "^15.11.0",
-    "stylelint-config-standard-scss": "^11.1.0",
-    "rimraf": "^5.0.5",
-    "css-loader": "^6.8.1",
-    "sass-loader": "^13.3.2",
-    "mini-css-extract-plugin": "^2.7.6",
-    "terser-webpack-plugin": "^5.3.9"
+    "access": "public"
   },
   "files": [
-    "languages",
-    "layout",
-    "scripts",
-    "source",
-    "_config.yml",
-    "index.js",
-    "README.md",
-    "LICENSE",
-    "package.json"
+    "**/*"
   ]
 }
