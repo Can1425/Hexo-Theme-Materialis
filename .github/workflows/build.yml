@@ -1,16 +1,24 @@
-name: Build Hexo Theme
+name: Publish Hexo Theme
 
 on:
   push:
     branches: [ main, master ]
-    workflow_dispatch:
-    paths:
-      - 'src/**'
-      - 'layout/**'
-      - 'scripts/**'
-      - '*.js'
-      - '*.yml'
-      - 'package.json'
+  workflow_dispatch:  
+    inputs:
+      version_bump:
+        description: 'Version bump type'
+        required: true
+        default: 'auto'
+        type: choice
+        options:
+        - auto
+        - major
+        - minor
+        - patch
+      release_notes:
+        description: 'Custom release notes'
+        required: false
+        type: string
 
 jobs:
   publish-theme:
@@ -21,124 +29,119 @@ jobs:
       uses: actions/checkout@v4
       with:
         fetch-depth: 0
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '18'
         registry-url: 'https://registry.npmjs.org'
-        cache: 'npm'
 
     - name: Install dependencies
-      run: |
-        npm install
+      run: npm install
 
-    - name: Determine version from commit messages
+    - name: Determine version
       id: version
       run: |
-        # 获取最近的提交信息
-        COMMIT_MSG=$(git log -1 --pretty=%B)
-        echo "Latest commit: $COMMIT_MSG"
-        
-        # 读取当前 package.json 版本
+        # 读取当前版本
         CURRENT_VERSION=$(node -p "require('./package.json').version")
         echo "Current version: $CURRENT_VERSION"
         
-        # 基于 Conventional Commits 决定版本号更新类型
-        if [[ "$COMMIT_MSG" =~ ^[[:space:]]*(BREAKING CHANGE|break|major)(\([^)]+\))?:[[:space:]]* ]] || 
-           [[ "$COMMIT_MSG" == *"!"* ]] || 
-           [[ "$COMMIT_MSG" =~ ^[[:space:]]*major:[[:space:]]* ]]; then
-          BUMP_TYPE="major"
-          echo "Detected: MAJOR change"
-        elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(feat|feature)(\([^)]+\))?:[[:space:]]* ]] || 
-              [[ "$COMMIT_MSG" =~ ^[[:space:]]*feat:[[:space:]]* ]] || 
-              [[ "$COMMIT_MSG" =~ ^[[:space:]]*feature:[[:space:]]* ]]; then
-          BUMP_TYPE="minor"
-          echo "Detected: MINOR change (feature)"
-        elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(fix|perf|style|refactor)(\([^)]+\))?:[[:space:]]* ]] || 
-              [[ "$COMMIT_MSG" =~ ^[[:space:]]*fix:[[:space:]]* ]] || 
-              [[ "$COMMIT_MSG" =~ ^[[:space:]]*chore:[[:space:]]* ]] || 
-              [[ "$COMMIT_MSG" =~ ^[[:space:]]*docs:[[:space:]]* ]]; then
-          BUMP_TYPE="patch"
-          echo "Detected: PATCH change"
+        # 判断是手动触发还是自动触发
+        if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
+          echo "Manual trigger detected"
+          MANUAL_BUMP="${{ github.event.inputs.version_bump }}"
+          
+          if [ "$MANUAL_BUMP" == "auto" ]; then
+            # 手动触发但选择自动模式，使用 commit message
+            COMMIT_MSG=$(git log -1 --pretty=%B)
+            echo "Using commit message: $COMMIT_MSG"
+            
+            if [[ "$COMMIT_MSG" =~ ^[[:space:]]*(BREAKING CHANGE|break|major)(\([^)]+\))?:[[:space:]]* ]] || 
+               [[ "$COMMIT_MSG" == *"!"* ]] || 
+               [[ "$COMMIT_MSG" =~ ^[[:space:]]*major:[[:space:]]* ]]; then
+              BUMP_TYPE="major"
+            elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(feat|feature)(\([^)]+\))?:[[:space:]]* ]] || 
+                  [[ "$COMMIT_MSG" =~ ^[[:space:]]*feat:[[:space:]]* ]]; then
+              BUMP_TYPE="minor"
+            else
+              BUMP_TYPE="patch"
+            fi
+          else
+            # 手动指定版本类型
+            BUMP_TYPE="$MANUAL_BUMP"
+          fi
         else
-          BUMP_TYPE="patch"
-          echo "Detected: DEFAULT PATCH change"
+          # 自动触发，使用 commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "Auto trigger, commit: $COMMIT_MSG"
+          
+          if [[ "$COMMIT_MSG" =~ ^[[:space:]]*(BREAKING CHANGE|break|major)(\([^)]+\))?:[[:space:]]* ]] || 
+             [[ "$COMMIT_MSG" == *"!"* ]] || 
+             [[ "$COMMIT_MSG" =~ ^[[:space:]]*major:[[:space:]]* ]]; then
+            BUMP_TYPE="major"
+          elif [[ "$COMMIT_MSG" =~ ^[[:space:]]*(feat|feature)(\([^)]+\))?:[[:space:]]* ]] || 
+                [[ "$COMMIT_MSG" =~ ^[[:space:]]*feat:[[:space:]]* ]]; then
+            BUMP_TYPE="minor"
+          else
+            BUMP_TYPE="patch"
+          fi
         fi
         
         echo "Bump type: $BUMP_TYPE"
         
-        # 使用 npm version 计算新版本（不实际提交）
+        # 使用 npm version 计算新版本
         NEW_VERSION=$(npm version $BUMP_TYPE --no-git-tag-version)
-        NEW_VERSION=${NEW_VERSION#v}  # 移除 'v' 前缀
+        NEW_VERSION=${NEW_VERSION#v}
         echo "New version: $NEW_VERSION"
         
-        # 设置输出变量
         echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
         echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+        echo "trigger_type=${{ github.event_name }}" >> $GITHUB_OUTPUT
 
-    - name: Build theme assets
+    - name: Build theme assets (if needed)
       run: |
-        echo "Building theme assets..."
-        npm run build
-        echo "Build completed!"
+        if [ -f "package.json" ] && npm run | grep -q "build"; then
+          echo "Building theme assets..."
+          npm run build
+        else
+          echo "No build script found, skipping build"
+        fi
 
-    - name: Lint code
+    - name: Run tests (if any)
       run: |
-        echo "Running linters..."
-        npm run lint || echo "Linting completed with warnings"
-        echo "Lint completed!"
-
-    - name: Run tests
-      run: |
-        echo "Running tests..."
-        npm test
-        echo "Tests completed!"
-
-    - name: Verify build output
-      run: |
-        echo "Checking build output..."
-        ls -la source/css/ || echo "No CSS directory"
-        ls -la source/js/ || echo "No JS directory"
-        echo "Build verification completed!"
+        if [ -f "package.json" ] && npm run | grep -q "test"; then
+          echo "Running tests..."
+          npm test
+        else
+          echo "No test script found, skipping tests"
+        fi
 
     - name: Publish to npm
-      run: |
-        echo "Publishing to npm..."
-        npm publish
-        echo "✅ Successfully published to npm!"
+      run: npm publish
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
-    - name: Commit version changes
+    - name: Commit version update
       run: |
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git config --local user.name "github-actions[bot]"
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
         git add package.json
-        # 如果有构建产物，也添加到提交
-        if [ -d "source/css" ]; then
-          git add source/css/
-        fi
-        if [ -d "source/js" ]; then
-          git add source/js/
-        fi
         git commit -m "chore: release v${{ steps.version.outputs.new_version }} [skip ci]"
         git push
-        echo "✅ Version changes committed!"
 
     - name: Create GitHub Release
       uses: softprops/action-gh-release@v1
       with:
         tag_name: v${{ steps.version.outputs.new_version }}
-        name: "v${{ steps.version.outputs.new_version }}"
+        release_name: Release v${{ steps.version.outputs.new_version }}
         body: |
           ## 🎉 Hexo Theme Release v${{ steps.version.outputs.new_version }}
           
-          ### 📝 Latest Changes
-          **Commit Message:** ${{ github.event.head_commit.message }}
+          ### 📝 Release Details
+          **Trigger Type:** ${{ steps.version.outputs.trigger_type }}
+          **Version Bump:** ${{ steps.version.outputs.bump_type }}
           
-          **Version Bump Type:** ${{ steps.version.outputs.bump_type }}
+          ${{ github.event.inputs.release_notes && format('### 📋 Custom Release Notes\n{0}', github.event.inputs.release_notes) || '### 📋 Latest Changes\n**Commit Message:** ' }}${{ github.event.inputs.release_notes || github.event.head_commit.message }}
           
           ### 📦 Installation
           ```bash
@@ -151,15 +154,9 @@ jobs:
           theme: your-theme-name
           ```
           
-          ### 📋 Changelog
-          - Automated release via GitHub Actions
-          - Built from commit: ${{ github.sha }}
-          
-          ---
-          *This release was automatically generated by GitHub Actions*
+          *This release was ${{ steps.version.outputs.trigger_type == 'workflow_dispatch' && 'manually triggered' || 'automatically generated' }}*
         draft: false
         prerelease: false
-        generate_release_notes: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -174,6 +171,7 @@ jobs:
       run: |
         echo "🎉 Theme published successfully!"
         echo "Version: ${{ needs.publish-theme.outputs.new_version }}"
+        echo "Trigger: ${{ needs.publish-theme.outputs.trigger_type }}"
         echo "NPM: https://www.npmjs.com/package/hexo-theme-your-theme-name"
         echo "Release: https://github.com/${{ github.repository }}/releases/tag/v${{ needs.publish-theme.outputs.new_version }}"
         
@@ -181,4 +179,5 @@ jobs:
       if: needs.publish-theme.result == 'failure'
       run: |
         echo "❌ Theme publication failed!"
+        echo "Trigger: ${{ needs.publish-theme.outputs.trigger_type }}"
         echo "Please check the workflow logs for details."
