@@ -1,0 +1,313 @@
+<!-- 文章导航按钮 -->
+<mdui-button-icon id="toc-toggle">
+    <mdui-icon name="menu_book"></mdui-icon>
+</mdui-button-icon>
+
+<!-- 文章导航弹窗 -->
+<mdui-dialog id="toc-dialog" close-on-esc close-on-overlay-click class="toc-dialog">
+    <div class="toc-header">
+        <mdui-typography variant="h6">文章导航</mdui-typography>
+        <mdui-button-icon class="close-btn" id="toc-close">
+            <mdui-icon name="close"></mdui-icon>
+        </mdui-button-icon>
+    </div>
+
+    <div class="toc-content">
+        <div id="toc-container" class="toc-container">
+            <!-- 目录内容将通过JavaScript动态加载 -->
+            <div class="toc-placeholder">
+                <mdui-icon name="menu_book"></mdui-icon>
+                <div>暂无文章导航</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toc-footer">
+        <mdui-button id="toc-close-btn">关闭</mdui-button>
+    </div>
+</mdui-dialog>
+
+<style>
+.toc-dialog::part(overlay) {
+    backdrop-filter: blur(10px) saturate(180%);
+    -webkit-backdrop-filter: blur(10px) saturate(180%); /* Safari 支持 */
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.toc-dialog {
+    --mdui-dialog-width: 500px;
+    --mdui-dialog-height: 70vh;
+    --mdui-dialog-max-height: 80vh;
+}
+
+.toc-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px 0;
+    margin-bottom: 16px;
+}
+
+.toc-content {
+    padding: 0 24px;
+    flex: 1;
+    overflow: hidden;
+}
+
+.toc-container {
+    height: 100%;
+    overflow-y: auto;
+    padding: 8px 0;
+}
+
+.toc-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.toc-container::-webkit-scrollbar-track {
+    background: var(--mdui-color-surface-container);
+}
+
+.toc-container::-webkit-scrollbar-thumb {
+    background: var(--mdui-color-outline-variant);
+    border-radius: 3px;
+}
+
+.toc-placeholder {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--mdui-color-on-surface-variant);
+}
+
+.toc-placeholder mdui-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+}
+
+.toc-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px 24px;
+    border-top: 1px solid var(--mdui-color-outline-variant);
+}
+
+.toc-list {
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+.toc-list ul {
+    padding-left: 1.5rem;
+    margin: 0.5rem 0;
+}
+
+.toc-list li {
+    margin: 0.25rem 0;
+}
+
+.toc-link {
+    display: block;
+    padding: 0.5rem 0.75rem;
+    color: var(--mdui-color-on-surface);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.toc-link:hover {
+    background-color: var(--mdui-color-surface-container-hover);
+    color: var(--mdui-color-primary);
+}
+
+.toc-link.active {
+    background-color: var(--mdui-color-primary-container);
+    color: var(--mdui-color-on-primary-container);
+    font-weight: 500;
+}
+
+@media (max-width: 600px) {
+    .toc-dialog {
+        --mdui-dialog-width: 95vw;
+        --mdui-dialog-height: 80vh;
+    }
+    
+    .toc-header {
+        padding: 16px 16px 0;
+    }
+    
+    .toc-content {
+        padding: 0 16px;
+    }
+    
+    .toc-footer {
+        padding: 12px 16px;
+    }
+}
+</style>
+
+<script>
+class HexoTOC {
+    constructor() {
+        this.dialog = document.getElementById('toc-dialog');
+        this.tocContainer = document.getElementById('toc-container');
+        this.init();
+    }
+
+    init() {
+        this.bindEvents();
+    }
+
+    bindEvents() {
+        const tocToggle = document.getElementById('toc-toggle');
+        const tocClose = document.getElementById('toc-close');
+        const tocCloseBtn = document.getElementById('toc-close-btn');
+
+        if (tocToggle) {
+            tocToggle.addEventListener('click', () => {
+                this.open();
+            });
+        }
+
+        if (tocClose) {
+            tocClose.addEventListener('click', () => {
+                this.close();
+            });
+        }
+
+        if (tocCloseBtn) {
+            tocCloseBtn.addEventListener('click', () => {
+                this.close();
+            });
+        }
+
+        // 监听ESC键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.isOpen()) {
+                this.close();
+            }
+        });
+    }
+
+    open() {
+        if (this.dialog) {
+            this.dialog.open = true;
+            // 加载当前页面的目录
+            this.loadCurrentPageTOC();
+        }
+    }
+
+    close() {
+        if (this.dialog) {
+            this.dialog.open = false;
+        }
+    }
+
+    isOpen() {
+        return this.dialog && this.dialog.open;
+    }
+
+    loadCurrentPageTOC() {
+        // 检查是否在文章页面
+        if (typeof window.page !== 'undefined' && window.page.title) {
+            // 从页面内容中提取标题
+            this.extractTOCFromContent();
+        } else {
+            // 显示占位符
+            this.tocContainer.innerHTML = `
+                <div class="toc-placeholder">
+                    <mdui-icon name="menu_book"></mdui-icon>
+                    <div>暂无文章导航</div>
+                </div>
+            `;
+        }
+    }
+
+    extractTOCFromContent() {
+        // 获取文章内容
+        const content = document.querySelector('.article-content');
+        if (!content) {
+            this.tocContainer.innerHTML = `
+                <div class="toc-placeholder">
+                    <mdui-icon name="menu_book"></mdui-icon>
+                    <div>暂无文章导航</div>
+                </div>
+            `;
+            return;
+        }
+
+        // 提取标题元素
+        const headers = content.querySelectorAll('h1, h2, h3, h4, h5, h6');
+        if (headers.length === 0) {
+            this.tocContainer.innerHTML = `
+                <div class="toc-placeholder">
+                    <mdui-icon name="menu_book"></mdui-icon>
+                    <div>暂无文章导航</div>
+                </div>
+            `;
+            return;
+        }
+
+        // 构建目录HTML
+        let tocHTML = '<ul class="toc-list">';
+        headers.forEach((header, index) => {
+            // 为标题添加ID（如果没有）
+            if (!header.id) {
+                header.id = 'toc-header-' + index;
+            }
+            
+            const level = parseInt(header.tagName.charAt(1));
+            const indent = (level - 1) * 20; // 根据标题级别设置缩进
+            
+            tocHTML += `
+                <li style="margin-left: ${indent}px;">
+                    <a href="#${header.id}" class="toc-link" data-target="${header.id}">
+                        ${header.textContent}
+                    </a>
+                </li>
+            `;
+        });
+        tocHTML += '</ul>';
+        
+        this.tocContainer.innerHTML = tocHTML;
+        
+        // 绑定导航链接事件
+        this.bindTOCEvents();
+    }
+
+    bindTOCEvents() {
+        const links = this.tocContainer.querySelectorAll('.toc-link');
+        links.forEach(link => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = link.getAttribute('data-target');
+                if (targetId) {
+                    const target = document.getElementById(targetId);
+                    if (target) {
+                        // 平滑滚动到目标元素
+                        target.scrollIntoView({ 
+                            behavior: 'smooth',
+                            block: 'center'
+                        });
+                        // 关闭对话框
+                        this.close();
+                    }
+                }
+            });
+        });
+    }
+}
+
+// 初始化
+document.addEventListener('DOMContentLoaded', () => {
+    window.hexoTOC = new HexoTOC();
+});
+
+// 页面加载完成后再次初始化，确保能获取到文章内容
+window.addEventListener('load', () => {
+    if (!window.hexoTOC) {
+        window.hexoTOC = new HexoTOC();
+    }
+});
+</script>

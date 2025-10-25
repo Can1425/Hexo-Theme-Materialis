@@ -22,4 +22,8 @@
         </mdui-dropdown>
 
         <%- partial('widgets/search.ejs') %>
+        <% if (page && page.layout === 'post') { %>
+            <%- partial('widgets/nav.ejs') %>
+        <% } %>
+
 </mdui-top-app-bar>
