@@ -112,6 +112,10 @@
   --mdui-chip-container-color: var(--mdui-color-surface-container);
   --mdui-chip-outline-color: var(--mdui-color-outline-variant);
   transition: all 0.3s ease;
+  font-family: var(--mdui-font-family);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  text-align: center;
 }
 
 .footer-chip:hover {
@@ -143,6 +147,7 @@
   text-decoration: none;
   font-weight: 500;
   margin: 0 2px;
+  vertical-align: middle;
 }
 
 .site-link:hover {
@@ -154,6 +159,7 @@
   text-decoration: none;
   font-weight: 500;
   margin: 0 2px;
+  vertical-align: middle;
 }
 
 .tech-link:hover {
@@ -165,6 +171,8 @@
   display: flex;
   gap: 0.5rem;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
 }
 
 /* 自定义徽章 */
@@ -173,6 +181,8 @@
   gap: 0.5rem;
   flex-wrap: wrap;
   flex-shrink: 0;
+  align-items: center;
+  justify-content: flex-end;
 }
 
 .custom-badge {
@@ -184,6 +194,10 @@
   .footer-main {
     justify-content: center;
     gap: 1rem;
+  }
+  
+  .custom-badges {
+    justify-content: center;
   }
 }
 
@@ -206,6 +220,11 @@
     flex-direction: column;
     align-items: center;
   }
+  
+  .footer-chip {
+    text-align: center;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 480px) {
@@ -216,6 +235,11 @@
   .footer-chip {
     --mdui-chip-height: 28px;
     font-size: 0.875rem;
+  }
+  
+  .custom-badges,
+  .beian-info {
+    width: 100%;
   }
 }
 </style>
