@@ -1,18 +1,459 @@
 <% if (theme.twikoo && theme.twikoo.envId) { %>
-<div id="tcomment"></div>
+<div id="tcomment" class="twikoo-container"></div>
 <script src="https://cdn.jsdelivr.net/npm/twikoo@1.6.44/dist/twikoo.min.js"></script>
 <script>
+// 自定义Twikoo样式
+const customTwikooStyle = `
+/* 评论容器 */
+.tk-comments-container {
+    font-family: var(--mdui-font-family) !important;
+    color: rgb(var(--mdui-color-on-surface)) !important;
+}
+
+/* 评论数量 */
+.tk-comments-count {
+    color: rgb(var(--mdui-color-primary)) !important;
+    font-weight: 500 !important;
+}
+
+/* 评论列表 */
+.tk-comments {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* 单个评论项 */
+.tk-comment {
+    background: rgb(var(--mdui-color-surface-container)) !important;
+    border-radius: 12px !important;
+    margin: 16px 0 !important;
+    padding: 20px !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* 评论头部 */
+.tk-row {
+    display: flex !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+    margin-bottom: 12px !important;
+}
+
+.tk-avatar {
+    border-radius: 50% !important;
+    width: 40px !important;
+    height: 40px !important;
+    border: 2px solid rgb(var(--mdui-color-outline-variant)) !important;
+}
+
+.tk-meta {
+    flex: 1 !important;
+    margin: 0 !important;
+}
+
+.tk-nick {
+    color: rgb(var(--mdui-color-primary)) !important;
+    font-weight: 500 !important;
+    font-size: 0.95rem !important;
+    margin: 0 !important;
+}
+
+.tk-time {
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    font-size: 0.8rem !important;
+    margin: 4px 0 0 0 !important;
+}
+
+/* 评论内容 */
+.tk-content {
+    margin: 12px 0 !important;
+    color: rgb(var(--mdui-color-on-surface)) !important;
+    line-height: 1.6 !important;
+    font-size: 0.9rem !important;
+}
+
+.tk-content p {
+    margin: 8px 0 !important;
+}
+
+.tk-content code {
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+    color: rgb(var(--mdui-color-on-surface)) !important;
+    padding: 2px 6px !important;
+    border-radius: 4px !important;
+    font-family: var(--mdui-font-family-mono) !important;
+    font-size: 0.85rem !important;
+}
+
+.tk-content pre {
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin: 12px 0 !important;
+    overflow-x: auto !important;
+}
+
+.tk-content pre code {
+    background: none !important;
+    padding: 0 !important;
+}
+
+.tk-content a {
+    color: rgb(var(--mdui-color-primary)) !important;
+    text-decoration: none !important;
+    border-bottom: 1px dashed rgb(var(--mdui-color-primary)) !important;
+}
+
+.tk-content a:hover {
+    opacity: 0.8 !important;
+}
+
+/* 评论操作 */
+.tk-actions {
+    margin: 12px 0 0 0 !important;
+    padding: 0 !important;
+    display: flex !important;
+    gap: 16px !important;
+}
+
+.tk-action {
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    font-size: 0.8rem !important;
+    cursor: pointer !important;
+    transition: color 0.2s ease !important;
+    background: none !important;
+    border: none !important;
+    padding: 4px 8px !important;
+    border-radius: 6px !important;
+}
+
+.tk-action:hover {
+    color: rgb(var(--mdui-color-primary)) !important;
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+}
+
+.tk-action.is-active {
+    color: rgb(var(--mdui-color-primary)) !important;
+}
+
+/* 回复评论 */
+.tk-submit {
+    background: rgb(var(--mdui-color-surface-container)) !important;
+    border-radius: 12px !important;
+    padding: 20px !important;
+    margin: 16px 0 !important;
+    border: none !important;
+}
+
+.tk-row-actions {
+    display: flex !important;
+    gap: 12px !important;
+    margin-top: 12px !important;
+}
+
+.tk-preview {
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+    border-radius: 8px !important;
+    padding: 16px !important;
+    margin: 12px 0 !important;
+    border: none !important;
+}
+
+/* 隐藏原始输入框和按钮 */
+.tk-input,
+.tk-btn {
+    display: none !important;
+}
+
+/* 分页 */
+.tk-pagination {
+    display: flex !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    margin: 24px 0 !important;
+}
+
+.tk-pagination .tk-btn {
+    background: rgb(var(--mdui-color-surface-container)) !important;
+    color: rgb(var(--mdui-color-on-surface)) !important;
+    min-width: 40px !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.tk-pagination .tk-btn:hover {
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+}
+
+.tk-pagination .tk-btn[disabled] {
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    cursor: not-allowed !important;
+}
+
+.tk-pagination .tk-btn-primary {
+    background: rgb(var(--mdui-color-primary)) !important;
+    color: rgb(var(--mdui-color-on-primary)) !important;
+}
+
+/* 空状态 */
+.tk-comments-empty {
+    text-align: center !important;
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    padding: 40px 20px !important;
+    background: rgb(var(--mdui-color-surface-container)) !important;
+    border-radius: 12px !important;
+    margin: 16px 0 !important;
+}
+
+/* 加载状态 */
+.tk-loading {
+    color: rgb(var(--mdui-color-primary)) !important;
+}
+
+/* 错误状态 */
+.tk-error {
+    background: rgba(var(--mdui-color-error), 0.1) !important;
+    color: rgb(var(--mdui-color-error)) !important;
+    border-radius: 8px !important;
+    padding: 12px !important;
+    margin: 16px 0 !important;
+    border: 1px solid rgba(var(--mdui-color-error), 0.2) !important;
+}
+
+/* 引用回复 */
+.tk-reply {
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+    border-left: 3px solid rgb(var(--mdui-color-primary)) !important;
+    padding: 12px !important;
+    margin: 8px 0 !important;
+    border-radius: 0 8px 8px 0 !important;
+}
+
+.tk-reply .tk-nick {
+    color: rgb(var(--mdui-color-primary)) !important;
+    font-size: 0.85rem !important;
+}
+
+.tk-reply .tk-content {
+    font-size: 0.8rem !important;
+    margin: 4px 0 0 0 !important;
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .tk-comment {
+        padding: 16px !important;
+        margin: 12px 0 !important;
+    }
+    
+    .tk-submit {
+        padding: 16px !important;
+        margin: 12px 0 !important;
+    }
+    
+    .tk-avatar {
+        width: 36px !important;
+        height: 36px !important;
+    }
+    
+    .tk-actions {
+        gap: 12px !important;
+    }
+    
+    .tk-row-actions {
+        flex-direction: column !important;
+        gap: 8px !important;
+    }
+    
+    .tk-pagination {
+        flex-wrap: wrap !important;
+    }
+    
+    .tk-pagination .tk-btn {
+        min-width: 36px !important;
+        height: 36px !important;
+        font-size: 0.8rem !important;
+    }
+}
+`;
+
+// 添加自定义样式
+const styleElement = document.createElement('style');
+styleElement.textContent = customTwikooStyle;
+document.head.appendChild(styleElement);
+
+// 初始化Twikoo
 twikoo.init({
   envId: '<%= theme.twikoo.envId %>',
   el: '#tcomment',
-  // region: 'ap-guangzhou', // 腾讯云环境时需要，Vercel 不需要
   path: location.pathname,
   lang: '<%= theme.twikoo.lang || "zh-CN" %>'
 }).then(function () {
   console.log('Twikoo 评论系统加载成功');
+  
+  // 等待Twikoo渲染完成后替换输入框和按钮
+  setTimeout(() => {
+    replaceInputsWithMdui();
+  }, 1000);
+  
 }).catch(function (err) {
   console.error('Twikoo 评论系统加载失败:', err);
 });
+
+// 替换输入框和按钮为MDUI组件
+function replaceInputsWithMdui() {
+  const container = document.getElementById('tcomment');
+  if (!container) return;
+  
+  // 替换昵称输入框
+  const nickInput = container.querySelector('input[placeholder*="昵称"], input[placeholder*="nickname"], input[name="nick"]');
+  if (nickInput) {
+    const mduiNickField = document.createElement('mdui-text-field');
+    mduiNickField.setAttribute('placeholder', nickInput.placeholder || '昵称');
+    mduiNickField.setAttribute('variant', 'filled');
+    mduiNickField.setAttribute('name', 'nick');
+    mduiNickField.setAttribute('value', nickInput.value || '');
+    mduiNickField.style.width = '100%';
+    mduiNickField.style.marginBottom = '16px';
+    
+    nickInput.parentNode.replaceChild(mduiNickField, nickInput);
+    
+    // 同步值变化
+    mduiNickField.addEventListener('input', (e) => {
+      const hiddenInput = container.querySelector('input[name="nick"]');
+      if (hiddenInput) hiddenInput.value = e.target.value;
+    });
+  }
+  
+  // 替换邮箱输入框
+  const emailInput = container.querySelector('input[placeholder*="邮箱"], input[placeholder*="email"], input[name="email"]');
+  if (emailInput) {
+    const mduiEmailField = document.createElement('mdui-text-field');
+    mduiEmailField.setAttribute('placeholder', emailInput.placeholder || '邮箱');
+    mduiEmailField.setAttribute('variant', 'filled');
+    mduiEmailField.setAttribute('name', 'email');
+    mduiEmailField.setAttribute('value', emailInput.value || '');
+    mduiEmailField.style.width = '100%';
+    mduiEmailField.style.marginBottom = '16px';
+    
+    emailInput.parentNode.replaceChild(mduiEmailField, emailInput);
+    
+    // 同步值变化
+    mduiEmailField.addEventListener('input', (e) => {
+      const hiddenInput = container.querySelector('input[name="email"]');
+      if (hiddenInput) hiddenInput.value = e.target.value;
+    });
+  }
+  
+  // 替换网站输入框
+  const linkInput = container.querySelector('input[placeholder*="网站"], input[placeholder*="website"], input[name="link"]');
+  if (linkInput) {
+    const mduiLinkField = document.createElement('mdui-text-field');
+    mduiLinkField.setAttribute('placeholder', linkInput.placeholder || '网站（可选）');
+    mduiLinkField.setAttribute('variant', 'filled');
+    mduiLinkField.setAttribute('name', 'link');
+    mduiLinkField.setAttribute('value', linkInput.value || '');
+    mduiLinkField.style.width = '100%';
+    mduiLinkField.style.marginBottom = '16px';
+    
+    linkInput.parentNode.replaceChild(mduiLinkField, linkInput);
+    
+    // 同步值变化
+    mduiLinkField.addEventListener('input', (e) => {
+      const hiddenInput = container.querySelector('input[name="link"]');
+      if (hiddenInput) hiddenInput.value = e.target.value;
+    });
+  }
+  
+  // 替换评论内容输入框
+  const contentTextarea = container.querySelector('textarea[placeholder*="评论"], textarea[placeholder*="comment"], textarea[name="content"]');
+  if (contentTextarea) {
+    const mduiTextArea = document.createElement('mdui-text-area');
+    mduiTextArea.setAttribute('placeholder', contentTextarea.placeholder || '留下你的评论...');
+    mduiTextArea.setAttribute('variant', 'filled');
+    mduiTextArea.setAttribute('name', 'content');
+    mduiTextArea.setAttribute('rows', '4');
+    mduiTextArea.setAttribute('value', contentTextarea.value || '');
+    mduiTextArea.style.width = '100%';
+    mduiTextArea.style.marginBottom = '16px';
+    
+    contentTextarea.parentNode.replaceChild(mduiTextArea, contentTextarea);
+    
+    // 同步值变化
+    mduiTextArea.addEventListener('input', (e) => {
+      const hiddenTextarea = container.querySelector('textarea[name="content"]');
+      if (hiddenTextarea) hiddenTextarea.value = e.target.value;
+    });
+  }
+  
+  // 替换提交按钮
+  const submitButton = container.querySelector('button[type="submit"], .tk-btn[type="submit"], .tk-submit .tk-btn:not(.tk-btn-text)');
+  if (submitButton) {
+    const mduiSubmitButton = document.createElement('mdui-button');
+    mduiSubmitButton.setAttribute('variant', 'filled');
+    mduiSubmitButton.textContent = submitButton.textContent || '提交评论';
+    mduiSubmitButton.style.marginLeft = 'auto';
+    
+    // 复制原始按钮的点击事件
+    mduiSubmitButton.addEventListener('click', () => {
+      submitButton.click();
+    });
+    
+    submitButton.parentNode.replaceChild(mduiSubmitButton, submitButton);
+  }
+  
+  // 替换预览按钮
+  const previewButton = container.querySelector('.tk-btn-text, button[onclick*="preview"]');
+  if (previewButton && !previewButton.closest('.tk-pagination')) {
+    const mduiPreviewButton = document.createElement('mdui-button');
+    mduiPreviewButton.setAttribute('variant', 'text');
+    mduiPreviewButton.textContent = previewButton.textContent || '预览';
+    
+    // 复制原始按钮的点击事件
+    mduiPreviewButton.addEventListener('click', () => {
+      previewButton.click();
+    });
+    
+    previewButton.parentNode.replaceChild(mduiPreviewButton, previewButton);
+  }
+  
+  // 调整按钮容器布局
+  const actionRow = container.querySelector('.tk-row-actions');
+  if (actionRow) {
+    actionRow.style.display = 'flex';
+    actionRow.style.justifyContent = 'flex-end';
+    actionRow.style.alignItems = 'center';
+    actionRow.style.gap = '12px';
+  }
+  
+  console.log('MDUI输入框和按钮替换完成');
+}
+
+// 监听动态内容变化（用于回复表单）
+const observer = new MutationObserver(function(mutations) {
+  mutations.forEach(function(mutation) {
+    if (mutation.addedNodes && mutation.addedNodes.length > 0) {
+      setTimeout(() => {
+        replaceInputsWithMdui();
+      }, 100);
+    }
+  });
+});
+
+// 开始观察
+setTimeout(() => {
+  const container = document.getElementById('tcomment');
+  if (container) {
+    observer.observe(container, {
+      childList: true,
+      subtree: true
+    });
+  }
+}, 2000);
 </script>
 <% } else { %>
 <div style="text-align: center; padding: 2rem;">
@@ -20,4 +461,4 @@ twikoo.init({
         Twikoo 评论系统未正确配置
     </mdui-typography>
 </div>
-<% } %> 
+<% } %>
