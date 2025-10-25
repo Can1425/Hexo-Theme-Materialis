@@ -48,9 +48,23 @@ jobs:
             echo "Bump type: patch (fix/other)"
           fi
           
-          # 基于 npm 最新版本计算新版本
-          TARGET_VERSION=$(npm version $BUMP --no-git-tag-version --ignore-scripts --json | jq -r '.["hexo-theme-materialis"]')
+          # 手动计算新版本（不使用 npm version 的 JSON 输出）
+          if [ "$BUMP" = "minor" ]; then
+            MAJOR=$(echo $LATEST_NPM_VERSION | cut -d. -f1)
+            MINOR=$(echo $LATEST_NPM_VERSION | cut -d. -f2)
+            PATCH=0
+            TARGET_VERSION="$MAJOR.$((MINOR + 1)).$PATCH"
+          else
+            MAJOR=$(echo $LATEST_NPM_VERSION | cut -d. -f1)
+            MINOR=$(echo $LATEST_NPM_VERSION | cut -d. -f2)
+            PATCH=$(echo $LATEST_NPM_VERSION | cut -d. -f3)
+            TARGET_VERSION="$MAJOR.$MINOR.$((PATCH + 1))"
+          fi
+          
           echo "Calculated new version: $TARGET_VERSION"
+          
+          # 更新 package.json
+          npm version $TARGET_VERSION --no-git-tag-version --allow-same-version --ignore-scripts
         fi
         
         echo "Target version: $TARGET_VERSION"
