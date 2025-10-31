@@ -4,13 +4,25 @@
     onclick="location.href='<%= url_for(post.path) %>'">
     
     <div class="article-content">
-        <!-- 左侧：标题和元信息 -->
+        <!-- 封面图片 -->
+        <% if (post.cover) { %>
+            <div class="article-cover">
+                <img src="<%= post.cover %>" alt="<%= post.title %>" />
+            </div>
+        <% } %>
+        
+        <!-- 内容区域 -->
         <div class="article-main">
             <mdui-typography class="article-title">
                 <%= post.title %>
             </mdui-typography>
 
-            <span><%- truncate(strip_html(post.content), { length: 200 }) %></span>
+            <!-- 有封面时摘要限制20字 -->
+            <% if (post.cover) { %>
+                <span><%- truncate(strip_html(post.content), { length: 120 }) %></span>
+            <% } else { %>
+                <span><%- truncate(strip_html(post.content), { length: 200 }) %></span>
+            <% } %>
             
             <div class="article-meta">
                 <mdui-typography variant="body2" class="article-date">

@@ -70,7 +70,7 @@
     word-break: break-word;
 }
 
-/* 代码块样式 - 限制最大宽度不超出容器 */
+/* 代码块样式 */
 .mdui-code-block {
     background: rgb(var(--mdui-color-surface-container-high));
     border-radius: 12px;
@@ -138,11 +138,11 @@
 
 .mdui-code-content {
     position: relative;
-    overflow-x: auto;
     background: rgb(var(--mdui-color-surface-container-high));
-    max-width: 100%;
     width: 100%;
     box-sizing: border-box;
+    /* 关键修复：确保滚动容器正常工作 */
+    overflow-x: auto;
     -webkit-overflow-scrolling: touch;
 }
 
@@ -153,27 +153,12 @@
     font-size: 0.875rem;
     line-height: 1.5;
     color: rgb(var(--mdui-color-on-surface));
+    /* 关键修复：确保内容不换行 */
     white-space: pre;
-    overflow-x: auto;
-    display: block;
-    min-width: 0;
-    max-width: 100%;
-    width: auto;
+    /* 关键修复：让内容自然扩展，不限制宽度 */
+    display: inline-block;
+    min-width: 100%;
     box-sizing: border-box;
-    /* 允许长单词和URL换行 */
-    word-wrap: break-word;
-    word-break: break-all;
-    white-space: pre-wrap;
-}
-
-/* 对于确实需要保持格式的代码，使用横向滚动 */
-.mdui-code-pre code {
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
-    display: block;
-    overflow-x: auto;
-    max-width: 100%;
 }
 
 /* 自定义滚动条样式 */
@@ -301,7 +286,7 @@
 /* 平板设备 */
 @media (max-width: 1024px) {
     .post-container {
-        padding: 32px 20px;
+        padding: 2rem 24px;
         gap: 20px;
     }
     
@@ -319,7 +304,9 @@
         gap: 16px;
     }
     
-    .post-card-wide,
+    .post-card-wide{
+        padding: 2.5rem;
+    }
     .post-card-comment,
     .post-card-nav {
         padding: 1.5rem;
@@ -443,6 +430,7 @@
             </mdui-card-content>
         </mdui-card>
     </div>
+    <%- partial('widgets/share.ejs') %>
 </mdui-layout-main>
 
 <script>

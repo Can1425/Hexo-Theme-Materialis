@@ -153,3 +153,9 @@ memorial_days:
     - 9.18
     - 12.13
 #---end---
+# 浮动按钮配置
+fab:
+  enable: true
+  position: "bottom-right" # bottom-right, bottom-left, top-right, top-left
+  icon: "share" # mdui 图标名称
+  tooltip: "分享页面"
