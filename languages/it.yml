@@ -1,0 +1,104 @@
+common:
+  home: Home
+  archive: Archivio
+  category: Categoria
+  tag: Tag
+  about: Informazioni
+  links: Link amici
+  shuoshuo: Momenti
+  project: Progetto
+  search:
+    placeholder: Cerca post, tag, categorie...
+    start_typing: Digita le parole chiave per iniziare la ricerca
+    close: Chiudi
+  load_failed_console: Caricamento dati di ricerca fallito
+  loading: Caricamento dati di ricerca...
+  no_results_prefix: Nessun risultato per
+  no_results_suffix: ""
+  found_prefix: Trovati
+  found_suffix: risultati
+  no_title: Senza titolo
+  no_data: Nessun dato
+  more: Altro
+  prev: Precedente
+  next: Successivo
+  submit: Invia
+  author: Autore
+  date: Data
+  empty: Nessun contenuto
+
+banner:
+  title: Materialis
+  subtitle: Un tema per blog statico basato su Hexo
+  projects: Progetti
+
+footer:
+  copyright: Tutti i diritti riservati
+  beian: Informazioni di registrazione
+
+notfound:
+  title: Pagina non trovata
+  home: Torna alla home
+  back: Indietro
+
+shuoshuo:
+  no_talks: Ancora nessun momento
+  no_talks_desc: Non hai ancora pubblicato alcun momento
+  no_config: Nessuna configurazione momenti, controlla la documentazione per aggiungerla
+
+friend_links:
+  title: Link amici
+  count_prefix: Totale
+  count_suffix: link amici
+  empty: Ancora nessun link amico
+  empty_desc: Non hai ancora aggiunto alcun link amico, contattami per scambiare link
+  no_config: Nessuna configurazione link amici, controlla la documentazione per aggiungerla
+
+appbar:
+  light_mode: Modalità chiara
+  dark_mode: Modalità scura
+  auto_mode: Segui il sistema
+
+tags:
+  title: Tag
+  count_prefix: Totale
+  count_suffix: tag
+  empty: Ancora nessun tag
+  empty_desc: Non hai ancora creato alcun tag, puoi aggiungere tag agli articoli quando scrivi
+
+post:
+  prev: Articolo precedente
+  next: Articolo successivo
+  none: Nessun altro
+  comment: Commento
+  comment_disabled: Funzione commenti non abilitata
+
+index:
+  no_articles: Ancora nessun articolo
+  no_articles_desc: Non hai ancora pubblicato alcun articolo
+
+diary:
+  title: Archivio articoli
+  total: Totale
+  articles: articoli
+  year: Anno
+  no_articles: Ancora nessun articolo
+  no_articles_desc: Non hai ancora pubblicato alcun articolo, inizia a scrivere per creare il tuo primo post del blog
+
+categories:
+  title: Categorie articoli
+  count_prefix: Totale
+  count_suffix: categorie
+  articles: articoli
+  empty: Ancora nessuna categoria
+  empty_desc: Non hai ancora creato alcuna categoria, puoi aggiungere categorie agli articoli quando scrivi
+
+about:
+  skills: Competenze
+  contacts: Contatti
+  projects: Progetti
+  project_detail: Vedi dettagli
+
+share:
+  copy_success: Link copiato con successo!
+  copy_fail: Copia fallita, copia manualmente

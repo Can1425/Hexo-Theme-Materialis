@@ -1,0 +1,104 @@
+common:
+  home: Accueil
+  archive: Archives
+  category: Catégorie
+  tag: Étiquette
+  about: À propos
+  links: Amis
+  shuoshuo: Moments
+  project: Projet
+  search:
+    placeholder: Rechercher des articles, étiquettes, catégories...
+    start_typing: Tapez des mots-clés pour commencer la recherche
+    close: Fermer
+  load_failed_console: Échec du chargement des données de recherche
+  loading: Chargement des données de recherche...
+  no_results_prefix: Aucun résultat pour
+  no_results_suffix: ""
+  found_prefix: Trouvé
+  found_suffix: résultats
+  no_title: Sans titre
+  no_data: Aucune donnée
+  more: Plus
+  prev: Précédent
+  next: Suivant
+  submit: Soumettre
+  author: Auteur
+  date: Date
+  empty: Aucun contenu
+
+banner:
+  title: Materialis
+  subtitle: Un thème de blog statique basé sur Hexo
+  projects: Projets
+
+footer:
+  copyright: Tous droits réservés
+  beian: Informations d'enregistrement
+
+notfound:
+  title: Page non trouvée
+  home: Retour à l'accueil
+  back: Retour
+
+shuoshuo:
+  no_talks: Aucun moment pour l'instant
+  no_talks_desc: Aucun moment publié pour le moment
+  no_config: Aucune configuration de moments, veuillez consulter la documentation pour ajouter
+
+friend_links:
+  title: Liens d'amis
+  count_prefix: Total
+  count_suffix: liens d'amis
+  empty: Aucun lien d'ami
+  empty_desc: Aucun lien d'ami ajouté pour l'instant, n'hésitez pas à me contacter pour échanger des liens
+  no_config: Aucune configuration de liens d'amis, veuillez consulter la documentation pour ajouter
+
+appbar:
+  light_mode: Mode clair
+  dark_mode: Mode sombre
+  auto_mode: Suivre le système
+
+tags:
+  title: Étiquettes
+  count_prefix: Total
+  count_suffix: étiquettes
+  empty: Aucune étiquette
+  empty_desc: Aucune étiquette créée pour l'instant, vous pouvez ajouter des étiquettes aux articles lors de l'écriture
+
+post:
+  prev: Article précédent
+  next: Article suivant
+  none: Plus d'articles
+  comment: Commentaire
+  comment_disabled: Fonction de commentaire non activée
+
+index:
+  no_articles: Aucun article
+  no_articles_desc: Aucun article publié pour l'instant
+
+diary:
+  title: Archives des articles
+  total: Total
+  articles: articles
+  year: Année
+  no_articles: Aucun article
+  no_articles_desc: Aucun article publié pour l'instant, commencez à écrire pour créer votre premier article de blog
+
+categories:
+  title: Catégories d'articles
+  count_prefix: Total
+  count_suffix: catégories
+  articles: articles
+  empty: Aucune catégorie
+  empty_desc: Aucune catégorie créée pour l'instant, vous pouvez ajouter des catégories aux articles lors de l'écriture
+
+about:
+  skills: Compétences
+  contacts: Contact
+  projects: Projets
+  project_detail: Voir les détails
+
+share:
+  copy_success: Lien copié avec succès !
+  copy_fail: Échec de la copie, veuillez copier manuellement

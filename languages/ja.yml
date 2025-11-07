@@ -1,0 +1,104 @@
+common:
+  home: ホーム
+  archive: アーカイブ
+  category: カテゴリ
+  tag: タグ
+  about: 关于
+  links: 友達リンク
+  shuoshuo: つぶやき
+  project: プロジェクト
+  search:
+    placeholder: 投稿、タグ、カテゴリを検索...
+    start_typing: キーワードを入力して検索を開始
+    close: 閉じる
+  load_failed_console: 検索データの読み込みに失敗しました
+  loading: 検索データを読み込み中...
+  no_results_prefix: ""
+  no_results_suffix: の検索結果はありません
+  found_prefix: ""
+  found_suffix: 件見つかりました
+  no_title: タイトルなし
+  no_data: データがありません
+  more: もっと見る
+  prev: 前へ
+  next: 次へ
+  submit: 送信
+  author: 著者
+  date: 日付
+  empty: コンテンツがありません
+
+banner:
+  title: Materialis
+  subtitle: Hexoベースの静的ブログテーマ
+  projects: プロジェクト
+
+footer:
+  copyright: 全著作権所有
+  beian: 登録情報
+
+notfound:
+  title: ページが見つかりません
+  home: ホームに戻る
+  back: 戻る
+
+shuoshuo:
+  no_talks: つぶやきはまだありません
+  no_talks_desc: まだつぶやきを投稿していません
+  no_config: つぶやきの設定がありません。ドキュメントを確認して追加してください
+
+friend_links:
+  title: 友達リンク
+  count_prefix: 合計
+  count_suffix: 件の友達リンク
+  empty: 友達リンクはまだありません
+  empty_desc: まだ友達リンクを追加していません。リンク交換についてお気軽にお問い合わせください
+  no_config: 友達リンクの設定がありません。ドキュメントを確認して追加してください
+
+appbar:
+  light_mode: ライトモード
+  dark_mode: ダークモード
+  auto_mode: システムに従う
+
+tags:
+  title: タグ
+  count_prefix: 合計
+  count_suffix: 個のタグ
+  empty: タグはまだありません
+  empty_desc: まだタグを作成していません。記事を書くときにタグを追加できます
+
+post:
+  prev: 前の投稿
+  next: 次の投稿
+  none: これ以上ありません
+  comment: コメント
+  comment_disabled: コメント機能は有効になっていません
+
+index:
+  no_articles: 記事はまだありません
+  no_articles_desc: まだ記事を公開していません
+
+diary:
+  title: 投稿アーカイブ
+  total: 合計
+  articles: 件の記事
+  year: 年
+  no_articles: 記事はまだありません
+  no_articles_desc: まだ記事を公開していません。最初のブログ投稿を作成しましょう
+
+categories:
+  title: 投稿カテゴリ
+  count_prefix: 合計
+  count_suffix: 個のカテゴリ
+  articles: 件の記事
+  empty: カテゴリはまだありません
+  empty_desc: まだカテゴリを作成していません。記事を書くときにカテゴリを追加できます
+
+about:
+  skills: スキル
+  contacts: 連絡先
+  projects: プロジェクト
+  project_detail: 詳細を見る
+
+share:
+  copy_success: リンクをコピーしました！
+  copy_fail: コピーに失敗しました。手動でコピーしてください
