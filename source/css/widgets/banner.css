@@ -1,0 +1,47 @@
+.banner-container {
+    margin: 0 auto 2rem auto;
+    padding: 0 1rem;
+    display: flex;
+    gap: 0.75rem;
+    max-width: 70rem;
+}
+
+.banner-title {
+    width: 100%;
+    padding: 2rem 2rem 5rem 2rem;
+    font-family: 'banner', sans-serif;
+}
+
+.banner-title-text1 {
+    margin: 0.5rem 0;
+    line-height: var(--mdui-typescale-display-small-line-height);
+    font-size: var(--mdui-typescale-display-small-size);
+    letter-spacing: var(--mdui-typescale-display-small-tracking);
+    font-weight: var(--mdui-typescale-display-small-weight);
+}
+
+.banner-title-text2 {
+    margin: 0.5rem 0;
+    line-height: var(--mdui-typescale-body-large-line-height);
+    font-size: var(--mdui-typescale-body-large-size);
+    letter-spacing: var(--mdui-typescale-body-large-tracking);
+    font-weight: var(--mdui-typescale-body-large-weight);
+}
+
+.banner-sentence {
+    width: 100%;
+}
+
+.banner-image {
+    width: 30%;
+    height: max-height;
+}
+
+@media (max-width: 500px) {
+    .banner-container {
+        margin: 0;
+    }
+    .banner-image {
+        display: none;
+    }
+}

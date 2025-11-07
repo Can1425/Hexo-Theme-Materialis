@@ -25,21 +25,35 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
 }
 
 .talk-avatar {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 2px solid rgba(var(--mdui-color-primary), 0.5);
     object-fit: cover;
+    background: rgb(var(--mdui-color-primary-container));
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.talk-avatar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .talk-avatar-placeholder {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgb(var(--mdui-color-primary));
+    background: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.talk-avatar-placeholder:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 .talk-author-name {
@@ -91,13 +105,13 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
                     <mdui-card-content class="talk-card-content">
                         <!-- 头部信息 -->
                         <div class="talk-header">
-                            <% if (talk.avatar) { %>
-                                <img src="<%= talk.avatar %>" alt="头像" class="talk-avatar">
-                            <% } else { %>
-                                <div class="talk-avatar-placeholder">
-                                    <mdui-icon name="person" style="color: white; font-size: 1.2rem;"></mdui-icon>
-                                </div>
-                            <% } %>
+                            <mdui-avatar variant="circular" class="talk-avatar">
+                                <% if (talk.avatar) { %>
+                                    <img src="<%= talk.avatar %>" alt="<%= talk.author || config.author %>" loading="lazy">
+                                <% } else { %>
+                                    <mdui-icon>person</mdui-icon>
+                                <% } %>
+                            </mdui-avatar>
                             <div>
                                 <div class="talk-author-name"><%= talk.author || config.author %></div>
                                 <div class="talk-date"><%= talk.date %></div>

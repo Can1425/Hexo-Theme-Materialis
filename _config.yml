@@ -143,6 +143,19 @@ shuoshuo:
 banner:
   title: "Materialis"
   subtitle: "一个基于Hexo的静态博客主题"
+  projects:
+    enable: true
+    items:
+      - name: "项目一"
+        desc: "项目一的描述"
+        icon: "code"
+        link: "https://github.com/yourusername/project1"
+        color: "primary" # primary, secondary, tertiary, error, info
+      - name: "项目二"
+        desc: "项目二的描述"
+        icon: "terminal"
+        link: "https://github.com/yourusername/project2"
+        color: "secondary"
 #---end---
 #纪念日设置
 #---start---

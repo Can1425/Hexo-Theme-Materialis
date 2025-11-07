@@ -296,6 +296,58 @@ class HexoTOC {
                 }
             });
         });
+
+        // 高亮当前正在阅读的标题
+        this.highlightCurrentHeader();
+        window.addEventListener('scroll', this.throttle(() => {
+            this.highlightCurrentHeader();
+        }, 100));
+    }
+
+    // 节流函数，防止滚动事件过于频繁
+    throttle(fn, wait) {
+        let last = 0;
+        return function(...args) {
+            const now = Date.now();
+            if (now - last > wait) {
+                last = now;
+                fn.apply(this, args);
+            }
+        };
+    }
+
+    // 高亮当前正在阅读的标题
+    highlightCurrentHeader() {
+        const headers = Array.from(document.querySelectorAll('.article-content h1, .article-content h2, .article-content h3, .article-content h4, .article-content h5, .article-content h6'));
+        if (!headers.length) return;
+        const scrollY = window.scrollY || window.pageYOffset;
+        const offset = 80; // 可根据实际导航栏高度调整
+        let currentId = headers[0].id;
+        for (let i = 0; i < headers.length; i++) {
+            const rect = headers[i].getBoundingClientRect();
+            const top = rect.top + scrollY - offset;
+            if (scrollY >= top) {
+                currentId = headers[i].id;
+            } else {
+                break;
+            }
+        }
+        // 移除所有高亮
+        this.tocContainer.querySelectorAll('.toc-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        // 高亮当前
+        const activeLink = this.tocContainer.querySelector('.toc-link[data-target="' + currentId + '"]');
+        if (activeLink) {
+            activeLink.classList.add('active');
+            // 滚动目录到可见区域
+            const tocScroll = this.tocContainer;
+            const linkRect = activeLink.getBoundingClientRect();
+            const tocRect = tocScroll.getBoundingClientRect();
+            if (linkRect.top < tocRect.top || linkRect.bottom > tocRect.bottom) {
+                tocScroll.scrollTop = activeLink.offsetTop - tocScroll.clientHeight / 2 + activeLink.clientHeight / 2;
+            }
+        }
     }
 }
 

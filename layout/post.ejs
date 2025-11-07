@@ -1,3 +1,5 @@
+    <%- js('js/fancybox.js') %>
+
 <style>
 .post-container {
     max-width: 900px;
@@ -27,6 +29,27 @@
     background-color: rgb(var(--mdui-color-surface-container-low));
     box-shadow: none;
     padding: 2.5rem;
+}
+
+
+.markdown-section img,
+.article-content img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1.2em auto;
+    object-fit: contain;
+    box-sizing: border-box;
+    border-radius: 12px;
+}
+
+.caption {
+  color: #444;
+  display: block;
+  font-size: 0.9em;
+  margin-top: 0.1em;
+  position: relative;
+  text-align: center;
 }
 
 .article-content {
@@ -430,7 +453,6 @@
             </mdui-card-content>
         </mdui-card>
     </div>
-    <%- partial('widgets/share.ejs') %>
 </mdui-layout-main>
 
 <script>

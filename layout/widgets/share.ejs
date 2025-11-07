@@ -1,215 +1,29 @@
-<!-- 浮动按钮组件 -->
-<% if (theme.fab && theme.fab.enable) { %>
-<style>
-.fab-container {
-    position: fixed;
-    bottom: 2rem;
-    right: 2rem;
-    z-index: 1000;
-}
-
-.fab-button {
-    width: 3.5rem;
-    height: 3.5rem;
-    border-radius: 0.75rem;
-    box-shadow: var(--mdui-elevation-level3);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    position: relative;
-    overflow: hidden;
-}
-
-.fab-button:hover {
-    box-shadow: var(--mdui-elevation-level4);
-    transform: translateY(-2px);
-}
-
-.fab-button::part(button) {
-    border-radius: 0.75rem;
-}
-
-.fab-tooltip {
-    position: absolute;
-    right: 4.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    background: rgb(var(--mdui-color-inverse-surface));
-    color: rgb(var(--mdui-color-inverse-on-surface));
-    padding: 0.5rem 0.75rem;
-    border-radius: 0.5rem;
-    font-size: 0.875rem;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: all 0.3s ease;
-    pointer-events: none;
-}
-
-.fab-tooltip::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 100%;
-    transform: translateY(-50%);
-    border: 0.375rem solid transparent;
-    border-left-color: rgb(var(--mdui-color-inverse-surface));
-}
-
-.fab-button:hover .fab-tooltip {
-    opacity: 1;
-    visibility: visible;
-}
-
-
-/* 消息提示样式 */
-.fab-message {
-    position: fixed;
-    bottom: 6rem;
-    right: 2rem;
-    background: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
-    padding: 0.75rem 1.25rem;
-    border-radius: 0.75rem;
-    box-shadow: var(--mdui-elevation-level2);
-    z-index: 1001;
-    opacity: 0;
-    transform: translateY(1rem);
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.875rem;
-    font-weight: 500;
-}
-
-.fab-message.show {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-.fab-message mdui-icon {
-    font-size: 1.125rem;
-}
-
-</style>
-
-<div class="fab-container">
-    <mdui-fab class="fab-button" variant="primary" onclick="copyPageLink()">
-        <mdui-icon slot="icon">share</mdui-icon>
-        <div class="fab-tooltip">分享页面</div>
-    </mdui-fab>
-</div>
+<!-- 复制URL图标组件 -->
+<mdui-button-icon class="copy-url-btn">
+  <mdui-icon>link</mdui-icon>
+</mdui-button-icon>
 
 <script>
-function copyPageLink() {
-    const pageUrl = window.location.href;
-    
-    // 使用现代 Clipboard API
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-        navigator.clipboard.writeText(pageUrl).then(function() {
-            showSuccessMessage();
-        }).catch(function(err) {
-            fallbackCopy(pageUrl);
-        });
-    } else {
-        fallbackCopy(pageUrl);
-    }
-}
-
-function fallbackCopy(text) {
-    // 降级方案：使用 textarea
-    const textarea = document.createElement('textarea');
-    textarea.value = text;
-    textarea.style.position = 'fixed';
-    textarea.style.opacity = '0';
-    document.body.appendChild(textarea);
-    textarea.select();
-    
-    try {
-        const successful = document.execCommand('copy');
-        document.body.removeChild(textarea);
-        if (successful) {
-            showSuccessMessage();
-        } else {
-            showErrorMessage('复制失败，请手动复制链接');
-        }
-    } catch (err) {
-        document.body.removeChild(textarea);
-        showErrorMessage('复制失败，请手动复制链接');
-    }
-}
-
-function showSuccessMessage() {
-    // 创建或获取消息元素
-    let messageEl = document.querySelector('.fab-message');
-    if (!messageEl) {
-        messageEl = document.createElement('div');
-        messageEl.className = 'fab-message';
-        document.body.appendChild(messageEl);
-    }
-    
-    messageEl.innerHTML = `
-        <mdui-icon>check_circle</mdui-icon>
-        <span>链接复制成功</span>
-    `;
-    messageEl.style.background = 'rgb(var(--mdui-color-primary-container))';
-    messageEl.style.color = 'rgb(var(--mdui-color-on-primary-container))';
-    
-    // 显示消息
-    messageEl.classList.add('show');
-    
-    // 3秒后隐藏
-    setTimeout(() => {
-        messageEl.classList.remove('show');
-    }, 3000);
-}
-
-function showErrorMessage(text) {
-    let messageEl = document.querySelector('.fab-message');
-    if (!messageEl) {
-        messageEl = document.createElement('div');
-        messageEl.className = 'fab-message';
-        document.body.appendChild(messageEl);
-    }
-    
-    messageEl.innerHTML = `
-        <mdui-icon>error</mdui-icon>
-        <span>${text}</span>
-    `;
-    messageEl.style.background = 'rgb(var(--mdui-color-error-container))';
-    messageEl.style.color = 'rgb(var(--mdui-color-on-error-container))';
-    
-    messageEl.classList.add('show');
-    
-    setTimeout(() => {
-        messageEl.classList.remove('show');
-        // 恢复原始样式
-        setTimeout(() => {
-            messageEl.style.background = '';
-            messageEl.style.color = '';
-        }, 300);
-    }, 3000);
-}
-
-document.addEventListener('keydown', function(e) {
-    // Ctrl/Cmd + Shift + C 复制链接
-    if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'C') {
-        e.preventDefault();
-        copyPageLink();
-    }
-});
-
-// 添加按钮点击动画
 document.addEventListener('DOMContentLoaded', function() {
-    const fabButton = document.querySelector('.fab-button');
-    if (fabButton) {
-        fabButton.addEventListener('click', function() {
-            // 添加点击反馈
-            this.style.transform = 'translateY(-1px) scale(0.95)';
-            setTimeout(() => {
-                this.style.transform = '';
-            }, 150);
-        });
+  const copyUrlBtn = document.querySelector('.copy-url-btn');
+  
+  copyUrlBtn.addEventListener('click', async function() {
+    try {
+      const currentUrl = window.location.href;
+      await navigator.clipboard.writeText(currentUrl);
+      
+      mdui.snackbar({
+        message: '链接复制成功！',
+        placement: 'bottom',
+        timeout: 2000
+      });
+    } catch (err) {
+      mdui.snackbar({
+        message: '复制失败，请手动复制',
+        placement: 'bottom',
+        timeout: 2000
+      });
     }
+  });
 });
 </script>
-<% } %>
