@@ -1,7 +1,7 @@
 <%- include('widgets/appbar') %>
 <%- include('widgets/sidebar') %>
 <% if (theme.links.use == 0) { %>
-    <p>暂无友链配置，请查看文档添加</p>
+    <p><%= __('friend.no_config') %></p>
 <% } else if (theme.links.use == 1) { %>
     <%- include('widgets/index/friend_qexo.ejs') %>
 <% } else if (theme.links.use == 2) { %>

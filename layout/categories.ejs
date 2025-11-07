@@ -223,9 +223,9 @@
 <div class="categories-page">
     <!-- 页面标题 -->
     <mdui-card class="categories-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">文章分类</mdui-typography>
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('categories.title') %></mdui-typography>
         <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            共 <mdui-badge style="margin: 0 8px;"><%= site.categories.length %></mdui-badge> 个分类
+            <%= __('categories.count_prefix') %> <mdui-badge style="margin: 0 8px;"><%= site.categories.length %></mdui-badge> <%= __('categories.count_suffix') %>
         </mdui-typography>
     </mdui-card>
 
@@ -248,7 +248,7 @@
                             </div>
                         <% } %>
                         <div class="category-meta">
-                            <span><%= category.posts.length %> 篇文章</span>
+                            <span><%= category.posts.length %> <%= __('categories.articles') %></span>
                         </div>
                     </div>
                     
@@ -265,10 +265,10 @@
                 <mdui-icon class="categories-empty-icon">category</mdui-icon>
                 <div class="categories-empty-content">
                     <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
-                        暂无分类
+                        <%= __('categories.empty') %>
                     </mdui-typography>
                     <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
-                        还没有创建任何分类，开始写作时可以为文章添加分类
+                        <%= __('categories.empty_desc') %>
                     </mdui-typography>
                 </div>
             </mdui-card>

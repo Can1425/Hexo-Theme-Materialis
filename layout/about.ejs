@@ -315,7 +315,7 @@
     <% if (site.data.about.skills && site.data.about.skills.length > 0) { %>
         <mdui-card class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;">技能</mdui-typography>
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.skills') %></mdui-typography>
             </div>
             <div class="about-section-content">
                 <div class="skills-container">
@@ -333,7 +333,7 @@
     <% if (site.data.about.contacts && site.data.about.contacts.length > 0) { %>
         <mdui-card class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;">联系方式</mdui-typography>
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.contacts') %></mdui-typography>
             </div>
             <div class="about-section-content">
                 <div class="contacts-grid">
@@ -357,7 +357,7 @@
     <% if (site.data.about.projects && site.data.about.projects.length > 0) { %>
         <mdui-card class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;">项目</mdui-typography>
+                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.projects') %></mdui-typography>
             </div>
             <div class="about-section-content">
                 <div class="projects-grid">
@@ -368,7 +368,7 @@
                                 <div class="project-description"><%= project.description %></div>
                                 <% if (project.link) { %>
                                     <a href="<%= project.link %>" class="project-link" target="_blank" rel="noopener">
-                                        查看详情
+                                        <%= __('about.project_detail') %>
                                         <mdui-icon>arrow_forward</mdui-icon>
                                     </a>
                                 <% } %>

@@ -8,10 +8,10 @@
         <% } else { %>
             <mdui-card class="no-articles" variant="filled">
                 <mdui-typography variant="h4" style="margin-bottom: 1rem; color: var(--mdui-color-on-surface);">
-                    暂无文章
+                    <%= __('index.no_articles') %>
                 </mdui-typography>
                 <mdui-typography variant="body1" style="color: var(--mdui-color-on-surface-variant);">
-                    还没有发布任何文章
+                    <%= __('index.no_articles_desc') %>
                 </mdui-typography>
             </mdui-card>
         <% } %>

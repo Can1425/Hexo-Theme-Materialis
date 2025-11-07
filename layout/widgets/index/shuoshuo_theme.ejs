@@ -1,3 +1,4 @@
+
 <%
 const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks : [];
 %>
@@ -137,8 +138,8 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
         <% } else { %>
             <div class="no-talks">
                 <mdui-icon name="chat" style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px;"></mdui-icon>
-                <mdui-typography variant="h6">暂无说说</mdui-typography>
-                <mdui-typography variant="body2" style="margin-top: 8px;">还没有发布任何说说</mdui-typography>
+                <mdui-typography variant="h6"><%= __('shuoshuo.no_talks') %></mdui-typography>
+                <mdui-typography variant="body2" style="margin-top: 8px;"><%= __('shuoshuo.no_talks_desc') %></mdui-typography>
             </div>
         <% } %>
     </div>

@@ -1,0 +1,104 @@
+common:
+  home: Home
+  archive: Archive
+  category: Category
+  tag: Tag
+  about: About
+  links: Friends
+  shuoshuo: Moments
+  project: Project
+  search:
+    placeholder: Search posts, tags, categories...
+    start_typing: Type keywords to start searching
+    close: Close
+  load_failed_console: Failed to load search data
+  loading: Loading search data...
+  no_results_prefix: No results for
+  no_results_suffix: ""
+  found_prefix: Found
+  found_suffix: results
+  no_title: Untitled
+  no_data: No data
+  more: More
+  prev: Previous
+  next: Next
+  submit: Submit
+  author: Author
+  date: Date
+  empty: No content
+
+banner:
+  title: Materialis
+  subtitle: A static blog theme based on Hexo
+  projects: Projects
+
+footer:
+  copyright: All rights reserved
+  beian: Registration information
+
+notfound:
+  title: Page not found
+  home: Return to homepage
+  back: Go back
+
+shuoshuo:
+  no_talks: No shuoshuo yet
+  no_talks_desc: Haven't published any shuoshuo yet
+  no_config: No shuoshuo configuration, please check documentation to add
+
+friend_links:
+  title: Friend Links
+  count_prefix: Total
+  count_suffix: friend links
+  empty: No friend links
+  empty_desc: No friend links added yet, feel free to contact me to exchange links
+  no_config: No friend link configuration, please check documentation to add
+
+appbar:
+  light_mode: Light mode
+  dark_mode: Dark mode
+  auto_mode: Follow system
+
+tags:
+  title: Tags
+  count_prefix: Total
+  count_suffix: tags
+  empty: No tags
+  empty_desc: No tags created yet, you can add tags to articles when writing
+
+post:
+  prev: Previous post
+  next: Next post
+  none: No more
+  comment: Comment
+  comment_disabled: Comment function not enabled
+
+index:
+  no_articles: No articles
+  no_articles_desc: No articles published yet
+
+diary:
+  title: Article Archive
+  total: Total
+  articles: articles
+  year: Year
+  no_articles: No articles
+  no_articles_desc: No articles published yet, start writing to create your first blog post
+
+categories:
+  title: Article Categories
+  count_prefix: Total
+  count_suffix: categories
+  articles: articles
+  empty: No categories
+  empty_desc: No categories created yet, you can add categories to articles when writing
+
+about:
+  skills: Skills
+  contacts: Contact
+  projects: Projects
+  project_detail: View details
+
+share:
+  copy_success: Link copied successfully!
+  copy_fail: Copy failed, please copy manually

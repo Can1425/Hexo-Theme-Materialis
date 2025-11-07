@@ -398,25 +398,25 @@
                 <div class="post-navigation">
                     <% if (page.prev) { %>
                         <a href="<%= url_for(page.prev.path) %>" class="nav-button">
-                            <span class="nav-label">上一篇</span>
+                            <span class="nav-label"><%= __('post.prev') %></span>
                             <span class="nav-title"><%= page.prev.title %></span>
                         </a>
                     <% } else { %>
                         <a class="nav-button disabled">
-                            <span class="nav-label">上一篇</span>
-                            <span class="nav-title">没有了</span>
+                            <span class="nav-label"><%= __('post.prev') %></span>
+                            <span class="nav-title"><%= __('post.none') %></span>
                         </a>
                     <% } %>
                     
                     <% if (page.next) { %>
                         <a href="<%= url_for(page.next.path) %>" class="nav-button">
-                            <span class="nav-label">下一篇</span>
+                            <span class="nav-label"><%= __('post.next') %></span>
                             <span class="nav-title"><%= page.next.title %></span>
                         </a>
                     <% } else { %>
                         <a class="nav-button disabled">
-                            <span class="nav-label">下一篇</span>
-                            <span class="nav-title">没有了</span>
+                            <span class="nav-label"><%= __('post.next') %></span>
+                            <span class="nav-title"><%= __('post.none') %></span>
                         </a>
                     <% } %>
                 </div>
@@ -427,7 +427,7 @@
         <mdui-card variant="filled" class="post-card-comment">
             <mdui-card-content style="padding: 2rem;">
                 <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center; color: rgb(var(--mdui-color-primary));">
-                    评论
+                    <%= __('post.comment') %>
                 </mdui-typography>
                 <% if (theme.comment && theme.comment.service) { %>
                     <% if (theme.comment.service === 'twikoo') { %>
@@ -439,14 +439,14 @@
                     <% } else { %>
                         <div style="text-align: center; padding: 2rem;">
                             <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
-                                评论功能未启用
+                                <%= __('post.comment_disabled') %>
                             </mdui-typography>
                         </div>
                     <% } %>
                 <% } else { %>
                     <div style="text-align: center; padding: 2rem;">
                         <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
-                            评论功能未启用
+                            <%= __('post.comment_disabled') %>
                         </mdui-typography>
                     </div>
                 <% } %>

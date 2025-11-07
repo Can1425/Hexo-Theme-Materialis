@@ -1,0 +1,104 @@
+common:
+  home: 首页
+  archive: 文章归档
+  category: 分类
+  tag: 标签
+  about: 关于
+  links: 友链
+  shuoshuo: 说说
+  project: 项目
+  search:
+    placeholder: 搜索文章、标签、分类...
+    start_typing: 输入关键词开始搜索
+    close: 关闭
+  load_failed_console: 搜索数据加载失败
+  loading: 搜索数据加载中...
+  no_results_prefix: 没有找到包含
+  no_results_suffix: 的内容
+  found_prefix: 找到
+  found_suffix: 个结果
+  no_title: 无标题
+  no_data: 暂无数据
+  more: 更多
+  prev: 上一页
+  next: 下一页
+  submit: 提交
+  author: 作者
+  date: 日期
+  empty: 暂无内容
+
+banner:
+  title: Materialis
+  subtitle: 一个基于Hexo的静态博客主题
+  projects: 项目
+
+footer:
+  copyright: 保留所有权利
+  beian: 备案信息
+
+notfound:
+  title: 页面未找到
+  home: 返回首页
+  back: 返回上页
+
+shuoshuo:
+  no_talks: 暂无说说
+  no_talks_desc: 还没有发布任何说说
+  no_config: 暂无说说配置，请查看文档添加
+
+friend_links:
+  title: 友情链接
+  count_prefix: 共
+  count_suffix: 个友链
+  empty: 暂无友链
+  empty_desc: 还没有添加任何友情链接，欢迎联系我交换友链
+  no_config: 暂无友链配置，请查看文档添加
+
+appbar:
+  light_mode: 亮色模式
+  dark_mode: 暗色模式
+  auto_mode: 跟随系统
+
+tags:
+  title: 标签
+  count_prefix: 共
+  count_suffix: 个标签
+  empty: 暂无标签
+  empty_desc: 还没有创建任何标签，开始写作时可以为文章添加标签
+
+post:
+  prev: 上一篇
+  next: 下一篇
+  none: 没有了
+  comment: 评论
+  comment_disabled: 评论功能未启用
+
+index:
+  no_articles: 暂无文章
+  no_articles_desc: 还没有发布任何文章
+
+diary:
+  title: 文章归档
+  total: 共
+  articles: 篇文章
+  year: 年
+  no_articles: 暂无文章
+  no_articles_desc: 还没有发布任何文章，开始写作来创建你的第一篇博客吧
+
+categories:
+  title: 文章分类
+  count_prefix: 共
+  count_suffix: 个分类
+  articles: 篇文章
+  empty: 暂无分类
+  empty_desc: 还没有创建任何分类，开始写作时可以为文章添加分类
+
+about:
+  skills: 技能
+  contacts: 联系方式
+  projects: 项目
+  project_detail: 查看详情
+
+share:
+  copy_success: 链接复制成功！
+  copy_fail: 复制失败，请手动复制

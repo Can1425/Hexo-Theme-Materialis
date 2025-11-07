@@ -303,9 +303,9 @@
     
     <!-- 页面标题 -->
     <mdui-card class="mdui-primary archives-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">文章归档</mdui-typography>
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></mdui-typography>
         <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            共 <mdui-badge style="margin: 0 8px;"><%= site.posts.length %></mdui-badge> 篇文章
+            <%= __('diary.total') %> <mdui-badge style="margin: 0 8px;"><%= site.posts.length %></mdui-badge> <%= __('diary.articles') %>
         </mdui-typography>
     </mdui-card>
 
@@ -332,10 +332,10 @@
                     </mdui-avatar>
                     <div class="archives-year-info">
                         <mdui-typography variant="h5" style="font-weight: 500;">
-                            <%= year %> 年
+                            <%= year %> <%= __('diary.year') %>
                         </mdui-typography>
                         <mdui-typography variant="body" style="opacity: 0.8;">
-                            <%= postsByYear[year].length %> 篇文章
+                            <%= postsByYear[year].length %> <%= __('diary.articles') %>
                         </mdui-typography>
                     </div>
                 </div>
@@ -378,10 +378,10 @@
                 <mdui-icon class="archives-empty-icon">article</mdui-icon>
                 <div class="archives-empty-content">
                     <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
-                        暂无文章
+                        <%= __('diary.no_articles') %>
                     </mdui-typography>
                     <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
-                        还没有发布任何文章，开始写作来创建你的第一篇博客吧
+                        <%= __('diary.no_articles_desc') %>
                     </mdui-typography>
                 </div>
             </mdui-card>

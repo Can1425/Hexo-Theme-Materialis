@@ -13,13 +13,13 @@ document.addEventListener('DOMContentLoaded', function() {
       await navigator.clipboard.writeText(currentUrl);
       
       mdui.snackbar({
-        message: '链接复制成功！',
+        message: "<%= __('share.copy_success') %>",
         placement: 'bottom',
         timeout: 2000
       });
     } catch (err) {
       mdui.snackbar({
-        message: '复制失败，请手动复制',
+        message: "<%= __('share.copy_fail') %>",
         placement: 'bottom',
         timeout: 2000
       });

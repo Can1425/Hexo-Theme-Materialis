@@ -4,7 +4,7 @@
         <div style="text-align: center;">
             <mdui-typography variant="h2" style="margin-bottom: 16px;">404</mdui-typography>
             <br>
-            <mdui-typography variant="h6" style="opacity: 0.8;">页面未找到</mdui-typography>
+            <mdui-typography variant="h6" style="opacity: 0.8;"><%= __('notfound.title') %></mdui-typography>
         </div>
     </mdui-card>
 
@@ -12,12 +12,12 @@
         <div style="display: flex; flex-direction: column; gap: 16px;">
             <mdui-button variant="filled" href="<%= url_for('/') %>" full-width>
                 <mdui-icon slot="icon">home</mdui-icon>
-                返回首页
+                <%= __('notfound.home') %>
             </mdui-button>
             
             <mdui-button variant="outlined" onclick="history.back()" full-width>
                 <mdui-icon slot="icon">arrow_back</mdui-icon>
-                返回上页
+                <%= __('notfound.back') %>
             </mdui-button>
         </div>
     </mdui-card>

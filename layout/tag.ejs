@@ -157,12 +157,14 @@
 <div class="tags-page">
     <!-- 页面标题 -->
     <mdui-card class="tags-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">标签</mdui-typography>
+        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">
+            <%= __('tags.title') %>
+        </mdui-typography>
         <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
             <% if (site.tags.length > 0) { %>
-                共 <mdui-badge style="margin: 0 8px;"><%= site.tags.length %></mdui-badge> 个标签
+                <%= __('tags.count_prefix') %> <mdui-badge style="margin: 0 8px;"><%= site.tags.length %></mdui-badge> <%= __('tags.count_suffix') %>
             <% } else { %>
-                暂无标签
+                <%= __('tags.empty') %>
             <% } %>
         </mdui-typography>
     </mdui-card>
@@ -190,10 +192,10 @@
                 <mdui-icon class="tags-empty-icon">local_offer</mdui-icon>
                 <div class="tags-empty-content">
                     <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
-                        暂无标签
+                        <%= __('tags.empty') %>
                     </mdui-typography>
                     <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
-                        还没有创建任何标签，开始写作时可以为文章添加标签
+                        <%= __('tags.empty_desc') %>
                     </mdui-typography>
                 </div>
             </mdui-card>
