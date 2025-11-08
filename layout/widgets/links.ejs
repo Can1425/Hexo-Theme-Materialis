@@ -1,0 +1,137 @@
+<mdui-dialog id="interceptDialog" class="interceptor-dialog" close-on-overlay-click>
+  <div class="mdui-dialog-title">即将离开本站</div>
+  <div class="mdui-dialog-content">
+    <div style="text-align: center; margin-bottom: 20px;">
+      <mdui-icon name="open_in_new" style="font-size: 48px; color: var(--mdui-color-primary);"></mdui-icon>
+    </div>
+    <p>您即将访问外部网站：</p>
+    <div class="link-info">
+      <strong id="interceptLinkText">链接文本</strong>
+      <br>
+      <small style="color: var(--mdui-color-on-surface-variant);" id="interceptDomain">域名</small>
+    </div>
+    <div class="mdui-typo-caption" style="margin-top: 16px; color: var(--mdui-color-on-surface-variant);">
+      <mdui-icon name="info" size="small"></mdui-icon>
+      请注意：外部网站的内容和安全性不在本站控制范围内
+    </div>
+  </div>
+  <div class="mdui-dialog-actions">
+    <mdui-button id="cancelBtn">取消</mdui-button>
+    <mdui-button variant="filled" id="continueBtn">继续访问</mdui-button>
+  </div>
+</mdui-dialog>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取对话框元素
+  const interceptDialog = document.querySelector('#interceptDialog');
+  const continueBtn = document.querySelector('#continueBtn');
+  const cancelBtn = document.querySelector('#cancelBtn');
+  
+  // 存储当前点击的链接
+  let currentLink = null;
+
+  // 拦截所有外部链接的点击事件
+  document.addEventListener('click', function(e) {
+    let target = e.target;
+    
+    // 向上查找链接元素
+    while (target && target.tagName !== 'A') {
+      target = target.parentElement;
+    }
+    
+    if (target && target.tagName === 'A') {
+      const href = target.getAttribute('href');
+      
+      // 只拦截外部链接
+      if (href && isExternalLink(href)) {
+        e.preventDefault();
+        currentLink = href;
+        showInterceptionDialog(href, target.textContent || target.title || '未知网站');
+      }
+    }
+  });
+
+  // 判断是否为外部链接
+  function isExternalLink(href) {
+    return (
+      href.startsWith('http://') ||
+      href.startsWith('https://') ||
+      href.startsWith('//') ||
+      href.startsWith('mailto:') ||
+      href.startsWith('tel:')
+    );
+  }
+
+  // 显示拦截对话框
+  function showInterceptionDialog(url, linkText) {
+    const domain = new URL(url, window.location.origin).hostname;
+    
+    // 更新对话框内容
+    document.getElementById('interceptLinkText').textContent = linkText;
+    document.getElementById('interceptDomain').textContent = domain;
+    
+    // 打开对话框
+    interceptDialog.open = true;
+  }
+
+  // 继续访问按钮点击事件
+  continueBtn.addEventListener('click', function() {
+    if (currentLink) {
+      window.open(currentLink, '_blank', 'noopener,noreferrer');
+      interceptDialog.open = false;
+      currentLink = null;
+    }
+  });
+
+  // 取消按钮点击事件
+  cancelBtn.addEventListener('click', function() {
+    interceptDialog.open = false;
+    currentLink = null;
+  });
+
+  interceptDialog.addEventListener('close', function() {
+    currentLink = null;
+  });
+});
+</script>
+
+<style>
+/* 对话框内容样式 */
+.interceptor-dialog {
+  background-color: rgba(var(--mdui-color-surface), 0.95) !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(var(--mdui-color-outline), 0.1) !important;
+}
+
+.interceptor-dialog .mdui-dialog-title {
+  font-weight: 600;
+  text-align: center;
+  padding: 24px 24px 0;
+  color: var(--mdui-color-on-surface);
+}
+
+.interceptor-dialog .mdui-dialog-content {
+  padding: 20px 24px;
+  color: var(--mdui-color-on-surface-variant);
+}
+
+.interceptor-dialog .link-info {
+  background: rgba(var(--mdui-color-primary), 0.08);
+  padding: 16px;
+  border-radius: 8px;
+  margin: 16px 0;
+  text-align: center;
+  border: 1px solid rgba(var(--mdui-color-primary), 0.2);
+}
+
+.interceptor-dialog .mdui-dialog-actions {
+  padding: 8px 24px 24px;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+
+</style>

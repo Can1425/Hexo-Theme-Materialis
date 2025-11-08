@@ -20,6 +20,11 @@
 
     <%- css('css/style.css') %>
     <%- css('css/color.css') %>
+ 
+    <% if (theme.interceptor.enable) { %>
+        <%- include('widgets/links.ejs') %>        
+    <% } %>
+
 </head>
 <body>
     <%- include('widgets/appbar') %>
@@ -27,7 +32,8 @@
     <main class="main">
         <%- body %>
     </main>
-    <%- include('widgets/footer') %>
+
+    <%- include('widgets/footer') %>   
 </body>
 
 <script type="module" src="/js/main.js"></script>
