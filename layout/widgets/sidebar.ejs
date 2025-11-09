@@ -35,22 +35,6 @@
         <% } %>
     </mdui-list>
 
-    <!-- 分类列表 -->
-    <mdui-list>
-        <% site.categories.forEach(function(category) { %>
-            <mdui-list-item 
-                icon="folder" 
-                onclick="location.href='<%= url_for(category.path) %>'"
-                <% if (page.path.includes(category.path) || category.path === page.path) { %>
-                active
-                <% } else { %>
-                variant="filled"
-                <% } %>
-            >
-                <%= category.name %>
-                <br>
-            </mdui-list-item>
-        <% }); %>
-    </mdui-list>
+
 
 </mdui-navigation-drawer>
