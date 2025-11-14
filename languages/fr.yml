@@ -58,6 +58,7 @@ appbar:
   light_mode: Mode clair
   dark_mode: Mode sombre
   auto_mode: Suivre le système
+  theme_tooltip: Thème
 
 tags:
   title: Étiquettes

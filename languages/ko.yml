@@ -58,6 +58,7 @@ appbar:
   light_mode: 라이트 모드
   dark_mode: 다크 모드
   auto_mode: 시스템 따르기
+  theme_tooltip: 테마
 
 tags:
   title: 태그

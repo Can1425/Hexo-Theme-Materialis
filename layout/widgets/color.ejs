@@ -1,0 +1,323 @@
+<!-- 动态配色选择器组件 -->
+<mdui-button-icon id="color-picker-trigger" class="color-picker-icon">
+  <mdui-icon name="palette"></mdui-icon>
+  <mdui-tooltip content="动态配色"></mdui-tooltip>
+</mdui-button-icon>
+
+<mdui-dialog id="color-picker-dialog" class="dynamic-color-dialog" close-on-overlay-click>
+  <div class="mdui-dialog-title">动态配色设置</div>
+  <div class="mdui-dialog-content">
+    
+    <!-- 颜色选择 -->
+    <div class="color-section">
+      <h4>选择颜色</h4>
+      <div class="color-picker-container">
+        <input type="color" id="native-color-picker" class="native-color-picker" value="#6750a4">
+        <mdui-button id="random-color-btn" variant="tonal">随机颜色</mdui-button>
+      </div>
+      
+      <!-- 颜色预览 -->
+      <div class="color-preview">
+        <div class="preview-label">预览:</div>
+        <div id="color-preview" class="preview-sample"></div>
+      </div>
+    </div>
+
+    <mdui-divider></mdui-divider>
+
+    <!-- 操作按钮 -->
+    <div class="color-section">
+      <div class="action-buttons">
+        <mdui-button id="reset-color-btn" variant="tonal">重置</mdui-button>
+      </div>
+    </div>
+
+  </div>
+  <div class="mdui-dialog-actions">
+    <mdui-button id="cancel-color-btn">取消</mdui-button>
+    <mdui-button variant="filled" id="apply-color-btn">应用</mdui-button>
+  </div>
+</mdui-dialog>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // 获取DOM元素
+  const colorPickerTrigger = document.getElementById('color-picker-trigger');
+  const colorDialog = document.getElementById('color-picker-dialog');
+  const cancelBtn = document.getElementById('cancel-color-btn');
+  const applyBtn = document.getElementById('apply-color-btn');
+  const nativeColorPicker = document.getElementById('native-color-picker');
+  const resetBtn = document.getElementById('reset-color-btn');
+  const randomBtn = document.getElementById('random-color-btn');
+  const colorPreview = document.getElementById('color-preview');
+
+  let selectedColor = nativeColorPicker.value;
+
+  // 本地存储键名
+  const COLOR_SCHEME_KEY = 'materialis-color-scheme';
+
+  // 页面加载时恢复保存的颜色主题
+  function loadSavedColorScheme() {
+    try {
+      const savedColor = localStorage.getItem(COLOR_SCHEME_KEY);
+      if (savedColor && isValidColor(savedColor)) {
+        applyColorScheme(savedColor);
+        nativeColorPicker.value = savedColor;
+        updateColorPreview(savedColor);
+        selectedColor = savedColor;
+      }
+    } catch (e) {
+      console.warn('无法从本地存储加载颜色主题:', e);
+    }
+  }
+
+  // 保存颜色主题到本地存储
+  function saveColorScheme(color) {
+    try {
+      if (color && isValidColor(color)) {
+        localStorage.setItem(COLOR_SCHEME_KEY, color);
+      } else {
+        localStorage.removeItem(COLOR_SCHEME_KEY);
+      }
+    } catch (e) {
+      console.warn('无法保存颜色主题到本地存储:', e);
+    }
+  }
+
+  // 应用颜色主题
+  function applyColorScheme(color) {
+    if (typeof mdui !== 'undefined' && mdui.setColorScheme) {
+      mdui.setColorScheme(color);
+    } else {
+      console.error('MDUI setColorScheme 函数未找到');
+    }
+  }
+
+  // 移除颜色主题
+  function removeColorScheme() {
+    if (typeof mdui !== 'undefined' && mdui.removeColorScheme) {
+      mdui.removeColorScheme();
+    }
+  }
+
+  // 打开对话框
+  colorPickerTrigger.addEventListener('click', function() {
+    colorDialog.open = true;
+  });
+
+  // 关闭对话框
+  cancelBtn.addEventListener('click', function() {
+    colorDialog.open = false;
+    resetSelection();
+  });
+
+  // 原生颜色选择器事件
+  nativeColorPicker.addEventListener('input', function() {
+    selectedColor = this.value;
+    updateColorPreview(selectedColor);
+  });
+
+  // 应用配色
+  applyBtn.addEventListener('click', function() {
+    if (selectedColor && isValidColor(selectedColor)) {
+      // 应用并保存配色方案
+      applyColorScheme(selectedColor);
+      saveColorScheme(selectedColor);
+      
+      // 显示成功提示
+      mdui.snackbar({
+        message: '配色已应用',
+        placement: 'bottom',
+        timeout: 2000
+      });
+      
+      colorDialog.open = false;
+      resetSelection();
+    } else {
+      mdui.snackbar({
+        message: '请输入有效的颜色值',
+        placement: 'bottom',
+        timeout: 2000
+      });
+    }
+  });
+
+  // 重置配色
+  resetBtn.addEventListener('click', function() {
+    removeColorScheme();
+    saveColorScheme(null);
+    
+    mdui.snackbar({
+      message: '配色已重置',
+      placement: 'bottom',
+      timeout: 2000
+    });
+    
+    resetSelection();
+  });
+
+  // 随机颜色
+  randomBtn.addEventListener('click', function() {
+    const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+    selectedColor = randomColor;
+    nativeColorPicker.value = randomColor;
+    updateColorPreview(randomColor);
+  });
+
+  // 辅助函数：验证颜色值
+  function isValidColor(color) {
+    return /^#([A-Fa-f0-9]{6})$/.test(color);
+  }
+
+  // 更新颜色预览
+  function updateColorPreview(color) {
+    if (colorPreview && isValidColor(color)) {
+      colorPreview.style.backgroundColor = color;
+    }
+  }
+
+  // 重置选择状态
+  function resetSelection() {
+    selectedColor = nativeColorPicker.value;
+    updateColorPreview(selectedColor);
+  }
+  
+  // 页面加载时恢复保存的主题
+  loadSavedColorScheme();
+});
+</script>
+
+<style>
+.dynamic-color-dialog::part(overlay) {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.dynamic-color-dialog {
+    --mdui-dialog-width: 400px;
+    --mdui-dialog-max-height: 90vh;
+}
+
+.mdui-dialog-title {
+    text-align: center;
+    padding: 20px 20px 0;
+    font-weight: 500;
+    color: var(--mdui-color-on-surface);
+    font-size: 1.1rem;
+}
+
+.mdui-dialog-content {
+    padding: 16px 20px;
+}
+
+.mdui-dialog-actions {
+    padding: 12px 20px 20px;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.color-section {
+    margin-bottom: 16px;
+}
+
+.color-section:last-child {
+    margin-bottom: 0;
+}
+
+.color-section h4 {
+    margin: 0 0 12px 0;
+    color: var(--mdui-color-on-surface);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.color-picker-container {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.native-color-picker {
+    width: 60px;
+    height: 40px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: var(--mdui-color-surface-container);
+}
+
+.native-color-picker::-webkit-color-swatch {
+    border: 1px solid var(--mdui-color-outline-variant);
+    border-radius: 6px;
+}
+
+.native-color-picker::-moz-color-swatch {
+    border: 1px solid var(--mdui-color-outline-variant);
+    border-radius: 6px;
+}
+
+.color-preview {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 8px;
+}
+
+.preview-label {
+    color: var(--mdui-color-on-surface-variant);
+    font-size: 0.85rem;
+}
+
+.preview-sample {
+    width: 60px;
+    height: 30px;
+    border-radius: 4px;
+    border: 1px solid var(--mdui-color-outline-variant);
+    background-color: transparent;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.color-picker-icon {
+    margin: 0 4px;
+    color: var(--mdui-color-on-surface-variant);
+    transition: all 0.2s ease;
+}
+
+.color-picker-icon:hover {
+    color: var(--mdui-color-primary);
+}
+
+/* 响应式设计 */
+@media (max-width: 600px) {
+    .dynamic-color-dialog {
+        --mdui-dialog-width: 90vw;
+    }
+    
+    .mdui-dialog-content {
+        padding: 12px 16px;
+    }
+    
+    .mdui-dialog-actions {
+        padding: 12px 16px 16px;
+    }
+}
+
+.mdui-dialog-content::-webkit-scrollbar {
+    width: 6px;
+}
+
+.mdui-dialog-content::-webkit-scrollbar-track {
+    background: var(--mdui-color-surface-container);
+}
+
+.mdui-dialog-content::-webkit-scrollbar-thumb {
+    background: var(--mdui-color-outline-variant);
+    border-radius: 3px;
+}
+</style>

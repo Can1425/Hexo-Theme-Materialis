@@ -58,6 +58,7 @@ appbar:
   light_mode: ライトモード
   dark_mode: ダークモード
   auto_mode: システムに従う
+  theme_tooltip: テーマ
 
 tags:
   title: タグ

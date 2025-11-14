@@ -58,6 +58,7 @@ appbar:
   light_mode: Modalità chiara
   dark_mode: Modalità scura
   auto_mode: Segui il sistema
+  theme_tooltip: Tema
 
 tags:
   title: Tag

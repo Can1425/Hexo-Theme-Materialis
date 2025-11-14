@@ -58,6 +58,7 @@ appbar:
   light_mode: Light mode
   dark_mode: Dark mode
   auto_mode: Follow system
+  theme_tooltip: Theme
 
 tags:
   title: Tags

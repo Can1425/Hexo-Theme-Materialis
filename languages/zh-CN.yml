@@ -58,6 +58,8 @@ appbar:
   light_mode: 亮色模式
   dark_mode: 暗色模式
   auto_mode: 跟随系统
+  theme_tooltip: 主题
+
 
 tags:
   title: 标签

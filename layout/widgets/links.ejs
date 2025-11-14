@@ -31,6 +31,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // 存储当前点击的链接
   let currentLink = null;
 
+  // 图片文件后缀列表
+  const imageExtensions = [
+    '.jpg', '.jpeg', '.png', '.gif', '.bmp', '.webp', 
+    '.svg', '.ico', '.tiff', '.tif', '.avif', '.heic'
+  ];
+
   // 拦截所有外部链接的点击事件
   document.addEventListener('click', function(e) {
     let target = e.target;
@@ -43,8 +49,8 @@ document.addEventListener('DOMContentLoaded', function() {
     if (target && target.tagName === 'A') {
       const href = target.getAttribute('href');
       
-      // 只拦截外部链接
-      if (href && isExternalLink(href)) {
+      // 只拦截外部链接，但不拦截图片链接
+      if (href && isExternalLink(href) && !isImageLink(href)) {
         e.preventDefault();
         currentLink = href;
         showInterceptionDialog(href, target.textContent || target.title || '未知网站');
@@ -61,6 +67,12 @@ document.addEventListener('DOMContentLoaded', function() {
       href.startsWith('mailto:') ||
       href.startsWith('tel:')
     );
+  }
+
+  // 判断是否为图片链接
+  function isImageLink(href) {
+    const lowerHref = href.toLowerCase();
+    return imageExtensions.some(ext => lowerHref.endsWith(ext));
   }
 
   // 显示拦截对话框
@@ -132,6 +144,4 @@ document.addEventListener('DOMContentLoaded', function() {
   justify-content: flex-end;
   gap: 8px;
 }
-
-
 </style>
