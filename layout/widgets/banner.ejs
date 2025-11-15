@@ -25,5 +25,35 @@
         <% } %>
         <% } %>
     </mdui-card>
-    <mdui-card class="banner-image"></mdui-card>
+    
+    <mdui-card class="banner-image">
+        <% if (get_path() !== '/post/') { %>
+        <!-- 普通页面在banner-image中显示一言 -->
+        <div style="margin: 16px; text-align: center;">
+            <p id="hitokoto" style="padding: 70px 0;">
+                <a href="#" id="hitokoto_text" style="color: var(--mdui-color-on-surface); text-decoration: none; font-style: italic;">
+                    :D 获取中...
+                </a>
+            </p>
+        </div>
+        <% } %>
+    </mdui-card>
 </div>
+
+<script>
+// 只在普通页面加载时执行
+if (location.pathname !== '/post/') {
+    // 获取一言
+    // 请注意此 Web API 的兼容性，
+    // 不支持 IE, iOS Safari < 10.1，
+    // 完整支持列表参考：https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+    fetch('https://v1.hitokoto.cn')
+        .then(response => response.json())
+        .then(data => {
+            const hitokoto = document.querySelector('#hitokoto_text')
+            hitokoto.href = `https://hitokoto.cn/?uuid=${data.uuid}`
+            hitokoto.innerText = data.hitokoto
+        })
+        .catch(console.error)
+}
+</script>

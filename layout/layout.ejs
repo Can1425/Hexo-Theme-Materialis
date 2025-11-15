@@ -20,6 +20,7 @@
 
     <%- css('css/style.css') %>
     <%- css('css/color.css') %>
+    <%- css('css/widgets/page-transition.css') %>
  
     <% if (theme.interceptor.enable) { %>
         <%- include('widgets/links.ejs') %>        
@@ -30,7 +31,9 @@
     <%- include('widgets/appbar') %>
     <%- include('widgets/sidebar') %>
     <main class="main">
-        <%- body %>
+        <div class="page-transition-container">
+            <%- body %>
+        </div>
     </main>
 
     <%- include('widgets/footer') %>   
@@ -39,6 +42,7 @@
 <script type="module" src="/js/main.js"></script>
 <script src="/js/widgets/appbar.js"></script>
 <script src="/js/widgets/sidebar.js"></script>
+<script src="/js/page-transition.js"></script>
 <script>        
 
 console.log(`
@@ -101,12 +105,8 @@ console.log(`
             }
         `;
         document.head.appendChild(style);
-        
-        // 在控制台输出提醒信息
-        console.log('今天是纪念日，网站已切换为黑白模式以示纪念');
     }
 })();
 </script>
 <% } %>
-
 </html>

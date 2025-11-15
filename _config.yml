@@ -65,11 +65,6 @@ links:
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 #---end--- 
-#颜色设置
-#---start---
-color:
-  main: "#d9e2ff"
-#--end---
 #自定义代码
 #---start---
 # 自定义资源文件配置
@@ -166,12 +161,8 @@ memorial_days:
     - 9.18
     - 12.13
 #---end---
-# 浮动按钮配置
-fab:
-  enable: true
-  position: "bottom-right" # bottom-right, bottom-left, top-right, top-left
-  icon: "share" # mdui 图标名称
-  tooltip: "分享页面"
-
+#链接拦截器
+#---start---
 interceptor:
   enable: flase  # 是否启用链接拦截器功能
+#---end---

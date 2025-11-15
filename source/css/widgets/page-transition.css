@@ -1,0 +1,353 @@
+/* MDUI 风格的页面跳转动画 */
+.page-transition-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+/* ===== 滑入滑出动画 ===== */
+.page-slide-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(8%);
+  opacity: 0;
+  z-index: 1;
+}
+
+.page-slide-enter-active {
+  animation: mdui-slide-in 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.page-slide-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateX(0);
+  opacity: 1;
+  z-index: 0;
+}
+
+.page-slide-exit-active {
+  animation: mdui-slide-out 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* MDUI 标准滑入动画 */
+@keyframes mdui-slide-in {
+  0% {
+    transform: translateX(8%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* MDUI 标准滑出动画 */
+@keyframes mdui-slide-out {
+  0% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(-4%);
+    opacity: 0;
+  }
+}
+
+/* ===== 淡入淡出动画 ===== */
+.page-fade-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  z-index: 1;
+}
+
+.page-fade-enter-active {
+  animation: mdui-fade-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.page-fade-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 1;
+  z-index: 0;
+}
+
+.page-fade-exit-active {
+  animation: mdui-fade-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* MDUI 标准淡入动画 */
+@keyframes mdui-fade-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* MDUI 标准淡出动画 */
+@keyframes mdui-fade-out {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.02);
+  }
+}
+
+/* ===== 上升下降动画 ===== */
+.page-lift-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(12px);
+  opacity: 0;
+  z-index: 1;
+}
+
+.page-lift-enter-active {
+  animation: mdui-lift-in 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.page-lift-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateY(0);
+  opacity: 1;
+  z-index: 0;
+}
+
+.page-lift-exit-active {
+  animation: mdui-lift-out 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* MDUI 上升进入动画 */
+@keyframes mdui-lift-in {
+  0% {
+    transform: translateY(12px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* MDUI 下降退出动画 */
+@keyframes mdui-lift-out {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-8px);
+    opacity: 0;
+  }
+}
+
+/* ===== 缩放动画 ===== */
+.page-scale-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.92);
+  opacity: 0;
+  z-index: 1;
+}
+
+.page-scale-enter-active {
+  animation: mdui-scale-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.page-scale-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(1);
+  opacity: 1;
+  z-index: 0;
+}
+
+.page-scale-exit-active {
+  animation: mdui-scale-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* MDUI 缩放进入动画 */
+@keyframes mdui-scale-in {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* MDUI 缩放退出动画 */
+@keyframes mdui-scale-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.08);
+    opacity: 0;
+  }
+}
+
+/* ===== 卡片展开动画 ===== */
+.page-card-enter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(0.8) translateY(20px);
+  opacity: 0;
+  border-radius: 16px;
+  z-index: 1;
+}
+
+.page-card-enter-active {
+  animation: mdui-card-in 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+.page-card-exit {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  border-radius: 0;
+  z-index: 0;
+}
+
+.page-card-exit-active {
+  animation: mdui-card-out 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
+}
+
+/* MDUI 卡片展开动画 */
+@keyframes mdui-card-in {
+  0% {
+    transform: scale(0.8) translateY(20px);
+    opacity: 0;
+    border-radius: 16px;
+  }
+  100% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    border-radius: 0;
+  }
+}
+
+/* MDUI 卡片收缩动画 */
+@keyframes mdui-card-out {
+  0% {
+    transform: scale(1) translateY(0);
+    opacity: 1;
+    border-radius: 0;
+  }
+  100% {
+    transform: scale(1.1) translateY(-10px);
+    opacity: 0;
+    border-radius: 12px;
+  }
+}
+
+/* ===== 响应式优化 ===== */
+@media (max-width: 600px) {
+  .page-slide-enter {
+    transform: translateX(4%);
+  }
+  
+  @keyframes mdui-slide-out {
+    0% {
+      transform: translateX(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-2%);
+      opacity: 0;
+    }
+  }
+  
+  .page-lift-enter {
+    transform: translateY(8px);
+  }
+  
+  @keyframes mdui-lift-out {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-4px);
+      opacity: 0;
+    }
+  }
+}
+
+/* ===== 性能优化 ===== */
+.page-transition-container {
+  /* 启用GPU加速 */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+.page-slide-enter,
+.page-slide-exit,
+.page-fade-enter,
+.page-fade-exit,
+.page-lift-enter,
+.page-lift-exit,
+.page-scale-enter,
+.page-scale-exit,
+.page-card-enter,
+.page-card-exit {
+  /* 优化动画性能 */
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+
+
+/* ===== 无障碍支持 ===== */
+@media (prefers-reduced-motion: reduce) {
+  .page-transition-container * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
