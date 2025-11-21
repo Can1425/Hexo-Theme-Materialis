@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
             if (isInternalLink && href !== window.location.pathname) {
                 e.preventDefault();
                 
-                // 添加退出动画类
+                // 添加模糊效果
                 const container = document.querySelector('.page-transition-container');
+                container.classList.add('page-transition-blur');
+                
+                // 添加退出动画类
                 container.classList.add('page-transition-exit');
                 container.classList.add('page-transition-exit-active');
                 
@@ -30,10 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
         container.classList.add('page-transition-enter');
         container.classList.add('page-transition-enter-active');
         
-        // 动画结束后移除动画类
+        // 动画结束后移除动画类和模糊效果
         setTimeout(() => {
             container.classList.remove('page-transition-enter');
             container.classList.remove('page-transition-enter-active');
+            container.classList.remove('page-transition-blur');
         }, 400);
     }
 });

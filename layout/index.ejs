@@ -1,8 +1,19 @@
-<%- include('widgets/banner', {titleText1: theme.banner.title, titleText2: theme.banner.subtitle}) %>
+<div class="banner-wrapper">
+    <%- include('widgets/banner', {titleText1: theme.banner.title, titleText2: theme.banner.subtitle}) %>
+</div>
 <mdui-layout-main>
     <div class="articles-container">
-        <% if (site.posts.length > 0) { %>
-            <% site.posts.forEach((post) => { %>
+        <% 
+            const sortedPosts = Array.from(site.posts.data || site.posts).sort((a, b) => {
+                const dateA = a.date ? new Date(a.date).getTime() : new Date(a.updated).getTime();
+                const dateB = b.date ? new Date(b.date).getTime() : new Date(b.updated).getTime();
+                
+                return dateB - dateA;
+            });
+        %>
+        
+        <% if (sortedPosts && sortedPosts.length > 0) { %>
+            <% sortedPosts.forEach((post) => { %>
                 <%- include('widgets/index/post-card', {post: post}) %>
             <% }); %>
         <% } else { %>

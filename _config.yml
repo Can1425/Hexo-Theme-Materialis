@@ -166,3 +166,14 @@ memorial_days:
 interceptor:
   enable: flase  # 是否启用链接拦截器功能
 #---end---
+index_generator:
+  path: ''
+  per_page: 10
+  order_by: -date
+#date：按文章发布日期升序排列（从旧到新）
+#-date：按文章发布日期降序排列（从新到旧）- 最常用
+#updated：按文章更新日期升序排列
+#-updated：按文章更新日期降序排列
+#title：按文章标题字母顺序排列
+#-title：按文章标题字母倒序排列
+#random：随机排列
