@@ -1,5 +1,4 @@
 # Hexo-Theme-Materialis
-![GitHub](https://github.com/Can1425/Hexo-Theme-Materialis)
 ![GitHub stars](https://img.shields.io/github/stars/Can1425/Hexo-Theme-Materialis?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/Can1425/Hexo-Theme-Materialis?style=social)
 ![npm](https://img.shields.io/npm/v/hexo-theme-materialis)
