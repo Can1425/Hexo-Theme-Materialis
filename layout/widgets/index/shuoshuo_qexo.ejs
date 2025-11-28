@@ -1,4 +1,203 @@
 <div id="qexot"></div>
 <script src="https://registry.npmmirror.com/qexo-static/1.6.0/files/hexo/talks.js"></script>
-<link rel="stylesheet" href="https://registry.npmmirror.com/qexo-static/1.6.0/files/hexo/talks.css">
+<style>
+    /*加载样式*/
+.qexo_inner,
+.qexo_loader {
+  border-radius: 50%;
+  position: absolute;
+}
+
+.qexo_loading {
+  min-height: 200px;
+}
+
+.qexo_part {
+  min-height: 100px;
+}
+
+.qexo_loader {
+  background-color: rgba(var(--mdui-color-on-surface-variant), 0.2);
+  width: 64px;
+  height: 64px;
+  perspective: 800px;
+}
+
+.qexo_inner {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+}
+
+.qexo_inner.one {
+  left: 0;
+  top: 0;
+  animation: rotate-one 1s linear infinite;
+  border-bottom: 3px solid var(--mdui-color-primary);
+  position: absolute;
+}
+
+.qexo_inner.two {
+  right: 0;
+  top: 0;
+  animation: rotate-two 1s linear infinite;
+  border-right: 3px solid var(--mdui-color-primary);
+  position: absolute;
+}
+
+.qexo_inner.three {
+  right: 0;
+  bottom: 0;
+  animation: rotate-three 1s linear infinite;
+  border-top: 3px solid var(--mdui-color-primary);
+  position: absolute;
+}
+
+@keyframes rotate-one {
+  0% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(0);
+  }
+
+  100% {
+    transform: rotateX(35deg) rotateY(-45deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-two {
+  0% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(0);
+  }
+
+  100% {
+    transform: rotateX(50deg) rotateY(10deg) rotateZ(360deg);
+  }
+}
+
+@keyframes rotate-three {
+  0% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(0);
+  }
+
+  100% {
+    transform: rotateX(35deg) rotateY(55deg) rotateZ(360deg);
+  }
+}
+
+/* 每条动态 */
+#qexot > section > div > div > div {
+  display: flex;
+  flex-direction: initial;
+  flex-wrap: wrap;
+  border-radius: var(--mdui-shape-corner-medium);
+  padding: 8px 16px;
+  margin-top: 12px;
+}
+
+#qexot > section > div > div {
+  box-shadow: var(--mdui-elevation-1);
+  background-color: var(--mdui-color-surface-container-low);
+  border-radius: var(--mdui-shape-corner-medium);
+}
+
+#qexot p {
+  margin: 0;
+}
+
+#qexot .datafrom i {
+  margin-right: 4px;
+}
+
+/* 时间 */
+#qexot > section > div > div > div .qexot-datatime {
+  order: 1;
+  font-size: 0.6rem;
+  color: var(--mdui-color-on-surface-variant);
+}
+
+/* 标签 */
+#qexot > section > div > div > div .qexot-tags {
+  font-size: .6rem;
+  margin-top: -7%;
+  color: var(--mdui-color-on-surface-variant);
+}
+
+/* 内容 */
+#qexot > section > div > div > div .datacont {
+  order: 0;
+  font-size: 1rem;
+  font-weight: bold;
+  width: 100%;
+  line-height: 1.38;
+  margin: 8px 0;
+  color: var(--mdui-color-on-surface);
+}
+
+#qexot .qexot-like {
+  cursor: pointer;
+  padding: 0 10px;
+  font-size: xx-small;
+  fill: currentColor;
+  color: var(--mdui-color-primary);
+}
+
+#qexot .qexot-bottom {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+#qexot .qexot-top {
+  position: absolute;
+  white-space: nowrap;
+  right: 13%;
+}
+
+#qexot div.qexot-content {
+  display: flex;
+  flex-direction: initial;
+  flex-wrap: wrap;
+  border-radius: var(--mdui-shape-corner-medium);
+  width: 100%;
+}
+
+#qexot .qexot div div.qexot-item {
+  width: 90%;
+  border-radius: var(--mdui-shape-corner-medium);
+  padding: 1rem;
+  padding-bottom: 0.5rem;
+  transition: 0.3s;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 5%;
+  background-color: var(--mdui-color-surface-container-low);
+}
+
+.qexot-more {
+  border-width: 1px;
+  border: 1px solid var(--mdui-color-outline);
+  border-radius: var(--mdui-shape-corner-small);
+  box-shadow: var(--mdui-elevation-1);
+  background-color: var(--mdui-color-surface);
+  cursor: pointer;
+  padding-bottom: calc(0.375em - 1px);
+  padding-top: calc(0.375em - 1px);
+  text-align: center;
+  white-space: nowrap;
+  width: 20%;
+  margin-bottom: 10px;
+  color: var(--mdui-color-on-surface);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.qexot-more:hover {
+  background-color: var(--mdui-color-primary-container);
+  color: var(--mdui-color-on-primary-container);
+  box-shadow: var(--mdui-elevation-2);
+}
+</style>
 <script>showQexoTalks("qexot", "<%= theme.shuoshuo.qexo.url %>}", 5)</script>

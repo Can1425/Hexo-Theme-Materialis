@@ -11,54 +11,36 @@ layout: about
 ```
 然后新建source/_posts/about.yml文件，将内容替换为如下内容：
 ```yml
-# 基本信息
-img: "/images/avatar.jpg"
-bio: "前端开发者 | 技术爱好者"
-talk: "这里写你的个人介绍，可以包括你的技术背景、工作经历、兴趣爱好等。"
-tags:
+name: "你的名字"
+title: "前端开发者 & 博主"
+description: "这里写关于我的详细介绍，可以写多行文字..."
+
+skills:
   - "JavaScript"
-  - "Vue"
+  - "HTML/CSS"
+  - "Vue.js"
   - "React"
   - "Node.js"
-  - "前端开发"
+  - "Python"
 
-# 技能列表 (使用 SVG 图标链接)
-# 图标配置
-icons:
-  - name: "JavaScript"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg"
-    
-  - name: "TypeScript" 
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg"
-    
-  - name: "Vue"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vuejs/vuejs-original.svg"
-    
-  - name: "React"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg"
-    
-  - name: "Node.js"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg"
-    
-  - name: "Git"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg"
-# 社交链接
-socials:
+contacts:
   - name: "GitHub"
-    url: "https://github.com/yourusername"
-    svg: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg"
-  - name: "哔哩哔哩"
-    url: "https://space.bilibili.com/yourid"
-    svg: "/images/bilibili.svg"
+    icon: "code"
+    link: "https://github.com/yourname"
   - name: "邮箱"
-    url: "mailto:your-email@example.com"
     icon: "email"
-  - name: "个人网站"
-    url: "https://your-website.com"
-    icon: "language"
+    link: "mailto:your@email.com"
+  - name: "微博"
+    icon: "chat"
+    link: "https://weibo.com/yourname"
 
-# 其他链接
-url: "https://your-website.com"
+projects:
+  - name: "个人博客系统"
+    description: "基于 Hexo 搭建的个人博客，支持自定义主题和插件"
+    link: "https://github.com/yourname/blog"
+  - name: "在线工具集合"
+    description: "开发的各种实用在线工具，包括图片处理、代码格式化等"
+    link: "https://tools.yoursite.com"
 ```
 ## 友情链接配置
 新建页面links
@@ -92,6 +74,28 @@ title: diary
 date: 2025-10-04 19:04:54
 type: diary
 layout: diary
+---
+```
+## 分类页面
+创建页面categories
+在categories里面替换掉内容
+```markdown
+---
+title: categories
+date: 2025-10-04 19:04:54
+type: categories
+layout: categories
+---
+```
+## 标签页面
+创建页面tags
+在tags里面替换掉内容
+```markdown
+---
+title: tags
+date: 2025-10-04 19:04:54
+type: tags
+layout: tags
 ---
 ```
 ## 说说页面

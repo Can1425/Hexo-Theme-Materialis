@@ -1,4 +1,4 @@
-    <%- js('js/fancybox.js') %>
+<%- js('js/fancybox.js') %>
 
 <style>
 .post-container {
@@ -14,7 +14,6 @@
     border-radius: 20px;
     background-color: rgb(var(--mdui-color-surface-container-low));
     box-shadow: none;
-    padding: 2.5rem;
 }
 
 .post-card-comment {
@@ -30,7 +29,6 @@
     box-shadow: none;
     padding: 2.5rem;
 }
-
 
 .markdown-section img,
 .article-content img {
@@ -93,16 +91,17 @@
     word-break: break-word;
 }
 
-/* 代码块样式 */
+/* 修复代码块样式 - 关键修复 */
 .mdui-code-block {
     background: rgb(var(--mdui-color-surface-container-high));
     border-radius: 12px;
     margin: 1.5em 0;
     overflow: hidden;
     font-family: var(--mdui-font-family-mono);
-    max-width: 100%;
     width: 100%;
     box-sizing: border-box;
+    /* 确保代码块不会超出容器 */
+    max-width: 100%;
 }
 
 .mdui-code-header {
@@ -112,10 +111,11 @@
     padding: 12px 16px;
     background: rgb(var(--mdui-color-surface-container-highest));
     border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
-    position: sticky;
-    left: 0;
-    max-width: 100%;
+    position: relative;
+    width: 100%;
     box-sizing: border-box;
+    flex-wrap: wrap;
+    gap: 8px;
 }
 
 .mdui-code-language {
@@ -159,16 +159,20 @@
     color: rgb(var(--mdui-color-success));
 }
 
+/* 关键修复：代码内容区域 */
 .mdui-code-content {
     position: relative;
     background: rgb(var(--mdui-color-surface-container-high));
     width: 100%;
     box-sizing: border-box;
-    /* 关键修复：确保滚动容器正常工作 */
+    /* 修复滚动问题 */
     overflow-x: auto;
     -webkit-overflow-scrolling: touch;
+    /* 确保内容可以水平滚动 */
+    display: block;
 }
 
+/* 关键修复：代码内容本身 */
 .mdui-code-pre {
     margin: 0;
     padding: 16px;
@@ -176,12 +180,14 @@
     font-size: 0.875rem;
     line-height: 1.5;
     color: rgb(var(--mdui-color-on-surface));
-    /* 关键修复：确保内容不换行 */
+    /* 关键：保持代码不换行 */
     white-space: pre;
-    /* 关键修复：让内容自然扩展，不限制宽度 */
+    /* 关键：让内容自然扩展 */
     display: inline-block;
-    min-width: 100%;
+    min-width: min-content;
     box-sizing: border-box;
+    /* 确保代码可以超出容器宽度 */
+    max-width: none;
 }
 
 /* 自定义滚动条样式 */
@@ -234,7 +240,7 @@
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
-    max-width: 100%;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -243,7 +249,7 @@
     padding: 8px 16px;
     margin: 16px 0;
     background-color: rgb(var(--mdui-color-surface-container));
-    max-width: 100%;
+    width: 100%;
     box-sizing: border-box;
 }
 
@@ -251,7 +257,7 @@
 .article-content ol {
     padding-left: 32px;
     margin-bottom: 16px;
-    max-width: 100%;
+    width: 100%;
 }
 
 .article-content li {
@@ -327,9 +333,10 @@
         gap: 16px;
     }
     
-    .post-card-wide{
-        padding: 2.5rem;
+    .post-card-wide {
+        padding: 1.5rem;
     }
+    
     .post-card-comment,
     .post-card-nav {
         padding: 1.5rem;
@@ -352,6 +359,16 @@
     .mdui-code-content::-webkit-scrollbar {
         height: 6px;
     }
+    
+    /* 移动端代码块特殊处理 */
+    .mdui-code-block {
+        margin: 1em 0;
+        border-radius: 8px;
+    }
+    
+    .article-content {
+        font-size: 0.9375rem;
+    }
 }
 
 /* 小屏手机 */
@@ -365,6 +382,7 @@
     .post-card-comment,
     .post-card-nav {
         padding: 1rem;
+        border-radius: 16px;
     }
     
     .mdui-code-pre {
@@ -376,6 +394,14 @@
     .article-content ol {
         padding-left: 24px;
     }
+    
+    .mdui-code-header {
+        padding: 8px 12px;
+    }
+    
+    .mdui-code-language {
+        font-size: 0.75rem;
+    }
 }
 </style>
 
@@ -385,7 +411,7 @@
     <div class="post-container">
         <!-- 内容卡片 -->
         <mdui-card variant="filled" class="post-card-wide">
-            <mdui-card-content style="padding: 2.5rem;">
+            <mdui-card-content>
                 <div class="article-content">
                     <%- page.content %>
                 </div>
@@ -394,7 +420,7 @@
 
         <!-- 上一篇/下一篇导航 -->
         <mdui-card variant="filled" class="post-card-nav">
-            <mdui-card-content style="padding: 1.5rem;">
+            <mdui-card-content>
                 <div class="post-navigation">
                     <% if (page.prev) { %>
                         <a href="<%= url_for(page.prev.path) %>" class="nav-button">
@@ -425,7 +451,7 @@
 
         <!-- 评论卡片 -->
         <mdui-card variant="filled" class="post-card-comment">
-            <mdui-card-content style="padding: 2rem;">
+            <mdui-card-content>
                 <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center; color: rgb(var(--mdui-color-primary));">
                     <%= __('post.comment') %>
                 </mdui-typography>
@@ -460,6 +486,11 @@
 document.addEventListener('DOMContentLoaded', function() {
     // 处理现有的 pre 代码块
     document.querySelectorAll('pre').forEach(pre => {
+        // 检查是否已经被处理过
+        if (pre.closest('.mdui-code-block')) {
+            return;
+        }
+        
         const codeBlock = document.createElement('div');
         codeBlock.className = 'mdui-code-block';
         
@@ -531,8 +562,46 @@ document.addEventListener('DOMContentLoaded', function() {
                 }, 2000);
             }).catch(err => {
                 console.error('复制失败:', err);
+                // 降级方案
+                const textArea = document.createElement('textarea');
+                textArea.value = codeContent;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                
+                const originalHTML = copyButton.innerHTML;
+                copyButton.innerHTML = '<mdui-icon size="small" style="color: var(--mdui-color-success)">check</mdui-icon>';
+                copyButton.classList.add('copied');
+                
+                setTimeout(() => {
+                    copyButton.innerHTML = originalHTML;
+                    copyButton.classList.remove('copied');
+                }, 2000);
             });
         }
     });
+    
+    // 修复移动端代码块显示问题
+    function fixCodeBlocksOnMobile() {
+        document.querySelectorAll('.mdui-code-block').forEach(block => {
+            const content = block.querySelector('.mdui-code-content');
+            const pre = block.querySelector('.mdui-code-pre');
+            
+            if (content && pre) {
+                // 确保代码块在移动端可以正确滚动
+                content.style.overflowX = 'auto';
+                pre.style.whiteSpace = 'pre';
+                pre.style.display = 'inline-block';
+                pre.style.minWidth = 'min-content';
+            }
+        });
+    }
+    
+    // 初始修复
+    fixCodeBlocksOnMobile();
+    
+    // 窗口大小改变时重新修复
+    window.addEventListener('resize', fixCodeBlocksOnMobile);
 });
 </script>
