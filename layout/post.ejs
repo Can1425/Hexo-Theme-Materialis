@@ -166,10 +166,11 @@
     width: 100%;
     box-sizing: border-box;
     /* 修复滚动问题 */
-    overflow-x: auto;
+    overflow: hidden;
     -webkit-overflow-scrolling: touch;
-    /* 确保内容可以水平滚动 */
-    display: block;
+    /* 使用 flex 布局：左侧行号列 + 右侧代码内容 */
+    display: flex;
+    align-items: stretch;
 }
 
 /* 关键修复：代码内容本身 */
@@ -183,11 +184,32 @@
     /* 关键：保持代码不换行 */
     white-space: pre;
     /* 关键：让内容自然扩展 */
-    display: inline-block;
-    min-width: min-content;
+    display: block;
     box-sizing: border-box;
-    /* 确保代码可以超出容器宽度 */
-    max-width: none;
+    /* 允许横向滚动，但代码区域使用 flex:1 */
+    flex: 1 1 auto;
+    min-width: 0; /* allow flex to shrink */
+}
+
+/* 行号 gutter */
+.mdui-code-gutter {
+    padding: 12px 8px;
+    background: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-on-surface-variant));
+    text-align: right;
+    user-select: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    flex: 0 0 auto;
+}
+
+.mdui-code-gutter .mdui-code-line-number {
+    display: block;
+    font-size: 0.8125rem;
+    line-height: 1.5;
+    min-height: 1.5em;
+    padding: 0 4px;
 }
 
 /* 自定义滚动条样式 */
@@ -482,126 +504,168 @@
 </mdui-layout-main>
 
 <script>
-// 代码块功能增强
-document.addEventListener('DOMContentLoaded', function() {
-    // 处理现有的 pre 代码块
-    document.querySelectorAll('pre').forEach(pre => {
-        // 检查是否已经被处理过
-        if (pre.closest('.mdui-code-block')) {
-            return;
-        }
-        
-        const codeBlock = document.createElement('div');
-        codeBlock.className = 'mdui-code-block';
-        
-        // 获取语言类型
-        let language = 'Code';
-        const codeClass = pre.querySelector('code')?.className;
-        if (codeClass) {
-            const match = codeClass.match(/language-(\w+)/);
-            if (match) {
-                language = match[1];
-            }
-        }
-        
-        // 创建代码块头部
+// 代码块功能增强（重构版）
+(function(){
+    function detectLanguage(pre){
+        // 优先考虑 data-language 属性
+        if (pre.dataset && pre.dataset.language) return pre.dataset.language;
+        const code = pre.querySelector('code');
+        const cls = code && code.className ? code.className : '';
+        const m = cls.match(/language-([A-Za-z0-9_\-]+)/) || cls.match(/lang-([A-Za-z0-9_\-]+)/);
+        if (m) return m[1];
+        return 'Code';
+    }
+
+    function makeHeader(language){
         const header = document.createElement('div');
         header.className = 'mdui-code-header';
-        header.innerHTML = `
-            <span class="mdui-code-language">${language}</span>
-            <div class="mdui-code-actions">
-                <span class="mdui-code-toggle">
-                    <mdui-icon class="collapse-icon" size="small">unfold_less</mdui-icon>
-                    <mdui-icon class="expand-icon" size="small">unfold_more</mdui-icon>
-                </span>
-                <span class="mdui-code-copy">
-                    <mdui-icon size="small">content_copy</mdui-icon>
-                </span>
-            </div>
-        `;
-        
-        // 创建代码内容区域
+
+        const langSpan = document.createElement('span');
+        langSpan.className = 'mdui-code-language';
+        langSpan.textContent = language;
+
+        const actions = document.createElement('div');
+        actions.className = 'mdui-code-actions';
+
+        const toggle = document.createElement('button');
+        toggle.type = 'button';
+        toggle.className = 'mdui-code-toggle';
+        toggle.setAttribute('aria-label', 'Toggle code');
+        toggle.innerHTML = '<mdui-icon class="collapse-icon" size="small">unfold_less</mdui-icon><mdui-icon class="expand-icon" size="small">unfold_more</mdui-icon>';
+
+        const copy = document.createElement('button');
+        copy.type = 'button';
+        copy.className = 'mdui-code-copy';
+        copy.setAttribute('aria-label', 'Copy code');
+        copy.innerHTML = '<mdui-icon size="small">content_copy</mdui-icon>';
+
+        actions.appendChild(toggle);
+        actions.appendChild(copy);
+
+        header.appendChild(langSpan);
+        header.appendChild(actions);
+        return header;
+    }
+
+    function processPre(pre){
+        if (pre.closest('.mdui-code-block')) return;
+
+        const language = detectLanguage(pre);
+
+        const codeBlock = document.createElement('div');
+        codeBlock.className = 'mdui-code-block';
+
+        const header = makeHeader(language);
+
         const content = document.createElement('div');
         content.className = 'mdui-code-content';
-        const codePre = document.createElement('pre');
-        codePre.className = 'mdui-code-pre';
-        codePre.innerHTML = pre.innerHTML;
-        content.appendChild(codePre);
-        
-        // 组装代码块
+
+        // 移动原始 pre 元素到新的容器，保留任何高亮 markup
+        pre.classList.add('mdui-code-pre');
+
+        // 生成行号 gutter（不包含在复制内容中）
+        try {
+            const codeText = pre.textContent || pre.innerText || '';
+            const lines = codeText.split(/\r\n|\r|\n/);
+            const gutter = document.createElement('div');
+            gutter.className = 'mdui-code-gutter';
+            for (let i = 0; i < lines.length; i++) {
+                const ln = document.createElement('span');
+                ln.className = 'mdui-code-line-number';
+                ln.textContent = (i + 1);
+                gutter.appendChild(ln);
+            }
+            content.appendChild(gutter);
+        } catch (e) {
+            // ignore gutter errors
+        }
+
+        content.appendChild(pre);
+
         codeBlock.appendChild(header);
         codeBlock.appendChild(content);
-        
-        // 替换原始 pre 元素
-        pre.parentNode.replaceChild(codeBlock, pre);
-    });
-    
-    // 添加折叠/展开功能
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.mdui-code-toggle')) {
-            const codeBlock = e.target.closest('.mdui-code-block');
-            codeBlock.classList.toggle('collapsed');
+
+        // 替换原位置（pre 将被移动到新的 content 中）
+        if (pre.parentNode) {
+            pre.parentNode.replaceChild(codeBlock, pre);
+        } else {
+            // 保险回退：尝试查找原来应该替换的位置
+            const sibling = document.querySelector('body');
+            // 最后手段：附加到 body（极少出现）
+            sibling && sibling.appendChild(codeBlock);
         }
-    });
-    
-    // 添加复制功能
-    document.addEventListener('click', function(e) {
-        if (e.target.closest('.mdui-code-copy')) {
-            const codeBlock = e.target.closest('.mdui-code-block');
-            const codeContent = codeBlock.querySelector('.mdui-code-pre').textContent;
-            const copyButton = e.target.closest('.mdui-code-copy');
-            
-            navigator.clipboard.writeText(codeContent).then(() => {
-                const originalHTML = copyButton.innerHTML;
-                copyButton.innerHTML = '<mdui-icon size="small" style="color: var(--mdui-color-success)">check</mdui-icon>';
-                copyButton.classList.add('copied');
-                
-                setTimeout(() => {
-                    copyButton.innerHTML = originalHTML;
-                    copyButton.classList.remove('copied');
-                }, 2000);
-            }).catch(err => {
-                console.error('复制失败:', err);
-                // 降级方案
-                const textArea = document.createElement('textarea');
-                textArea.value = codeContent;
-                document.body.appendChild(textArea);
-                textArea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textArea);
-                
-                const originalHTML = copyButton.innerHTML;
-                copyButton.innerHTML = '<mdui-icon size="small" style="color: var(--mdui-color-success)">check</mdui-icon>';
-                copyButton.classList.add('copied');
-                
-                setTimeout(() => {
-                    copyButton.innerHTML = originalHTML;
-                    copyButton.classList.remove('copied');
-                }, 2000);
-            });
-        }
-    });
-    
-    // 修复移动端代码块显示问题
-    function fixCodeBlocksOnMobile() {
-        document.querySelectorAll('.mdui-code-block').forEach(block => {
-            const content = block.querySelector('.mdui-code-content');
-            const pre = block.querySelector('.mdui-code-pre');
-            
-            if (content && pre) {
-                // 确保代码块在移动端可以正确滚动
-                content.style.overflowX = 'auto';
-                pre.style.whiteSpace = 'pre';
-                pre.style.display = 'inline-block';
-                pre.style.minWidth = 'min-content';
+    }
+
+    function init(){
+        document.querySelectorAll('pre').forEach(processPre);
+
+        // 事件委托：折叠/展开 & 复制
+        document.addEventListener('click', function(e){
+            const toggle = e.target.closest('.mdui-code-toggle');
+            if (toggle) {
+                const block = toggle.closest('.mdui-code-block');
+                block && block.classList.toggle('collapsed');
+                return;
+            }
+
+            const copyBtn = e.target.closest('.mdui-code-copy');
+            if (copyBtn) {
+                const block = copyBtn.closest('.mdui-code-block');
+                if (!block) return;
+                const pre = block.querySelector('.mdui-code-pre');
+                const codeText = pre ? pre.textContent : '';
+
+                // 复制并给出视觉反馈
+                navigator.clipboard && navigator.clipboard.writeText
+                    ? navigator.clipboard.writeText(codeText).then(() => flashCopy(copyBtn))
+                    : fallbackCopy(codeText, copyBtn);
             }
         });
+
+        // 初始移动端修复
+        function fixCodeBlocksOnMobile(){
+            document.querySelectorAll('.mdui-code-block').forEach(block => {
+                const content = block.querySelector('.mdui-code-content');
+                const pre = block.querySelector('.mdui-code-pre');
+                if (content && pre) {
+                    content.style.overflowX = 'auto';
+                    pre.style.whiteSpace = 'pre';
+                    pre.style.display = 'inline-block';
+                    pre.style.minWidth = 'min-content';
+                }
+            });
+        }
+
+        function flashCopy(button){
+            const original = button.innerHTML;
+            button.innerHTML = '<mdui-icon size="small" style="color: var(--mdui-color-success)">check</mdui-icon>';
+            button.classList.add('copied');
+            setTimeout(()=>{ button.innerHTML = original; button.classList.remove('copied'); }, 2000);
+        }
+
+        function fallbackCopy(text, button){
+            try {
+                const ta = document.createElement('textarea');
+                ta.value = text;
+                ta.style.position = 'fixed'; ta.style.left = '-9999px';
+                document.body.appendChild(ta);
+                ta.select();
+                document.execCommand('copy');
+                document.body.removeChild(ta);
+                flashCopy(button);
+            } catch (err) {
+                console.error('Fallback copy failed', err);
+            }
+        }
+
+        fixCodeBlocksOnMobile();
+        window.addEventListener('resize', fixCodeBlocksOnMobile);
     }
-    
-    // 初始修复
-    fixCodeBlocksOnMobile();
-    
-    // 窗口大小改变时重新修复
-    window.addEventListener('resize', fixCodeBlocksOnMobile);
-});
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
 </script>

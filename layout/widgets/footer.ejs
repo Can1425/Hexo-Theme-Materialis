@@ -17,6 +17,13 @@
         </mdui-chip>
       </div>
 
+      <div class="theme">
+        <mdui-chip variant="filled" class="footer-chip">
+          <mdui-icon name="code" slot="icon"></mdui-icon>
+          <a href="https://github.com/can1425/materialis" class="site-link">Materialis</a>
+        </mdui-chip>
+      </div>
+
       <!-- 备案信息 -->
       <% if (theme.footer && theme.footer.beian) { %>
         <div class="beian-info">
@@ -45,19 +52,7 @@
         </div>
       <% } %>
 
-      <!-- 主题信息 -->
-      <div class="theme-info">
-        <mdui-chip variant="outlined" class="footer-chip">
-          <mdui-icon name="code" slot="icon"></mdui-icon>
-          Powered by 
-          <a href="https://hexo.io/" target="_blank" class="tech-link">Hexo</a> 
-          & 
-          <a href="https://github.com/Can1425/Hexo-Theme-Materialis" target="_blank" class="tech-link">Materialis</a>
-          <% if (theme.footer && theme.footer.theme_name) { %>
-            · Theme: <%= theme.footer.theme_name %>
-          <% } %>
-        </mdui-chip>
-      </div>
+
 
       <!-- 自定义徽章 -->
       <% if (theme.footer && theme.footer.badges) { %>

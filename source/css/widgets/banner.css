@@ -34,7 +34,11 @@
 
 .banner-image {
     width: 30%;
-    height: max-height;
+    height: 200px;
+    background: none;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
 }
 
 @media (max-width: 500px) {

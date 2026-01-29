@@ -8,7 +8,41 @@
 .banner-title
     width: 100%
     padding: 2rem 2rem 5rem 2rem
+    min-height: 220px
+    display: flex
+    flex-direction: column
+    justify-content: center
     font-family: 'banner', sans-serif
+
+/* Make chips inside banner-title scale with viewport while staying readable */
+.banner-title .mdui-chip,
+.banner-title mdui-chip
+    font-size: clamp(0.85rem, 1.2vw, 1rem)
+    padding: 0.25rem 0.6rem
+    display: inline-flex
+    align-items: center
+    gap: 0.4rem
+    height: auto
+    min-height: 32px
+    line-height: 1
+    border-radius: 999px
+    /* shorten chips so they appear compact in the banner */
+    max-width: 160px
+    white-space: nowrap
+    overflow: hidden
+    text-overflow: ellipsis
+
+.banner-title .mdui-chip mdui-icon,
+.banner-title mdui-chip mdui-icon
+    font-size: 1.05em
+
+@media (max-width: 480px)
+    .banner-title .mdui-chip,
+    .banner-title mdui-chip
+        font-size: 0.85rem
+        padding: 0.18rem 0.45rem
+        height: auto
+        weight: auto
 
 .banner-title-text1
     margin: 0.5rem 0
@@ -29,10 +63,70 @@
 
 .banner-image
     width: 30%
-    height: max-height
+    min-height: 200px
+    height: auto
+    background: none
+    position: relative
+    overflow: hidden
+    z-index: 0
+    padding: 12px 0
 
-@media (max-width: 500px)
+    > *
+        position: relative
+        z-index: 1
+
+
+
+.banner-image::before
+    content: ''
+    position: absolute
+    inset: 0
+    background-image: url('https://blog.yizhixiaozhu.top/images/1.png')
+    background-size: cover
+    background-position: center center
+    background-repeat: no-repeat
+    filter: blur(8px)
+    transform: scale(1.1)
+    z-index: 0
+
+/* Ensure hitokoto chip wraps and doesn't overflow the banner width */
+.banner-hitokoto
+    max-width: 100%
+    display: inline-flex
+    align-items: center
+    justify-content: center
+    white-space: normal
+    overflow-wrap: anywhere
+    word-break: break-word
+    padding: 0.25rem 0.5rem
+
+.banner-hitokoto a
+    display: inline-block
+    max-width: 100%
+    white-space: normal
+    overflow-wrap: anywhere
+
+#hitokoto_inner
+    display: inline-block
+    white-space: normal
+    max-width: calc(100% - 22px)
+    overflow-wrap: anywhere
+    word-break: break-word
+
+#hitokoto_cursor
+    display: inline-block
+    margin-left: 6px
+
+
+/* Responsive: hide banner-image on small screens and stack title above image */
+@media (max-width: 768px)
     .banner-container
-        margin: 0
+        flex-direction: column
+        gap: 0.5rem
+
     .banner-image
         display: none
+
+    .banner-title
+        width: 100%
+    
