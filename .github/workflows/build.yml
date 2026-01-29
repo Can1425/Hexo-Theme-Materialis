@@ -12,7 +12,7 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       with:
-        fetch-depth: 0  # 获取完整历史记录用于比较
+        fetch-depth: 0
 
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -24,24 +24,36 @@ jobs:
       run: |
         npm install --ignore-scripts
 
-    - name: Smart version management
+    - name: Smart version management and publish
       run: |
         COMMIT_MSG=$(git log -1 --pretty=%B)
         echo "Commit: $COMMIT_MSG"
         
-        # 获取 npm 上的最新版本
-        LATEST_NPM_VERSION=$(npm view hexo-theme-materialis version 2>/dev/null || echo "0.0.0")
-        echo "Latest version on npm: $LATEST_NPM_VERSION"
+        # 1. 检查包是否存在并获取最新版本
+        if npm view hexo-theme-materialis version >/dev/null 2>&1; then
+          LATEST_NPM_VERSION=$(npm view hexo-theme-materialis version)
+          echo "📦 Latest version on npm: $LATEST_NPM_VERSION"
+          PACKAGE_EXISTS=true
+        else
+          echo "🆕 Package not found on npm (first publish or access issue)"
+          LATEST_NPM_VERSION="0.0.0"
+          PACKAGE_EXISTS=false
+        fi
         
         CURRENT_VERSION=$(node -p "require('./package.json').version")
-        echo "Current version in repo: $CURRENT_VERSION"
+        echo "📁 Current version in repo: $CURRENT_VERSION"
         
-        # 如果仓库版本比 npm 新，使用仓库版本
-        if [ "$(printf '%s\n' "$LATEST_NPM_VERSION" "$CURRENT_VERSION" | sort -V | tail -n1)" = "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$LATEST_NPM_VERSION" ]; then
+        # 2. 确定目标版本逻辑
+        if [ "$PACKAGE_EXISTS" = false ]; then
+          # 首次发布：直接使用仓库版本
+          echo "🚀 First publish scenario! Using repo version: $CURRENT_VERSION"
+          TARGET_VERSION="$CURRENT_VERSION"
+        elif [ "$(printf '%s\n' "$LATEST_NPM_VERSION" "$CURRENT_VERSION" | sort -V | tail -n1)" = "$CURRENT_VERSION" ] && [ "$CURRENT_VERSION" != "$LATEST_NPM_VERSION" ]; then
+          # 仓库版本较新：使用仓库版本
           echo "✅ Using newer repo version: $CURRENT_VERSION"
           TARGET_VERSION="$CURRENT_VERSION"
         else
-          # 基于 commit 类型决定版本更新 - 增强版重大更新识别
+          # 基于Commit Message计算新版本
           if [[ "$COMMIT_MSG" =~ .*BREAKING\ CHANGE.* ]] || \
              [[ "$COMMIT_MSG" =~ .*BREAKING\ CHANGES.* ]] || \
              [[ "$COMMIT_MSG" =~ ^feat! ]] || \
@@ -60,7 +72,7 @@ jobs:
             echo "🔧 Bump type: patch (fix/other)"
           fi
           
-          # 手动计算新版本
+          # 基于线上真实版本号计算
           MAJOR=$(echo $LATEST_NPM_VERSION | cut -d. -f1)
           MINOR=$(echo $LATEST_NPM_VERSION | cut -d. -f2)
           PATCH=$(echo $LATEST_NPM_VERSION | cut -d. -f3)
@@ -79,22 +91,37 @@ jobs:
               echo "🔧 PATCH version update: $LATEST_NPM_VERSION -> $TARGET_VERSION"
               ;;
           esac
-          
-          echo "Calculated new version: $TARGET_VERSION"
-          
-          # 更新 package.json
-          npm version $TARGET_VERSION --no-git-tag-version --allow-same-version --ignore-scripts
         fi
         
-        echo "Target version: $TARGET_VERSION"
+        echo "🎯 Target version: $TARGET_VERSION"
         
-        # 发布到 npm
+        # 3. 更新本地package.json版本（仅当版本变化时）
+        if [ "$CURRENT_VERSION" != "$TARGET_VERSION" ]; then
+          echo "📝 Updating package.json version from $CURRENT_VERSION to $TARGET_VERSION..."
+          npm version $TARGET_VERSION --no-git-tag-version --allow-same-version --ignore-scripts
+          echo "✅ package.json updated"
+        else
+          echo "📝 Version unchanged, no need to update package.json"
+        fi
+        
+        # 4. 发布到npm（带更详细的错误处理）
+        echo "🔍 Checking if version $TARGET_VERSION already exists..."
         if npm view hexo-theme-materialis@$TARGET_VERSION version >/dev/null 2>&1; then
-          echo "✅ Version $TARGET_VERSION already published, skipping"
+          echo "✅ Version $TARGET_VERSION already published, skipping publish"
         else
           echo "🚀 Publishing version $TARGET_VERSION to npm..."
-          npm publish
-          echo "✅ Successfully published to npm!"
+          if npm publish; then
+            echo "✅ Successfully published hexo-theme-materialis@$TARGET_VERSION to npm!"
+          else
+            echo "❌ npm publish failed with exit code $?"
+            # 检查可能的具体错误
+            if [ $? -eq 128 ] || [ $? -eq 1 ]; then
+              echo "⚠️  This might be a permission issue. Please verify:"
+              echo "   1. Your NPM_TOKEN has write access to this package"
+              echo "   2. Package 'hexo-theme-materialis' actually exists and you're a maintainer"
+            fi
+            exit 1
+          fi
         fi
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
