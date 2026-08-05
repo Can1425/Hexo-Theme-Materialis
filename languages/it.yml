@@ -73,10 +73,13 @@ post:
   none: Nessun altro
   comment: Commento
   comment_disabled: Funzione commenti non abilitata
+  min_read: min di lettura
+  words: parole
 
 index:
   no_articles: Ancora nessun articolo
   no_articles_desc: Non hai ancora pubblicato alcun articolo
+  read_more: Leggi di più
 
 diary:
   title: Archivio articoli
@@ -85,6 +88,7 @@ diary:
   year: Anno
   no_articles: Ancora nessun articolo
   no_articles_desc: Non hai ancora pubblicato alcun articolo, inizia a scrivere per creare il tuo primo post del blog
+  read_more: Leggi di più
 
 categories:
   title: Categorie articoli

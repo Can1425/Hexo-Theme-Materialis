@@ -73,10 +73,13 @@ post:
   none: これ以上ありません
   comment: コメント
   comment_disabled: コメント機能は有効になっていません
+  min_read: 分で読了
+  words: 字
 
 index:
   no_articles: 記事はまだありません
   no_articles_desc: まだ記事を公開していません
+  read_more: 続きを読む
 
 diary:
   title: 投稿アーカイブ
@@ -85,6 +88,7 @@ diary:
   year: 年
   no_articles: 記事はまだありません
   no_articles_desc: まだ記事を公開していません。最初のブログ投稿を作成しましょう
+  read_more: 続きを読む
 
 categories:
   title: 投稿カテゴリ

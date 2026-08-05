@@ -91,186 +91,13 @@
     word-break: break-word;
 }
 
-/* 修复代码块样式 - 关键修复 */
-.mdui-code-block {
-    background: rgb(var(--mdui-color-surface-container-high));
-    border-radius: 12px;
-    margin: 1.5em 0;
-    overflow: hidden;
-    font-family: var(--mdui-font-family-mono);
-    width: 100%;
-    box-sizing: border-box;
-    /* 确保代码块不会超出容器 */
-    max-width: 100%;
-}
-
-.mdui-code-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 16px;
-    background: rgb(var(--mdui-color-surface-container-highest));
-    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
-    position: relative;
-    width: 100%;
-    box-sizing: border-box;
-    flex-wrap: wrap;
-    gap: 8px;
-}
-
-.mdui-code-language {
-    color: rgb(var(--mdui-color-on-surface-variant));
-    font-size: 0.875rem;
-    font-weight: 500;
-    font-family: var(--mdui-font-family);
-    flex-shrink: 0;
-}
-
-.mdui-code-actions {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex-shrink: 0;
-}
-
-.mdui-code-toggle {
-    color: rgb(var(--mdui-color-on-surface-variant));
-    cursor: pointer;
-    transition: color 0.2s ease;
-    flex-shrink: 0;
-}
-
-.mdui-code-toggle:hover {
-    color: rgb(var(--mdui-color-primary));
-}
-
-.mdui-code-copy {
-    color: rgb(var(--mdui-color-on-surface-variant));
-    cursor: pointer;
-    transition: color 0.2s ease;
-    flex-shrink: 0;
-}
-
-.mdui-code-copy:hover {
-    color: rgb(var(--mdui-color-primary));
-}
-
-.mdui-code-copy.copied {
-    color: rgb(var(--mdui-color-success));
-}
-
-/* 关键修复：代码内容区域 */
-.mdui-code-content {
-    position: relative;
-    background: rgb(var(--mdui-color-surface-container-high));
-    width: 100%;
-    box-sizing: border-box;
-    /* 修复滚动问题 */
-    overflow: hidden;
-    -webkit-overflow-scrolling: touch;
-    /* 使用 flex 布局：左侧行号列 + 右侧代码内容 */
-    display: flex;
-    align-items: stretch;
-}
-
-/* 关键修复：代码内容本身 */
-.mdui-code-pre {
-    margin: 0;
-    padding: 16px;
-    font-family: var(--mdui-font-family-mono);
-    font-size: 0.875rem;
-    line-height: 1.5;
-    color: rgb(var(--mdui-color-on-surface));
-    /* 关键：保持代码不换行 */
-    white-space: pre;
-    /* 关键：让内容自然扩展 */
-    display: block;
-    box-sizing: border-box;
-    /* 允许横向滚动，但代码区域使用 flex:1 */
-    flex: 1 1 auto;
-    min-width: 0; /* allow flex to shrink */
-}
-
-/* 行号 gutter */
-.mdui-code-gutter {
-    padding: 12px 8px;
-    background: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface-variant));
-    text-align: right;
-    user-select: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    flex: 0 0 auto;
-}
-
-.mdui-code-gutter .mdui-code-line-number {
-    display: block;
-    font-size: 0.8125rem;
-    line-height: 1.5;
-    min-height: 1.5em;
-    padding: 0 4px;
-}
-
-/* 自定义滚动条样式 */
-.mdui-code-content::-webkit-scrollbar {
-    height: 8px;
-}
-
-.mdui-code-content::-webkit-scrollbar-track {
-    background: rgb(var(--mdui-color-surface-container));
-    border-radius: 0 0 4px 4px;
-}
-
-.mdui-code-content::-webkit-scrollbar-thumb {
-    background: rgb(var(--mdui-color-outline-variant));
-    border-radius: 4px;
-}
-
-.mdui-code-content::-webkit-scrollbar-thumb:hover {
-    background: rgb(var(--mdui-color-outline));
-}
-
-/* Firefox 滚动条样式 */
-.mdui-code-content {
-    scrollbar-width: thin;
-    scrollbar-color: rgb(var(--mdui-color-outline-variant)) rgb(var(--mdui-color-surface-container));
-}
-
-.mdui-code-block.collapsed .mdui-code-content {
-    display: none;
-}
-
-.mdui-code-block.collapsed .mdui-code-toggle .expand-icon {
-    display: inline;
-}
-
-.mdui-code-block.collapsed .mdui-code-toggle .collapse-icon {
-    display: none;
-}
-
-.mdui-code-block:not(.collapsed) .mdui-code-toggle .expand-icon {
-    display: none;
-}
-
-.mdui-code-block:not(.collapsed) .mdui-code-toggle .collapse-icon {
-    display: inline;
-}
+/* 代码块样式见文件末尾「macOS 风格代码块」部分（已重构） */
 
 .article-content pre {
     background-color: rgb(var(--mdui-color-surface-container-high));
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
-    width: 100%;
-    box-sizing: border-box;
-}
-
-.article-content blockquote {
-    border-left: 4px solid rgb(var(--mdui-color-primary));
-    padding: 8px 16px;
-    margin: 16px 0;
-    background-color: rgb(var(--mdui-color-surface-container));
     width: 100%;
     box-sizing: border-box;
 }
@@ -285,6 +112,231 @@
 .article-content li {
     margin-bottom: 8px;
     word-break: break-word;
+}
+
+/* ===== 阅读进度条（MD3 风格） ===== */
+.reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    width: 0%;
+    z-index: 9999;
+    background: linear-gradient(90deg,
+        rgb(var(--mdui-color-primary)),
+        rgb(var(--mdui-color-tertiary)));
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 8px rgb(var(--mdui-color-primary) / 0.4);
+    transition: width 0.1s linear;
+    pointer-events: none;
+}
+
+/* ===== 文章头部元信息 ===== */
+.post-meta-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+}
+
+.post-meta-chip {
+    --mdui-chip-height: 30px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.post-meta-chip mdui-icon {
+    font-size: 1.05rem;
+}
+
+.post-meta-chip.date-chip {
+    background: rgb(var(--mdui-color-primary-container)) !important;
+    color: rgb(var(--mdui-color-on-primary-container)) !important;
+}
+
+.post-meta-chip.cat-chip {
+    background: rgb(var(--mdui-color-secondary-container)) !important;
+    color: rgb(var(--mdui-color-on-secondary-container)) !important;
+}
+
+.post-meta-chip.read-chip {
+    background: rgb(var(--mdui-color-tertiary-container)) !important;
+    color: rgb(var(--mdui-color-on-tertiary-container)) !important;
+}
+
+.post-meta-tags {
+    display: inline-flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.post-meta-tag-chip {
+    --mdui-chip-height: 28px;
+    font-size: 0.78rem;
+    background: rgb(var(--mdui-color-surface-container-high)) !important;
+    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+}
+
+/* ===== 排版增强 ===== */
+
+/* 标题：左侧主色装饰条 */
+.article-content h1,
+.article-content h2,
+.article-content h3,
+.article-content h4 {
+    position: relative;
+    padding-left: 14px;
+    line-height: 1.4;
+}
+
+.article-content h1::before,
+.article-content h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.15em;
+    bottom: 0.15em;
+    width: 4px;
+    border-radius: 2px;
+    background: linear-gradient(180deg,
+        rgb(var(--mdui-color-primary)),
+        rgb(var(--mdui-color-tertiary)));
+}
+
+.article-content h3::before,
+.article-content h4::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.2em;
+    bottom: 0.2em;
+    width: 3px;
+    border-radius: 2px;
+    background: rgb(var(--mdui-color-primary) / 0.5);
+}
+
+/* 行内代码：主色调淡背景 */
+.article-content code {
+    background-color: rgb(var(--mdui-color-primary-container) / 0.45);
+    color: rgb(var(--mdui-color-on-primary-container));
+    padding: 2px 7px;
+    border-radius: 6px;
+    font-family: var(--mdui-font-family-mono);
+    word-break: break-word;
+    font-size: 0.875em;
+}
+
+/* 引用块：圆角 + 主色淡底 + 图标感 */
+.article-content blockquote {
+    position: relative;
+    border-left: 4px solid rgb(var(--mdui-color-primary));
+    border-radius: 12px;
+    padding: 14px 18px 14px 22px;
+    margin: 18px 0;
+    background-color: rgb(var(--mdui-color-primary-container) / 0.35);
+    color: rgb(var(--mdui-color-on-surface));
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.article-content blockquote p {
+    margin-bottom: 0;
+}
+
+/* 分隔线 */
+.article-content hr {
+    border: none;
+    height: 1px;
+    margin: 2em 0;
+    background: linear-gradient(90deg,
+        transparent,
+        rgba(var(--mdui-color-outline), 0.4),
+        transparent);
+}
+
+/* 表格美化 */
+.article-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5em 0;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+    display: block;
+    overflow-x: auto;
+}
+
+.article-content thead {
+    background-color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-on-primary-container));
+}
+
+.article-content th,
+.article-content td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+}
+
+.article-content tbody tr {
+    transition: background-color 0.15s ease;
+}
+
+.article-content tbody tr:nth-child(even) {
+    background-color: rgb(var(--mdui-color-surface-container) / 0.5);
+}
+
+.article-content tbody tr:hover {
+    background-color: rgb(var(--mdui-color-surface-container-high));
+}
+
+.article-content tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 图片圆角 + 阴影 */
+.article-content img {
+    border-radius: 14px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease;
+}
+
+.article-content img:hover {
+    transform: scale(1.01);
+}
+
+/* 链接：下划线动画 */
+.article-content a {
+    color: rgb(var(--mdui-color-primary));
+    text-decoration: none;
+    border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.4);
+    transition: border-color 0.2s ease, color 0.2s ease;
+}
+
+.article-content a:hover {
+    color: rgb(var(--mdui-color-tertiary));
+    border-bottom-color: rgb(var(--mdui-color-tertiary));
+}
+
+/* ===== 回到顶部 FAB ===== */
+.back-to-top-fab {
+    position: fixed;
+    right: 24px;
+    bottom: 24px;
+    z-index: 9000;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(16px) scale(0.85);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+}
+
+.back-to-top-fab.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
 }
 
 .post-navigation {
@@ -369,23 +421,33 @@
         gap: 12px;
     }
     
-    .mdui-code-header {
-        padding: 10px 12px;
+    /* 移动端代码块 */
+    .mac-code-block {
+        margin: 1em 0;
+        border-radius: 8px;
     }
     
-    .mdui-code-pre {
+    .mac-code-header {
+        padding: 8px 12px;
+    }
+    
+    .article-content .mac-code-block .gutter {
+        padding: 12px 8px 12px 12px;
+    }
+    
+    .article-content .mac-code-block .code,
+    .article-content .mac-code-block > .mac-code-body > pre {
         padding: 12px;
+    }
+    
+    .article-content .mac-code-block .gutter pre,
+    .article-content .mac-code-block .code pre,
+    .article-content .mac-code-block > .mac-code-body > pre {
         font-size: 0.8125rem;
     }
     
-    .mdui-code-content::-webkit-scrollbar {
+    .article-content .mac-code-block pre::-webkit-scrollbar {
         height: 6px;
-    }
-    
-    /* 移动端代码块特殊处理 */
-    .mdui-code-block {
-        margin: 1em 0;
-        border-radius: 8px;
     }
     
     .article-content {
@@ -407,8 +469,18 @@
         border-radius: 16px;
     }
     
-    .mdui-code-pre {
+    .article-content .mac-code-block .gutter {
+        padding: 10px 8px 10px 10px;
+    }
+    
+    .article-content .mac-code-block .code,
+    .article-content .mac-code-block > .mac-code-body > pre {
         padding: 10px;
+    }
+    
+    .article-content .mac-code-block .gutter pre,
+    .article-content .mac-code-block .code pre,
+    .article-content .mac-code-block > .mac-code-body > pre {
         font-size: 0.75rem;
     }
     
@@ -417,15 +489,411 @@
         padding-left: 24px;
     }
     
-    .mdui-code-header {
-        padding: 8px 12px;
+    .mac-code-header {
+        padding: 6px 10px;
     }
     
-    .mdui-code-language {
-        font-size: 0.75rem;
+    .mac-code-dot {
+        width: 10px;
+        height: 10px;
+    }
+    
+    .mac-code-title {
+        font-size: 0.72rem;
     }
 }
+
+/* =====================================================
+   macOS 风格代码块（重构版）
+   支持 Hexo highlight.js 输出的 figure.highlight 结构
+   ===================================================== */
+.mac-code-block {
+    margin: 1.6em 0;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgb(var(--mdui-color-surface-container-high));
+    border: 1px solid rgba(var(--mdui-color-outline), 0.12);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
+    position: relative;
+}
+
+.mac-code-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: rgb(var(--mdui-color-surface-container-highest));
+    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.5);
+    position: relative;
+}
+
+/* 三个交通灯圆点 */
+.mac-code-dots {
+    display: inline-flex;
+    gap: 7px;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.mac-code-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    box-shadow: inset 0 0 0 0.5px rgba(0, 0, 0, 0.12);
+}
+
+.mac-code-dot.red { background: #ff5f57; }
+.mac-code-dot.yellow { background: #febc2e; }
+.mac-code-dot.green { background: #28c840; }
+
+/* 居中语言标题 */
+.mac-code-title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    font-family: var(--mdui-font-family);
+    max-width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    pointer-events: none;
+}
+
+/* 右侧操作按钮 */
+.mac-code-actions {
+    margin-left: auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+}
+
+.mac-code-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    background: transparent;
+    border-radius: 8px;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    cursor: pointer;
+    transition: background-color 0.15s ease, color 0.15s ease;
+    padding: 0;
+}
+
+.mac-code-btn:hover {
+    background: rgb(var(--mdui-color-surface-container));
+    color: rgb(var(--mdui-color-primary));
+}
+
+.mac-code-btn.copied {
+    color: rgb(var(--mdui-color-success));
+}
+
+.mac-code-btn mdui-icon {
+    font-size: 18px;
+}
+
+/* 代码主体区 */
+.mac-code-body {
+    overflow: hidden;
+}
+
+/* 重置 article-content 通用表格样式对代码表格的干扰 */
+.article-content .mac-code-block figure {
+    margin: 0;
+}
+
+.article-content .mac-code-block table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0;
+    border-radius: 0;
+    box-shadow: none;
+    background: transparent;
+}
+
+.article-content .mac-code-block table thead,
+.article-content .mac-code-block table th,
+.article-content .mac-code-block table td {
+    background: transparent;
+    color: inherit;
+    border-bottom: none;
+    padding: 0;
+}
+
+.article-content .mac-code-block tbody tr,
+.article-content .mac-code-block tbody tr:nth-child(even),
+.article-content .mac-code-block tbody tr:hover {
+    background: transparent;
+}
+
+/* 行号列 */
+.article-content .mac-code-block .gutter {
+    background: rgb(var(--mdui-color-surface-container));
+    border-right: 1px solid rgba(var(--mdui-color-outline-variant), 0.4);
+    padding: 14px 8px 14px 14px;
+    text-align: right;
+    user-select: none;
+    vertical-align: top;
+    white-space: nowrap;
+}
+
+.article-content .mac-code-block .gutter pre {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    margin: 0;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    opacity: 0.6;
+    font-family: var(--mdui-font-family-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+}
+
+/* 代码列 */
+.article-content .mac-code-block .code {
+    padding: 14px 16px;
+    vertical-align: top;
+}
+
+.article-content .mac-code-block .code pre {
+    background: transparent !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    margin: 0;
+    overflow-x: auto;
+    font-family: var(--mdui-font-family-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+/* 裸 pre（未走 highlight.js 的代码）回退 */
+.article-content .mac-code-block > .mac-code-body > pre {
+    margin: 0;
+    padding: 14px 16px;
+    background: transparent !important;
+    border-radius: 0 !important;
+    overflow-x: auto;
+    font-family: var(--mdui-font-family-mono);
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+/* 横向滚动条 */
+.article-content .mac-code-block pre {
+    scrollbar-width: thin;
+    scrollbar-color: rgb(var(--mdui-color-outline-variant)) transparent;
+}
+
+.article-content .mac-code-block pre::-webkit-scrollbar {
+    height: 8px;
+}
+
+.article-content .mac-code-block pre::-webkit-scrollbar-thumb {
+    background: rgb(var(--mdui-color-outline-variant));
+    border-radius: 4px;
+}
+
+.article-content .mac-code-block pre::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--mdui-color-outline));
+}
+
+/* Hexo highlight 行标记 */
+.article-content .mac-code-block .marked-line {
+    background: rgb(var(--mdui-color-primary) / 0.08);
+    display: block;
+    margin: 0 -16px;
+    padding: 0 16px;
+}
+
+/* 折叠状态 */
+.mac-code-block.is-collapsed .mac-code-body {
+    display: none;
+}
+
+/* 代码块内链接不上色 */
+.article-content .mac-code-block a {
+    border-bottom: none;
+}
+
+/* =====================================================
+   Markdown 格式补全
+   ===================================================== */
+
+/* h5 / h6 */
+.article-content h5,
+.article-content h6 {
+    color: rgb(var(--mdui-color-primary));
+    margin-top: 1.2em;
+    margin-bottom: 0.6em;
+    font-weight: 500;
+}
+
+.article-content h5 { font-size: 1.05rem; }
+.article-content h6 { font-size: 0.95rem; opacity: 0.85; }
+
+/* 加粗 / 斜体 / 删除线 */
+.article-content strong {
+    font-weight: 600;
+    color: rgb(var(--mdui-color-on-surface));
+}
+
+.article-content em {
+    font-style: italic;
+}
+
+.article-content del {
+    opacity: 0.6;
+}
+
+/* 键盘按键 */
+.article-content kbd {
+    display: inline-block;
+    padding: 2px 7px;
+    font-family: var(--mdui-font-family-mono);
+    font-size: 0.8em;
+    line-height: 1.4;
+    color: rgb(var(--mdui-color-on-surface));
+    background: rgb(var(--mdui-color-surface-container-highest));
+    border: 1px solid rgba(var(--mdui-color-outline), 0.4);
+    border-bottom-width: 2px;
+    border-radius: 6px;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
+    vertical-align: middle;
+    margin: 0 2px;
+}
+
+/* 高亮标记 */
+.article-content mark {
+    background: rgb(var(--mdui-color-tertiary-container));
+    color: rgb(var(--mdui-color-on-tertiary-container));
+    padding: 1px 5px;
+    border-radius: 4px;
+}
+
+/* 上下标 */
+.article-content sup,
+.article-content sub {
+    font-size: 0.75em;
+    line-height: 0;
+    position: relative;
+    vertical-align: baseline;
+}
+
+.article-content sup { top: -0.5em; }
+.article-content sub { bottom: -0.25em; }
+
+/* 任务列表（GFM task list） */
+.article-content ul.contains-task-list,
+.article-content li.task-list-item {
+    list-style: none;
+}
+
+.article-content li.task-list-item {
+    padding-left: 0;
+    margin-left: -18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.article-content input[type="checkbox"].task-list-item-checkbox {
+    margin: 0.35em 0 0 0;
+    flex-shrink: 0;
+    accent-color: rgb(var(--mdui-color-primary));
+    width: 16px;
+    height: 16px;
+    cursor: default;
+}
+
+/* 嵌套列表缩进 */
+.article-content ul ul,
+.article-content ol ol,
+.article-content ul ol,
+.article-content ol ul {
+    margin: 6px 0 0 0;
+}
+
+/* 定义列表 */
+.article-content dl {
+    margin: 1em 0;
+    padding: 12px 18px;
+    background: rgb(var(--mdui-color-surface-container) / 0.5);
+    border-radius: 12px;
+}
+
+.article-content dt {
+    font-weight: 600;
+    color: rgb(var(--mdui-color-primary));
+    margin-top: 10px;
+}
+
+.article-content dt:first-child {
+    margin-top: 0;
+}
+
+.article-content dd {
+    margin: 4px 0 0 0;
+    padding-left: 16px;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    line-height: 1.7;
+}
+
+/* 引用块内的列表 */
+.article-content blockquote ul,
+.article-content blockquote ol {
+    margin: 8px 0 0 0;
+}
+
+/* 图片标题 */
+.article-content .caption {
+    color: rgb(var(--mdui-color-on-surface-variant));
+    display: block;
+    font-size: 0.85em;
+    margin-top: 0.4em;
+    text-align: center;
+    opacity: 0.8;
+}
+
+/* 脚注 */
+.article-content .footnotes {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+    font-size: 0.875em;
+    color: rgb(var(--mdui-color-on-surface-variant));
+}
+
+.article-content .footnote-ref a,
+.article-content .footnote a {
+    border-bottom: none;
+}
 </style>
+
+<%
+  const _plainText = strip_html(page.content);
+  const _wordCount = _plainText ? _plainText.length : 0;
+  const _readTime = Math.max(1, Math.ceil(_wordCount / 300));
+%>
+
+<!-- 阅读进度条 -->
+<div class="reading-progress-bar" id="reading-progress-bar"></div>
+
+<!-- 回到顶部 FAB -->
+<mdui-fab class="back-to-top-fab" id="back-to-top-fab" variant="primary" size="small" extended="false">
+    <mdui-icon slot="icon" name="arrow_upward"></mdui-icon>
+</mdui-fab>
 
 <mdui-layout-main>
     <%- include('widgets/banner', {titleText1: page.title, titleText2: ''}) %>
@@ -434,6 +902,42 @@
         <!-- 内容卡片 -->
         <mdui-card variant="filled" class="post-card-wide">
             <mdui-card-content>
+                <!-- 文章元信息 -->
+                <div class="post-meta-header">
+                    <mdui-chip class="post-meta-chip date-chip" variant="filled">
+                        <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
+                        <%= page.date.format('YYYY-MM-DD') %>
+                    </mdui-chip>
+
+                    <% if (page.categories && page.categories.length > 0) { %>
+                        <mdui-chip class="post-meta-chip cat-chip" variant="filled">
+                            <mdui-icon name="folder" slot="icon"></mdui-icon>
+                            <%= page.categories.data[0].name %>
+                        </mdui-chip>
+                    <% } %>
+
+                    <mdui-chip class="post-meta-chip read-chip" variant="filled">
+                        <mdui-icon name="schedule" slot="icon"></mdui-icon>
+                        <%= _readTime %> <%= __('post.min_read') %>
+                    </mdui-chip>
+
+                    <mdui-chip class="post-meta-chip read-chip" variant="filled">
+                        <mdui-icon name="text_snippet" slot="icon"></mdui-icon>
+                        <%= _wordCount %> <%= __('post.words') %>
+                    </mdui-chip>
+
+                    <% if (page.tags && page.tags.length > 0) { %>
+                        <div class="post-meta-tags">
+                            <% page.tags.data.forEach(function(tag) { %>
+                                <mdui-chip class="post-meta-tag-chip" variant="filled" href="<%= url_for(tag.path) %>">
+                                    <mdui-icon name="sell" slot="icon"></mdui-icon>
+                                    <%= tag.name %>
+                                </mdui-chip>
+                            <% }) %>
+                        </div>
+                    <% } %>
+                </div>
+
                 <div class="article-content">
                     <%- page.content %>
                 </div>
@@ -503,169 +1007,55 @@
     </div>
 </mdui-layout-main>
 
+<!-- macOS 风格代码块（外部脚本，defer 延迟加载） -->
+<script defer src="/js/post-codeblock.js"></script>
+
 <script>
-// 代码块功能增强（重构版）
-(function(){
-    function detectLanguage(pre){
-        // 优先考虑 data-language 属性
-        if (pre.dataset && pre.dataset.language) return pre.dataset.language;
-        const code = pre.querySelector('code');
-        const cls = code && code.className ? code.className : '';
-        const m = cls.match(/language-([A-Za-z0-9_\-]+)/) || cls.match(/lang-([A-Za-z0-9_\-]+)/);
-        if (m) return m[1];
-        return 'Code';
-    }
+// 阅读进度条 + 回到顶部（使用 requestAnimationFrame 节流，性能友好）
+(function () {
+    var progressBar = document.getElementById('reading-progress-bar');
+    var fab = document.getElementById('back-to-top-fab');
+    if (!progressBar && !fab) return;
 
-    function makeHeader(language){
-        const header = document.createElement('div');
-        header.className = 'mdui-code-header';
+    var ticking = false;
 
-        const langSpan = document.createElement('span');
-        langSpan.className = 'mdui-code-language';
-        langSpan.textContent = language;
+    function update() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        var progress = docHeight > 0 ? (scrollTop / docHeight) : 0;
+        if (progress < 0) progress = 0;
+        if (progress > 1) progress = 1;
 
-        const actions = document.createElement('div');
-        actions.className = 'mdui-code-actions';
-
-        const toggle = document.createElement('button');
-        toggle.type = 'button';
-        toggle.className = 'mdui-code-toggle';
-        toggle.setAttribute('aria-label', 'Toggle code');
-        toggle.innerHTML = '<mdui-icon class="collapse-icon" size="small">unfold_less</mdui-icon><mdui-icon class="expand-icon" size="small">unfold_more</mdui-icon>';
-
-        const copy = document.createElement('button');
-        copy.type = 'button';
-        copy.className = 'mdui-code-copy';
-        copy.setAttribute('aria-label', 'Copy code');
-        copy.innerHTML = '<mdui-icon size="small">content_copy</mdui-icon>';
-
-        actions.appendChild(toggle);
-        actions.appendChild(copy);
-
-        header.appendChild(langSpan);
-        header.appendChild(actions);
-        return header;
-    }
-
-    function processPre(pre){
-        if (pre.closest('.mdui-code-block')) return;
-
-        const language = detectLanguage(pre);
-
-        const codeBlock = document.createElement('div');
-        codeBlock.className = 'mdui-code-block';
-
-        const header = makeHeader(language);
-
-        const content = document.createElement('div');
-        content.className = 'mdui-code-content';
-
-        // 移动原始 pre 元素到新的容器，保留任何高亮 markup
-        pre.classList.add('mdui-code-pre');
-
-        // 生成行号 gutter（不包含在复制内容中）
-        try {
-            const codeText = pre.textContent || pre.innerText || '';
-            const lines = codeText.split(/\r\n|\r|\n/);
-            const gutter = document.createElement('div');
-            gutter.className = 'mdui-code-gutter';
-            for (let i = 0; i < lines.length; i++) {
-                const ln = document.createElement('span');
-                ln.className = 'mdui-code-line-number';
-                ln.textContent = (i + 1);
-                gutter.appendChild(ln);
-            }
-            content.appendChild(gutter);
-        } catch (e) {
-            // ignore gutter errors
+        if (progressBar) {
+            progressBar.style.width = (progress * 100) + '%';
         }
 
-        content.appendChild(pre);
+        if (fab) {
+            if (scrollTop > 300) {
+                fab.classList.add('is-visible');
+            } else {
+                fab.classList.remove('is-visible');
+            }
+        }
 
-        codeBlock.appendChild(header);
-        codeBlock.appendChild(content);
+        ticking = false;
+    }
 
-        // 替换原位置（pre 将被移动到新的 content 中）
-        if (pre.parentNode) {
-            pre.parentNode.replaceChild(codeBlock, pre);
-        } else {
-            // 保险回退：尝试查找原来应该替换的位置
-            const sibling = document.querySelector('body');
-            // 最后手段：附加到 body（极少出现）
-            sibling && sibling.appendChild(codeBlock);
+    function onScroll() {
+        if (!ticking) {
+            window.requestAnimationFrame(update);
+            ticking = true;
         }
     }
 
-    function init(){
-        document.querySelectorAll('pre').forEach(processPre);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    update();
 
-        // 事件委托：折叠/展开 & 复制
-        document.addEventListener('click', function(e){
-            const toggle = e.target.closest('.mdui-code-toggle');
-            if (toggle) {
-                const block = toggle.closest('.mdui-code-block');
-                block && block.classList.toggle('collapsed');
-                return;
-            }
-
-            const copyBtn = e.target.closest('.mdui-code-copy');
-            if (copyBtn) {
-                const block = copyBtn.closest('.mdui-code-block');
-                if (!block) return;
-                const pre = block.querySelector('.mdui-code-pre');
-                const codeText = pre ? pre.textContent : '';
-
-                // 复制并给出视觉反馈
-                navigator.clipboard && navigator.clipboard.writeText
-                    ? navigator.clipboard.writeText(codeText).then(() => flashCopy(copyBtn))
-                    : fallbackCopy(codeText, copyBtn);
-            }
+    // 回到顶部点击：平滑滚动
+    if (fab) {
+        fab.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
-
-        // 初始移动端修复
-        function fixCodeBlocksOnMobile(){
-            document.querySelectorAll('.mdui-code-block').forEach(block => {
-                const content = block.querySelector('.mdui-code-content');
-                const pre = block.querySelector('.mdui-code-pre');
-                if (content && pre) {
-                    content.style.overflowX = 'auto';
-                    pre.style.whiteSpace = 'pre';
-                    pre.style.display = 'inline-block';
-                    pre.style.minWidth = 'min-content';
-                }
-            });
-        }
-
-        function flashCopy(button){
-            const original = button.innerHTML;
-            button.innerHTML = '<mdui-icon size="small" style="color: var(--mdui-color-success)">check</mdui-icon>';
-            button.classList.add('copied');
-            setTimeout(()=>{ button.innerHTML = original; button.classList.remove('copied'); }, 2000);
-        }
-
-        function fallbackCopy(text, button){
-            try {
-                const ta = document.createElement('textarea');
-                ta.value = text;
-                ta.style.position = 'fixed'; ta.style.left = '-9999px';
-                document.body.appendChild(ta);
-                ta.select();
-                document.execCommand('copy');
-                document.body.removeChild(ta);
-                flashCopy(button);
-            } catch (err) {
-                console.error('Fallback copy failed', err);
-            }
-        }
-
-        fixCodeBlocksOnMobile();
-        window.addEventListener('resize', fixCodeBlocksOnMobile);
-    }
-
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', init);
-    } else {
-        init();
     }
 })();
 </script>

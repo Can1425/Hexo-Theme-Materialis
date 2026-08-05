@@ -3,12 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+    <!-- 性能优化：预连接 CDN，减少 DNS/TLS 握手延迟 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
+    <link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
+    <link rel="preconnect" href="https://cdn.staticfile.org" crossorigin>
+    <link rel="dns-prefetch" href="https://v1.hitokoto.cn">
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
     <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
     <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
-    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <script src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"> </script>
+    <script defer src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script defer src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
     <% if (theme.font.primary === 'lxwk') { %>
         <link rel="stylesheet" href="/fonts/lxwk/lxwk.css">
@@ -20,14 +29,22 @@
 
     <%- css('css/style.css') %>
     <%- css('css/color.css') %>
+    <%- css('css/widgets/index/post-card.css') %>
     <%- css('css/widgets/page-transition.css') %>
- 
+    <%- css('css/widgets/loading.css') %>
+
     <% if (theme.interceptor.enable) { %>
-        <%- include('widgets/links.ejs') %>        
+        <%- include('widgets/links.ejs') %>
     <% } %>
 
 </head>
 <body>
+    <!-- MD3 加载动画遮罩：内联在 body 首部，确保首屏即时显示 -->
+    <div id="md3-loading-overlay" class="md3-loading-overlay" aria-hidden="true">
+        <div class="md3-loading-brand"><%= config.title %></div>
+        <div class="md3-loading-spinner" role="status" aria-label="Loading"></div>
+    </div>
+
     <%- include('widgets/appbar') %>
     <%- include('widgets/sidebar') %>
     <main class="main">
@@ -36,13 +53,14 @@
         </div>
     </main>
 
-    <%- include('widgets/footer') %>   
+    <%- include('widgets/footer') %>
+
+    <%- include('widgets/music') %>
 </body>
 
-<script type="module" src="/js/main.js"></script>
-<script src="/js/widgets/appbar.js"></script>
-<script src="/js/widgets/sidebar.js"></script>
-<script src="/js/page-transition.js"></script>
+<script type="module" src="/js/loading.js"></script>
+<script defer src="/js/widgets/appbar.js"></script>
+<script defer src="/js/page-transition.js"></script>
 <script>        
 
 console.log(`

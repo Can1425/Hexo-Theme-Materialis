@@ -1,0 +1,109 @@
+/* ===== MD3 风格加载动画 =====
+   纯 CSS 实现，不依赖 mdui 组件，确保在 CDN 加载前即时显示 */
+
+/* 加载遮罩层 */
+.md3-loading-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background-color: rgb(var(--mdui-color-surface, 255 255 255));
+  transition: opacity 0.45s cubic-bezier(0.2, 0, 0, 1),
+              visibility 0.45s cubic-bezier(0.2, 0, 0, 1);
+  opacity: 1;
+  visibility: visible;
+}
+
+/* 淡出隐藏 */
+.md3-loading-overlay.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* MD3 圆形进度指示器（纯 CSS，带平滑旋转 + 虚线流动） */
+.md3-loading-spinner {
+  position: relative;
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+}
+
+/* 背景轨道 */
+.md3-loading-spinner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4px solid rgb(var(--mdui-color-surface-container-highest, 220 220 220));
+}
+
+/* 活动指示弧（旋转） */
+.md3-loading-spinner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 4px solid transparent;
+  border-top-color: rgb(var(--mdui-color-primary, 103 80 164));
+  border-right-color: rgb(var(--mdui-color-primary, 103 80 164));
+  animation: md3-spin 1.4s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes md3-spin {
+  0% {
+    transform: rotate(0deg);
+    animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  50% {
+    transform: rotate(180deg);
+    animation-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* 加载文字 */
+.md3-loading-text {
+  font-family: var(--mdui-font-family, system-ui, sans-serif);
+  font-size: 0.875rem;
+  letter-spacing: 0.08em;
+  color: rgb(var(--mdui-color-on-surface-variant, 100 100 100));
+  opacity: 0.7;
+  animation: md3-pulse 1.6s ease-in-out infinite;
+}
+
+@keyframes md3-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.85; }
+}
+
+/* 主题 logo / 站点标题（首字母） */
+.md3-loading-brand {
+  font-family: var(--mdui-font-family, system-ui, sans-serif);
+  font-size: 1.25rem;
+  font-weight: 500;
+  color: rgb(var(--mdui-color-primary, 103 80 164));
+  margin-bottom: 8px;
+  animation: md3-pulse 1.6s ease-in-out infinite;
+}
+
+/* 无障碍：尊重用户减少动画偏好 */
+@media (prefers-reduced-motion: reduce) {
+  .md3-loading-spinner::after {
+    animation-duration: 2.5s;
+  }
+  .md3-loading-text,
+  .md3-loading-brand {
+    animation: none;
+    opacity: 0.7;
+  }
+  .md3-loading-overlay {
+    transition-duration: 0.01ms;
+  }
+}

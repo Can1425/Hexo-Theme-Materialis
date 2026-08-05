@@ -92,10 +92,15 @@ window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e =
     }
 });
 
-// 定期检查侧边栏状态并保存到localStorage
-setInterval(() => {
-    localStorage.setItem('sidebarOpen', sidebar.open);
-}, 1000);
+// 监听侧边栏开关事件，按需保存状态（替代原先每秒轮询的 setInterval，减少主线程开销）
+if (sidebar && typeof sidebar.addEventListener === 'function') {
+    sidebar.addEventListener('close', function () {
+        localStorage.setItem('sidebarOpen', sidebar.open);
+    });
+    sidebar.addEventListener('open', function () {
+        localStorage.setItem('sidebarOpen', sidebar.open);
+    });
+}
 
 // 监听窗口大小变化，自动调整侧边栏状态（但不保存到localStorage）
 window.addEventListener('resize', function() {

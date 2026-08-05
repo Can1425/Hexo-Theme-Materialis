@@ -73,10 +73,13 @@ post:
   none: Plus d'articles
   comment: Commentaire
   comment_disabled: Fonction de commentaire non activée
+  min_read: min de lecture
+  words: mots
 
 index:
   no_articles: Aucun article
   no_articles_desc: Aucun article publié pour l'instant
+  read_more: Lire la suite
 
 diary:
   title: Archives des articles
@@ -85,6 +88,7 @@ diary:
   year: Année
   no_articles: Aucun article
   no_articles_desc: Aucun article publié pour l'instant, commencez à écrire pour créer votre premier article de blog
+  read_more: Lire la suite
 
 categories:
   title: Catégories d'articles

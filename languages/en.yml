@@ -73,10 +73,13 @@ post:
   none: No more
   comment: Comment
   comment_disabled: Comment function not enabled
+  min_read: min read
+  words: words
 
 index:
   no_articles: No articles
   no_articles_desc: No articles published yet
+  read_more: Read more
 
 diary:
   title: Article Archive
@@ -85,6 +88,7 @@ diary:
   year: Year
   no_articles: No articles
   no_articles_desc: No articles published yet, start writing to create your first blog post
+  read_more: Read more
 
 categories:
   title: Article Categories

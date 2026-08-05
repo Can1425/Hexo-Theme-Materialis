@@ -74,10 +74,13 @@ post:
   none: 没有了
   comment: 评论
   comment_disabled: 评论功能未启用
+  min_read: 分钟阅读
+  words: 字
 
 index:
   no_articles: 暂无文章
   no_articles_desc: 还没有发布任何文章
+  read_more: 阅读更多
 
 diary:
   title: 文章归档
@@ -86,6 +89,7 @@ diary:
   year: 年
   no_articles: 暂无文章
   no_articles_desc: 还没有发布任何文章，开始写作来创建你的第一篇博客吧
+  read_more: 阅读更多
 
 categories:
   title: 文章分类

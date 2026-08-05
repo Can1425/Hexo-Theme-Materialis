@@ -1,70 +1,63 @@
-<mdui-card 
-    class="article-card" 
+<mdui-card
+    class="post-card"
     variant="filled"
-    onclick="location.href='<%= url_for(post.path) %>'">
-    
-    <div class="article-content">
-        <!-- 封面图片 -->
-        <% if (post.cover) { %>
-            <div class="article-cover">
-                <img src="<%= post.cover %>" alt="<%= post.title %>" />
-            </div>
-        <% } %>
-        
-        <!-- 内容区域 -->
-        <div class="article-main">
-            <mdui-typography class="article-title">
-                <%= post.title %>
-            </mdui-typography>
+    onclick="location.href='<%= url_for(post.path) %>'"
+    onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();location.href='<%= url_for(post.path) %>'}"
+    role="link"
+    tabindex="0"
+    aria-label="<%= post.title %>">
 
-            <!-- 有封面时摘要限制20字 -->
-            <% if (post.cover) { %>
-                <span><%- truncate(strip_html(post.content), { length: 120 }) %></span>
-            <% } else { %>
-                <span><%- truncate(strip_html(post.content), { length: 200 }) %></span>
+    <% if (post.cover) { %>
+        <div class="post-card__media">
+            <img class="post-card__img" src="<%= post.cover %>" alt="<%= post.title %>" loading="lazy" />
+            <div class="post-card__media-overlay"></div>
+            <% if (post.categories && post.categories.length > 0) { %>
+                <span class="post-card__badge">
+                    <mdui-icon name="folder"></mdui-icon>
+                    <%= post.categories.data[0].name %>
+                </span>
             <% } %>
-            
-            <div class="article-meta">
-                <mdui-typography variant="body2" class="article-date">
-                    <mdui-icon name="calendar_today" style="font-size: 1.1rem;"></mdui-icon>
-                    <%= post.date.format('YYYY-MM-DD') %>
-                </mdui-typography>
-                
-                <div class="article-tags">
-                    <% if (post.tags && post.tags.length > 0) { %>
-                        <% post.tags.data.slice(0, 2).forEach((tag) => { %>
-                            <mdui-chip 
-                                size="small" 
-                                variant="filled"
-                                style="background: var(--mdui-color-secondary-container); color: var(--mdui-color-on-secondary-container);">
-                                <mdui-icon name="sell" slot="icon" style="font-size: 1rem;"></mdui-icon>
-                                <%= tag.name %>
-                            </mdui-chip>
-                        <% }); %>
-                        <% if (post.tags.length > 2) { %>
-                            <mdui-chip 
-                                size="small" 
-                                variant="filled"
-                                style="background: var(--mdui-color-tertiary-container); color: var(--mdui-color-on-tertiary-container);">
-                                +<%= post.tags.length - 2 %>
-                            </mdui-chip>
-                        <% } %>
-                    <% } else if (post.categories && post.categories.length > 0) { %>
-                        <mdui-chip 
-                            size="small" 
-                            variant="filled"
-                            style="background: var(--mdui-color-primary-container); color: var(--mdui-color-on-primary-container);">
-                            <mdui-icon name="folder" slot="icon" style="font-size: 1rem;"></mdui-icon>
-                            <%= post.categories.data[0].name %>
-                        </mdui-chip>
+        </div>
+    <% } %>
+
+    <div class="post-card__body">
+        <div class="post-card__header">
+            <% if (!post.cover && post.categories && post.categories.length > 0) { %>
+                <span class="post-card__badge post-card__badge--inline">
+                    <mdui-icon name="folder"></mdui-icon>
+                    <%= post.categories.data[0].name %>
+                </span>
+            <% } %>
+            <h3 class="post-card__title"><%= post.title %></h3>
+        </div>
+
+        <p class="post-card__excerpt">
+            <%- truncate(strip_html(post.content), { length: post.cover ? 90 : 150 }) %>
+        </p>
+
+        <div class="post-card__meta">
+            <span class="post-card__date">
+                <mdui-icon name="calendar_today"></mdui-icon>
+                <%= post.date.format('YYYY-MM-DD') %>
+            </span>
+            <div class="post-card__tags">
+                <% if (post.tags && post.tags.length > 0) { %>
+                    <% post.tags.data.slice(0, 2).forEach(function(tag) { %>
+                        <span class="post-card__tag">
+                            <mdui-icon name="sell"></mdui-icon>
+                            <%= tag.name %>
+                        </span>
+                    <% }); %>
+                    <% if (post.tags.length > 2) { %>
+                        <span class="post-card__tag post-card__tag--more">+<%= post.tags.length - 2 %></span>
                     <% } %>
-                </div>
+                <% } %>
             </div>
         </div>
-        
-        <!-- 右侧：阅读更多 -->
-        <mdui-button class="article-side" variant="tonal">
-            <mdui-icon name="arrow_forward"></mdui-icon>
-        </mdui-button>
+
+        <div class="post-card__action">
+            <span class="post-card__read-more"><%= __('index.read_more') %></span>
+            <mdui-icon name="arrow_forward" class="post-card__arrow"></mdui-icon>
+        </div>
     </div>
 </mdui-card>

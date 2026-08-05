@@ -9,98 +9,153 @@
     gap: 24px;
 }
 
+/* 顶部头部卡片 */
 .categories-header {
     width: 100%;
-    text-align: center;
     padding: 40px 32px;
-    border-radius: 24px;
+    border-radius: 28px;
     background-color: rgb(var(--mdui-color-primary-container));
     color: rgb(var(--mdui-color-on-primary-container));
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
 }
 
-.categories-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 16px;
+/* 头部装饰圆 */
+.categories-header::before {
+    content: "";
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background: rgb(var(--mdui-color-on-primary-container) / 0.06);
+    pointer-events: none;
 }
 
-.category-item {
+.categories-header::after {
+    content: "";
+    position: absolute;
+    bottom: -60px;
+    left: 20%;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: rgb(var(--mdui-color-on-primary-container) / 0.05);
+    pointer-events: none;
+}
+
+.categories-header-title {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin: 0 0 12px 0;
+    line-height: 1.3;
+    position: relative;
+}
+
+.categories-header-sub {
+    font-size: 0.95rem;
+    font-weight: 400;
+    opacity: 0.85;
     display: flex;
     align-items: center;
-    gap: 16px;
-    padding: 20px 32px;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 16px;
-    background-color: rgb(var(--mdui-color-surface-container));
-    transition: all 0.2s ease;
-    border: 1px solid rgba(var(--mdui-color-outline), 0.2);
+    flex-wrap: wrap;
+    gap: 6px;
+    position: relative;
+}
+
+.categories-header-sub .count-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 28px;
+    height: 24px;
+    padding: 0 8px;
+    border-radius: 12px;
+    background: rgb(var(--mdui-color-on-primary-container) / 0.15);
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+/* 列表容器 */
+.categories-list-wrap {
+    width: 100%;
+    background-color: transparent;
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+/* 每个分类项 */
+.category-item {
+    --mdui-color-on-surface: var(--mdui-color-on-surface);
+    margin-bottom: 10px;
+    border-radius: 20px !important;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    background-color: rgb(var(--mdui-color-surface-container)) !important;
+    border: 1px solid rgba(var(--mdui-color-outline), 0.12);
+    overflow: hidden;
 }
 
 .category-item:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: rgb(var(--mdui-color-surface-container-high)) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    transform: translateY(-1px);
 }
 
-.category-icon {
-    flex-shrink: 0;
-    width: 50px;
-    height: 50px;
-    display: flex;
+/* 分类图标容器 */
+.category-icon-box {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
     background-color: rgb(var(--mdui-color-primary-container));
     color: rgb(var(--mdui-color-on-primary-container));
+    flex-shrink: 0;
+}
+
+.category-icon-box mdui-icon {
     font-size: 24px;
 }
 
-.category-content {
-    display: flex;
-    flex-direction: column;
-    flex: 1;
-    min-width: 0;
-}
-
-.category-name {
-    font-size: 18px;
-    font-weight: 500;
-    margin-bottom: 6px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.category-description {
-    font-size: 14px;
-    opacity: 0.7;
-    line-height: 1.4;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-}
-
-.category-meta {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    opacity: 0.7;
-}
-
-.category-arrow {
+/* 文章数量徽章 */
+.category-count-chip {
+    --mdui-chip-height: 28px;
     flex-shrink: 0;
+    background: rgb(var(--mdui-color-secondary-container)) !important;
+    color: rgb(var(--mdui-color-on-secondary-container)) !important;
+    font-weight: 500;
+}
+
+.category-count-chip mdui-icon {
+    font-size: 1rem;
+}
+
+/* 箭头图标 */
+.category-arrow-icon {
     color: rgb(var(--mdui-color-outline));
     transition: transform 0.2s ease;
+    flex-shrink: 0;
 }
 
-.category-item:hover .category-arrow {
+.category-item:hover .category-arrow-icon {
     transform: translateX(4px);
+    color: rgb(var(--mdui-color-primary));
 }
 
+/* 列表底部说明 */
+.categories-list-desc {
+    width: 100%;
+    text-align: center;
+    font-size: 0.8rem;
+    color: rgb(var(--mdui-color-on-surface-variant));
+    opacity: 0.7;
+    margin-top: 8px;
+}
+
+/* 空状态 */
 .categories-empty-state {
     display: flex;
     justify-content: center;
@@ -126,7 +181,7 @@
     font-size: 80px;
     margin-bottom: 24px;
     opacity: 0.6;
-    color: rgb(var(--mdui-color-primary-container));
+    color: rgb(var(--mdui-color-primary));
 }
 
 .categories-empty-content {
@@ -142,13 +197,9 @@
         padding: 32px 20px;
         gap: 20px;
     }
-    
+
     .categories-header {
         padding: 32px 24px;
-    }
-    
-    .category-item {
-        padding: 18px 24px;
     }
 }
 
@@ -158,26 +209,30 @@
         padding: 24px 16px;
         gap: 16px;
     }
-    
+
     .categories-header {
-        padding: 24px 20px;
+        padding: 28px 22px;
+        border-radius: 24px;
     }
-    
-    .category-item {
-        padding: 16px 20px;
-        gap: 12px;
+
+    .categories-header-title {
+        font-size: 1.5rem;
     }
-    
-    .category-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
+
+    .category-icon-box {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
     }
-    
+
+    .category-icon-box mdui-icon {
+        font-size: 22px;
+    }
+
     .categories-empty-card {
         padding: 40px 24px;
     }
-    
+
     .categories-empty-icon {
         font-size: 60px;
         margin-bottom: 20px;
@@ -190,79 +245,93 @@
         padding: 20px 12px;
         gap: 12px;
     }
-    
+
     .categories-header {
-        padding: 20px 16px;
+        padding: 24px 18px;
+        border-radius: 20px;
     }
-    
+
+    .categories-header-title {
+        font-size: 1.35rem;
+    }
+
     .category-item {
-        padding: 14px 16px;
-        gap: 10px;
-    }
-    
-    .category-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 18px;
-    }
-    
-    .category-name {
-        font-size: 16px;
-    }
-    
-    .category-description {
-        font-size: 13px;
-    }
-    
-    .category-meta {
-        font-size: 12px;
+        border-radius: 16px !important;
+        margin-bottom: 8px;
     }
 }
 </style>
 
 <div class="categories-page">
-    <!-- 页面标题 -->
-    <mdui-card class="categories-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('categories.title') %></mdui-typography>
-        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            <%= __('categories.count_prefix') %> <mdui-badge style="margin: 0 8px;"><%= site.categories.length %></mdui-badge> <%= __('categories.count_suffix') %>
-        </mdui-typography>
-    </mdui-card>
+    <!-- 页面标题卡片 -->
+    <div class="categories-header">
+        <h1 class="categories-header-title"><%= __('categories.title') %></h1>
+        <div class="categories-header-sub">
+            <mdui-icon name="folder_special" style="font-size: 1.1rem;"></mdui-icon>
+            <span><%= __('categories.count_prefix') %></span>
+            <span class="count-badge"><%= site.categories.length %></span>
+            <span><%= __('categories.count_suffix') %></span>
+        </div>
+    </div>
 
-    <!-- 分类列表 -->
+    <!-- 分类列表（使用 mdui-list 组件） -->
     <% if (site.categories.length > 0) { %>
-        <div class="categories-list">
-            <% site.categories.sort('name').each(function(category) { %>
-                <a href="<%= url_for(category.path) %>" class="category-item">
-                    <div class="category-icon">
-                        <mdui-icon>folder</mdui-icon>
-                    </div>
-                    
-                    <div class="category-content">
-                        <div class="category-name">
-                            <%= category.name %>
+        <div class="categories-list-wrap">
+            <mdui-list>
+                <% site.categories.sort('name').each(function(category) { %>
+                    <mdui-list-item
+                        class="category-item"
+                        href="<%= url_for(category.path) %>"
+                        rounded
+                    >
+                        <!-- 左侧图标 -->
+                        <div class="category-icon-box" slot="icon">
+                            <mdui-icon name="folder"></mdui-icon>
                         </div>
-                        <% if (category.description) { %>
-                            <div class="category-description">
+
+                        <!-- 标题 -->
+                        <div><%= category.name %></div>
+
+                        <!-- 描述 / 文章数 -->
+                        <div slot="description">
+                            <% if (category.description) { %>
                                 <%= category.description %>
-                            </div>
-                        <% } %>
-                        <div class="category-meta">
-                            <span><%= category.posts.length %> <%= __('categories.articles') %></span>
+                            <% } else { %>
+                                <%= category.posts.length %> <%= __('categories.articles') %>
+                            <% } %>
                         </div>
-                    </div>
-                    
-                    <mdui-icon class="category-arrow">chevron_right</mdui-icon>
-                </a>
-            <% }); %>
+
+                        <!-- 右侧：文章数量徽章 -->
+                        <mdui-chip
+                            class="category-count-chip"
+                            variant="filled-tonal"
+                            slot="end-icon"
+                        >
+                            <mdui-icon name="article" slot="icon"></mdui-icon>
+                            <%= category.posts.length %>
+                        </mdui-chip>
+
+                        <!-- 右侧箭头 -->
+                        <mdui-icon
+                            class="category-arrow-icon"
+                            name="chevron_right"
+                            slot="end-icon"
+                        ></mdui-icon>
+                    </mdui-list-item>
+                <% }) %>
+            </mdui-list>
+        </div>
+
+        <div class="categories-list-desc">
+            <%= __('categories.count_prefix') %> <%= site.categories.length %> <%= __('categories.count_suffix') %>
         </div>
     <% } %>
 
     <!-- 空状态 -->
     <% if (!site.categories || site.categories.length === 0) { %>
         <div class="categories-empty-state">
-            <mdui-card class="categories-empty-card">
-                <mdui-icon class="categories-empty-icon">category</mdui-icon>
+            <div class="categories-empty-card">
+                <mdui-icon class="categories-empty-icon" name="category"></mdui-icon>
                 <div class="categories-empty-content">
                     <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
                         <%= __('categories.empty') %>
@@ -271,7 +340,7 @@
                         <%= __('categories.empty_desc') %>
                     </mdui-typography>
                 </div>
-            </mdui-card>
+            </div>
         </div>
     <% } %>
 </div>

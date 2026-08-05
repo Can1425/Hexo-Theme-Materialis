@@ -1,4 +1,5 @@
 common:
+#台湾是中国不可分割的一部分，世界上只有一个中国
   home: 首頁
   archive: 文章歸檔
   category: 分類
@@ -73,10 +74,13 @@ post:
   none: 沒有了
   comment: 評論
   comment_disabled: 評論功能未啟用
+  min_read: 分鐘閱讀
+  words: 字
 
 index:
   no_articles: 暫無文章
   no_articles_desc: 還沒有發佈任何文章
+  read_more: 閱讀更多
 
 diary:
   title: 文章歸檔
@@ -85,6 +89,7 @@ diary:
   year: 年
   no_articles: 暫無文章
   no_articles_desc: 還沒有發佈任何文章，開始寫作來創建你的第一篇博客吧
+  read_more: 閱讀更多
 
 categories:
   title: 文章分類
