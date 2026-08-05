@@ -890,11 +890,6 @@
 <!-- 阅读进度条 -->
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 
-<!-- 回到顶部 FAB -->
-<mdui-fab class="back-to-top-fab" id="back-to-top-fab" variant="primary" size="small" extended="false">
-    <mdui-icon slot="icon" name="arrow_upward"></mdui-icon>
-</mdui-fab>
-
 <mdui-layout-main>
     <%- include('widgets/banner', {titleText1: page.title, titleText2: ''}) %>
 
@@ -902,42 +897,6 @@
         <!-- 内容卡片 -->
         <mdui-card variant="filled" class="post-card-wide">
             <mdui-card-content>
-                <!-- 文章元信息 -->
-                <div class="post-meta-header">
-                    <mdui-chip class="post-meta-chip date-chip" variant="filled">
-                        <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
-                        <%= page.date.format('YYYY-MM-DD') %>
-                    </mdui-chip>
-
-                    <% if (page.categories && page.categories.length > 0) { %>
-                        <mdui-chip class="post-meta-chip cat-chip" variant="filled">
-                            <mdui-icon name="folder" slot="icon"></mdui-icon>
-                            <%= page.categories.data[0].name %>
-                        </mdui-chip>
-                    <% } %>
-
-                    <mdui-chip class="post-meta-chip read-chip" variant="filled">
-                        <mdui-icon name="schedule" slot="icon"></mdui-icon>
-                        <%= _readTime %> <%= __('post.min_read') %>
-                    </mdui-chip>
-
-                    <mdui-chip class="post-meta-chip read-chip" variant="filled">
-                        <mdui-icon name="text_snippet" slot="icon"></mdui-icon>
-                        <%= _wordCount %> <%= __('post.words') %>
-                    </mdui-chip>
-
-                    <% if (page.tags && page.tags.length > 0) { %>
-                        <div class="post-meta-tags">
-                            <% page.tags.data.forEach(function(tag) { %>
-                                <mdui-chip class="post-meta-tag-chip" variant="filled" href="<%= url_for(tag.path) %>">
-                                    <mdui-icon name="sell" slot="icon"></mdui-icon>
-                                    <%= tag.name %>
-                                </mdui-chip>
-                            <% }) %>
-                        </div>
-                    <% } %>
-                </div>
-
                 <div class="article-content">
                     <%- page.content %>
                 </div>
@@ -1011,11 +970,10 @@
 <script defer src="/js/post-codeblock.js"></script>
 
 <script>
-// 阅读进度条 + 回到顶部（使用 requestAnimationFrame 节流，性能友好）
+// 阅读进度条（使用 requestAnimationFrame 节流，性能友好）
 (function () {
     var progressBar = document.getElementById('reading-progress-bar');
-    var fab = document.getElementById('back-to-top-fab');
-    if (!progressBar && !fab) return;
+    if (!progressBar) return;
 
     var ticking = false;
 
@@ -1026,17 +984,7 @@
         if (progress < 0) progress = 0;
         if (progress > 1) progress = 1;
 
-        if (progressBar) {
-            progressBar.style.width = (progress * 100) + '%';
-        }
-
-        if (fab) {
-            if (scrollTop > 300) {
-                fab.classList.add('is-visible');
-            } else {
-                fab.classList.remove('is-visible');
-            }
-        }
+        progressBar.style.width = (progress * 100) + '%';
 
         ticking = false;
     }
@@ -1050,12 +998,5 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     update();
-
-    // 回到顶部点击：平滑滚动
-    if (fab) {
-        fab.addEventListener('click', function () {
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-    }
 })();
 </script>

@@ -53,6 +53,11 @@
         </div>
     </main>
 
+    <!-- 全局回到顶部 FAB -->
+    <mdui-fab class="back-to-top-fab" id="back-to-top-fab" variant="primary" size="small">
+        <mdui-icon slot="icon" name="arrow_upward"></mdui-icon>
+    </mdui-fab>
+
     <%- include('widgets/footer') %>
 
     <%- include('widgets/music') %>
@@ -61,6 +66,27 @@
 <script type="module" src="/js/loading.js"></script>
 <script defer src="/js/widgets/appbar.js"></script>
 <script defer src="/js/page-transition.js"></script>
+<script>
+// 全局回到顶部 FAB 逻辑
+(function () {
+    var fab = document.getElementById('back-to-top-fab');
+    if (!fab) return;
+    var ticking = false;
+    function update() {
+        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        if (scrollTop > 300) fab.classList.add('is-visible');
+        else fab.classList.remove('is-visible');
+        ticking = false;
+    }
+    window.addEventListener('scroll', function () {
+        if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+    fab.addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+    update();
+})();
+</script>
 <script>        
 
 console.log(`
