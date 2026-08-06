@@ -1,9 +1,10 @@
-<mdui-navigation-drawer class="sidebar-content" close-on-overlay-click no-animation>
-    <!-- 用户信息卡片 -->
+<aside class="sidebar-content" id="site-sidebar" aria-label="站点导航" data-open="true">
     <% if (theme.sidebar && (theme.sidebar.avatar || theme.sidebar.name || theme.sidebar.slogen)) { %>
     <div class="sidebar-user-card">
         <% if (theme.sidebar.avatar) { %>
-            <mdui-avatar class="sidebar-user-avatar" src="<%= theme.sidebar.avatar %>"></mdui-avatar>
+            <s-avatar class="sidebar-user-avatar">
+                <img class="nofancybox" src="<%= url_for(theme.sidebar.avatar) %>" alt="<%= theme.sidebar.name || config.title %>">
+            </s-avatar>
         <% } %>
         <% if (theme.sidebar.name) { %>
             <div class="sidebar-user-name"><%= theme.sidebar.name %></div>
@@ -11,30 +12,31 @@
         <% if (theme.sidebar.slogen) { %>
             <div class="sidebar-user-slogen"><%= theme.sidebar.slogen %></div>
         <% } %>
-        </div>
+    </div>
     <% } %>
-    
-    <!-- 导航菜单 -->
-    <mdui-list class="nav-list">
+
+    <nav class="nav-list">
         <% if (theme.nav && theme.nav.length > 0) { %>
             <% theme.nav.forEach(function(item) { %>
-                <mdui-list-item 
-                    class="nav-item"
+                <%
+                    const currentPath = page.path || '';
+                    const itemPath = item.url.replace(/^\//, '');
+                    const isHome = item.url === '/';
+                    const isActive = isHome
+                        ? currentPath === '' || currentPath === 'index.html'
+                        : currentPath === itemPath || currentPath.startsWith(itemPath.endsWith('/') ? itemPath : itemPath + '/');
+                %>
+                <a
+                    class="nav-item<%= isActive ? ' is-active' : '' %>"
                     href="<%= url_for(item.url) %>"
-                    rounded
-                    <% if (page.path.startsWith(item.url.replace(/^\//, '')) || (item.url === '/' && page.path === 'index.html')) { %>
-                    active
-                    <% } else { %>
-                    variant="filled"
-                    <% } %>
+                    <%= isActive ? 'aria-current="page"' : '' %>
                 >
-                    <mdui-icon slot="icon" name="<%= item.icon %>"></mdui-icon>
-                    <%= item.name %>
-                </mdui-list-item>
+                    <material-icon name="<%= item.icon %>"></material-icon>
+                    <span><%= item.name %></span>
+                    <s-ripple></s-ripple>
+                </a>
             <% }) %>
         <% } %>
-    </mdui-list>
-
-
-
-</mdui-navigation-drawer>
+    </nav>
+</aside>
+<button class="sidebar-scrim" id="sidebar-scrim" type="button" aria-label="关闭导航"></button>

@@ -44,8 +44,8 @@
             el.innerHTML = '';
         } else {
             el.style.backgroundImage = '';
-            if (!el.querySelector('mdui-icon')) {
-                el.innerHTML = '<mdui-icon name="music_note"></mdui-icon>';
+            if (!el.querySelector('material-icon')) {
+                el.innerHTML = '<material-icon name="music_note"></material-icon>';
             }
         }
     }

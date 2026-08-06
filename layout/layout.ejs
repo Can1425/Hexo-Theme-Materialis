@@ -1,10 +1,9 @@
 <!DOCTYPE html>
-<html lang="<%- config.language %>"">
+<html lang="<%- config.language %>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- 性能优化：预连接 CDN，减少 DNS/TLS 握手延迟 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
@@ -13,83 +12,112 @@
     <link rel="dns-prefetch" href="https://v1.hitokoto.cn">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/mdui@2/mdui.css">
-    <script src="https://unpkg.com/mdui@2/mdui.global.js"></script>
+    <script defer src="https://unpkg.com/sober@2.0.0-alpha.16/dist/sober.min.js"></script>
+    <script defer src="https://unpkg.com/sober@2.0.0-alpha.16/dist/theme.min.js"></script>
+    <script defer src="<%= url_for('/js/sober-adapter.js') %>"></script>
     <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
     <script defer src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <script defer src="//lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
+    <script defer src="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
     <% if (theme.font.primary === 'lxwk') { %>
-        <link rel="stylesheet" href="/fonts/lxwk/lxwk.css">
+        <link rel="stylesheet" href="<%= url_for('/fonts/lxwk/lxwk.css') %>">
     <% } else if (theme.font.primary === 'dingtalk') { %>
-        <link rel="stylesheet" href="/fonts/dingtalk/DingTalk.css">
+        <link rel="stylesheet" href="<%= url_for('/fonts/dingtalk/DingTalk.css') %>">
     <% } else if (theme.font.primary === 'pingfang') { %>
-        <link rel="stylesheet" href="/fonts/pingfang/pingfang.css">
+        <link rel="stylesheet" href="<%= url_for('/fonts/pingfang/pingfang.css') %>">
     <% } %>
 
     <%- css('css/style.css') %>
     <%- css('css/color.css') %>
+    <%- css('css/sober-adapter.css') %>
     <%- css('css/widgets/index/post-card.css') %>
     <%- css('css/widgets/page-transition.css') %>
     <%- css('css/widgets/loading.css') %>
 
-    <% if (theme.interceptor.enable) { %>
-        <%- include('widgets/links.ejs') %>
+    <% if (theme.custom && theme.custom.css) { %>
+        <% theme.custom.css.forEach(function(cssFile) { %>
+            <link rel="stylesheet" href="<%- url_for(cssFile) %>">
+        <% }) %>
     <% } %>
-
+    <% if (theme.custom && theme.custom.head) { %>
+        <%- theme.custom.head %>
+    <% } %>
 </head>
 <body>
-    <!-- MD3 加载动画遮罩：内联在 body 首部，确保首屏即时显示 -->
-    <div id="md3-loading-overlay" class="md3-loading-overlay" aria-hidden="true">
-        <div class="md3-loading-brand"><%= config.title %></div>
-        <div class="md3-loading-spinner" role="status" aria-label="Loading"></div>
-    </div>
-
-    <%- include('widgets/appbar') %>
-    <%- include('widgets/sidebar') %>
-    <main class="main">
-        <div class="page-transition-container">
-            <%- body %>
+    <s-page id="materialis-page" class="materialis-page" theme="auto">
+        <div id="md3-loading-overlay" class="md3-loading-overlay" role="status" aria-live="polite" aria-label="页面加载中">
+            <div class="md3-loading-brand"><%= config.title %></div>
+            <s-loading class="materialis-page-loading" variant="contained" aria-hidden="true"></s-loading>
+            <span class="materialis-loading-label">页面加载中</span>
         </div>
-    </main>
 
-    <!-- 全局回到顶部 FAB -->
-    <mdui-fab class="back-to-top-fab" id="back-to-top-fab" variant="primary" size="small">
-        <mdui-icon slot="icon" name="arrow_upward"></mdui-icon>
-    </mdui-fab>
+        <%- include('widgets/appbar') %>
+        <%- include('widgets/sidebar') %>
 
-    <%- include('widgets/footer') %>
+        <main class="main">
+            <div class="page-transition-container<%= (typeof page !== 'undefined' && page.layout === 'post') ? ' post-transition-container' : '' %>">
+                <%- body %>
+            </div>
+        </main>
 
-    <%- include('widgets/music') %>
-</body>
+        <s-fab class="back-to-top-fab" id="back-to-top-fab" variant="primary" size="small" aria-label="回到顶部">
+            <material-icon name="arrow_upward"></material-icon>
+        </s-fab>
 
-<script type="module" src="/js/loading.js"></script>
-<script defer src="/js/widgets/appbar.js"></script>
-<script defer src="/js/page-transition.js"></script>
-<script>
-// 全局回到顶部 FAB 逻辑
-(function () {
-    var fab = document.getElementById('back-to-top-fab');
-    if (!fab) return;
-    var ticking = false;
-    function update() {
-        var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-        if (scrollTop > 300) fab.classList.add('is-visible');
-        else fab.classList.remove('is-visible');
-        ticking = false;
-    }
-    window.addEventListener('scroll', function () {
-        if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
-    }, { passive: true });
-    fab.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-    update();
-})();
-</script>
-<script>        
+        <%- include('widgets/footer', { isPost: (typeof page !== 'undefined' && page.layout === 'post') }) %>
+        <%- include('widgets/music') %>
 
-console.log(`
+        <% if (theme.interceptor && theme.interceptor.enable) { %>
+            <%- include('widgets/links.ejs') %>
+        <% } %>
+
+        <% if (theme.custom && theme.custom.footer) { %>
+            <%- theme.custom.footer %>
+        <% } %>
+    </s-page>
+
+    <script type="module" src="<%= url_for('/js/loading.js') %>"></script>
+    <script defer src="<%= url_for('/js/widgets/appbar.js') %>"></script>
+    <script defer src="<%= url_for('/js/page-transition.js') %>"></script>
+    <script>
+    (function () {
+        var fab = document.getElementById('back-to-top-fab');
+        if (!fab) return;
+        var ticking = false;
+        function update() {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            fab.classList.toggle('is-visible', scrollTop > 300);
+            ticking = false;
+        }
+        window.addEventListener('scroll', function () {
+            if (!ticking) { window.requestAnimationFrame(update); ticking = true; }
+        }, { passive: true });
+        fab.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        update();
+    })();
+    </script>
+
+    <% if (theme.custom && theme.custom.js) { %>
+        <% theme.custom.js.forEach(function(jsFile) { %>
+            <script src="<%- url_for(jsFile) %>"></script>
+        <% }) %>
+    <% } %>
+
+    <% if (theme.memorial_days && theme.memorial_days.enable) { %>
+    <script>
+    (function () {
+        var today = new Date();
+        var todayStr = (today.getMonth() + 1) + '.' + today.getDate();
+        var memorialDays = JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>');
+        if (memorialDays.includes(todayStr)) document.documentElement.classList.add('memorial-day');
+    })();
+    </script>
+    <% } %>
+
+    <script>
+    console.log(`
 ███╗   ███╗ █████╗ ████████╗███████╗██████╗ ██╗ █████╗ ██╗     ██╗███████╗
 ████╗ ████║██╔══██╗╚══██╔══╝██╔════╝██╔══██╗██║██╔══██╗██║     ██║██╔════╝
 ██╔████╔██║███████║   ██║   █████╗  ██████╔╝██║███████║██║     ██║███████╗
@@ -97,60 +125,6 @@ console.log(`
 ██║ ╚═╝ ██║██║  ██║   ██║   ███████╗██║  ██║██║██║  ██║███████╗██║███████║
 ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝
 `);
-</script>
-
-<!-- 引入自定义 CSS -->
-<% if (theme.custom && theme.custom.css) { %>
-    <% theme.custom.css.forEach(function(cssFile) { %>
-        <link rel="stylesheet" href="<%- url_for(cssFile) %>">
-    <% }) %>
-<% } %>
-
-<!-- 自定义头部代码 -->
-<% if (theme.custom && theme.custom.head) { %>
-    <%- theme.custom.head %>
-<% } %>
-<!-- 引入自定义 JS -->
-<% if (theme.custom && theme.custom.js) { %>
-    <% theme.custom.js.forEach(function(jsFile) { %>
-        <script src="<%- url_for(jsFile) %>"></script>
-    <% }) %>
-<% } %>
-
-<!-- 自定义底部代码 -->
-<% if (theme.custom && theme.custom.footer) { %>
-    <%- theme.custom.footer %>
-<% } %>
-
-<!-- 纪念日黑白效果 -->
-<% if (theme.memorial_days && theme.memorial_days.enable) { %>
-<script>
-(function() {
-    // 获取今天的日期（月-日格式）
-    const today = new Date();
-    const month = today.getMonth() + 1; // 月份从0开始，需要+1
-    const day = today.getDate();
-    const todayStr = month + '.' + day;
-    
-    // 获取配置的纪念日列表
-    const memorialDays = JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>');
-    
-    // 检查今天是否为纪念日
-    if (memorialDays.includes(todayStr)) {
-        // 应用黑白效果
-        const style = document.createElement('style');
-        style.innerHTML = `
-            html {
-                filter: grayscale(100%);
-                -webkit-filter: grayscale(100%);
-                -moz-filter: grayscale(100%);
-                -ms-filter: grayscale(100%);
-                -o-filter: grayscale(100%);
-            }
-        `;
-        document.head.appendChild(style);
-    }
-})();
-</script>
-<% } %>
+    </script>
+</body>
 </html>

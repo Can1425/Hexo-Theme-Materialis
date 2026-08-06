@@ -8,6 +8,7 @@
 }
 
 .post-card {
+    width: 100%;
     margin: 0 0 20px 0;
     display: flex;
     flex-direction: column;
@@ -15,7 +16,7 @@
     cursor: pointer;
     border-radius: 24px !important;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container)) !important;
+    background-color: var(--s-color-surface-container) !important;
     border: none;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
     transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
@@ -27,9 +28,9 @@
 
 .post-card:hover {
     transform: translateY(-6px);
-    background-color: rgb(var(--mdui-color-surface-container-high)) !important;
+    background-color: var(--s-color-surface-container-high) !important;
     box-shadow: 0 12px 32px rgba(0, 0, 0, 0.1),
-                0 4px 12px rgb(var(--mdui-color-primary) / 0.12);
+                0 4px 12px color-mix(in srgb, var(--s-color-primary) 12%, transparent);
 }
 
 .post-card:active {
@@ -37,7 +38,7 @@
 }
 
 .post-card:focus-visible {
-    outline: 3px solid rgb(var(--mdui-color-primary));
+    outline: 3px solid var(--s-color-primary);
     outline-offset: 2px;
 }
 
@@ -47,7 +48,7 @@
     width: 100%;
     height: 180px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
 }
 
 .post-card__img {
@@ -81,8 +82,8 @@
     gap: 4px;
     padding: 5px 10px 5px 8px;
     border-radius: 999px;
-    background: rgb(var(--mdui-color-primary-container) / 0.92);
-    color: rgb(var(--mdui-color-on-primary-container));
+    background: color-mix(in srgb, var(--s-color-primary-container) 92%, transparent);
+    color: var(--s-color-on-primary-container);
     backdrop-filter: blur(8px) saturate(160%);
     -webkit-backdrop-filter: blur(8px) saturate(160%);
     font-size: 0.72rem;
@@ -91,7 +92,7 @@
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
 }
 
-.post-card__badge mdui-icon {
+.post-card__badge material-icon {
     font-size: 0.95rem;
 }
 
@@ -122,7 +123,7 @@
     font-weight: 600;
     line-height: 1.35;
     letter-spacing: -0.01em;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -132,14 +133,14 @@
 }
 
 .post-card:hover .post-card__title {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
 }
 
 .post-card__excerpt {
     margin: 0;
     font-size: 0.9rem;
     line-height: 1.6;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
@@ -157,7 +158,7 @@
     flex-wrap: wrap;
     margin-top: auto;
     padding-top: 12px;
-    border-top: 1px solid rgba(var(--mdui-color-outline-variant), 0.5);
+    border-top: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
 }
 
 .post-card__date {
@@ -165,12 +166,12 @@
     align-items: center;
     gap: 5px;
     font-size: 0.78rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     font-variant-numeric: tabular-nums;
     flex-shrink: 0;
 }
 
-.post-card__date mdui-icon {
+.post-card__date material-icon {
     font-size: 1rem;
 }
 
@@ -187,20 +188,20 @@
     gap: 3px;
     padding: 3px 9px 3px 7px;
     border-radius: 999px;
-    background: rgb(var(--mdui-color-secondary-container));
-    color: rgb(var(--mdui-color-on-secondary-container));
+    background: var(--s-color-secondary-container);
+    color: var(--s-color-on-secondary-container);
     font-size: 0.72rem;
     font-weight: 500;
     line-height: 1.4;
 }
 
-.post-card__tag mdui-icon {
+.post-card__tag material-icon {
     font-size: 0.85rem;
 }
 
 .post-card__tag--more {
-    background: rgb(var(--mdui-color-tertiary-container));
-    color: rgb(var(--mdui-color-on-tertiary-container));
+    background: var(--s-color-tertiary-container);
+    color: var(--s-color-on-tertiary-container);
     padding: 3px 9px;
 }
 
@@ -210,7 +211,7 @@
     align-items: center;
     gap: 6px;
     margin-top: 2px;
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     font-size: 0.82rem;
     font-weight: 500;
 }
@@ -226,6 +227,7 @@
 
 /* 无文章 */
 .no-articles {
+    width: 100%;
     text-align: center;
     padding: 3rem 2rem;
     border-radius: 24px;

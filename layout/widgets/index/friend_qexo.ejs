@@ -15,7 +15,7 @@
 }
 
 .qexo_loader {
-  background-color: rgba(var(--mdui-color-on-surface-variant), 0.2); /* 使用主题色并调整透明度 */
+  background-color: color-mix(in srgb, var(--s-color-on-surface-variant) 20%, transparent); /* 使用主题色并调整透明度 */
   width: 64px;
   height: 64px;
   perspective: 800px;
@@ -31,7 +31,7 @@
   left: 0;
   top: 0;
   animation: rotate-one 1s linear infinite;
-  border-bottom: 3px solid var(--mdui-color-on-surface-variant); /* 使用主题变量 */
+  border-bottom: 3px solid var(--s-color-on-surface-variant); /* 使用主题变量 */
   position: absolute;
 }
 
@@ -39,7 +39,7 @@
   right: 0;
   top: 0;
   animation: rotate-two 1s linear infinite;
-  border-right: 3px solid var(--mdui-color-on-surface-variant); /* 使用主题变量 */
+  border-right: 3px solid var(--s-color-on-surface-variant); /* 使用主题变量 */
   position: absolute;
 }
 
@@ -47,7 +47,7 @@
   right: 0;
   bottom: 0;
   animation: rotate-three 1s linear infinite;
-  border-top: 3px solid var(--mdui-color-on-surface-variant); /* 使用主题变量 */
+  border-top: 3px solid var(--s-color-on-surface-variant); /* 使用主题变量 */
   position: absolute;
 }
 
@@ -85,7 +85,7 @@
 }
 
 .qexo-friends a {
-  color: var(--mdui-color-on-surface); /* 使用主题文本色 */
+  color: var(--s-color-on-surface); /* 使用主题文本色 */
 }
 
 .qexo-friends p {
@@ -94,18 +94,18 @@
 
 .qexo-friendurl {
   text-decoration: none !important;
-  color: var(--mdui-color-on-surface); /* 使用主题文本色 */
+  color: var(--s-color-on-surface); /* 使用主题文本色 */
 }
 
 .qexo-myfriend {
   width: 56px !important;
   height: 56px !important;
   border-radius: 50%;
-  border: 1px solid var(--mdui-color-outline); /* 使用轮廓色 */
-  box-shadow: var(--mdui-elevation-1); /* 使用MDUI高程阴影 */
+  border: 1px solid var(--s-color-outline); /* 使用轮廓色 */
+  box-shadow: var(--s-elevation-level1); /* 使用Sober高程阴影 */
   margin-top: 14px !important;
   margin-left: 14px !important;
-  background-color: var(--mdui-color-surface) !important; /* 使用表面色 */
+  background-color: var(--s-color-surface) !important; /* 使用表面色 */
 }
 
 .qexo-frienddiv {
@@ -113,10 +113,10 @@
   margin-top: 10px;
   width: calc(100% - 10px);
   margin-right: 10px;
-  box-shadow: var(--mdui-elevation-1); /* 使用MDUI高程阴影 */
+  box-shadow: var(--s-elevation-level1); /* 使用Sober高程阴影 */
   display: inline-block !important;
-  background-color: var(--mdui-color-surface-container-low); /* 使用表面容器色 */
-  border-radius: var(--mdui-shape-corner-medium); /* 使用中等圆角 */
+  background-color: var(--s-color-surface-container-low); /* 使用表面容器色 */
+  border-radius: var(--s-shape-corner-medium); /* 使用中等圆角 */
 }
 
 @media screen and (min-device-width: 600px) {
@@ -126,12 +126,12 @@
 }
 
 .qexo-frienddiv:hover {
-  background: rgba(var(--mdui-color-primary), 0.08); /* 使用主色并添加透明度 */
-  box-shadow: var(--mdui-elevation-2); /* 悬停时阴影升高 */
+  background: color-mix(in srgb, var(--s-color-primary) 8%, transparent); /* 使用主色并添加透明度 */
+  box-shadow: var(--s-elevation-level2); /* 悬停时阴影升高 */
 }
 
 .qexo-frienddiv:hover .qexo-frienddivleft img {
-  transition: transform 0.9s var(--mdui-motion-easing-emphasized) !important; /* 使用MDUI强调缓动 */
+  transition: transform 0.9s var(--s-motion-easing-emphasized) !important; /* 使用Sober强调缓动 */
   transform: rotate(360deg) !important;
 }
 
@@ -147,7 +147,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   white-space: nowrap;
-  color: var(--mdui-color-on-surface); /* 确保文本使用主题色 */
+  color: var(--s-color-on-surface); /* 确保文本使用主题色 */
 }
 </style>
 <script src="https://registry.npmmirror.com/qexo-static/1.6.0/files/hexo/friends.js"></script>

@@ -1,4 +1,4 @@
-/* MDUI 风格的页面跳转动画 */
+/* Sober 风格的页面跳转动画 */
 .page-transition-container {
   position: relative;
   width: 100%;
@@ -25,7 +25,7 @@
 }
 
 .page-slide-enter-active {
-  animation: mdui-slide-in 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-slide-in 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .page-slide-exit {
@@ -40,11 +40,11 @@
 }
 
 .page-slide-exit-active {
-  animation: mdui-slide-out 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-slide-out 300ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* MDUI 标准滑入动画 */
-@keyframes mdui-slide-in {
+/* Sober 标准滑入动画 */
+@keyframes s-slide-in {
   0% {
     transform: translateX(8%);
     opacity: 0;
@@ -55,8 +55,8 @@
   }
 }
 
-/* MDUI 标准滑出动画 */
-@keyframes mdui-slide-out {
+/* Sober 标准滑出动画 */
+@keyframes s-slide-out {
   0% {
     transform: translateX(0);
     opacity: 1;
@@ -79,7 +79,7 @@
 }
 
 .page-fade-enter-active {
-  animation: mdui-fade-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-fade-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .page-fade-exit {
@@ -93,11 +93,11 @@
 }
 
 .page-fade-exit-active {
-  animation: mdui-fade-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-fade-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* MDUI 标准淡入动画 */
-@keyframes mdui-fade-in {
+/* Sober 标准淡入动画 */
+@keyframes s-fade-in {
   0% {
     opacity: 0;
     transform: scale(0.98);
@@ -108,8 +108,8 @@
   }
 }
 
-/* MDUI 标准淡出动画 */
-@keyframes mdui-fade-out {
+/* Sober 标准淡出动画 */
+@keyframes s-fade-out {
   0% {
     opacity: 1;
     transform: scale(1);
@@ -133,7 +133,7 @@
 }
 
 .page-lift-enter-active {
-  animation: mdui-lift-in 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-lift-in 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .page-lift-exit {
@@ -148,11 +148,11 @@
 }
 
 .page-lift-exit-active {
-  animation: mdui-lift-out 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-lift-out 320ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* MDUI 上升进入动画 */
-@keyframes mdui-lift-in {
+/* Sober 上升进入动画 */
+@keyframes s-lift-in {
   0% {
     transform: translateY(12px);
     opacity: 0;
@@ -163,8 +163,8 @@
   }
 }
 
-/* MDUI 下降退出动画 */
-@keyframes mdui-lift-out {
+/* Sober 下降退出动画 */
+@keyframes s-lift-out {
   0% {
     transform: translateY(0);
     opacity: 1;
@@ -188,7 +188,7 @@
 }
 
 .page-scale-enter-active {
-  animation: mdui-scale-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-scale-in 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .page-scale-exit {
@@ -203,11 +203,11 @@
 }
 
 .page-scale-exit-active {
-  animation: mdui-scale-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-scale-out 280ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* MDUI 缩放进入动画 */
-@keyframes mdui-scale-in {
+/* Sober 缩放进入动画 */
+@keyframes s-scale-in {
   0% {
     transform: scale(0.92);
     opacity: 0;
@@ -218,8 +218,8 @@
   }
 }
 
-/* MDUI 缩放退出动画 */
-@keyframes mdui-scale-out {
+/* Sober 缩放退出动画 */
+@keyframes s-scale-out {
   0% {
     transform: scale(1);
     opacity: 1;
@@ -244,7 +244,7 @@
 }
 
 .page-card-enter-active {
-  animation: mdui-card-in 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-card-in 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
 .page-card-exit {
@@ -260,11 +260,11 @@
 }
 
 .page-card-exit-active {
-  animation: mdui-card-out 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
+  animation: s-card-out 350ms cubic-bezier(0.2, 0, 0, 1) forwards;
 }
 
-/* MDUI 卡片展开动画 */
-@keyframes mdui-card-in {
+/* Sober 卡片展开动画 */
+@keyframes s-card-in {
   0% {
     transform: scale(0.8) translateY(20px);
     opacity: 0;
@@ -277,8 +277,8 @@
   }
 }
 
-/* MDUI 卡片收缩动画 */
-@keyframes mdui-card-out {
+/* Sober 卡片收缩动画 */
+@keyframes s-card-out {
   0% {
     transform: scale(1) translateY(0);
     opacity: 1;
@@ -297,7 +297,7 @@
     transform: translateX(4%);
   }
   
-  @keyframes mdui-slide-out {
+  @keyframes s-slide-out {
     0% {
       transform: translateX(0);
       opacity: 1;
@@ -312,7 +312,7 @@
     transform: translateY(8px);
   }
   
-  @keyframes mdui-lift-out {
+  @keyframes s-lift-out {
     0% {
       transform: translateY(0);
       opacity: 1;

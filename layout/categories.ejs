@@ -12,10 +12,11 @@
 /* 顶部头部卡片 */
 .categories-header {
     width: 100%;
+    box-sizing: border-box;
     padding: 40px 32px;
     border-radius: 28px;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     position: relative;
     overflow: hidden;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
@@ -30,7 +31,7 @@
     width: 160px;
     height: 160px;
     border-radius: 50%;
-    background: rgb(var(--mdui-color-on-primary-container) / 0.06);
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 6%, transparent);
     pointer-events: none;
 }
 
@@ -42,7 +43,7 @@
     width: 120px;
     height: 120px;
     border-radius: 50%;
-    background: rgb(var(--mdui-color-on-primary-container) / 0.05);
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 5%, transparent);
     pointer-events: none;
 }
 
@@ -73,7 +74,7 @@
     height: 24px;
     padding: 0 8px;
     border-radius: 12px;
-    background: rgb(var(--mdui-color-on-primary-container) / 0.15);
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 15%, transparent);
     font-weight: 500;
     font-size: 0.85rem;
 }
@@ -88,17 +89,30 @@
 
 /* 每个分类项 */
 .category-item {
-    --mdui-color-on-surface: var(--mdui-color-on-surface);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    color: var(--s-color-on-surface);
+    text-decoration: none;
+    --s-color-on-surface: var(--s-color-on-surface);
     margin-bottom: 10px;
     border-radius: 20px !important;
     transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
-    background-color: rgb(var(--mdui-color-surface-container)) !important;
-    border: 1px solid rgba(var(--mdui-color-outline), 0.12);
+    background-color: var(--s-color-surface-container) !important;
+    border: 1px solid color-mix(in srgb, var(--s-color-outline) 12%, transparent);
     overflow: hidden;
 }
 
+.category-description {
+    flex: 1;
+    min-width: 0;
+    color: var(--s-color-on-surface-variant);
+    font-size: 0.875rem;
+}
+
 .category-item:hover {
-    background-color: rgb(var(--mdui-color-surface-container-high)) !important;
+    background-color: var(--s-color-surface-container-high) !important;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
     transform: translateY(-1px);
 }
@@ -111,38 +125,38 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     flex-shrink: 0;
 }
 
-.category-icon-box mdui-icon {
+.category-icon-box material-icon {
     font-size: 24px;
 }
 
 /* 文章数量徽章 */
 .category-count-chip {
-    --mdui-chip-height: 28px;
+    height: 28px;
     flex-shrink: 0;
-    background: rgb(var(--mdui-color-secondary-container)) !important;
-    color: rgb(var(--mdui-color-on-secondary-container)) !important;
+    background: var(--s-color-secondary-container) !important;
+    color: var(--s-color-on-secondary-container) !important;
     font-weight: 500;
 }
 
-.category-count-chip mdui-icon {
+.category-count-chip material-icon {
     font-size: 1rem;
 }
 
 /* 箭头图标 */
 .category-arrow-icon {
-    color: rgb(var(--mdui-color-outline));
+    color: var(--s-color-outline);
     transition: transform 0.2s ease;
     flex-shrink: 0;
 }
 
 .category-item:hover .category-arrow-icon {
     transform: translateX(4px);
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
 }
 
 /* 列表底部说明 */
@@ -150,7 +164,7 @@
     width: 100%;
     text-align: center;
     font-size: 0.8rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     opacity: 0.7;
     margin-top: 8px;
 }
@@ -173,15 +187,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .categories-empty-icon {
     font-size: 80px;
     margin-bottom: 24px;
     opacity: 0.6;
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
 }
 
 .categories-empty-content {
@@ -225,7 +239,7 @@
         border-radius: 12px;
     }
 
-    .category-icon-box mdui-icon {
+    .category-icon-box material-icon {
         font-size: 22px;
     }
 
@@ -267,33 +281,32 @@
     <div class="categories-header">
         <h1 class="categories-header-title"><%= __('categories.title') %></h1>
         <div class="categories-header-sub">
-            <mdui-icon name="folder_special" style="font-size: 1.1rem;"></mdui-icon>
+            <material-icon name="folder_special" style="font-size: 1.1rem;"></material-icon>
             <span><%= __('categories.count_prefix') %></span>
             <span class="count-badge"><%= site.categories.length %></span>
             <span><%= __('categories.count_suffix') %></span>
         </div>
     </div>
 
-    <!-- 分类列表（使用 mdui-list 组件） -->
+    <!-- 分类列表 -->
     <% if (site.categories.length > 0) { %>
         <div class="categories-list-wrap">
-            <mdui-list>
+            <div class="s-list">
                 <% site.categories.sort('name').each(function(category) { %>
-                    <mdui-list-item
+                    <a
                         class="category-item"
                         href="<%= url_for(category.path) %>"
-                        rounded
                     >
                         <!-- 左侧图标 -->
-                        <div class="category-icon-box" slot="icon">
-                            <mdui-icon name="folder"></mdui-icon>
+                        <div class="category-icon-box">
+                            <material-icon name="folder"></material-icon>
                         </div>
 
                         <!-- 标题 -->
                         <div><%= category.name %></div>
 
                         <!-- 描述 / 文章数 -->
-                        <div slot="description">
+                        <div class="category-description">
                             <% if (category.description) { %>
                                 <%= category.description %>
                             <% } else { %>
@@ -302,24 +315,21 @@
                         </div>
 
                         <!-- 右侧：文章数量徽章 -->
-                        <mdui-chip
-                            class="category-count-chip"
-                            variant="filled-tonal"
-                            slot="end-icon"
+                        <s-chip readonly
+                            class="category-count-chip" variant="assist"
                         >
-                            <mdui-icon name="article" slot="icon"></mdui-icon>
+                            <material-icon name="article" slot="start"></material-icon>
                             <%= category.posts.length %>
-                        </mdui-chip>
+                        </s-chip>
 
                         <!-- 右侧箭头 -->
-                        <mdui-icon
+                        <material-icon
                             class="category-arrow-icon"
                             name="chevron_right"
-                            slot="end-icon"
-                        ></mdui-icon>
-                    </mdui-list-item>
+                        ></material-icon>
+                    </a>
                 <% }) %>
-            </mdui-list>
+            </div>
         </div>
 
         <div class="categories-list-desc">
@@ -331,14 +341,14 @@
     <% if (!site.categories || site.categories.length === 0) { %>
         <div class="categories-empty-state">
             <div class="categories-empty-card">
-                <mdui-icon class="categories-empty-icon" name="category"></mdui-icon>
+                <material-icon class="categories-empty-icon" name="category"></material-icon>
                 <div class="categories-empty-content">
-                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                    <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
                         <%= __('categories.empty') %>
-                    </mdui-typography>
-                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                    </materialis-typography>
+                    <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
                         <%= __('categories.empty_desc') %>
-                    </mdui-typography>
+                    </materialis-typography>
                 </div>
             </div>
         </div>

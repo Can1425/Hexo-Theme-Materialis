@@ -1,4 +1,4 @@
-<%- js('js/fancybox.js') %>
+<script defer src="<%= url_for('/js/fancybox.js') %>"></script>
 
 <style>
 .post-container {
@@ -11,21 +11,24 @@
 }
 
 .post-card-wide {
+    width: 100%;
     border-radius: 20px;
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
     box-shadow: none;
 }
 
 .post-card-comment {
+    width: 100%;
     border-radius: 20px;
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
     box-shadow: none;
     padding: 2.5rem;
 }
 
 .post-card-nav {
+    width: 100%;
     border-radius: 20px;
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
     box-shadow: none;
     padding: 2.5rem;
 }
@@ -51,9 +54,9 @@
 }
 
 .article-content {
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
     line-height: 1.8;
-    font-family: var(--mdui-font-family);
+    font-family: var(--materialis-font-family);
     width: 100%;
     overflow-wrap: break-word;
 }
@@ -64,7 +67,7 @@
 .article-content h4,
 .article-content h5,
 .article-content h6 {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     margin-top: 1.5em;
     margin-bottom: 1em;
 }
@@ -74,9 +77,9 @@
 }
 
 .article-content a {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     text-decoration: none;
-    border-bottom: 1px dashed rgb(var(--mdui-color-primary));
+    border-bottom: 1px dashed var(--s-color-primary);
 }
 
 .article-content a:hover {
@@ -84,17 +87,17 @@
 }
 
 .article-content code {
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
     padding: 2px 6px;
     border-radius: 4px;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     word-break: break-word;
 }
 
 /* 代码块样式见文件末尾「macOS 风格代码块」部分（已重构） */
 
 .article-content pre {
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
     padding: 16px;
     border-radius: 8px;
     overflow-x: auto;
@@ -123,10 +126,10 @@
     width: 0%;
     z-index: 9999;
     background: linear-gradient(90deg,
-        rgb(var(--mdui-color-primary)),
-        rgb(var(--mdui-color-tertiary)));
+        var(--s-color-primary),
+        var(--s-color-tertiary));
     border-radius: 0 3px 3px 0;
-    box-shadow: 0 0 8px rgb(var(--mdui-color-primary) / 0.4);
+    box-shadow: 0 0 8px color-mix(in srgb, var(--s-color-primary) 40%, transparent);
     transition: width 0.1s linear;
     pointer-events: none;
 }
@@ -139,32 +142,32 @@
     gap: 10px;
     padding-bottom: 20px;
     margin-bottom: 24px;
-    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 60%, transparent);
 }
 
 .post-meta-chip {
-    --mdui-chip-height: 30px;
+    height: 30px;
     font-size: 0.8rem;
     font-weight: 500;
 }
 
-.post-meta-chip mdui-icon {
+.post-meta-chip material-icon {
     font-size: 1.05rem;
 }
 
 .post-meta-chip.date-chip {
-    background: rgb(var(--mdui-color-primary-container)) !important;
-    color: rgb(var(--mdui-color-on-primary-container)) !important;
+    background: var(--s-color-primary-container) !important;
+    color: var(--s-color-on-primary-container) !important;
 }
 
 .post-meta-chip.cat-chip {
-    background: rgb(var(--mdui-color-secondary-container)) !important;
-    color: rgb(var(--mdui-color-on-secondary-container)) !important;
+    background: var(--s-color-secondary-container) !important;
+    color: var(--s-color-on-secondary-container) !important;
 }
 
 .post-meta-chip.read-chip {
-    background: rgb(var(--mdui-color-tertiary-container)) !important;
-    color: rgb(var(--mdui-color-on-tertiary-container)) !important;
+    background: var(--s-color-tertiary-container) !important;
+    color: var(--s-color-on-tertiary-container) !important;
 }
 
 .post-meta-tags {
@@ -174,10 +177,10 @@
 }
 
 .post-meta-tag-chip {
-    --mdui-chip-height: 28px;
+    height: 28px;
     font-size: 0.78rem;
-    background: rgb(var(--mdui-color-surface-container-high)) !important;
-    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    background: var(--s-color-surface-container-high) !important;
+    color: var(--s-color-on-surface-variant) !important;
 }
 
 /* ===== 排版增强 ===== */
@@ -202,8 +205,8 @@
     width: 4px;
     border-radius: 2px;
     background: linear-gradient(180deg,
-        rgb(var(--mdui-color-primary)),
-        rgb(var(--mdui-color-tertiary)));
+        var(--s-color-primary),
+        var(--s-color-tertiary));
 }
 
 .article-content h3::before,
@@ -215,16 +218,16 @@
     bottom: 0.2em;
     width: 3px;
     border-radius: 2px;
-    background: rgb(var(--mdui-color-primary) / 0.5);
+    background: color-mix(in srgb, var(--s-color-primary) 50%, transparent);
 }
 
 /* 行内代码：主色调淡背景 */
 .article-content code {
-    background-color: rgb(var(--mdui-color-primary-container) / 0.45);
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: color-mix(in srgb, var(--s-color-primary-container) 45%, transparent);
+    color: var(--s-color-on-primary-container);
     padding: 2px 7px;
     border-radius: 6px;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     word-break: break-word;
     font-size: 0.875em;
 }
@@ -232,12 +235,12 @@
 /* 引用块：圆角 + 主色淡底 + 图标感 */
 .article-content blockquote {
     position: relative;
-    border-left: 4px solid rgb(var(--mdui-color-primary));
+    border-left: 4px solid var(--s-color-primary);
     border-radius: 12px;
     padding: 14px 18px 14px 22px;
     margin: 18px 0;
-    background-color: rgb(var(--mdui-color-primary-container) / 0.35);
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: color-mix(in srgb, var(--s-color-primary-container) 35%, transparent);
+    color: var(--s-color-on-surface);
     width: 100%;
     box-sizing: border-box;
 }
@@ -253,7 +256,7 @@
     margin: 2em 0;
     background: linear-gradient(90deg,
         transparent,
-        rgba(var(--mdui-color-outline), 0.4),
+        color-mix(in srgb, var(--s-color-outline) 40%, transparent),
         transparent);
 }
 
@@ -270,15 +273,15 @@
 }
 
 .article-content thead {
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .article-content th,
 .article-content td {
     padding: 10px 14px;
     text-align: left;
-    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 60%, transparent);
 }
 
 .article-content tbody tr {
@@ -286,11 +289,11 @@
 }
 
 .article-content tbody tr:nth-child(even) {
-    background-color: rgb(var(--mdui-color-surface-container) / 0.5);
+    background-color: color-mix(in srgb, var(--s-color-surface-container) 50%, transparent);
 }
 
 .article-content tbody tr:hover {
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
 }
 
 .article-content tbody tr:last-child td {
@@ -310,15 +313,15 @@
 
 /* 链接：下划线动画 */
 .article-content a {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     text-decoration: none;
-    border-bottom: 1px solid rgba(var(--mdui-color-primary), 0.4);
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-primary) 40%, transparent);
     transition: border-color 0.2s ease, color 0.2s ease;
 }
 
 .article-content a:hover {
-    color: rgb(var(--mdui-color-tertiary));
-    border-bottom-color: rgb(var(--mdui-color-tertiary));
+    color: var(--s-color-tertiary);
+    border-bottom-color: var(--s-color-tertiary);
 }
 
 .post-navigation {
@@ -333,8 +336,8 @@
     text-align: center;
     padding: 16px;
     border-radius: 12px;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
     text-decoration: none;
     transition: all 0.3s ease;
     display: flex;
@@ -344,7 +347,7 @@
 }
 
 .nav-button:hover {
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
     transform: translateY(-2px);
 }
 
@@ -355,13 +358,13 @@
 }
 
 .nav-button.disabled:hover {
-    background-color: rgb(var(--mdui-color-surface-container));
+    background-color: var(--s-color-surface-container);
     transform: none;
 }
 
 .nav-label {
     font-size: 0.875rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
 }
 
 .nav-title {
@@ -493,8 +496,8 @@
     margin: 1.6em 0;
     border-radius: 12px;
     overflow: hidden;
-    background: rgb(var(--mdui-color-surface-container-high));
-    border: 1px solid rgba(var(--mdui-color-outline), 0.12);
+    background: var(--s-color-surface-container-high);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline) 12%, transparent);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.04);
     position: relative;
 }
@@ -504,8 +507,8 @@
     align-items: center;
     gap: 10px;
     padding: 10px 14px;
-    background: rgb(var(--mdui-color-surface-container-highest));
-    border-bottom: 1px solid rgba(var(--mdui-color-outline-variant), 0.5);
+    background: var(--s-color-surface-container-highest);
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
     position: relative;
 }
 
@@ -537,8 +540,8 @@
     font-size: 0.78rem;
     font-weight: 500;
     letter-spacing: 0.02em;
-    color: rgb(var(--mdui-color-on-surface-variant));
-    font-family: var(--mdui-font-family);
+    color: var(--s-color-on-surface-variant);
+    font-family: var(--materialis-font-family);
     max-width: 50%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -564,22 +567,22 @@
     border: none;
     background: transparent;
     border-radius: 8px;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     cursor: pointer;
     transition: background-color 0.15s ease, color 0.15s ease;
     padding: 0;
 }
 
 .mac-code-btn:hover {
-    background: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-primary));
+    background: var(--s-color-surface-container);
+    color: var(--s-color-primary);
 }
 
 .mac-code-btn.copied {
-    color: rgb(var(--mdui-color-success));
+    color: var(--s-color-success);
 }
 
-.mac-code-btn mdui-icon {
+.mac-code-btn material-icon {
     font-size: 18px;
 }
 
@@ -620,8 +623,8 @@
 
 /* 行号列 */
 .article-content .mac-code-block .gutter {
-    background: rgb(var(--mdui-color-surface-container));
-    border-right: 1px solid rgba(var(--mdui-color-outline-variant), 0.4);
+    background: var(--s-color-surface-container);
+    border-right: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 40%, transparent);
     padding: 14px 8px 14px 14px;
     text-align: right;
     user-select: none;
@@ -634,9 +637,9 @@
     padding: 0 !important;
     border-radius: 0 !important;
     margin: 0;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     opacity: 0.6;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     font-size: 0.875rem;
     line-height: 1.6;
 }
@@ -653,10 +656,10 @@
     border-radius: 0 !important;
     margin: 0;
     overflow-x: auto;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
 }
 
 /* 裸 pre（未走 highlight.js 的代码）回退 */
@@ -666,16 +669,16 @@
     background: transparent !important;
     border-radius: 0 !important;
     overflow-x: auto;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     font-size: 0.875rem;
     line-height: 1.6;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
 }
 
 /* 横向滚动条 */
 .article-content .mac-code-block pre {
     scrollbar-width: thin;
-    scrollbar-color: rgb(var(--mdui-color-outline-variant)) transparent;
+    scrollbar-color: var(--s-color-outline-variant) transparent;
 }
 
 .article-content .mac-code-block pre::-webkit-scrollbar {
@@ -683,17 +686,17 @@
 }
 
 .article-content .mac-code-block pre::-webkit-scrollbar-thumb {
-    background: rgb(var(--mdui-color-outline-variant));
+    background: var(--s-color-outline-variant);
     border-radius: 4px;
 }
 
 .article-content .mac-code-block pre::-webkit-scrollbar-thumb:hover {
-    background: rgb(var(--mdui-color-outline));
+    background: var(--s-color-outline);
 }
 
 /* Hexo highlight 行标记 */
 .article-content .mac-code-block .marked-line {
-    background: rgb(var(--mdui-color-primary) / 0.08);
+    background: color-mix(in srgb, var(--s-color-primary) 8%, transparent);
     display: block;
     margin: 0 -16px;
     padding: 0 16px;
@@ -716,7 +719,7 @@
 /* h5 / h6 */
 .article-content h5,
 .article-content h6 {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     margin-top: 1.2em;
     margin-bottom: 0.6em;
     font-weight: 500;
@@ -728,7 +731,7 @@
 /* 加粗 / 斜体 / 删除线 */
 .article-content strong {
     font-weight: 600;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
 }
 
 .article-content em {
@@ -743,12 +746,12 @@
 .article-content kbd {
     display: inline-block;
     padding: 2px 7px;
-    font-family: var(--mdui-font-family-mono);
+    font-family: var(--materialis-font-family-mono);
     font-size: 0.8em;
     line-height: 1.4;
-    color: rgb(var(--mdui-color-on-surface));
-    background: rgb(var(--mdui-color-surface-container-highest));
-    border: 1px solid rgba(var(--mdui-color-outline), 0.4);
+    color: var(--s-color-on-surface);
+    background: var(--s-color-surface-container-highest);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline) 40%, transparent);
     border-bottom-width: 2px;
     border-radius: 6px;
     box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05);
@@ -758,8 +761,8 @@
 
 /* 高亮标记 */
 .article-content mark {
-    background: rgb(var(--mdui-color-tertiary-container));
-    color: rgb(var(--mdui-color-on-tertiary-container));
+    background: var(--s-color-tertiary-container);
+    color: var(--s-color-on-tertiary-container);
     padding: 1px 5px;
     border-radius: 4px;
 }
@@ -793,7 +796,7 @@
 .article-content input[type="checkbox"].task-list-item-checkbox {
     margin: 0.35em 0 0 0;
     flex-shrink: 0;
-    accent-color: rgb(var(--mdui-color-primary));
+    accent-color: var(--s-color-primary);
     width: 16px;
     height: 16px;
     cursor: default;
@@ -811,13 +814,13 @@
 .article-content dl {
     margin: 1em 0;
     padding: 12px 18px;
-    background: rgb(var(--mdui-color-surface-container) / 0.5);
+    background: color-mix(in srgb, var(--s-color-surface-container) 50%, transparent);
     border-radius: 12px;
 }
 
 .article-content dt {
     font-weight: 600;
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     margin-top: 10px;
 }
 
@@ -828,7 +831,7 @@
 .article-content dd {
     margin: 4px 0 0 0;
     padding-left: 16px;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     line-height: 1.7;
 }
 
@@ -840,7 +843,7 @@
 
 /* 图片标题 */
 .article-content .caption {
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     display: block;
     font-size: 0.85em;
     margin-top: 0.4em;
@@ -852,14 +855,212 @@
 .article-content .footnotes {
     margin-top: 2em;
     padding-top: 1em;
-    border-top: 1px solid rgba(var(--mdui-color-outline-variant), 0.6);
+    border-top: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 60%, transparent);
     font-size: 0.875em;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
 }
 
 .article-content .footnote-ref a,
 .article-content .footnote a {
     border-bottom: none;
+}
+
+/* ===== 阅读优先的文章布局 ===== */
+.post-layout {
+    padding-bottom: clamp(48px, 8vw, 96px);
+}
+
+/* 页面转场容器默认使用 overflow:hidden，会阻断文章目录的 sticky 吸附。 */
+.post-transition-container {
+    height: auto;
+    overflow: visible;
+}
+
+.post-layout .post-banner {
+    max-width: 1180px;
+    margin: 24px auto 12px;
+    padding: 0 20px;
+}
+
+.post-layout .post-banner .banner-title {
+    min-height: 0;
+    padding: clamp(24px, 4vw, 44px) clamp(24px, 5vw, 56px);
+    box-sizing: border-box;
+    border-radius: 28px;
+}
+
+.post-layout .post-banner .banner-title-text1 {
+    max-width: 20ch;
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 3.5vw, 3.25rem);
+    line-height: 1.12;
+    overflow-wrap: anywhere;
+}
+
+.post-container {
+    max-width: 1180px;
+    padding: 20px;
+    gap: 24px;
+}
+
+.post-reading-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    align-items: start;
+    gap: 24px;
+}
+
+.post-reading-column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.post-card-wide,
+.post-card-nav,
+.post-card-comment {
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 64%, transparent);
+}
+
+.post-card-wide {
+    padding: clamp(24px, 5vw, 56px);
+    border-radius: 28px;
+    background: var(--s-color-surface);
+}
+
+.post-toc-rail {
+    min-width: 0;
+    position: sticky;
+    top: 80px;
+    align-self: start;
+}
+
+.post-toc-rail-panel {
+    display: flex;
+    flex-direction: column;
+    max-height: calc(100vh - 112px);
+    padding: 18px 10px 14px;
+    box-sizing: border-box;
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 64%, transparent);
+    border-radius: 24px;
+    background: var(--s-color-surface-container-low);
+}
+
+.post-toc-rail-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 10px 12px;
+    color: var(--s-color-on-surface);
+    font-size: 0.95rem;
+    font-weight: 650;
+}
+
+.post-toc-rail-title material-icon {
+    color: var(--s-color-primary);
+    font-size: 20px;
+}
+
+.post-toc-rail-container {
+    min-height: 96px;
+    padding: 0;
+}
+
+.post-toc-rail-container .toc-link {
+    padding: 7px 9px;
+    font-size: 0.84rem;
+}
+
+.post-toc-rail-count {
+    padding: 10px 10px 0;
+    color: var(--s-color-on-surface-variant);
+    font-size: 0.75rem;
+}
+
+.post-card-wide > div {
+    width: 100%;
+}
+
+.post-card-wide .article-content {
+    max-width: 760px;
+    margin: 0 auto;
+    font-size: 1.05rem;
+    line-height: 1.85;
+}
+
+.post-card-nav,
+.post-card-comment {
+    width: 100%;
+    margin-inline: 0;
+    border-radius: 24px;
+    background: var(--s-color-surface-container-low);
+}
+
+.post-card-nav {
+    padding: clamp(18px, 3vw, 28px);
+}
+
+.post-card-comment {
+    padding: clamp(22px, 4vw, 40px);
+}
+
+.post-card-comment > div {
+    width: 100%;
+}
+
+.post-card-comment materialis-typography {
+    display: block;
+    margin-bottom: 24px !important;
+    text-align: left !important;
+}
+
+@media (max-width: 768px) {
+    .post-layout .post-banner {
+        margin-top: 16px;
+        padding: 0 16px;
+    }
+
+    .post-layout .post-banner .banner-title {
+        padding: 28px 24px 24px;
+        border-radius: 24px;
+    }
+
+    .post-layout .post-banner .banner-title-text1 {
+        margin-bottom: 16px;
+        font-size: clamp(1.9rem, 9vw, 2.5rem);
+    }
+
+    .post-container {
+        padding: 12px 16px;
+        gap: 16px;
+    }
+
+    .post-card-wide {
+        padding: 24px 20px;
+        border-radius: 24px;
+    }
+
+    .post-card-wide .article-content {
+        font-size: 1rem;
+        line-height: 1.8;
+    }
+
+    .post-card-nav,
+    .post-card-comment {
+        border-radius: 20px;
+    }
+}
+
+@media (max-width: 1179px) {
+    .post-reading-grid {
+        display: block;
+    }
+
+    .post-toc-rail {
+        display: none;
+    }
 }
 </style>
 
@@ -872,81 +1073,101 @@
 <!-- 阅读进度条 -->
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 
-<mdui-layout-main>
-    <%- include('widgets/banner', {titleText1: page.title, titleText2: ''}) %>
+<section class="layout-main post-layout">
+    <%- include('widgets/post-banner', {titleText1: page.title}) %>
 
     <div class="post-container">
-        <!-- 内容卡片 -->
-        <mdui-card variant="filled" class="post-card-wide">
-            <mdui-card-content>
-                <div class="article-content">
-                    <%- page.content %>
-                </div>
-            </mdui-card-content>
-        </mdui-card>
-
-        <!-- 上一篇/下一篇导航 -->
-        <mdui-card variant="filled" class="post-card-nav">
-            <mdui-card-content>
-                <div class="post-navigation">
-                    <% if (page.prev) { %>
-                        <a href="<%= url_for(page.prev.path) %>" class="nav-button">
-                            <span class="nav-label"><%= __('post.prev') %></span>
-                            <span class="nav-title"><%= page.prev.title %></span>
-                        </a>
-                    <% } else { %>
-                        <a class="nav-button disabled">
-                            <span class="nav-label"><%= __('post.prev') %></span>
-                            <span class="nav-title"><%= __('post.none') %></span>
-                        </a>
-                    <% } %>
-                    
-                    <% if (page.next) { %>
-                        <a href="<%= url_for(page.next.path) %>" class="nav-button">
-                            <span class="nav-label"><%= __('post.next') %></span>
-                            <span class="nav-title"><%= page.next.title %></span>
-                        </a>
-                    <% } else { %>
-                        <a class="nav-button disabled">
-                            <span class="nav-label"><%= __('post.next') %></span>
-                            <span class="nav-title"><%= __('post.none') %></span>
-                        </a>
-                    <% } %>
-                </div>
-            </mdui-card-content>
-        </mdui-card>
-
-        <!-- 评论卡片 -->
-        <mdui-card variant="filled" class="post-card-comment">
-            <mdui-card-content>
-                <mdui-typography variant="h5" style="margin-bottom: 1.5rem; text-align: center; color: rgb(var(--mdui-color-primary));">
-                    <%= __('post.comment') %>
-                </mdui-typography>
-                <% if (theme.comment && theme.comment.service) { %>
-                    <% if (theme.comment.service === 'twikoo') { %>
-                        <%- include('widgets/comments/twikoo.ejs') %>
-                    <% } else if (theme.comment.service === 'waline') { %>
-                        <%- include('widgets/comments/waline.ejs') %>
-                    <% } else if (theme.comment.service === 'giscus') { %>
-                        <%- include('widgets/comments/giscus.ejs') %>
-                    <% } else { %>
-                        <div style="text-align: center; padding: 2rem;">
-                            <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
-                                <%= __('post.comment_disabled') %>
-                            </mdui-typography>
+        <div class="post-reading-grid">
+            <div class="post-reading-column">
+                <!-- 内容卡片 -->
+                <s-card readonly variant="filled" class="post-card-wide">
+                    <div>
+                        <div class="article-content">
+                            <%- page.content %>
                         </div>
-                    <% } %>
-                <% } else { %>
-                    <div style="text-align: center; padding: 2rem;">
-                        <mdui-typography variant="body2" style="color: var(--mdui-color-on-surface-variant);">
-                            <%= __('post.comment_disabled') %>
-                        </mdui-typography>
                     </div>
-                <% } %>
-            </mdui-card-content>
-        </mdui-card>
+                </s-card>
+
+                <!-- 上一篇/下一篇导航 -->
+                <s-card readonly variant="filled" class="post-card-nav">
+                    <div>
+                        <div class="post-navigation">
+                            <% if (page.prev) { %>
+                                <a href="<%= url_for(page.prev.path) %>" class="nav-button">
+                                    <span class="nav-label"><%= __('post.prev') %></span>
+                                    <span class="nav-title"><%= page.prev.title %></span>
+                                </a>
+                            <% } else { %>
+                                <a class="nav-button disabled">
+                                    <span class="nav-label"><%= __('post.prev') %></span>
+                                    <span class="nav-title"><%= __('post.none') %></span>
+                                </a>
+                            <% } %>
+
+                            <% if (page.next) { %>
+                                <a href="<%= url_for(page.next.path) %>" class="nav-button">
+                                    <span class="nav-label"><%= __('post.next') %></span>
+                                    <span class="nav-title"><%= page.next.title %></span>
+                                </a>
+                            <% } else { %>
+                                <a class="nav-button disabled">
+                                    <span class="nav-label"><%= __('post.next') %></span>
+                                    <span class="nav-title"><%= __('post.none') %></span>
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </s-card>
+
+                <!-- 评论卡片 -->
+                <s-card readonly variant="filled" class="post-card-comment">
+                    <div>
+                        <materialis-typography variant="h5" style="color: var(--s-color-primary);">
+                            <%= __('post.comment') %>
+                        </materialis-typography>
+                        <% if (theme.comment && theme.comment.service) { %>
+                            <% if (theme.comment.service === 'twikoo') { %>
+                                <%- include('widgets/comments/twikoo.ejs') %>
+                            <% } else if (theme.comment.service === 'waline') { %>
+                                <%- include('widgets/comments/waline.ejs') %>
+                            <% } else if (theme.comment.service === 'giscus') { %>
+                                <%- include('widgets/comments/giscus.ejs') %>
+                            <% } else { %>
+                                <div style="text-align: center; padding: 2rem;">
+                                    <materialis-typography variant="body2" style="color: var(--s-color-on-surface-variant);">
+                                        <%= __('post.comment_disabled') %>
+                                    </materialis-typography>
+                                </div>
+                            <% } %>
+                        <% } else { %>
+                            <div style="text-align: center; padding: 2rem;">
+                                <materialis-typography variant="body2" style="color: var(--s-color-on-surface-variant);">
+                                    <%= __('post.comment_disabled') %>
+                                </materialis-typography>
+                            </div>
+                        <% } %>
+                    </div>
+                </s-card>
+            </div>
+
+            <aside class="post-toc-rail" aria-label="文章目录">
+                <div class="post-toc-rail-panel">
+                    <div class="post-toc-rail-title">
+                        <material-icon name="menu_book"></material-icon>
+                        <span>目录</span>
+                    </div>
+                    <div id="post-toc-rail-container" class="toc-container post-toc-rail-container">
+                        <div class="toc-placeholder">
+                            <material-icon name="menu_book"></material-icon>
+                            <div class="toc-placeholder-text">正在解析标题…</div>
+                        </div>
+                    </div>
+                    <div id="post-toc-rail-count" class="post-toc-rail-count"></div>
+                </div>
+            </aside>
+        </div>
     </div>
-</mdui-layout-main>
+</section>
 
 <!-- macOS 风格代码块（外部脚本，defer 延迟加载） -->
 <script defer src="/js/post-codeblock.js"></script>

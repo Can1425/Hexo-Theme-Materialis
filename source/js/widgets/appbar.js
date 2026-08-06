@@ -1,123 +1,84 @@
-const sidebar = document.querySelector(".sidebar-content");
-const menuButton = document.querySelector(".appbar-menu-button");
-const displayModeMenu = document.querySelector(".appbar-display-mode");
-const displayModeButtonIcon = document.querySelector(".appbar-display-mode-icon");
-const BREAKPOINT = 840;
+(function () {
+    'use strict';
 
-// 从localStorage读取保存的设置，如果没有则使用默认值
-const savedSidebarState = localStorage.getItem('sidebarOpen');
-const savedDisplayMode = localStorage.getItem('displayMode');
+    var BREAKPOINT = 840;
+    var sidebar = document.getElementById('site-sidebar');
+    var scrim = document.getElementById('sidebar-scrim');
+    var menuButton = document.querySelector('.appbar-menu-button');
+    var page = document.getElementById('materialis-page');
+    var displayTrigger = document.getElementById('display-mode-trigger');
+    var displayDialog = document.getElementById('display-mode-dialog');
+    var displayIcon = document.querySelector('.appbar-display-mode-icon');
 
-// 初始化侧边栏状态
-if (savedSidebarState !== null) {
-    // 如果有保存的状态，则使用保存的状态
-    sidebar.open = savedSidebarState === 'true';
-} else {
-    // 如果没有保存的状态，则根据屏幕宽度决定默认状态
-    sidebar.open = window.innerWidth >= BREAKPOINT;
-}
+    if (!sidebar || !menuButton || !page) return;
 
-// 初始化显示模式
-let displayMode;
-if (savedDisplayMode !== null) {
-    // 如果有保存的模式，则使用保存的模式
-    displayMode = savedDisplayMode;
-    displayModeMenu.value = displayMode;
-} else {
-    // 如果没有保存的模式，则使用默认值
-    displayMode = displayModeMenu.value;
-}
-
-displayModeButtonIcon.name = `${displayMode}_mode`;
-
-// 应用显示模式
-if (displayMode === 'dark') {
-    document.body.classList.add('mdui-theme-dark');
-    document.body.classList.remove('mdui-theme-light');
-} else if (displayMode === 'light') {
-    document.body.classList.add('mdui-theme-light');
-    document.body.classList.remove('mdui-theme-dark');
-} else {
-    // auto mode - 根据系统设置决定
-    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.body.classList.add('mdui-theme-dark');
-        document.body.classList.remove('mdui-theme-light');
-    } else {
-        document.body.classList.add('mdui-theme-light');
-        document.body.classList.remove('mdui-theme-dark');
+    function readStorage(key) {
+        try { return localStorage.getItem(key); } catch (error) { return null; }
     }
-}
 
-function changeSidebarState() {
-    sidebar.open = !sidebar.open;
-    // 保存侧边栏状态到localStorage
-    localStorage.setItem('sidebarOpen', sidebar.open);
-}
-
-function changeDisplayMode() {
-    displayMode = displayModeMenu.value;
-    displayModeButtonIcon.name = `${displayMode}_mode`;
-    
-    // 移除所有主题类
-    document.body.classList.remove('mdui-theme-light', 'mdui-theme-dark');
-    
-    // 应用新主题
-    if (displayMode === 'dark') {
-        document.body.classList.add('mdui-theme-dark');
-    } else if (displayMode === 'light') {
-        document.body.classList.add('mdui-theme-light');
-    } else {
-        // auto mode - 根据系统设置决定
-        if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-            document.body.classList.add('mdui-theme-dark');
-        } else {
-            document.body.classList.add('mdui-theme-light');
-        }
+    function writeStorage(key, value) {
+        try { localStorage.setItem(key, value); } catch (error) {}
     }
-    
-    // 保存显示模式到localStorage
-    localStorage.setItem('displayMode', displayMode);
-}
 
-// 监听系统主题变化
-window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
-    // 只有在auto模式下才响应系统主题变化
-    if (displayMode === 'auto') {
-        document.body.classList.remove('mdui-theme-light', 'mdui-theme-dark');
-        if (e.matches) {
-            document.body.classList.add('mdui-theme-dark');
-        } else {
-            document.body.classList.add('mdui-theme-light');
-        }
+    function isDesktop() {
+        return window.innerWidth >= BREAKPOINT;
     }
-});
 
-// 监听侧边栏开关事件，按需保存状态（替代原先每秒轮询的 setInterval，减少主线程开销）
-if (sidebar && typeof sidebar.addEventListener === 'function') {
-    sidebar.addEventListener('close', function () {
-        localStorage.setItem('sidebarOpen', sidebar.open);
+    function setSidebar(open, persist) {
+        sidebar.dataset.open = String(Boolean(open));
+        document.body.classList.toggle('sidebar-is-open', Boolean(open));
+        menuButton.setAttribute('aria-expanded', String(Boolean(open)));
+        if (persist) writeStorage('sidebarOpen', String(Boolean(open)));
+    }
+
+    var savedSidebar = readStorage('sidebarOpen');
+    setSidebar(isDesktop() ? savedSidebar !== 'false' : false, false);
+
+    menuButton.addEventListener('click', function () {
+        setSidebar(sidebar.dataset.open !== 'true', isDesktop());
     });
-    sidebar.addEventListener('open', function () {
-        localStorage.setItem('sidebarOpen', sidebar.open);
+
+    if (scrim) scrim.addEventListener('click', function () { setSidebar(false, false); });
+
+    window.addEventListener('resize', function () {
+        var saved = readStorage('sidebarOpen');
+        setSidebar(isDesktop() ? saved !== 'false' : false, false);
     });
-}
 
-// 监听窗口大小变化，自动调整侧边栏状态（但不保存到localStorage）
-window.addEventListener('resize', function() {
-    if (window.innerWidth >= BREAKPOINT) {
-        // 大屏幕时，恢复用户保存的侧边栏状态
-        const savedState = localStorage.getItem('sidebarOpen');
-        if (savedState !== null) {
-            sidebar.open = savedState === 'true';
-        } else {
-            // 如果没有保存的状态，默认打开
-            sidebar.open = true;
-        }
-    } else {
-        // 小屏幕时，关闭侧边栏（但不修改保存的状态）
-        sidebar.open = false;
+    var displayMode = readStorage('displayMode') || 'auto';
+
+    function applyDisplayMode(mode, anchor) {
+        displayMode = ['light', 'dark', 'auto'].includes(mode) ? mode : 'auto';
+        if (typeof page.toggle === 'function') page.toggle(displayMode, anchor);
+        else page.theme = displayMode;
+        if (displayIcon) displayIcon.name = displayMode + '_mode';
+        writeStorage('displayMode', displayMode);
+        document.dispatchEvent(new CustomEvent('materialis:themechange', { detail: { mode: displayMode } }));
     }
-});
 
-menuButton.addEventListener("click", changeSidebarState);
-displayModeMenu.addEventListener("change", changeDisplayMode);
+    page.theme = displayMode;
+    if (displayIcon) displayIcon.name = displayMode + '_mode';
+
+    if (displayTrigger && displayDialog) {
+        displayTrigger.addEventListener('click', function () { displayDialog.opened = true; });
+        displayDialog.querySelectorAll('[data-mode]').forEach(function (button) {
+            button.addEventListener('click', function () {
+                applyDisplayMode(button.dataset.mode, displayTrigger);
+                displayDialog.opened = false;
+            });
+        });
+    }
+
+    var copyTrigger = document.getElementById('copy-url-trigger');
+    if (copyTrigger) {
+        copyTrigger.addEventListener('click', function () {
+            if (!navigator.clipboard || !navigator.clipboard.writeText) {
+                MaterialisUI.notify({ message: '当前浏览器不支持自动复制', type: 'error' });
+                return;
+            }
+            navigator.clipboard.writeText(window.location.href)
+                .then(function () { MaterialisUI.notify({ message: '链接已复制', icon: 'link' }); })
+                .catch(function () { MaterialisUI.notify({ message: '复制失败', type: 'error' }); });
+        });
+    }
+})();

@@ -17,7 +17,7 @@
 }
 
 .qexo_loader {
-  background-color: rgba(var(--mdui-color-on-surface-variant), 0.2);
+  background-color: color-mix(in srgb, var(--s-color-on-surface-variant) 20%, transparent);
   width: 64px;
   height: 64px;
   perspective: 800px;
@@ -33,7 +33,7 @@
   left: 0;
   top: 0;
   animation: rotate-one 1s linear infinite;
-  border-bottom: 3px solid var(--mdui-color-primary);
+  border-bottom: 3px solid var(--s-color-primary);
   position: absolute;
 }
 
@@ -41,7 +41,7 @@
   right: 0;
   top: 0;
   animation: rotate-two 1s linear infinite;
-  border-right: 3px solid var(--mdui-color-primary);
+  border-right: 3px solid var(--s-color-primary);
   position: absolute;
 }
 
@@ -49,7 +49,7 @@
   right: 0;
   bottom: 0;
   animation: rotate-three 1s linear infinite;
-  border-top: 3px solid var(--mdui-color-primary);
+  border-top: 3px solid var(--s-color-primary);
   position: absolute;
 }
 
@@ -88,15 +88,15 @@
   display: flex;
   flex-direction: initial;
   flex-wrap: wrap;
-  border-radius: var(--mdui-shape-corner-medium);
+  border-radius: var(--s-shape-corner-medium);
   padding: 8px 16px;
   margin-top: 12px;
 }
 
 #qexot > section > div > div {
-  box-shadow: var(--mdui-elevation-1);
-  background-color: var(--mdui-color-surface-container-low);
-  border-radius: var(--mdui-shape-corner-medium);
+  box-shadow: var(--s-elevation-level1);
+  background-color: var(--s-color-surface-container-low);
+  border-radius: var(--s-shape-corner-medium);
 }
 
 #qexot p {
@@ -111,14 +111,14 @@
 #qexot > section > div > div > div .qexot-datatime {
   order: 1;
   font-size: 0.6rem;
-  color: var(--mdui-color-on-surface-variant);
+  color: var(--s-color-on-surface-variant);
 }
 
 /* 标签 */
 #qexot > section > div > div > div .qexot-tags {
   font-size: .6rem;
   margin-top: -7%;
-  color: var(--mdui-color-on-surface-variant);
+  color: var(--s-color-on-surface-variant);
 }
 
 /* 内容 */
@@ -129,7 +129,7 @@
   width: 100%;
   line-height: 1.38;
   margin: 8px 0;
-  color: var(--mdui-color-on-surface);
+  color: var(--s-color-on-surface);
 }
 
 #qexot .qexot-like {
@@ -137,7 +137,7 @@
   padding: 0 10px;
   font-size: xx-small;
   fill: currentColor;
-  color: var(--mdui-color-primary);
+  color: var(--s-color-primary);
 }
 
 #qexot .qexot-bottom {
@@ -156,13 +156,13 @@
   display: flex;
   flex-direction: initial;
   flex-wrap: wrap;
-  border-radius: var(--mdui-shape-corner-medium);
+  border-radius: var(--s-shape-corner-medium);
   width: 100%;
 }
 
 #qexot .qexot div div.qexot-item {
   width: 90%;
-  border-radius: var(--mdui-shape-corner-medium);
+  border-radius: var(--s-shape-corner-medium);
   padding: 1rem;
   padding-bottom: 0.5rem;
   transition: 0.3s;
@@ -174,15 +174,15 @@
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 5%;
-  background-color: var(--mdui-color-surface-container-low);
+  background-color: var(--s-color-surface-container-low);
 }
 
 .qexot-more {
   border-width: 1px;
-  border: 1px solid var(--mdui-color-outline);
-  border-radius: var(--mdui-shape-corner-small);
-  box-shadow: var(--mdui-elevation-1);
-  background-color: var(--mdui-color-surface);
+  border: 1px solid var(--s-color-outline);
+  border-radius: var(--s-shape-corner-small);
+  box-shadow: var(--s-elevation-level1);
+  background-color: var(--s-color-surface);
   cursor: pointer;
   padding-bottom: calc(0.375em - 1px);
   padding-top: calc(0.375em - 1px);
@@ -190,14 +190,14 @@
   white-space: nowrap;
   width: 20%;
   margin-bottom: 10px;
-  color: var(--mdui-color-on-surface);
+  color: var(--s-color-on-surface);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .qexot-more:hover {
-  background-color: var(--mdui-color-primary-container);
-  color: var(--mdui-color-on-primary-container);
-  box-shadow: var(--mdui-elevation-2);
+  background-color: var(--s-color-primary-container);
+  color: var(--s-color-on-primary-container);
+  box-shadow: var(--s-elevation-level2);
 }
 </style>
 <script>showQexoTalks("qexot", "<%= theme.shuoshuo.qexo.url %>}", 5)</script>

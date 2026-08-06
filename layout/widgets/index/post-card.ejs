@@ -1,4 +1,4 @@
-<mdui-card
+<s-card
     class="post-card"
     variant="filled"
     onclick="location.href='<%= url_for(post.path) %>'"
@@ -13,7 +13,7 @@
             <div class="post-card__media-overlay"></div>
             <% if (post.categories && post.categories.length > 0) { %>
                 <span class="post-card__badge">
-                    <mdui-icon name="folder"></mdui-icon>
+                    <material-icon name="folder"></material-icon>
                     <%= post.categories.data[0].name %>
                 </span>
             <% } %>
@@ -24,7 +24,7 @@
         <div class="post-card__header">
             <% if (!post.cover && post.categories && post.categories.length > 0) { %>
                 <span class="post-card__badge post-card__badge--inline">
-                    <mdui-icon name="folder"></mdui-icon>
+                    <material-icon name="folder"></material-icon>
                     <%= post.categories.data[0].name %>
                 </span>
             <% } %>
@@ -37,14 +37,14 @@
 
         <div class="post-card__meta">
             <span class="post-card__date">
-                <mdui-icon name="calendar_today"></mdui-icon>
+                <material-icon name="calendar_today"></material-icon>
                 <%= post.date.format('YYYY-MM-DD') %>
             </span>
             <div class="post-card__tags">
                 <% if (post.tags && post.tags.length > 0) { %>
                     <% post.tags.data.slice(0, 2).forEach(function(tag) { %>
                         <span class="post-card__tag">
-                            <mdui-icon name="sell"></mdui-icon>
+                            <material-icon name="sell"></material-icon>
                             <%= tag.name %>
                         </span>
                     <% }); %>
@@ -57,7 +57,7 @@
 
         <div class="post-card__action">
             <span class="post-card__read-more"><%= __('index.read_more') %></span>
-            <mdui-icon name="arrow_forward" class="post-card__arrow"></mdui-icon>
+            <material-icon name="arrow_forward" class="post-card__arrow"></material-icon>
         </div>
     </div>
-</mdui-card>
+</s-card>

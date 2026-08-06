@@ -8,9 +8,10 @@
 ![GitHub repo size](https://img.shields.io/github/repo-size/Can1425/Hexo-Theme-Materialis)
 ![GitHub license](https://img.shields.io/github/license/Can1425/Hexo-Theme-Materialis)
 # 这是什么？
-这是一个基于Hexo的博客主题，采用Material Design风格，当然也融合了一部分md3e的设计，基于MDUI框架，同时也支持响应式设计，在移动端也有很好的显示效果。
+这是一个基于 Hexo 的响应式博客主题，使用 `sober@2.0.0-alpha.16` Web Components 构建，并采用简洁的 Material 3 Expressive 视觉与交互风格。
 # 特性
-- 基于Material Design 3 设计风格
+- 基于 Material 3 Expressive 设计风格
+- 使用 Sober 2 Web Components 与动态配色
 - 注释很多
 - 适配多种语言
 - 响应式设计，适配移动端
@@ -25,7 +26,7 @@
 ## 后记
 本主题是一个不完美的作品，它有很多问题，例如大部分ejs文件都没有外联（因为最开始的时候偷懒），比如可能有奇奇怪怪的bug，但是由于两位作者均为初三的学生，因此没有精力去让他变得完美，所以，如果你有时间的话，或许可以提一提issue，或者可以发PR，我们非常欢迎，本主题目前还没有设置文档，或许会用vuepress，但是目前会先把markdown文件放在/docs目录下，欢迎查看
 # 鸣谢
-[MDUI](https://github.com/zdhxiong/mdui)
+[Sober](https://github.com/unreal-space/sober)
 [Hexo](https://hexo.io/zh-cn/)
 [Material Design](https://material.io/design)
 [fancybox](https://fancyapps.com/fancybox/)

@@ -1,132 +1,462 @@
-.banner-container
-    margin: 0 auto 2rem auto
-    padding: 0 1rem
-    display: flex
-    gap: 0.75rem
-    max-width: 70rem
-
-.banner-title
+.home-banner
     width: 100%
-    padding: 2rem 2rem 5rem 2rem
-    min-height: 220px
+    max-width: 1120px
+    margin: 24px auto 20px
+    padding: 0 20px
+    box-sizing: border-box
+
+.home-banner-grid
+    display: grid
+    grid-template-columns: repeat(12, minmax(0, 1fr))
+    grid-auto-rows: 92px
+    gap: 10px
+
+.home-banner-mobile-featured,
+.home-banner-mobile-rail
+    display: none
+
+.home-banner-item
+    min-width: 0
+    min-height: 0
+    color: inherit
+    text-decoration: none
+
+.home-banner-item--hero
+    grid-column: span 6
+    grid-row: span 2
+
+.home-banner-item--tall
+    grid-column: span 3
+    grid-row: span 2
+
+.home-banner-item--wide
+    grid-column: span 6
+
+.home-banner-item--standard,
+.home-banner-item--compact
+    grid-column: span 3
+
+.home-banner-item--square
+    grid-column: span 3
+    grid-row: span 2
+    align-self: start
+    width: 194px
+    max-width: 100%
+    aspect-ratio: 1
+
+.home-banner-item--pill
+    grid-column: span 9
+    grid-row: span 1
+
+.home-banner-card
+    display: block
+    width: 100%
+    height: 100%
+    min-width: 0
+    box-sizing: border-box
+    overflow: hidden
+    border: 1px solid unquote('color-mix(in srgb, var(--s-color-outline-variant) 62%, transparent)')
+    border-radius: 22px
+    box-shadow: none
+    transition: transform 0.2s var(--s-motion-easing-standard), border-color 0.2s ease
+
+.home-banner-item--pill .home-banner-card
+    border-radius: 999px
+
+.home-banner-item--square .home-banner-link-content
+    position: relative
+    flex-direction: column
+    align-items: flex-start
+    justify-content: flex-end
+    gap: 10px
+
+.home-banner-item--square .home-banner-link-arrow
+    position: absolute
+    top: 14px
+    right: 14px
+
+.home-banner-card-link
+    display: block
+    border-radius: 22px
+    outline: none
+
+.home-banner-item--pill.home-banner-card-link
+    border-radius: 999px
+
+.home-banner-card-link:hover .home-banner-card
+    transform: translateY(-2px)
+    border-color: var(--s-color-outline)
+
+.home-banner-card-link:focus-visible
+    outline: 3px solid var(--s-color-primary)
+    outline-offset: 3px
+
+.home-banner-card--tone-surface
+    background: var(--s-color-surface-container-low)
+    color: var(--s-color-on-surface)
+
+.home-banner-card--tone-primary
+    background: var(--s-color-primary-container)
+    color: var(--s-color-on-primary-container)
+
+.home-banner-card--tone-secondary
+    background: var(--s-color-secondary-container)
+    color: var(--s-color-on-secondary-container)
+
+.home-banner-card--tone-tertiary
+    background: var(--s-color-tertiary-container)
+    color: var(--s-color-on-tertiary-container)
+
+.home-banner-content
+    width: 100%
+    height: 100%
+    padding: 12px
+    box-sizing: border-box
+
+.home-banner-intro-content
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    justify-content: center
+    padding: 14px
+
+.home-banner-eyebrow
+    min-height: 28px
+    margin-bottom: 10px
+    font-family: var(--materialis-font-family)
+
+.home-banner-title
+    max-width: 18ch
+    margin: 0
+    font-family: 'banner', var(--materialis-font-family)
+    font-size: 2.5rem
+    line-height: 1.15
+    letter-spacing: 0
+    overflow-wrap: anywhere
+
+.home-banner-subtitle
+    max-width: 52ch
+    margin: 8px 0 0
+    color: inherit
+    font-family: var(--materialis-font-family)
+    font-size: 1rem
+    line-height: 1.45
+    opacity: 0.82
+    overflow-wrap: anywhere
+
+.home-banner-actions
+    display: flex
+    flex-wrap: wrap
+    gap: 8px
+    margin-top: 16px
+
+.home-banner-action
+    flex: 0 0 auto
+
+.home-banner-media
+    position: relative
+    width: 100%
+    height: 100%
+    overflow: hidden
+    background: var(--s-color-surface-container-high)
+
+.home-banner-media-fallback
+    position: absolute
+    inset: 0
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+    gap: 10px
+    padding: 24px
+    box-sizing: border-box
+    color: var(--s-color-on-surface-variant)
+    font-family: var(--materialis-font-family)
+    font-size: 0.85rem
+    text-align: center
+
+.home-banner-media-fallback material-icon
+    font-size: 30px
+
+.home-banner-media-image
+    position: relative
+    z-index: 1
+    display: block
+    width: 100%
+    height: 100%
+    object-fit: cover
+
+.home-banner-media.has-image-error .home-banner-media-image
+    opacity: 0
+
+.home-banner-media-copy
+    position: absolute
+    z-index: 2
+    right: 12px
+    bottom: 12px
+    left: 12px
+    padding: 10px 12px
+    border-radius: 14px
+    background: unquote('color-mix(in srgb, var(--s-color-surface) 88%, transparent)')
+    color: var(--s-color-on-surface)
+    backdrop-filter: blur(12px)
+    -webkit-backdrop-filter: blur(12px)
+
+.home-banner-card-title
+    font-family: var(--materialis-font-family)
+    font-size: 1.05rem
+    font-weight: 650
+    line-height: 1.3
+    letter-spacing: 0
+    overflow-wrap: anywhere
+
+.home-banner-card-description
+    margin-top: 4px
+    font-family: var(--materialis-font-family)
+    font-size: 0.85rem
+    line-height: 1.45
+    opacity: 0.78
+    overflow-wrap: anywhere
+
+.home-banner-quote
+    position: relative
     display: flex
     flex-direction: column
     justify-content: center
-    font-family: 'banner', sans-serif
+    margin: 0
+    padding: 16px
 
-/* Make chips inside banner-title scale with viewport while staying readable */
-.banner-title .mdui-chip,
-.banner-title mdui-chip
-    font-size: clamp(0.85rem, 1.2vw, 1rem)
-    padding: 0.25rem 0.6rem
-    display: inline-flex
-    align-items: center
-    gap: 0.4rem
-    height: auto
-    min-height: 32px
-    line-height: 1
-    border-radius: 999px
-    /* shorten chips so they appear compact in the banner */
-    max-width: 160px
-    white-space: nowrap
-    overflow: hidden
-    text-overflow: ellipsis
-
-.banner-title .mdui-chip mdui-icon,
-.banner-title mdui-chip mdui-icon
-    font-size: 1.05em
-
-@media (max-width: 480px)
-    .banner-title .mdui-chip,
-    .banner-title mdui-chip
-        font-size: 0.85rem
-        padding: 0.18rem 0.45rem
-        height: auto
-        weight: auto
-
-.banner-title-text1
-    margin: 0.5rem 0
-    line-height: var(--mdui-typescale-display-small-line-height)
-    font-size: var(--mdui-typescale-display-small-size)
-    letter-spacing: var(--mdui-typescale-display-small-tracking)
-    font-weight: var(--mdui-typescale-display-small-weight)
-
-.banner-title-text2
-    margin: 0.5rem 0
-    line-height: var(--mdui-typescale-body-large-line-height)
-    font-size: var(--mdui-typescale-body-large-size)
-    letter-spacing: var(--mdui-typescale-body-large-tracking)
-    font-weight: var(--mdui-typescale-body-large-weight)
-
-.banner-sentence
-    width: 100%
-
-.banner-image
-    width: 30%
-    min-height: 200px
-    height: auto
-    background: none
-    position: relative
-    overflow: hidden
-    z-index: 0
-    padding: 12px 0
-
-    > *
-        position: relative
-        z-index: 1
-
-
-
-.banner-image::before
-    content: ''
+.home-banner-quote-icon
     position: absolute
-    inset: 0
-    background-image: url('https://blog.yizhixiaozhu.top/images/1.png')
-    background-size: cover
-    background-position: center center
-    background-repeat: no-repeat
-    filter: blur(8px)
-    transform: scale(1.1)
-    z-index: 0
+    top: 16px
+    right: 18px
+    font-size: 32px
+    opacity: 0.28
 
-/* Ensure hitokoto chip wraps and doesn't overflow the banner width */
-.banner-hitokoto
-    max-width: 100%
-    display: inline-flex
+.home-banner-quote-text
+    margin: 0
+    padding-right: 30px
+    font-family: var(--materialis-font-family)
+    font-size: 1rem
+    font-weight: 550
+    line-height: 1.6
+    letter-spacing: 0
+    overflow-wrap: anywhere
+
+.home-banner-quote-source
+    margin-top: 6px
+    font-family: var(--materialis-font-family)
+    font-size: 0.8rem
+    opacity: 0.68
+
+.home-banner-quote-source:empty
+    display: none
+
+.home-banner-link-content
+    display: flex
+    align-items: center
+    gap: 6px
+
+.home-banner-link-icon
+    display: flex
+    flex: 0 0 30px
     align-items: center
     justify-content: center
-    white-space: normal
-    overflow-wrap: anywhere
-    word-break: break-word
-    padding: 0.25rem 0.5rem
+    width: 30px
+    height: 30px
+    border-radius: 9px
+    background: unquote('color-mix(in srgb, currentColor 10%, transparent)')
 
-.banner-hitokoto a
-    display: inline-block
-    max-width: 100%
-    white-space: normal
-    overflow-wrap: anywhere
+.home-banner-link-icon material-icon
+    font-size: 22px
 
-#hitokoto_inner
-    display: inline-block
-    white-space: normal
-    max-width: calc(100% - 22px)
-    overflow-wrap: anywhere
-    word-break: break-word
+.home-banner-link-copy
+    min-width: 0
+    flex: 1
 
-#hitokoto_cursor
-    display: inline-block
-    margin-left: 6px
+.home-banner-link-arrow
+    flex: 0 0 auto
+    font-size: 20px
+    opacity: 0.72
 
+.home-banner-stat
+    position: relative
+    display: flex
+    flex-direction: column
+    justify-content: center
 
-/* Responsive: hide banner-image on small screens and stack title above image */
-@media (max-width: 768px)
-    .banner-container
-        flex-direction: column
-        gap: 0.5rem
+.home-banner-stat-icon
+    position: absolute
+    top: 18px
+    right: 18px
+    font-size: 24px
+    opacity: 0.55
 
-    .banner-image
+.home-banner-stat-value
+    font-family: var(--materialis-font-family)
+    font-size: 2rem
+    font-weight: 700
+    line-height: 1
+    letter-spacing: 0
+
+.home-banner-stat-label
+    margin-top: 7px
+    font-family: var(--materialis-font-family)
+    font-size: 0.82rem
+    line-height: 1.3
+    opacity: 0.72
+
+@media (max-width: 1199px)
+    .home-banner-grid
+        grid-template-columns: repeat(6, minmax(0, 1fr))
+
+    .home-banner-item--hero
+        grid-column: span 6
+
+    .home-banner-item--tall,
+    .home-banner-item--wide
+        grid-column: span 3
+        grid-row: span 2
+
+    .home-banner-item--standard,
+    .home-banner-item--compact
+        grid-column: span 3
+
+    .home-banner-item--square
+        grid-column: span 3
+        grid-row: span 2
+
+    .home-banner-item--pill
+        grid-column: span 6
+        grid-row: span 1
+
+@media (max-width: 700px)
+    .home-banner
+        margin: 16px auto 16px
+        padding: 0 16px
+
+    .home-banner-grid
         display: none
 
-    .banner-title
+    .home-banner-mobile-featured
+        display: grid
+        grid-template-columns: minmax(0, 1fr)
+        gap: 10px
+
+    .home-banner-mobile-featured .home-banner-item
+        grid-column: 1
+        grid-row: auto
         width: 100%
-    
+        max-width: none
+        height: 190px
+        min-height: 0
+        aspect-ratio: auto
+
+    .home-banner-mobile-featured .home-banner-item--pill
+        height: 78px
+
+    .home-banner-mobile-rail
+        display: block
+        margin-top: 10px
+
+    .home-banner-mobile-track
+        display: flex
+        align-items: flex-start
+        gap: 10px
+        max-width: 100%
+        overflow-x: auto
+        padding: 0 0 8px
+        scroll-snap-type: x mandatory
+        scrollbar-width: thin
+        scrollbar-color: var(--s-color-outline-variant) transparent
+
+    .home-banner-mobile-track::-webkit-scrollbar
+        height: 6px
+
+    .home-banner-mobile-track::-webkit-scrollbar-track
+        background: transparent
+
+    .home-banner-mobile-track::-webkit-scrollbar-thumb
+        background: var(--s-color-outline-variant)
+        border-radius: 999px
+
+    .home-banner-mobile-track .home-banner-item
+        flex: 0 0 78%
+        width: 78%
+        min-width: 0
+        height: 110px
+        min-height: 0
+        aspect-ratio: auto
+        scroll-snap-align: start
+
+    .home-banner-mobile-track .home-banner-item--square
+        flex-basis: 154px
+        width: 154px
+        height: 154px
+
+    .home-banner-mobile-track .home-banner-item--pill
+        flex-basis: 78%
+        width: 78%
+        height: 78px
+        align-self: center
+
+    .home-banner-item--hero,
+    .home-banner-item--tall,
+    .home-banner-item--wide,
+    .home-banner-item--standard,
+    .home-banner-item--compact,
+    .home-banner-item--pill
+        grid-column: 1 / -1
+        grid-row: auto
+
+    .home-banner-item--hero
+        height: 190px
+        min-height: 0
+
+    .home-banner-item--tall
+        height: 190px
+        min-height: 0
+        aspect-ratio: auto
+
+    .home-banner-item--square
+        grid-column: span 1
+        grid-row: auto
+        width: 154px
+        max-width: 100%
+        min-height: 0
+        aspect-ratio: 1
+
+    .home-banner-item--square .home-banner-content
+        padding: 14px
+
+    .home-banner-item--pill
+        min-height: 0
+        height: 78px
+        aspect-ratio: auto
+
+    .home-banner-item--pill .home-banner-card
+        border-radius: 999px
+
+    .home-banner-item--wide,
+    .home-banner-item--standard,
+    .home-banner-item--compact
+        min-height: 110px
+
+    .home-banner-intro-content
+        padding: 14px
+
+    .home-banner-title
+        font-size: 2rem
+
+    .home-banner-actions
+        margin-top: 16px
+
+    .home-banner-quote
+        padding: 16px
+
+@media (prefers-reduced-motion: reduce)
+    .home-banner-card
+        transition: none
+
+    .home-banner-card-link:hover .home-banner-card
+        transform: none

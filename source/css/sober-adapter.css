@@ -1,0 +1,146 @@
+html,
+body {
+    min-height: 100%;
+}
+
+s-page.materialis-page {
+    display: block;
+    min-height: 100vh;
+    height: auto;
+    overflow: visible;
+    font-family: 'lxwk', 'dingtalk', 'pingfang', 'banner', system-ui, sans-serif;
+}
+
+:root {
+    --s-typescale-display-small-line-height: 1.2;
+    --s-typescale-display-small-size: 2.25rem;
+    --s-typescale-display-small-tracking: 0;
+    --s-typescale-display-small-weight: 600;
+    --s-typescale-body-large-line-height: 1.5;
+    --s-typescale-body-large-size: 1rem;
+    --s-typescale-body-large-tracking: 0;
+    --s-typescale-body-large-weight: 400;
+}
+
+material-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1em;
+    height: 1em;
+    flex: 0 0 auto;
+    overflow: hidden;
+    font-family: 'Material Icons';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 1;
+    letter-spacing: 0;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+s-button material-icon[slot='start'],
+s-chip material-icon[slot='start'],
+s-fab material-icon[slot='start'] {
+    font-size: 20px;
+}
+
+s-nav-adaptive-item material-icon[slot='icon'] {
+    width: 24px;
+    height: 24px;
+    font-size: 24px;
+}
+
+s-avatar > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: inherit;
+}
+
+.materialis-snackbar-region {
+    position: fixed;
+    left: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    z-index: 12000;
+    display: flex;
+    width: min(420px, calc(100vw - 32px));
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+    transform: translateX(-50%);
+}
+
+.materialis-snackbar {
+    display: flex;
+    min-height: 48px;
+    align-items: center;
+    gap: 12px;
+    box-sizing: border-box;
+    padding: 10px 16px;
+    border-radius: 12px;
+    opacity: 0;
+    color: var(--s-color-inverse-on-surface);
+    background: var(--s-color-inverse-surface);
+    box-shadow: var(--s-elevation-level3);
+    transform: translateY(16px) scale(0.98);
+    transition: opacity 200ms var(--s-motion-easing-standard),
+                transform 200ms var(--s-motion-easing-emphasized-decelerate);
+}
+
+.materialis-snackbar[data-type='error'] {
+    color: var(--s-color-on-error);
+    background: var(--s-color-error);
+}
+
+.materialis-snackbar.is-visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.materialis-dialog-title {
+    font-size: 1.35rem;
+    font-weight: 650;
+}
+
+.materialis-dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+}
+
+.materialis-full-width {
+    display: flex;
+    width: 100%;
+}
+
+materialis-typography {
+    display: block;
+    color: inherit;
+}
+
+materialis-typography[variant^='h'] {
+    line-height: 1.25;
+    font-weight: 600;
+}
+
+materialis-typography[variant='h2'] { font-size: 2rem; }
+materialis-typography[variant='h3'] { font-size: 1.75rem; }
+materialis-typography[variant='h4'] { font-size: 1.5rem; }
+materialis-typography[variant='h5'] { font-size: 1.25rem; }
+materialis-typography[variant='h6'] { font-size: 1.125rem; }
+materialis-typography[variant^='body'] {
+    line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+    .materialis-snackbar-region {
+        bottom: max(16px, env(safe-area-inset-bottom));
+    }
+}

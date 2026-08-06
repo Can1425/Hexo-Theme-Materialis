@@ -1,60 +1,56 @@
-<!-- 文章导航按钮 -->
-<mdui-tooltip content="文章导航">
-  <mdui-button-icon id="toc-toggle" class="toc-toggle-icon">
-    <mdui-icon name="menu_book"></mdui-icon>
-  </mdui-button-icon>
-</mdui-tooltip>
-
-<!-- 文章导航弹窗 -->
-<mdui-dialog id="toc-dialog" close-on-esc close-on-overlay-click class="toc-dialog">
+<s-dialog id="toc-dialog" class="toc-dialog">
+  <div slot="title" class="materialis-dialog-title">文章导航</div>
+  <div slot="text" class="toc-dialog-content">
   <!-- 顶部：文章信息 chip（整合自文章页头部） -->
   <div class="toc-meta-section" id="toc-meta-section">
     <div class="toc-meta-title"><%= page.title %></div>
     <div class="toc-meta-chips">
-      <mdui-chip class="toc-meta-chip toc-chip-date" variant="filled">
-        <mdui-icon name="calendar_today" slot="icon"></mdui-icon>
+      <s-chip readonly class="toc-meta-chip toc-chip-date" variant="assist">
+        <material-icon name="calendar_today" slot="start"></material-icon>
         <%= page.date.format('YYYY-MM-DD') %>
-      </mdui-chip>
+      </s-chip>
       <% if (page.categories && page.categories.length > 0) { %>
-      <mdui-chip class="toc-meta-chip toc-chip-cat" variant="filled">
-        <mdui-icon name="folder" slot="icon"></mdui-icon>
+      <s-chip readonly class="toc-meta-chip toc-chip-cat" variant="assist">
+        <material-icon name="folder" slot="start"></material-icon>
         <%= page.categories.data[0].name %>
-      </mdui-chip>
+      </s-chip>
       <% } %>
       <%
         const _tocPlainText = strip_html(page.content);
         const _tocWordCount = _tocPlainText ? _tocPlainText.length : 0;
         const _tocReadTime = Math.max(1, Math.ceil(_tocWordCount / 300));
       %>
-      <mdui-chip class="toc-meta-chip toc-chip-read" variant="filled">
-        <mdui-icon name="schedule" slot="icon"></mdui-icon>
+      <s-chip readonly class="toc-meta-chip toc-chip-read" variant="assist">
+        <material-icon name="schedule" slot="start"></material-icon>
         <%= _tocReadTime %> <%= __('post.min_read') %>
-      </mdui-chip>
-      <mdui-chip class="toc-meta-chip toc-chip-words" variant="filled">
-        <mdui-icon name="text_snippet" slot="icon"></mdui-icon>
+      </s-chip>
+      <s-chip readonly class="toc-meta-chip toc-chip-words" variant="assist">
+        <material-icon name="text_snippet" slot="start"></material-icon>
         <%= _tocWordCount %> <%= __('post.words') %>
-      </mdui-chip>
+      </s-chip>
     </div>
     <% if (page.tags && page.tags.length > 0) { %>
     <div class="toc-meta-tags">
       <% page.tags.data.forEach(function(tag) { %>
-        <mdui-chip class="toc-tag-chip" variant="filled" href="<%= url_for(tag.path) %>">
-          <mdui-icon name="sell" slot="icon"></mdui-icon>
-          <%= tag.name %>
-        </mdui-chip>
+        <a class="toc-tag-link" href="<%= url_for(tag.path) %>">
+          <s-chip readonly class="toc-tag-chip" variant="assist">
+            <material-icon name="sell" slot="start"></material-icon>
+            <%= tag.name %>
+          </s-chip>
+        </a>
       <% }) %>
     </div>
     <% } %>
   </div>
 
-  <mdui-divider class="toc-meta-divider"></mdui-divider>
+  <s-divider class="toc-meta-divider"></s-divider>
 
   <!-- 中部：目录列表 -->
   <div class="toc-content">
     <div class="toc-content-label">目录</div>
     <div id="toc-container" class="toc-container">
       <div class="toc-placeholder">
-        <mdui-icon name="menu_book"></mdui-icon>
+        <material-icon name="menu_book"></material-icon>
         <div class="toc-placeholder-text">正在解析标题…</div>
       </div>
     </div>
@@ -62,24 +58,18 @@
 
   <div class="toc-footer">
     <span class="toc-count" id="toc-count"></span>
-    <mdui-button id="toc-close-btn" variant="tonal">关闭</mdui-button>
+    <s-button id="toc-close-btn" variant="tonal">关闭</s-button>
   </div>
-</mdui-dialog>
+  </div>
+</s-dialog>
 
 <style>
-.toc-dialog::part(overlay) {
-    backdrop-filter: blur(12px) saturate(180%);
-    -webkit-backdrop-filter: blur(12px) saturate(180%);
-    background: rgba(0, 0, 0, 0.36);
-}
-
 .toc-dialog {
-    --mdui-dialog-width: 480px;
-    --mdui-dialog-height: 78vh;
-    --mdui-dialog-max-height: 82vh;
+    width: min(480px, calc(100vw - 32px));
+    height: min(78vh, 720px);
 }
 
-.toc-dialog::part(panel) {
+.toc-dialog::part(popover) {
     animation: tocPanelIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -96,7 +86,7 @@
 .toc-meta-title {
     font-size: 1.15rem;
     font-weight: 600;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
     margin-bottom: 12px;
     line-height: 1.4;
     display: -webkit-box;
@@ -114,29 +104,29 @@
 }
 
 .toc-meta-chip {
-    --mdui-chip-height: 28px;
+    height: 28px;
     font-size: 0.76rem;
     font-weight: 500;
 }
 
-.toc-meta-chip mdui-icon {
+.toc-meta-chip material-icon {
     font-size: 1rem;
 }
 
 .toc-chip-date {
-    background: rgb(var(--mdui-color-primary-container)) !important;
-    color: rgb(var(--mdui-color-on-primary-container)) !important;
+    background: var(--s-color-primary-container) !important;
+    color: var(--s-color-on-primary-container) !important;
 }
 
 .toc-chip-cat {
-    background: rgb(var(--mdui-color-secondary-container)) !important;
-    color: rgb(var(--mdui-color-on-secondary-container)) !important;
+    background: var(--s-color-secondary-container) !important;
+    color: var(--s-color-on-secondary-container) !important;
 }
 
 .toc-chip-read,
 .toc-chip-words {
-    background: rgb(var(--mdui-color-tertiary-container)) !important;
-    color: rgb(var(--mdui-color-on-tertiary-container)) !important;
+    background: var(--s-color-tertiary-container) !important;
+    color: var(--s-color-on-tertiary-container) !important;
 }
 
 .toc-meta-tags {
@@ -147,10 +137,15 @@
 }
 
 .toc-tag-chip {
-    --mdui-chip-height: 26px;
+    height: 26px;
     font-size: 0.74rem;
-    background: rgb(var(--mdui-color-surface-container-high)) !important;
-    color: rgb(var(--mdui-color-on-surface-variant)) !important;
+    background: var(--s-color-surface-container-high) !important;
+    color: var(--s-color-on-surface-variant) !important;
+    text-decoration: none;
+}
+
+.toc-tag-link {
+    display: inline-flex;
     text-decoration: none;
 }
 
@@ -171,7 +166,7 @@
 .toc-content-label {
     font-size: 0.78rem;
     font-weight: 600;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     margin-bottom: 8px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -182,33 +177,33 @@
     overflow-y: auto;
     padding-bottom: 8px;
     scrollbar-width: thin;
-    scrollbar-color: rgb(var(--mdui-color-outline-variant)) transparent;
+    scrollbar-color: var(--s-color-outline-variant) transparent;
 }
 
 .toc-container::-webkit-scrollbar { width: 5px; }
 .toc-container::-webkit-scrollbar-track { background: transparent; }
 .toc-container::-webkit-scrollbar-thumb {
-    background: rgb(var(--mdui-color-outline-variant) / 0.5);
+    background: color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
     border-radius: 999px;
 }
 .toc-container::-webkit-scrollbar-thumb:hover {
-    background: rgb(var(--mdui-color-outline));
+    background: var(--s-color-outline);
 }
 
 .toc-placeholder {
     text-align: center;
     padding: 40px 20px;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 10px;
 }
 
-.toc-placeholder mdui-icon {
+.toc-placeholder material-icon {
     font-size: 40px;
     opacity: 0.4;
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
 }
 
 .toc-placeholder-text {
@@ -226,7 +221,7 @@
     list-style: none;
     padding-left: 16px;
     margin: 2px 0;
-    border-left: 1.5px solid rgba(var(--mdui-color-outline-variant), 0.4);
+    border-left: 1.5px solid color-mix(in srgb, var(--s-color-outline-variant) 40%, transparent);
 }
 
 .toc-node {
@@ -236,7 +231,7 @@
 .toc-link {
     display: block;
     padding: 7px 10px;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
     text-decoration: none;
     border-radius: 8px;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
@@ -254,15 +249,15 @@
 }
 
 .toc-link:hover {
-    background: rgb(var(--mdui-color-surface-container-high));
+    background: var(--s-color-surface-container-high);
     transform: translateX(2px);
 }
 
 .toc-link.active {
-    background: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     font-weight: 500;
-    border-color: rgba(var(--mdui-color-primary), 0.2);
+    border-color: color-mix(in srgb, var(--s-color-primary) 20%, transparent);
 }
 
 /* 按级别区分 */
@@ -279,12 +274,12 @@
     justify-content: space-between;
     align-items: center;
     padding: 14px 24px;
-    border-top: 1px solid rgba(var(--mdui-color-outline-variant), 0.5);
+    border-top: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
 }
 
 .toc-count {
     font-size: 0.82rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     font-weight: 500;
 }
 
@@ -293,12 +288,12 @@
 }
 
 .toc-toggle-icon:hover {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     transform: rotate(-12deg) scale(1.1);
 }
 
 @media (max-width: 600px) {
-    .toc-dialog { --mdui-dialog-width: 94vw; --mdui-dialog-height: 82vh; }
+    .toc-dialog { width: 94vw; height: 82vh; }
     .toc-meta-section { padding: 16px 18px 10px; }
     .toc-content { padding: 10px 18px 0; }
     .toc-footer { padding: 12px 18px; }
@@ -330,6 +325,8 @@
       this.dialog = document.getElementById('toc-dialog');
       this.container = document.getElementById('toc-container');
       this.countEl = document.getElementById('toc-count');
+      this.railContainer = document.getElementById('post-toc-rail-container');
+      this.railCountEl = document.getElementById('post-toc-rail-count');
       this.headers = [];
       this.scrollBound = false;
       this.init();
@@ -356,16 +353,16 @@
     }
 
     open() {
-      this.dialog.open = true;
+      this.dialog.opened = true;
       this.generate();
     }
 
     close() {
-      this.dialog.open = false;
+      this.dialog.opened = false;
     }
 
     isOpen() {
-      return this.dialog && this.dialog.open;
+      return this.dialog && this.dialog.opened;
     }
 
     // 查找文章内容容器
@@ -405,10 +402,13 @@
       });
 
       // 构建嵌套树
-      this.container.innerHTML = this.buildTree(headers);
+      const tree = this.buildTree(headers);
+      this.container.innerHTML = tree;
+      if (this.railContainer) this.railContainer.innerHTML = tree;
 
       // 更新计数
       this.countEl.textContent = '共 ' + headers.length + ' 个标题';
+      if (this.railCountEl) this.railCountEl.textContent = '共 ' + headers.length + ' 个标题';
 
       // 绑定事件
       this.bindLinks();
@@ -454,27 +454,29 @@
     }
 
     bindLinks() {
-      this.container.querySelectorAll('.toc-link').forEach(link => {
+      const roots = [this.container, this.railContainer].filter(Boolean);
+      roots.forEach(root => root.querySelectorAll('.toc-link').forEach(link => {
         link.addEventListener('click', (e) => {
           e.preventDefault();
           const id = link.getAttribute('data-target');
           const target = document.getElementById(id);
           if (target) {
-            this.close();
+            const inDialog = !!link.closest('#toc-dialog');
+            if (inDialog) this.close();
             setTimeout(() => {
-              const appbarH = document.querySelector('mdui-top-app-bar') ? document.querySelector('mdui-top-app-bar').offsetHeight : 64;
+              const appbarH = document.querySelector('s-app-bar') ? document.querySelector('s-app-bar').offsetHeight : 64;
               const y = target.getBoundingClientRect().top + window.pageYOffset - appbarH - 16;
               window.scrollTo({ top: y, behavior: 'smooth' });
-            }, 120);
+            }, inDialog ? 120 : 0);
           }
         });
-      });
+      }));
     }
 
     highlight() {
       if (!this.headers || this.headers.length === 0) return;
       const scrollY = window.scrollY || window.pageYOffset;
-      const appbarH = document.querySelector('mdui-top-app-bar') ? document.querySelector('mdui-top-app-bar').offsetHeight : 64;
+      const appbarH = document.querySelector('s-app-bar') ? document.querySelector('s-app-bar').offsetHeight : 64;
       const offset = appbarH + 20;
 
       let currentId = this.headers[0].id;
@@ -484,31 +486,33 @@
         else break;
       }
 
-      const oldActive = this.container.querySelector('.toc-link.active');
-      const newActive = this.container.querySelector('.toc-link[data-target="' + currentId + '"]');
-      if (oldActive && oldActive !== newActive) oldActive.classList.remove('active');
-      if (newActive && !newActive.classList.contains('active')) {
-        newActive.classList.add('active');
-        // 自动滚入目录视野
-        const cs = this.container;
-        const lr = newActive.getBoundingClientRect();
-        const cr = cs.getBoundingClientRect();
-        if (lr.top < cr.top + 10 || lr.bottom > cr.bottom - 10) {
-          cs.scrollTo({
-            top: newActive.offsetTop - cs.clientHeight / 2 + newActive.clientHeight / 2,
-            behavior: 'smooth'
-          });
+      [this.container, this.railContainer].filter(Boolean).forEach(root => {
+        const oldActive = root.querySelector('.toc-link.active');
+        const newActive = root.querySelector('.toc-link[data-target="' + currentId + '"]');
+        if (oldActive && oldActive !== newActive) oldActive.classList.remove('active');
+        if (newActive && !newActive.classList.contains('active')) {
+          newActive.classList.add('active');
+          const lr = newActive.getBoundingClientRect();
+          const cr = root.getBoundingClientRect();
+          if (lr.top < cr.top + 10 || lr.bottom > cr.bottom - 10) {
+            root.scrollTo({
+              top: newActive.offsetTop - root.clientHeight / 2 + newActive.clientHeight / 2,
+              behavior: 'smooth'
+            });
+          }
         }
-      }
+      });
     }
 
     showPlaceholder(msg) {
       this.container.innerHTML =
         '<div class="toc-placeholder">' +
-        '<mdui-icon name="menu_book"></mdui-icon>' +
+        '<material-icon name="menu_book"></material-icon>' +
         '<div class="toc-placeholder-text">' + (msg || '暂无文章导航') + '</div>' +
         '</div>';
+      if (this.railContainer) this.railContainer.innerHTML = this.container.innerHTML;
       if (this.countEl) this.countEl.textContent = '';
+      if (this.railCountEl) this.railCountEl.textContent = '';
     }
 
     escapeHtml(s) {

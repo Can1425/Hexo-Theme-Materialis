@@ -1,7 +1,5 @@
-<div class="banner-wrapper">
-    <%- include('widgets/banner', {titleText1: theme.banner.title, titleText2: theme.banner.subtitle}) %>
-</div>
-<mdui-layout-main>
+<%- include('widgets/index/home-banner') %>
+<section class="layout-main">
     <div class="articles-container">
         <% 
             const sortedPosts = Array.from(site.posts.data || site.posts).sort((a, b) => {
@@ -17,14 +15,14 @@
                 <%- include('widgets/index/post-card', {post: post}) %>
             <% }); %>
         <% } else { %>
-            <mdui-card class="no-articles" variant="filled">
-                <mdui-typography variant="h4" style="margin-bottom: 1rem; color: var(--mdui-color-on-surface);">
+            <s-card readonly class="no-articles" variant="filled">
+                <materialis-typography variant="h4" style="margin-bottom: 1rem; color: var(--s-color-on-surface);">
                     <%= __('index.no_articles') %>
-                </mdui-typography>
-                <mdui-typography variant="body1" style="color: var(--mdui-color-on-surface-variant);">
+                </materialis-typography>
+                <materialis-typography variant="body1" style="color: var(--s-color-on-surface-variant);">
                     <%= __('index.no_articles_desc') %>
-                </mdui-typography>
-            </mdui-card>
+                </materialis-typography>
+            </s-card>
         <% } %>
     </div>
-</mdui-layout-main>
+</section>

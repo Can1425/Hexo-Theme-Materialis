@@ -1,0 +1,111 @@
+<%
+const type = allowedTypes.includes(card.type) ? card.type : 'link';
+const size = allowedSizes.includes(card.size) ? card.size : 'standard';
+const tone = allowedTones.includes(card.tone) ? card.tone : 'surface';
+const variant = allowedVariants.includes(card.variant) ? card.variant : 'filled';
+const cardUrl = resolveCardUrl(card.url || card.link);
+const external = card.external === true || /^(?:https?:)?\/\//i.test(cardUrl);
+const linkedCard = Boolean(cardUrl) && (type === 'image' || type === 'link');
+const itemClass = 'home-banner-item home-banner-item--' + size;
+const cardClass = 'home-banner-card home-banner-card--' + type + ' home-banner-card--tone-' + tone;
+%>
+
+<% if (linkedCard) { %>
+<a class="<%= itemClass %> home-banner-card-link" href="<%= cardUrl %>"<% if (external) { %> target="_blank" rel="noopener noreferrer"<% } %>>
+<% } else { %>
+<div class="<%= itemClass %>">
+<% } %>
+
+    <s-card readonly variant="<%= variant %>" class="<%= cardClass %>">
+        <% if (type === 'intro') { %>
+            <div class="home-banner-content home-banner-intro-content">
+                <% if (card.eyebrow) { %>
+                    <s-chip readonly variant="assist" class="home-banner-eyebrow">
+                        <% if (card.icon) { %><material-icon name="<%= card.icon %>" slot="start"></material-icon><% } %>
+                        <%= card.eyebrow %>
+                    </s-chip>
+                <% } %>
+                <h1 class="home-banner-title"><%= card.title || config.title %></h1>
+                <% if (card.subtitle) { %><p class="home-banner-subtitle"><%= card.subtitle %></p><% } %>
+                <% if (Array.isArray(card.actions) && card.actions.length > 0) { %>
+                    <div class="home-banner-actions">
+                        <% card.actions.forEach(function(action, actionIndex) { %>
+                            <% if (action && action.url) { %>
+                            <s-button
+                                type="button"
+                                variant="<%= action.variant || (actionIndex === 0 ? 'filled' : 'tonal') %>"
+                                size="small"
+                                class="home-banner-action"
+                                data-banner-action-url="<%= resolveCardUrl(action.url) %>"
+                                data-banner-action-external="<%= action.external === true || /^(?:https?:)?\/\//i.test(action.url) %>"
+                            >
+                                <% if (action.icon) { %><material-icon name="<%= action.icon %>" slot="start"></material-icon><% } %>
+                                <%= action.text || action.label || '打开' %>
+                            </s-button>
+                            <% } %>
+                        <% }); %>
+                    </div>
+                <% } %>
+            </div>
+        <% } else if (type === 'image') { %>
+            <%
+            const imageUrl = resolveCardUrl(card.image || card.src);
+            const imageFallback = card.fallback || '图片暂不可用';
+            %>
+            <div class="home-banner-media<%= imageUrl ? '' : ' has-image-error' %>" data-home-banner-image>
+                <div class="home-banner-media-fallback" aria-hidden="true">
+                    <material-icon name="broken_image"></material-icon>
+                    <span><%= imageFallback %></span>
+                </div>
+                <% if (imageUrl) { %>
+                <img
+                    class="home-banner-media-image"
+                    src="<%= imageUrl %>"
+                    alt="<%= card.alt || card.title || '' %>"
+                    loading="eager"
+                    fetchpriority="<%= cardIndex < 2 ? 'high' : 'auto' %>"
+                    style="object-position: <%= card.position || 'center' %>;"
+                >
+                <% } %>
+                <% if (card.title || card.description) { %>
+                    <div class="home-banner-media-copy">
+                        <% if (card.title) { %><div class="home-banner-card-title"><%= card.title %></div><% } %>
+                        <% if (card.description) { %><div class="home-banner-card-description"><%= card.description %></div><% } %>
+                    </div>
+                <% } %>
+            </div>
+        <% } else if (type === 'quote') { %>
+            <blockquote
+                class="home-banner-content home-banner-quote"
+                data-home-banner-quote
+                data-quote-source="<%= card.source || 'static' %>"
+                data-quote-endpoint="<%= card.endpoint || 'https://v1.hitokoto.cn' %>"
+                data-quote-fallback="<%= card.fallback || card.text || '保持简单，专注内容。' %>"
+            >
+                <material-icon class="home-banner-quote-icon" name="format_quote"></material-icon>
+                <p class="home-banner-quote-text" data-quote-text><%= card.text || card.fallback || '保持简单，专注内容。' %></p>
+                <footer class="home-banner-quote-source" data-quote-cite><%= card.cite || '' %></footer>
+            </blockquote>
+        <% } else if (type === 'stat') { %>
+            <div class="home-banner-content home-banner-stat">
+                <% if (card.icon) { %><material-icon class="home-banner-stat-icon" name="<%= card.icon %>"></material-icon><% } %>
+                <div class="home-banner-stat-value"><%= resolveStatValue(card) %></div>
+                <div class="home-banner-stat-label"><%= card.label || card.title || card.source || '统计' %></div>
+            </div>
+        <% } else { %>
+            <div class="home-banner-content home-banner-link-content">
+                <div class="home-banner-link-icon"><material-icon name="<%= card.icon || 'arrow_outward' %>"></material-icon></div>
+                <div class="home-banner-link-copy">
+                    <div class="home-banner-card-title"><%= card.title || card.name || '链接' %></div>
+                    <% if (card.description || card.desc) { %><div class="home-banner-card-description"><%= card.description || card.desc %></div><% } %>
+                </div>
+                <material-icon class="home-banner-link-arrow" name="<%= external ? 'open_in_new' : 'arrow_forward' %>"></material-icon>
+            </div>
+        <% } %>
+    </s-card>
+
+<% if (linkedCard) { %>
+</a>
+<% } else { %>
+</div>
+<% } %>

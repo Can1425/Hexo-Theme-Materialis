@@ -1,53 +1,47 @@
-<br>
-<mdui-divider></mdui-divider>
-<mdui-footer class="site-footer">
+<% const _isPostFooter = typeof isPost !== 'undefined' && isPost; %>
+<s-divider class="footer-divider<%= _isPostFooter ? ' post-footer-divider' : '' %>"></s-divider>
+<footer class="site-footer<%= _isPostFooter ? ' post-footer' : '' %>">
   <div class="footer-content">
     
     <!-- 主要信息区域 -->
     <div class="footer-main">
       <!-- 版权信息 -->
       <div class="copyright">
-        <mdui-chip variant="filled" class="footer-chip">
-          <mdui-icon name="copyright" slot="icon"></mdui-icon>
+        <s-chip readonly variant="assist" class="footer-chip">
+          <material-icon name="copyright" slot="start"></material-icon>
           &copy; <%= new Date().getFullYear() %> 
           <a href="<%= url_for() %>" class="site-link"><%= config.title %></a>
           <% if (theme.footer && theme.footer.copyright) { %>
             · <%= theme.footer.copyright %>
           <% } %>
-        </mdui-chip>
+        </s-chip>
       </div>
 
       <div class="theme">
-        <mdui-chip variant="filled" class="footer-chip">
-          <mdui-icon name="code" slot="icon"></mdui-icon>
+        <s-chip readonly variant="assist" class="footer-chip">
+          <material-icon name="code" slot="start"></material-icon>
           <a href="https://github.com/can1425/materialis" class="site-link">Materialis</a>
-        </mdui-chip>
+        </s-chip>
       </div>
 
       <!-- 备案信息 -->
       <% if (theme.footer && theme.footer.beian) { %>
         <div class="beian-info">
           <% if (theme.footer.beian.icp) { %>
-            <mdui-chip 
-              variant="filled-tonal" 
-              class="footer-chip beian-chip"
-              href="https://beian.miit.gov.cn/" 
-              target="_blank"
-            >
-              <mdui-icon name="verified" slot="icon"></mdui-icon>
-              <%= theme.footer.beian.icp %>
-            </mdui-chip>
+            <a class="footer-chip-link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">
+              <s-chip readonly variant="assist" class="footer-chip beian-chip">
+                <material-icon name="verified" slot="start"></material-icon>
+                <%= theme.footer.beian.icp %>
+              </s-chip>
+            </a>
           <% } %>
           <% if (theme.footer.beian.ps) { %>
-            <mdui-chip 
-              variant="filled-tonal" 
-              class="footer-chip beian-chip"
-              href="http://www.beian.gov.cn/" 
-              target="_blank"
-            >
-              <mdui-icon name="security" slot="icon"></mdui-icon>
-              <%= theme.footer.beian.ps %>
-            </mdui-chip>
+            <a class="footer-chip-link" href="http://www.beian.gov.cn/" target="_blank" rel="noopener noreferrer">
+              <s-chip readonly variant="assist" class="footer-chip beian-chip">
+                <material-icon name="security" slot="start"></material-icon>
+                <%= theme.footer.beian.ps %>
+              </s-chip>
+            </a>
           <% } %>
         </div>
       <% } %>
@@ -58,32 +52,78 @@
       <% if (theme.footer && theme.footer.badges) { %>
         <div class="custom-badges">
           <% theme.footer.badges.forEach(function(badge) { %>
-            <mdui-chip 
-              variant="<%= badge.variant || 'filled-tonal' %>"
-              class="footer-chip custom-badge"
-              <%= badge.href ? `href="${badge.href}" target="_blank"` : '' %>
-            >
+            <% if (badge.href) { %>
+            <a class="footer-chip-link" href="<%= badge.href %>" target="_blank" rel="noopener noreferrer">
+            <% } else { %>
+            <span class="footer-chip-wrap">
+            <% } %>
+            <s-chip readonly variant="assist" class="footer-chip custom-badge">
               <% if (badge.icon) { %>
-                <mdui-icon slot="icon" name="<%= badge.icon %>"></mdui-icon>
+                <material-icon slot="start" name="<%= badge.icon %>"></material-icon>
               <% } %>
               <%= badge.text %>
-            </mdui-chip>
+            </s-chip>
+            <% if (badge.href) { %>
+            </a>
+            <% } else { %>
+            </span>
+            <% } %>
           <% }); %>
         </div>
       <% } %>
     </div>
 
   </div>
-</mdui-footer>
+</footer>
 
 <style>
 /* 强制底部布局 */
 .site-footer {
-  background: var(--mdui-color-surface);
-  border-top: 1px solid var(--mdui-color-outline-variant);
+  background: var(--s-color-surface);
+  border-top: 1px solid var(--s-color-outline-variant);
   margin-top: auto !important;
   width: 100%;
   flex-shrink: 0;
+}
+
+.footer-divider {
+  display: block;
+  width: auto;
+}
+
+@media screen and (min-width: 840px) {
+  .site-footer,
+  .footer-divider {
+    margin-left: 312px;
+    transition: margin-left 0.25s var(--s-motion-easing-standard);
+  }
+
+  .site-footer {
+    width: auto;
+  }
+
+  body:not(.sidebar-is-open) .site-footer,
+  body:not(.sidebar-is-open) .footer-divider {
+    margin-left: 0;
+  }
+
+  body:not(.sidebar-is-open) .site-footer {
+    width: auto;
+  }
+}
+
+@media screen and (min-width: 1180px) {
+  body.sidebar-is-open .post-footer,
+  body.sidebar-is-open .post-footer-divider {
+    margin-left: calc(312px + max(20px, calc(50% - 746px)));
+    width: min(calc(100% - 596px), 936px);
+  }
+
+  body:not(.sidebar-is-open) .post-footer,
+  body:not(.sidebar-is-open) .post-footer-divider {
+    margin-left: max(20px, calc(50% - 590px));
+    width: min(calc(100% - 284px), 936px);
+  }
 }
 
 .footer-content {
@@ -103,11 +143,11 @@
 
 /* Chip 通用样式 */
 .footer-chip {
-  --mdui-chip-height: 32px;
-  --mdui-chip-container-color: var(--mdui-color-surface-container);
-  --mdui-chip-outline-color: var(--mdui-color-outline-variant);
+  height: 32px;
+  background: var(--s-color-surface-container);
+  color: var(--s-color-on-surface-variant);
   transition: all 0.3s ease;
-  font-family: var(--mdui-font-family);
+  font-family: var(--materialis-font-family);
   font-size: 0.875rem;
   line-height: 1.5;
   text-align: center;
@@ -120,20 +160,26 @@
 
 /* 版权信息 Chip */
 .copyright .footer-chip {
-  --mdui-chip-container-color: var(--mdui-color-primary-container);
-  --mdui-chip-label-text-color: var(--mdui-color-on-primary-container);
+  background: var(--s-color-primary-container);
+  color: var(--s-color-on-primary-container);
 }
 
 /* 备案信息 Chip */
 .beian-chip {
-  --mdui-chip-container-color: var(--mdui-color-secondary-container);
-  --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+  background: var(--s-color-secondary-container);
+  color: var(--s-color-on-secondary-container);
 }
 
 /* 主题信息 Chip */
 .theme-info .footer-chip {
-  --mdui-chip-outline-color: var(--mdui-color-primary);
-  --mdui-chip-label-text-color: var(--mdui-color-primary);
+  color: var(--s-color-primary);
+}
+
+.footer-chip-link,
+.footer-chip-wrap {
+  display: inline-flex;
+  color: inherit;
+  text-decoration: none;
 }
 
 /* 链接样式 */
@@ -228,7 +274,7 @@
   }
   
   .footer-chip {
-    --mdui-chip-height: 28px;
+    height: 28px;
     font-size: 0.875rem;
   }
   

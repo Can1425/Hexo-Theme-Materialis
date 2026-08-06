@@ -1,29 +1,14 @@
-<!-- 复制URL图标组件 -->
-<mdui-button-icon class="copy-url-btn">
-  <mdui-icon>link</mdui-icon>
-</mdui-button-icon>
-
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-  const copyUrlBtn = document.querySelector('.copy-url-btn');
-  
-  copyUrlBtn.addEventListener('click', async function() {
-    try {
-      const currentUrl = window.location.href;
-      await navigator.clipboard.writeText(currentUrl);
-      
-      mdui.snackbar({
-        message: "<%= __('share.copy_success') %>",
-        placement: 'bottom',
-        timeout: 2000
-      });
-    } catch (err) {
-      mdui.snackbar({
-        message: "<%= __('share.copy_fail') %>",
-        placement: 'bottom',
-        timeout: 2000
-      });
-    }
+  var copyUrlBtn = document.getElementById('copy-url-trigger');
+  if (!copyUrlBtn) return;
+  copyUrlBtn.addEventListener('click', function() {
+    var message = "<%= __('share.copy_success') %>";
+    navigator.clipboard.writeText(window.location.href).catch(function() {
+      message = "<%= __('share.copy_fail') %>";
+    }).finally(function() {
+      window.MaterialisUI.notify({ message: message, duration: 2000 });
+    });
   });
 });
 </script>

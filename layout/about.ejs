@@ -14,8 +14,8 @@
     text-align: center;
     padding: 40px 32px;
     border-radius: 24px;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .about-avatar {
@@ -51,14 +51,14 @@
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .about-section-header {
     padding: 24px 32px;
-    background: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background: var(--s-color-surface-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .about-section-content {
@@ -72,9 +72,9 @@
 }
 
 .skill-chip {
-    --mdui-chip-height: 36px;
-    --mdui-chip-container-color: var(--mdui-color-secondary-container);
-    --mdui-chip-label-text-color: var(--mdui-color-on-secondary-container);
+    height: 36px;
+    background: var(--s-color-secondary-container);
+    color: var(--s-color-on-secondary-container);
     border-radius: 18px;
 }
 
@@ -90,7 +90,7 @@
     gap: 16px;
     padding: 20px;
     border-radius: 16px;
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
     text-decoration: none;
     color: inherit;
     transition: all 0.2s ease;
@@ -99,7 +99,7 @@
 .contact-card:hover {
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    background-color: rgb(var(--mdui-color-surface-container-highest));
+    background-color: var(--s-color-surface-container-highest);
 }
 
 .contact-icon {
@@ -109,8 +109,8 @@
     align-items: center;
     justify-content: center;
     border-radius: 12px;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     font-size: 24px;
 }
 
@@ -143,7 +143,7 @@
 .project-card {
     border-radius: 16px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container-high));
+    background-color: var(--s-color-surface-container-high);
     transition: all 0.2s ease;
 }
 
@@ -175,7 +175,7 @@
     gap: 8px;
     font-size: 14px;
     text-decoration: none;
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     font-weight: 500;
 }
 
@@ -302,45 +302,45 @@
 
 <div class="about-page">
     <!-- 页面标题 -->
-    <mdui-card class="about-header">
+    <s-card readonly class="about-header">
         <% if (theme.sidebar.avatar) { %>
             <img src="<%= theme.sidebar.avatar %>" alt="Avatar" class="about-avatar">
         <% } %>
         <div class="about-name"><%= theme.sidebar.name || site.data.about.name %></div>
         <div class="about-title"><%= site.data.about.title %></div>
         <div class="about-description"><%= site.data.about.description %></div>
-    </mdui-card>
+    </s-card>
 
     <!-- 技能部分 -->
     <% if (site.data.about.skills && site.data.about.skills.length > 0) { %>
-        <mdui-card class="about-section">
+        <s-card readonly class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.skills') %></mdui-typography>
+                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.skills') %></materialis-typography>
             </div>
             <div class="about-section-content">
                 <div class="skills-container">
                     <% site.data.about.skills.forEach(function(skill) { %>
-                        <mdui-chip class="skill-chip" variant="filled">
+                        <s-chip readonly class="skill-chip" variant="assist">
                             <%= skill %>
-                        </mdui-chip>
+                        </s-chip>
                     <% }); %>
                 </div>
             </div>
-        </mdui-card>
+        </s-card>
     <% } %>
 
     <!-- 联系方式 -->
     <% if (site.data.about.contacts && site.data.about.contacts.length > 0) { %>
-        <mdui-card class="about-section">
+        <s-card readonly class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.contacts') %></mdui-typography>
+                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.contacts') %></materialis-typography>
             </div>
             <div class="about-section-content">
                 <div class="contacts-grid">
                     <% site.data.about.contacts.forEach(function(contact) { %>
                         <a href="<%= contact.link %>" class="contact-card" target="_blank" rel="noopener">
                             <div class="contact-icon">
-                                <mdui-icon><%= contact.icon || 'link' %></mdui-icon>
+                                <material-icon><%= contact.icon || 'link' %></material-icon>
                             </div>
                             <div class="contact-content">
                                 <div class="contact-name"><%= contact.name %></div>
@@ -350,14 +350,14 @@
                     <% }); %>
                 </div>
             </div>
-        </mdui-card>
+        </s-card>
     <% } %>
 
     <!-- 项目展示 -->
     <% if (site.data.about.projects && site.data.about.projects.length > 0) { %>
-        <mdui-card class="about-section">
+        <s-card readonly class="about-section">
             <div class="about-section-header">
-                <mdui-typography variant="h5" style="font-weight: 500;"><%= __('about.projects') %></mdui-typography>
+                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.projects') %></materialis-typography>
             </div>
             <div class="about-section-content">
                 <div class="projects-grid">
@@ -369,7 +369,7 @@
                                 <% if (project.link) { %>
                                     <a href="<%= project.link %>" class="project-link" target="_blank" rel="noopener">
                                         <%= __('about.project_detail') %>
-                                        <mdui-icon>arrow_forward</mdui-icon>
+                                        <material-icon>arrow_forward</material-icon>
                                     </a>
                                 <% } %>
                             </div>
@@ -377,6 +377,6 @@
                     <% }); %>
                 </div>
             </div>
-        </mdui-card>
+        </s-card>
     <% } %>
 </div>

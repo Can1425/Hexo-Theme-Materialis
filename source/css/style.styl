@@ -14,14 +14,22 @@ body
     margin: 0
 
 .main
-    border-radius: var(--mdui-shape-corner-large)
+    min-height: calc(100vh - 64px)
+    border-radius: var(--s-shape-corner-large)
+    transition: margin-left 0.25s var(--s-motion-easing-standard)
 
 /* ===== 顶栏毛玻璃模糊效果 ===== */
-.top-app-bar::part(container)
-    background-color: unquote('rgb(var(--mdui-color-surface) / 0.72)')
+.top-app-bar
+    position: sticky
+    top: 0
+    z-index: 1000
+    background-color: unquote('color-mix(in srgb, var(--s-color-surface) 72%, transparent)')
     backdrop-filter: blur(20px) saturate(180%)
     -webkit-backdrop-filter: blur(20px) saturate(180%)
     transition: background-color 0.3s ease, backdrop-filter 0.3s ease
+
+.top-app-bar::part(layout)
+    background: transparent
 
 /* ===== 全局回到顶部 FAB ===== */
 .back-to-top-fab
@@ -33,6 +41,12 @@ body
     visibility: hidden
     transform: translateY(16px) scale(0.85)
     transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), visibility 0.3s ease
+
+.back-to-top-fab::part(text)
+    display: flex
+    align-items: center
+    justify-content: center
+    line-height: 1
 
 .back-to-top-fab.is-visible
     opacity: 1
@@ -47,10 +61,10 @@ body
         right: 16px
         bottom: 76px
 
-/* ===== 全局滚动条 mdui 风格 ===== */
+/* ===== 全局滚动条 Sober 风格 ===== */
 html
     scrollbar-width: thin
-    scrollbar-color: unquote('rgb(var(--mdui-color-outline-variant))') transparent
+    scrollbar-color: var(--s-color-outline-variant) transparent
 
 html::-webkit-scrollbar
     width: 8px
@@ -60,12 +74,12 @@ html::-webkit-scrollbar-track
     background: transparent
 
 html::-webkit-scrollbar-thumb
-    background: unquote('rgb(var(--mdui-color-outline-variant) / 0.4)')
+    background: unquote('color-mix(in srgb, var(--s-color-outline-variant) 40%, transparent)')
     border-radius: 999px
     transition: background 0.2s ease
 
 html::-webkit-scrollbar-thumb:hover
-    background: unquote('rgb(var(--mdui-color-outline))')
+    background: var(--s-color-outline)
 
 /* 代码块滚动条更细 */
 .mac-code-block pre::-webkit-scrollbar
@@ -74,5 +88,8 @@ html::-webkit-scrollbar-thumb:hover
 
 /* 桌面端（>= 840px）：侧边栏默认常显 */
 @media screen and (min-width: 840px)
-    .sidebar-content
-        open: true
+    .main
+        margin-left: 312px
+
+    body:not(.sidebar-is-open) .main
+        margin-left: 0

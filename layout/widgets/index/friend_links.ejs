@@ -14,16 +14,16 @@
     text-align: center;
     padding: 40px 32px;
     border-radius: 24px;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .friends-card {
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .friends-list {
@@ -40,7 +40,7 @@
     text-decoration: none;
     color: inherit;
     transition: all 0.2s ease;
-    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
+    border-bottom: 1px solid var(--s-color-outline-variant);
 }
 
 .friend-item:last-child {
@@ -48,7 +48,7 @@
 }
 
 .friend-item:hover {
-    background-color: rgb(var(--mdui-color-surface-container-highest));
+    background-color: var(--s-color-surface-container-highest);
     transform: translateX(4px);
 }
 
@@ -61,8 +61,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .friend-avatar img {
@@ -103,7 +103,7 @@
 
 .friend-arrow {
     flex-shrink: 0;
-    color: rgb(var(--mdui-color-outline));
+    color: var(--s-color-outline);
     transition: transform 0.2s ease;
 }
 
@@ -128,15 +128,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .friends-empty-icon {
     font-size: 80px;
     margin-bottom: 24px;
     opacity: 0.6;
-    color: rgb(var(--mdui-color-primary-container));
+    color: var(--s-color-primary-container);
 }
 
 .friends-empty-content {
@@ -228,32 +228,32 @@
 
 <div class="friends-page">
     <!-- 页面标题 -->
-    <mdui-card class="mdui-primary friends-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">
+    <s-card readonly class="friends-header">
+        <materialis-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;">
             <%= __('friend_links.title') %>
-        </mdui-typography>
-        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+        </materialis-typography>
+        <materialis-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
             <% if (site.data.links && site.data.links.length > 0) { %>
-                <%= __('friend_links.count_prefix') %> <mdui-badge style="margin: 0 8px;"><%= site.data.links.length %></mdui-badge> <%= __('friend_links.count_suffix') %>
+                <%= __('friend_links.count_prefix') %> <s-badge style="margin: 0 8px;"><%= site.data.links.length %></s-badge> <%= __('friend_links.count_suffix') %>
             <% } else { %>
                 <%= __('friend_links.empty') %>
             <% } %>
-        </mdui-typography>
-    </mdui-card>
+        </materialis-typography>
+    </s-card>
 
     <!-- 友链列表 -->
     <% if (site.data.links && site.data.links.length > 0) { %>
-        <mdui-card class="mdui-primary friends-card">
+        <s-card readonly class="friends-card">
             <div class="friends-list">
                 <% site.data.links.forEach(function(link) { %>
                     <a href="<%= link.url %>" class="friend-item" target="_blank" rel="noopener noreferrer">
-                        <mdui-avatar class="friend-avatar" variant="rounded">
+                        <s-avatar class="friend-avatar">
                             <% if (link.avatar) { %>
                                 <img src="<%= link.avatar %>" alt="<%= link.name %>" loading="lazy">
                             <% } else { %>
-                                <mdui-icon>person</mdui-icon>
+                                <material-icon>person</material-icon>
                             <% } %>
-                        </mdui-avatar>
+                        </s-avatar>
                         
                         <div class="friend-content">
                             <div class="friend-name"><%= link.name %></div>
@@ -262,25 +262,25 @@
                             <% } %>
                         </div>
                         
-                        <mdui-icon class="friend-arrow">chevron_right</mdui-icon>
+                        <material-icon class="friend-arrow">chevron_right</material-icon>
                     </a>
                 <% }); %>
             </div>
-        </mdui-card>
+        </s-card>
     <% } else { %>
         <!-- 空状态 -->
         <div class="friends-empty">
-            <mdui-card class="mdui-primary friends-empty-card">
-                <mdui-icon class="friends-empty-icon">link_off</mdui-icon>
+            <s-card readonly class="friends-empty-card">
+                <material-icon class="friends-empty-icon">link_off</material-icon>
                 <div class="friends-empty-content">
-                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                    <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
                         <%= __('friend_links.empty') %>
-                    </mdui-typography>
-                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                    </materialis-typography>
+                    <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
                         <%= __('friend_links.empty_desc') %>
-                    </mdui-typography>
+                    </materialis-typography>
                 </div>
-            </mdui-card>
+            </s-card>
         </div>
     <% } %>
 </div>

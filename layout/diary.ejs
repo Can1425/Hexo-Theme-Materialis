@@ -1,38 +1,38 @@
 <style>
 .post-card-title {
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
 }
 
 .post-card-title-text {
-    color: rgb(var(--mdui-color-on-surface-container-low));
+    color: var(--s-color-on-surface-container-low);
 }
 
 .article-title {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
 }
 
 .article-card {
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
 }
 
 .banner-title {
-    background-color: rgb(var(--mdui-color-primary));
+    background-color: var(--s-color-primary);
 }
 
 .banner-title-text1 {
-    color: rgb(var(--mdui-color-surface-container-low));
+    color: var(--s-color-surface-container-low);
 }
 
 .banner-title-text2 {
-    color: rgb(var(--mdui-color-surface-container-low));
+    color: var(--s-color-surface-container-low);
 }
 
 .post-card-wide {
-    background-color: rgb(var(--mdui-color-surface-container-low));
+    background-color: var(--s-color-surface-container-low);
 }
 
 .article-content {
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
 }
 
 .archives-page {
@@ -50,22 +50,22 @@
     text-align: center;
     padding: 40px 32px;
     border-radius: 24px;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .archives-year-card {
     width: 100%;
     border-radius: 20px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .archives-year-header {
     padding: 24px 32px;
-    background: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
 }
 
 .archives-year-content {
@@ -96,7 +96,7 @@
     text-decoration: none;
     color: inherit;
     transition: all 0.2s ease;
-    border-bottom: 1px solid rgb(var(--mdui-color-outline-variant));
+    border-bottom: 1px solid var(--s-color-outline-variant);
 }
 
 .archives-post-item:last-child {
@@ -104,7 +104,7 @@
 }
 
 .archives-post-item:hover {
-    background-color: rgb(var(--mdui-color-surface-container-highest));
+    background-color: var(--s-color-surface-container-highest);
     transform: translateX(4px);
 }
 
@@ -141,7 +141,7 @@
 }
 
 .archives-post-category {
-    background: rgb(var(--mdui-color-surface-container-highest));
+    background: var(--s-color-surface-container-highest);
     padding: 2px 8px;
     border-radius: 6px;
     font-size: 12px;
@@ -149,7 +149,7 @@
 
 .archives-post-arrow {
     flex-shrink: 0;
-    color: rgb(var(--mdui-color-outline));
+    color: var(--s-color-outline);
     transition: transform 0.2s ease;
 }
 
@@ -174,15 +174,15 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: rgb(var(--mdui-color-surface-container));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
 }
 
 .archives-empty-icon {
     font-size: 80px;
     margin-bottom: 24px;
     opacity: 0.6;
-    color: rgb(var(--mdui-color-primary-container));
+    color: var(--s-color-primary-container);
 }
 
 .archives-empty-content {
@@ -302,12 +302,12 @@
 <div class="archives-page">
     
     <!-- 页面标题 -->
-    <mdui-card class="mdui-primary archives-header">
-        <mdui-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></mdui-typography>
-        <mdui-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            <%= __('diary.total') %> <mdui-badge style="margin: 0 8px;"><%= site.posts.length %></mdui-badge> <%= __('diary.articles') %>
-        </mdui-typography>
-    </mdui-card>
+    <s-card readonly class="archives-header">
+        <materialis-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></materialis-typography>
+        <materialis-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
+            <%= __('diary.total') %> <s-badge style="margin: 0 8px;"><%= site.posts.length %></s-badge> <%= __('diary.articles') %>
+        </materialis-typography>
+    </s-card>
 
     <!-- 按年份分组 -->
     <% 
@@ -323,20 +323,20 @@
     
     <% Object.keys(postsByYear).sort().reverse().forEach(function(year) { %>
         <!-- 年份卡片 -->
-        <mdui-card class="mdui-primary archives-year-card">
+        <s-card readonly class="archives-year-card">
             <!-- 年份标题 -->
             <div class="archives-year-header">
                 <div class="archives-year-content">
-                    <mdui-avatar variant="rounded" size="50px" class="archives-year-avatar">
-                        <mdui-icon>calendar_today</mdui-icon>
-                    </mdui-avatar>
+                    <s-avatar class="archives-year-avatar">
+                        <material-icon>calendar_today</material-icon>
+                    </s-avatar>
                     <div class="archives-year-info">
-                        <mdui-typography variant="h5" style="font-weight: 500;">
+                        <materialis-typography variant="h5" style="font-weight: 500;">
                             <%= year %> <%= __('diary.year') %>
-                        </mdui-typography>
-                        <mdui-typography variant="body" style="opacity: 0.8;">
+                        </materialis-typography>
+                        <materialis-typography variant="body" style="opacity: 0.8;">
                             <%= postsByYear[year].length %> <%= __('diary.articles') %>
-                        </mdui-typography>
+                        </materialis-typography>
                     </div>
                 </div>
             </div>
@@ -345,7 +345,7 @@
             <div class="archives-post-list">
                 <% postsByYear[year].forEach(function(post, index) { %>
                     <a href="<%= url_for(post.path) %>" class="archives-post-item">
-                        <mdui-icon class="archives-post-icon">article</mdui-icon>
+                        <material-icon class="archives-post-icon">article</material-icon>
                         
                         <div class="archives-post-content">
                             <div class="archives-post-title">
@@ -364,27 +364,27 @@
                             </div>
                         </div>
                         
-                        <mdui-icon class="archives-post-arrow">chevron_right</mdui-icon>
+                        <material-icon class="archives-post-arrow">chevron_right</material-icon>
                     </a>
                 <% }); %>
             </div>
-        </mdui-card>
+        </s-card>
     <% }); %>
 
     <!-- 空状态 -->
     <% if (!site.posts || site.posts.length === 0) { %>
         <div class="archives-empty-state">
-            <mdui-card class="mdui-primary archives-empty-card">
-                <mdui-icon class="archives-empty-icon">article</mdui-icon>
+            <s-card readonly class="archives-empty-card">
+                <material-icon class="archives-empty-icon">article</material-icon>
                 <div class="archives-empty-content">
-                    <mdui-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
+                    <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
                         <%= __('diary.no_articles') %>
-                    </mdui-typography>
-                    <mdui-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
+                    </materialis-typography>
+                    <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
                         <%= __('diary.no_articles_desc') %>
-                    </mdui-typography>
+                    </materialis-typography>
                 </div>
-            </mdui-card>
+            </s-card>
         </div>
     <% } %>
 

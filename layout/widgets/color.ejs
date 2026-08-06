@@ -1,13 +1,6 @@
-<!-- 动态配色选择器组件 -->
-<mdui-tooltip content="动态配色">
-  <mdui-button-icon id="color-picker-trigger" class="color-picker-icon">
-    <mdui-icon name="palette"></mdui-icon>
-  </mdui-button-icon>
-</mdui-tooltip>
-
-<mdui-dialog id="color-picker-dialog" class="dynamic-color-dialog" close-on-overlay-click>
-  <div class="mdui-dialog-title">动态配色</div>
-  <div class="mdui-dialog-content">
+<s-dialog id="color-picker-dialog" class="dynamic-color-dialog">
+  <div slot="title" class="materialis-dialog-title">动态配色</div>
+  <div slot="text" class="materialis-dialog-content">
 
     <!-- 预设颜色网格 -->
     <div class="color-section">
@@ -15,15 +8,18 @@
       <div class="preset-colors" id="preset-colors"></div>
     </div>
 
-    <mdui-divider class="color-divider"></mdui-divider>
+    <s-divider class="color-divider"></s-divider>
 
     <!-- 自定义颜色 -->
     <div class="color-section">
       <div class="section-label">自定义颜色</div>
       <div class="custom-row">
-        <input type="color" id="native-color-picker" class="native-color-picker" value="#6750a4">
-        <input type="text" id="color-hex-input" class="color-hex-input" value="#6750a4" maxlength="7" placeholder="#000000">
-        <mdui-button id="random-color-btn" variant="tonal" icon="shuffle">随机</mdui-button>
+        <input type="color" id="native-color-picker" class="native-color-picker" value="#8f4c38">
+        <s-text-field type="text" size="small" id="color-hex-input" class="color-hex-input" value="#8f4c38" max-length="7" placeholder="#000000" aria-label="十六进制颜色值"></s-text-field>
+        <s-button id="random-color-btn" variant="tonal">
+          <material-icon slot="start" name="shuffle"></material-icon>
+          随机
+        </s-button>
       </div>
     </div>
 
@@ -41,24 +37,28 @@
       </div>
     </div>
 
-    <mdui-divider class="color-divider"></mdui-divider>
+    <s-divider class="color-divider"></s-divider>
 
     <div class="color-section">
-      <mdui-button id="reset-color-btn" variant="tonal" icon="refresh" full-width>重置为默认配色</mdui-button>
+      <s-button id="reset-color-btn" class="materialis-full-width" variant="tonal">
+        <material-icon slot="start" name="refresh"></material-icon>
+        重置为默认配色
+      </s-button>
     </div>
 
   </div>
-  <div class="mdui-dialog-actions">
-    <mdui-button id="cancel-color-btn">取消</mdui-button>
-    <mdui-button variant="filled" id="apply-color-btn" icon="check">应用</mdui-button>
-  </div>
-</mdui-dialog>
+  <s-button slot="action" id="cancel-color-btn" variant="text">取消</s-button>
+  <s-button slot="action" variant="filled" id="apply-color-btn">
+    <material-icon slot="start" name="check"></material-icon>
+    应用
+  </s-button>
+</s-dialog>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
   // MD3 官方推荐基准色
   const PRESET_COLORS = [
-    '#6750a4', '#65558f', '#7d5260', '#7c5e00',
+    '#8f4c38', '#6750a4', '#65558f', '#7d5260',
     '#006a6a', '#0061a4', '#8b5000', '#5b6100',
     '#9a471a', '#006874', '#3a6151', '#81531b'
   ];
@@ -84,8 +84,8 @@ document.addEventListener('DOMContentLoaded', function() {
   // 生成预设色按钮
   function renderPresets() {
     presetContainer.innerHTML = PRESET_COLORS.map((c, i) =>
-      '<button class="preset-item" data-color="' + c + '" style="background:' + c + ';animation-delay:' + (i * 30) + 'ms">' +
-      '<mdui-icon name="check" class="preset-check"></mdui-icon></button>'
+      '<s-icon-button class="preset-item" data-color="' + c + '" aria-label="使用 ' + c + ' 配色" style="background:' + c + ';animation-delay:' + (i * 30) + 'ms">' +
+      '<material-icon name="check" class="preset-check"></material-icon></s-icon-button>'
     ).join('');
     presetContainer.querySelectorAll('.preset-item').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -149,15 +149,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function applyColorScheme(color) {
-    if (typeof mdui !== 'undefined' && mdui.setColorScheme) {
-      mdui.setColorScheme(color);
-    }
+    return window.MaterialisUI.applyColorScheme(color);
   }
 
   function removeColorScheme() {
-    if (typeof mdui !== 'undefined' && mdui.removeColorScheme) {
-      mdui.removeColorScheme();
-    }
+    return applyColorScheme(window.MaterialisUI.defaultSeed);
   }
 
   function saveColorScheme(color) {
@@ -183,14 +179,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // 事件绑定
   trigger.addEventListener('click', () => {
-    dialog.open = true;
+    dialog.opened = true;
     // 触发预设色入场动画
     presetContainer.classList.remove('anim-ready');
     void presetContainer.offsetWidth;
     presetContainer.classList.add('anim-ready');
   });
 
-  cancelBtn.addEventListener('click', () => { dialog.open = false; });
+  cancelBtn.addEventListener('click', () => { dialog.opened = false; });
 
   nativePicker.addEventListener('input', () => {
     selectedColor = nativePicker.value;
@@ -214,22 +210,22 @@ document.addEventListener('DOMContentLoaded', function() {
     if (selectedColor && isValidColor(selectedColor)) {
       applyColorScheme(selectedColor);
       saveColorScheme(selectedColor);
-      mdui.snackbar({ message: '配色已应用', placement: 'bottom', timeout: 2000, icon: 'palette' });
-      dialog.open = false;
+      window.MaterialisUI.notify({ message: '配色已应用', duration: 2000, icon: 'palette' });
+      dialog.opened = false;
     } else {
-      mdui.snackbar({ message: '请输入有效的颜色值', placement: 'bottom', timeout: 2000 });
+      window.MaterialisUI.notify({ message: '请输入有效的颜色值', duration: 2000, type: 'error' });
     }
   });
 
   resetBtn.addEventListener('click', () => {
     removeColorScheme();
     saveColorScheme(null);
-    selectedColor = '#6750a4';
+    selectedColor = window.MaterialisUI.defaultSeed;
     nativePicker.value = selectedColor;
     hexInput.value = selectedColor;
     updatePresetSelected('');
     updatePreview(selectedColor);
-    mdui.snackbar({ message: '配色已重置', placement: 'bottom', timeout: 2000, icon: 'refresh' });
+    window.MaterialisUI.notify({ message: '配色已重置', duration: 2000, icon: 'refresh' });
   });
 
   randomBtn.addEventListener('click', () => {
@@ -249,18 +245,12 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 
 <style>
-.dynamic-color-dialog::part(overlay) {
-    backdrop-filter: blur(14px) saturate(180%);
-    -webkit-backdrop-filter: blur(14px) saturate(180%);
-    background: rgba(0, 0, 0, 0.38);
-}
-
 .dynamic-color-dialog {
-    --mdui-dialog-width: 400px;
-    --mdui-dialog-max-height: 90vh;
+    width: 400px;
+    height: min(90vh, 720px);
 }
 
-.dynamic-color-dialog::part(panel) {
+.dynamic-color-dialog::part(popover) {
     animation: colorPanelIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
@@ -269,18 +259,18 @@ document.addEventListener('DOMContentLoaded', function() {
     to   { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.mdui-dialog-title {
+.materialis-dialog-title {
     text-align: center;
     padding: 22px 24px 4px;
     font-weight: 600;
     font-size: 1.15rem;
 }
 
-.mdui-dialog-content {
+.materialis-dialog-content {
     padding: 12px 24px 8px;
 }
 
-.mdui-dialog-actions {
+.materialis-dialog-actions {
     padding: 8px 24px 20px;
     justify-content: flex-end;
     gap: 12px;
@@ -297,7 +287,7 @@ document.addEventListener('DOMContentLoaded', function() {
 .section-label {
     font-size: 0.82rem;
     font-weight: 600;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     margin-bottom: 12px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -317,6 +307,8 @@ document.addEventListener('DOMContentLoaded', function() {
 .preset-item {
     position: relative;
     aspect-ratio: 1;
+    width: 100%;
+    height: auto;
     border: none;
     border-radius: 12px;
     cursor: pointer;
@@ -342,7 +334,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .preset-item.is-selected {
     transform: scale(1.05);
-    box-shadow: 0 0 0 3px rgb(var(--mdui-color-primary)), 0 4px 10px rgba(0,0,0,0.12);
+    box-shadow: 0 0 0 3px var(--s-color-primary), 0 4px 10px rgba(0,0,0,0.12);
 }
 
 .preset-check {
@@ -387,42 +379,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
 .native-color-picker::-webkit-color-swatch-wrapper { padding: 0; }
 .native-color-picker::-webkit-color-swatch {
-    border: 1px solid rgb(var(--mdui-color-outline-variant));
+    border: 1px solid var(--s-color-outline-variant);
     border-radius: 10px;
 }
 .native-color-picker::-moz-color-swatch {
-    border: 1px solid rgb(var(--mdui-color-outline-variant));
+    border: 1px solid var(--s-color-outline-variant);
     border-radius: 10px;
 }
 
 .color-hex-input {
     width: 100%;
-    height: 44px;
-    border: 1px solid rgb(var(--mdui-color-outline-variant));
-    border-radius: 10px;
-    background: rgb(var(--mdui-color-surface-container-low));
-    color: rgb(var(--mdui-color-on-surface));
-    font-family: monospace;
-    font-size: 0.95rem;
-    text-align: center;
+    min-width: 0;
+    min-height: 44px;
+    --s-text-field-border-radius: 10px;
+    --s-text-field-padding-left: 12px;
+    --s-text-field-padding-right: 12px;
+    font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
     text-transform: lowercase;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
     box-sizing: border-box;
-}
-
-.color-hex-input:focus {
-    border-color: rgb(var(--mdui-color-primary));
-    box-shadow: 0 0 0 3px rgb(var(--mdui-color-primary) / 0.12);
 }
 
 /* ===== 预览卡片 ===== */
 .color-preview-card {
-    background: rgb(var(--mdui-color-surface-container-low));
+    background: var(--s-color-surface-container-low);
     border-radius: 14px;
     padding: 14px;
     margin-top: 14px;
-    border: 1px solid rgba(var(--mdui-color-outline-variant), 0.3);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 30%, transparent);
     transition: box-shadow 0.3s ease;
 }
 
@@ -431,15 +414,15 @@ document.addEventListener('DOMContentLoaded', function() {
 }
 
 @keyframes previewPulse {
-    0%   { box-shadow: 0 0 0 0 rgb(var(--mdui-color-primary) / 0.25); }
-    60%  { box-shadow: 0 0 0 10px rgb(var(--mdui-color-primary) / 0); }
-    100% { box-shadow: 0 0 0 0 rgb(var(--mdui-color-primary) / 0); }
+    0%   { box-shadow: 0 0 0 0 color-mix(in srgb, var(--s-color-primary) 25%, transparent); }
+    60%  { box-shadow: 0 0 0 10px color-mix(in srgb, var(--s-color-primary) 0%, transparent); }
+    100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--s-color-primary) 0%, transparent); }
 }
 
 .preview-label {
     font-size: 0.78rem;
     font-weight: 600;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     margin-bottom: 10px;
     letter-spacing: 0.04em;
     text-transform: uppercase;
@@ -491,19 +474,18 @@ document.addEventListener('DOMContentLoaded', function() {
 
 /* 触发按钮 */
 .color-picker-icon {
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
 }
 
 .color-picker-icon:hover {
-    color: rgb(var(--mdui-color-primary));
+    color: var(--s-color-primary);
     transform: rotate(-15deg) scale(1.08);
 }
 
 @media (max-width: 600px) {
-    .dynamic-color-dialog { --mdui-dialog-width: 92vw; }
+    .dynamic-color-dialog { width: 92vw; }
     .preset-colors { gap: 8px; }
-    .mdui-dialog-content { padding: 12px 18px 8px; }
-    .mdui-dialog-actions { padding: 8px 18px 16px; }
+    .materialis-dialog-content { padding: 12px 18px 8px; }
 }
 </style>

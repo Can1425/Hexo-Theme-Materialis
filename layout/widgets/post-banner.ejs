@@ -1,0 +1,27 @@
+<link rel="stylesheet" href="<%= url_for('/fonts/banner/banner.css') %>">
+
+<div class="banner-container post-banner">
+    <s-card readonly class="banner-title">
+        <div class="banner-title-text1"><%- titleText1 %></div>
+        <div class="post-banner-meta" aria-label="文章信息">
+            <s-chip readonly class="post-banner-chip post-banner-chip-date" variant="assist">
+                <material-icon name="calendar_today" slot="start"></material-icon>
+                <%= page.date.format('YYYY-MM-DD') %>
+            </s-chip>
+
+            <% if (page.categories && page.categories.length > 0) { %>
+                <s-chip readonly class="post-banner-chip post-banner-chip-category" variant="assist">
+                    <material-icon name="folder" slot="start"></material-icon>
+                    <%= page.categories.data[0].name %>
+                </s-chip>
+            <% } %>
+
+            <% if (page.tags && page.tags.length > 0) { %>
+                <s-chip readonly class="post-banner-chip post-banner-chip-tag" variant="assist">
+                    <material-icon name="tag" slot="start"></material-icon>
+                    <%= page.tags.data[0].name %>
+                </s-chip>
+            <% } %>
+        </div>
+    </s-card>
+</div>

@@ -1,48 +1,23 @@
 <% if (theme.music && theme.music.enable) { %>
 <style>
-/* ===== 音乐球（mdui 风格 + Apple 毛玻璃） ===== */
+/* ===== 音乐播放器 ===== */
 .music-widget {
     position: fixed;
     right: 24px;
     bottom: 24px;
     z-index: 9000;
-    font-family: var(--mdui-font-family);
+    font-family: var(--materialis-font-family);
 }
 
-/* 折叠态：旋转球 */
+/* 折叠态：使用 Sober 默认 FAB 外观 */
 .music-ball {
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
-    border: none;
-    padding: 0;
-    cursor: pointer;
-    background: linear-gradient(135deg,
-        rgb(var(--mdui-color-primary)),
-        rgb(var(--mdui-color-tertiary)));
-    box-shadow: 0 4px 16px rgb(var(--mdui-color-primary) / 0.35),
-                0 1px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    transition: transform 0.25s cubic-bezier(0.2, 0, 0, 1),
-                box-shadow 0.25s ease;
     position: relative;
 }
 
-.music-ball:hover {
-    transform: scale(1.06);
-    box-shadow: 0 6px 22px rgb(var(--mdui-color-primary) / 0.45);
-}
-
-.music-ball:active {
-    transform: scale(0.95);
-}
-
 .music-ball-cover {
-    width: 100%;
-    height: 100%;
+    width: 24px;
+    height: 24px;
+    border-radius: 6px;
     background-size: cover;
     background-position: center;
     display: flex;
@@ -50,32 +25,17 @@
     justify-content: center;
 }
 
-.music-ball-cover mdui-icon {
-    color: #fff;
-    font-size: 28px;
+.music-ball-cover material-icon {
+    color: currentColor;
+    font-size: 24px;
 }
 
 .music-ball.playing .music-ball-cover {
     animation: music-spin 12s linear infinite;
 }
 
-/* 播放时小球呼吸光晕 */
-.music-ball.playing::after {
-    content: "";
-    position: absolute;
-    inset: -4px;
-    border-radius: 50%;
-    border: 2px solid rgb(var(--mdui-color-primary) / 0.4);
-    animation: music-pulse 2s ease-out infinite;
-}
-
 @keyframes music-spin {
     to { transform: rotate(360deg); }
-}
-
-@keyframes music-pulse {
-    0% { transform: scale(1); opacity: 0.6; }
-    100% { transform: scale(1.4); opacity: 0; }
 }
 
 /* 展开态：播放面板 */
@@ -86,10 +46,10 @@
     width: 300px;
     padding: 16px;
     border-radius: 20px;
-    background: rgb(var(--mdui-color-surface-container) / 0.82);
+    background: color-mix(in srgb, var(--s-color-surface-container) 82%, transparent);
     backdrop-filter: blur(20px) saturate(180%);
     -webkit-backdrop-filter: blur(20px) saturate(180%);
-    border: 1px solid rgba(var(--mdui-color-outline-variant), 0.4);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 40%, transparent);
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12),
                 0 2px 8px rgba(0, 0, 0, 0.06);
     opacity: 0;
@@ -119,8 +79,8 @@
     border-radius: 12px;
     background-size: cover;
     background-position: center;
-    background-color: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background-color: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     flex-shrink: 0;
     display: flex;
     align-items: center;
@@ -128,7 +88,7 @@
     overflow: hidden;
 }
 
-.music-panel-cover mdui-icon {
+.music-panel-cover material-icon {
     font-size: 24px;
 }
 
@@ -140,7 +100,7 @@
 .music-panel-title {
     font-size: 0.9rem;
     font-weight: 500;
-    color: rgb(var(--mdui-color-on-surface));
+    color: var(--s-color-on-surface);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -148,7 +108,7 @@
 
 .music-panel-artist {
     font-size: 0.78rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -157,7 +117,7 @@
 
 .music-close {
     flex-shrink: 0;
-    --mdui-color-on-surface: var(--mdui-color-on-surface-variant);
+    --s-color-on-surface: var(--s-color-on-surface-variant);
 }
 
 .music-slider {
@@ -169,7 +129,7 @@
     display: flex;
     justify-content: space-between;
     font-size: 0.72rem;
-    color: rgb(var(--mdui-color-on-surface-variant));
+    color: var(--s-color-on-surface-variant);
     margin-bottom: 6px;
     font-variant-numeric: tabular-nums;
 }
@@ -184,34 +144,23 @@
 .music-play-btn {
     width: 44px;
     height: 44px;
+    min-width: 44px;
     border-radius: 50%;
-    border: none;
-    background: rgb(var(--mdui-color-primary));
-    color: rgb(var(--mdui-color-on-primary));
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 2px 8px rgb(var(--mdui-color-primary) / 0.4);
-    transition: transform 0.15s ease, background-color 0.15s ease;
+    box-shadow: 0 2px 8px color-mix(in srgb, var(--s-color-primary) 40%, transparent);
     margin: 0 4px;
-}
-
-.music-play-btn:hover {
-    background: rgb(var(--mdui-color-primary) / 0.88);
 }
 
 .music-play-btn:active {
     transform: scale(0.92);
 }
 
-.music-play-btn mdui-icon {
+.music-play-btn material-icon {
     font-size: 24px;
 }
 
 .music-prev-icon,
 .music-next-icon {
-    --mdui-color-on-surface: var(--mdui-color-on-surface-variant);
+    --s-color-on-surface: var(--s-color-on-surface-variant);
 }
 
 /* 移动端适配 */
@@ -219,15 +168,6 @@
     .music-widget {
         right: 16px;
         bottom: 16px;
-    }
-
-    .music-ball {
-        width: 50px;
-        height: 50px;
-    }
-
-    .music-ball-cover mdui-icon {
-        font-size: 24px;
     }
 
     .music-panel {
@@ -242,10 +182,6 @@
     .music-ball.playing .music-ball-cover {
         animation: none;
     }
-    .music-ball.playing::after {
-        animation: none;
-        display: none;
-    }
     .music-panel {
         transition-duration: 0.01ms;
     }
@@ -254,28 +190,28 @@
 
 <div class="music-widget" id="music-widget">
     <!-- 折叠态：旋转唱片球 -->
-    <button class="music-ball" id="music-ball" aria-label="音乐播放器">
+    <s-fab class="music-ball" id="music-ball" aria-label="音乐播放器">
         <span class="music-ball-cover" id="music-ball-cover">
-            <mdui-icon name="music_note"></mdui-icon>
+            <material-icon name="music_note"></material-icon>
         </span>
-    </button>
+    </s-fab>
 
     <!-- 展开态：播放面板 -->
     <div class="music-panel" id="music-panel">
         <div class="music-panel-head">
             <span class="music-panel-cover" id="music-panel-cover">
-                <mdui-icon name="music_note"></mdui-icon>
+                <material-icon name="music_note"></material-icon>
             </span>
             <div class="music-panel-info">
                 <div class="music-panel-title" id="music-panel-title">未在播放</div>
                 <div class="music-panel-artist" id="music-panel-artist">- -</div>
             </div>
-            <mdui-button-icon id="music-close" class="music-close" aria-label="收起">
-                <mdui-icon name="close"></mdui-icon>
-            </mdui-button-icon>
+            <s-icon-button id="music-close" class="music-close" aria-label="收起">
+                <material-icon name="close"></material-icon>
+            </s-icon-button>
         </div>
 
-        <mdui-slider id="music-slider" class="music-slider" value="0" max="100"></mdui-slider>
+        <s-slider id="music-slider" class="music-slider" value="0" max="100"></s-slider>
 
         <div class="music-time">
             <span id="music-current">0:00</span>
@@ -283,15 +219,15 @@
         </div>
 
         <div class="music-controls">
-            <mdui-button-icon id="music-prev" aria-label="上一首">
-                <mdui-icon name="skip_previous" class="music-prev-icon"></mdui-icon>
-            </mdui-button-icon>
-            <button class="music-play-btn" id="music-play" aria-label="播放/暂停">
-                <mdui-icon name="play_arrow" id="music-play-icon"></mdui-icon>
-            </button>
-            <mdui-button-icon id="music-next" aria-label="下一首">
-                <mdui-icon name="skip_next" class="music-next-icon"></mdui-icon>
-            </mdui-button-icon>
+            <s-icon-button id="music-prev" aria-label="上一首">
+                <material-icon name="skip_previous" class="music-prev-icon"></material-icon>
+            </s-icon-button>
+            <s-icon-button variant="filled" class="music-play-btn" id="music-play" aria-label="播放/暂停">
+                <material-icon name="play_arrow" id="music-play-icon"></material-icon>
+            </s-icon-button>
+            <s-icon-button id="music-next" aria-label="下一首">
+                <material-icon name="skip_next" class="music-next-icon"></material-icon>
+            </s-icon-button>
         </div>
     </div>
 

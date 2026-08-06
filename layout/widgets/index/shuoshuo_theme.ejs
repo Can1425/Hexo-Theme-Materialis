@@ -8,8 +8,8 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
     width: 100%;
     border-radius: 16px;
     overflow: hidden;
-    background-color: rgb(var(--mdui-color-surface-container-low));
-    color: rgb(var(--mdui-color-on-surface));
+    background-color: var(--s-color-surface-container-low);
+    color: var(--s-color-on-surface);
     margin-bottom: 20px;
     padding: 10px;
 }
@@ -30,7 +30,7 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
     height: 50px;
     border-radius: 50%;
     object-fit: cover;
-    background: rgb(var(--mdui-color-primary-container));
+    background: var(--s-color-primary-container);
     transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -43,8 +43,8 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    background: rgb(var(--mdui-color-primary-container));
-    color: rgb(var(--mdui-color-on-primary-container));
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -92,27 +92,27 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
     text-align: center;
     padding: 40px 24px;
     border-radius: 16px;
-    background-color: rgb(var(--mdui-color-surface-container-low));
-    color: rgb(var(--mdui-color-on-surface-variant));
+    background-color: var(--s-color-surface-container-low);
+    color: var(--s-color-on-surface-variant);
 }
 </style>
 
-<mdui-layout-main>
+<section class="layout-main">
     <div class="articles-container">
         <!-- 说说列表 -->
         <% if (talks && talks.length > 0) { %>
             <% talks.forEach(function(talk) { %>
-                <mdui-card variant="filled" class="talk-card">
-                    <mdui-card-content class="talk-card-content">
+                <s-card readonly variant="filled" class="talk-card">
+                    <div class="talk-card-content">
                         <!-- 头部信息 -->
                         <div class="talk-header">
-                            <mdui-avatar variant="circular" class="talk-avatar">
+                            <s-avatar class="talk-avatar">
                                 <% if (talk.avatar) { %>
                                     <img src="<%= talk.avatar %>" alt="<%= talk.author || config.author %>" loading="lazy">
                                 <% } else { %>
-                                    <mdui-icon>person</mdui-icon>
+                                    <material-icon>person</material-icon>
                                 <% } %>
-                            </mdui-avatar>
+                            </s-avatar>
                             <div>
                                 <div class="talk-author-name"><%= talk.author || config.author %></div>
                                 <div class="talk-date"><%= talk.date %></div>
@@ -132,15 +132,15 @@ const talks = site.data.talks && site.data.talks.talks ? site.data.talks.talks :
                                 <% }); %>
                             </div>
                         <% } %>
-                    </mdui-card-content>
-                </mdui-card>
+                    </div>
+                </s-card>
             <% }); %>
         <% } else { %>
             <div class="no-talks">
-                <mdui-icon name="chat" style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px;"></mdui-icon>
-                <mdui-typography variant="h6"><%= __('shuoshuo.no_talks') %></mdui-typography>
-                <mdui-typography variant="body2" style="margin-top: 8px;"><%= __('shuoshuo.no_talks_desc') %></mdui-typography>
+                <material-icon name="chat" style="font-size: 3rem; opacity: 0.5; margin-bottom: 16px;"></material-icon>
+                <materialis-typography variant="h6"><%= __('shuoshuo.no_talks') %></materialis-typography>
+                <materialis-typography variant="body2" style="margin-top: 8px;"><%= __('shuoshuo.no_talks_desc') %></materialis-typography>
             </div>
         <% } %>
     </div>
-</mdui-layout-main>
+</section>

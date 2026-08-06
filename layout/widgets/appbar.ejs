@@ -1,231 +1,85 @@
-<mdui-top-app-bar variant="center-aligned" scroll-behavior="elevate" class="top-app-bar">
-    <mdui-button-icon class="appbar-menu-button">
-        <mdui-icon name="menu"></mdui-icon>
-    </mdui-button-icon>
-    <mdui-top-app-bar-title onclick="window.location.href='<%= url_for('/') %>'" style="cursor: pointer;">
+<s-app-bar size="auto" media="(max-width: 600px)" class="top-app-bar">
+    <s-icon-button slot="nav" class="appbar-menu-button" aria-label="切换导航栏">
+        <material-icon name="menu"></material-icon>
+    </s-icon-button>
+    <div slot="title" class="appbar-title" onclick="window.location.href='<%= url_for('/') %>'">
         <%= config.title %>
-    </mdui-top-app-bar-title>
+    </div>
 
-    <!-- 桌面端：所有按钮平铺显示 -->
-    <div class="appbar-actions-desktop">
-        <mdui-dropdown>
-            <div slot="trigger">
-                <mdui-tooltip content="显示模式">
-                    <mdui-button-icon>
-                        <mdui-icon name="auto_mode" class="appbar-display-mode-icon"></mdui-icon>
-                    </mdui-button-icon>
-                </mdui-tooltip>
-            </div>
-            <mdui-menu selects="single" value="auto" class="appbar-display-mode">
-                <mdui-menu-item value="light"><%= __('appbar.light_mode') %></mdui-menu-item>
-                <mdui-menu-item value="dark"><%= __('appbar.dark_mode') %></mdui-menu-item>
-                <mdui-divider></mdui-divider>
-                <mdui-menu-item value="auto"><%= __('appbar.auto_mode') %></mdui-menu-item>
-            </mdui-menu>
-        </mdui-dropdown>
-
-        <%- partial('widgets/search.ejs') %>
-        <%- partial('widgets/color.ejs') %>
+    <s-nav-adaptive class="appbar-actions" aria-label="页面工具">
+        <s-nav-adaptive-item id="display-mode-trigger" selectable="false">
+            <material-icon slot="icon" name="auto_mode" class="appbar-display-mode-icon"></material-icon>
+            <span slot="text">显示模式</span>
+        </s-nav-adaptive-item>
+        <s-nav-adaptive-item id="search-toggle" selectable="false">
+            <material-icon slot="icon" name="search"></material-icon>
+            <span slot="text">搜索</span>
+        </s-nav-adaptive-item>
+        <s-nav-adaptive-item id="color-picker-trigger" selectable="false">
+            <material-icon slot="icon" name="palette"></material-icon>
+            <span slot="text">动态配色</span>
+        </s-nav-adaptive-item>
         <% if (page && page.layout === 'post') { %>
-            <%- partial('widgets/nav.ejs') %>
-            <%- include('share.ejs') %>
+        <s-nav-adaptive-item id="toc-toggle" selectable="false">
+            <material-icon slot="icon" name="menu_book"></material-icon>
+            <span slot="text">文章导航</span>
+        </s-nav-adaptive-item>
+        <s-nav-adaptive-item id="copy-url-trigger" selectable="false">
+            <material-icon slot="icon" name="link"></material-icon>
+            <span slot="text">复制链接</span>
+        </s-nav-adaptive-item>
         <% } %>
-    </div>
+        <s-icon-button slot="toggle" aria-label="更多工具">
+            <material-icon name="more_vert"></material-icon>
+        </s-icon-button>
+    </s-nav-adaptive>
+</s-app-bar>
 
-    <!-- 移动端：折叠到一个「更多」按钮 -->
-    <div class="appbar-actions-mobile">
-        <mdui-dropdown id="appbar-mobile-menu">
-            <mdui-button-icon slot="trigger">
-                <mdui-icon name="more_vert"></mdui-icon>
-            </mdui-button-icon>
-            <mdui-menu>
-                <mdui-menu-item id="mobile-search-btn">
-                    <mdui-icon slot="icon" name="search"></mdui-icon>
-                    搜索
-                </mdui-menu-item>
-                <mdui-menu-item id="mobile-color-btn">
-                    <mdui-icon slot="icon" name="palette"></mdui-icon>
-                    动态配色
-                </mdui-menu-item>
-                <mdui-menu-item id="mobile-display-btn">
-                    <mdui-icon slot="icon" name="auto_mode"></mdui-icon>
-                    显示模式
-                </mdui-menu-item>
-                <% if (page && page.layout === 'post') { %>
-                <mdui-divider></mdui-divider>
-                <mdui-menu-item id="mobile-toc-btn">
-                    <mdui-icon slot="icon" name="menu_book"></mdui-icon>
-                    文章导航
-                </mdui-menu-item>
-                <mdui-menu-item id="mobile-share-btn">
-                    <mdui-icon slot="icon" name="link"></mdui-icon>
-                    复制链接
-                </mdui-menu-item>
-                <% } %>
-            </mdui-menu>
-        </mdui-dropdown>
-    </div>
-</mdui-top-app-bar>
+<%- partial('widgets/search.ejs') %>
+<%- partial('widgets/color.ejs') %>
+<% if (page && page.layout === 'post') { %>
+    <%- partial('widgets/nav.ejs') %>
+<% } %>
 
-<!-- 移动端显示模式选择弹窗（三选项：浅色/深色/跟随系统） -->
-<mdui-dialog id="mobile-display-dialog" class="mobile-display-dialog">
-    <div class="mdui-dialog-title">显示模式</div>
-    <mdui-list class="mobile-display-list">
-        <mdui-list-item id="mobile-mode-light" rounded>
-            <mdui-icon slot="icon" name="light_mode"></mdui-icon>
+<s-dialog id="display-mode-dialog" class="display-mode-dialog">
+    <div slot="title" class="materialis-dialog-title">显示模式</div>
+    <div slot="text" class="display-mode-options">
+        <s-button variant="tonal" class="display-mode-option" data-mode="light">
+            <material-icon slot="start" name="light_mode"></material-icon>
             浅色
-        </mdui-list-item>
-        <mdui-list-item id="mobile-mode-dark" rounded>
-            <mdui-icon slot="icon" name="dark_mode"></mdui-icon>
+        </s-button>
+        <s-button variant="tonal" class="display-mode-option" data-mode="dark">
+            <material-icon slot="start" name="dark_mode"></material-icon>
             深色
-        </mdui-list-item>
-        <mdui-list-item id="mobile-mode-auto" rounded>
-            <mdui-icon slot="icon" name="auto_mode"></mdui-icon>
+        </s-button>
+        <s-button variant="tonal" class="display-mode-option" data-mode="auto">
+            <material-icon slot="start" name="auto_mode"></material-icon>
             跟随系统
-        </mdui-list-item>
-    </mdui-list>
-</mdui-dialog>
+        </s-button>
+    </div>
+</s-dialog>
 
 <style>
-.appbar-actions-desktop {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
+.appbar-title {
+    cursor: pointer;
 }
 
-.appbar-actions-mobile {
-    display: none;
+.appbar-actions {
+    min-width: 0;
 }
 
-@media (max-width: 600px) {
-    .appbar-actions-desktop {
-        display: none;
-    }
-    .appbar-actions-mobile {
-        display: inline-flex;
-        align-items: center;
-    }
+.display-mode-dialog {
+    width: 320px;
 }
 
-.mobile-display-dialog {
-    --mdui-dialog-width: 320px;
+.display-mode-options {
+    display: grid;
+    gap: 8px;
 }
 
-.mobile-display-list {
-    padding: 8px 16px 16px;
-}
-
-.mobile-display-list mdui-list-item {
-    margin: 4px 0;
-    border-radius: 10px;
-}
-
-.mobile-display-list mdui-list-item:hover {
-    background-color: rgb(var(--mdui-color-surface-container-high));
+.display-mode-option {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
 }
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // ===== 关键修复：将所有 mdui-dialog 移到 body 下 =====
-    // 这样 .appbar-actions-desktop 的 display:none 不会影响弹窗显示
-    var desktopActions = document.querySelector('.appbar-actions-desktop');
-    if (desktopActions) {
-        var dialogs = desktopActions.querySelectorAll('mdui-dialog');
-        dialogs.forEach(function(d) {
-            document.body.appendChild(d);
-        });
-    }
-
-    // ===== 移动端菜单项：直接操作弹窗 =====
-    var menuActions = {
-        'mobile-search-btn': 'search-dialog',
-        'mobile-color-btn': 'color-picker-dialog',
-        'mobile-toc-btn': 'toc-dialog'
-    };
-
-    Object.keys(menuActions).forEach(function(menuId) {
-        var item = document.getElementById(menuId);
-        var dialogId = menuActions[menuId];
-        if (!item) return;
-
-        item.addEventListener('click', function() {
-            // 关闭移动端下拉菜单
-            var dropdown = document.getElementById('appbar-mobile-menu');
-            if (dropdown) dropdown.open = false;
-
-            // 延迟打开弹窗（等下拉菜单关闭动画完成）
-            setTimeout(function() {
-                var dialog = document.getElementById(dialogId);
-                if (dialog) {
-                    dialog.open = true;
-                }
-                // TOC 特殊处理：触发目录生成
-                if (menuId === 'mobile-toc-btn' && window.hexoTOC) {
-                    window.hexoTOC.generate();
-                }
-            }, 150);
-        });
-    });
-
-    // ===== 复制链接（移动端） =====
-    var shareBtn = document.getElementById('mobile-share-btn');
-    if (shareBtn) {
-        shareBtn.addEventListener('click', function() {
-            var dropdown = document.getElementById('appbar-mobile-menu');
-            if (dropdown) dropdown.open = false;
-
-            setTimeout(function() {
-                // 直接复制 URL
-                var currentUrl = window.location.href;
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(currentUrl).then(function() {
-                        mdui.snackbar({ message: '链接已复制', placement: 'bottom', timeout: 2000 });
-                    }).catch(function() {
-                        mdui.snackbar({ message: '复制失败', placement: 'bottom', timeout: 2000 });
-                    });
-                }
-            }, 150);
-        });
-    }
-
-    // ===== 显示模式：三选项弹窗 =====
-    var displayBtn = document.getElementById('mobile-display-btn');
-    var displayDialog = document.getElementById('mobile-display-dialog');
-
-    if (displayBtn && displayDialog) {
-        displayBtn.addEventListener('click', function() {
-            var dropdown = document.getElementById('appbar-mobile-menu');
-            if (dropdown) dropdown.open = false;
-
-            setTimeout(function() {
-                displayDialog.open = true;
-            }, 150);
-        });
-
-        // 三个模式选项
-        var modes = [
-            { id: 'mobile-mode-light', value: 'light' },
-            { id: 'mobile-mode-dark', value: 'dark' },
-            { id: 'mobile-mode-auto', value: 'auto' }
-        ];
-
-        modes.forEach(function(m) {
-            var el = document.getElementById(m.id);
-            if (el) {
-                el.addEventListener('click', function() {
-                    displayDialog.open = false;
-
-                    // 调用 appbar.js 中的 changeDisplayMode 逻辑
-                    var menu = document.querySelector('.appbar-display-mode');
-                    if (menu) {
-                        menu.value = m.value;
-                        // 触发 change 事件，appbar.js 会处理主题切换
-                        menu.dispatchEvent(new Event('change', { bubbles: true }));
-                    }
-                });
-            }
-        });
-    }
-});
-</script>

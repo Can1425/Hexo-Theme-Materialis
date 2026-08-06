@@ -136,21 +136,111 @@ shuoshuo:
   qexo:
     url: https://qexo.blog.yizhixiaozhu.top #填写你qexo的地址
 banner:
-  title: "Materialis"
-  subtitle: "A Material Design 3 theme for Hexo."
-  projects:
-    enable: true
-    items:
-      - name: "项目一"
-        desc: "项目一的描述"
-        icon: "code"
-        link: "https://github.com/yourusername/project1"
-        color: "primary" # primary, secondary, tertiary, error, info
-      - name: "项目二"
-        desc: "项目二的描述"
-        icon: "terminal"
-        link: "https://github.com/yourusername/project2"
-        color: "secondary"
+  enable: true
+  # 卡片类型: intro, image, quote, link, stat
+  # 卡片尺寸: hero, tall, wide, standard, compact, square (1x1), pill (3x1)
+  # 语义色: surface, primary, secondary, tertiary
+  cards:
+    - type: intro
+      size: hero
+      tone: primary
+      featured: true # 移动端顶部精选卡片，最多两张
+      eyebrow: "Hexo Theme"
+      icon: auto_awesome
+      title: "Materialis"
+      subtitle: "A Material Design 3 Expressive theme for Hexo."
+      actions:
+        - text: "浏览文章"
+          icon: article
+          url: "/diary/"
+          variant: filled
+
+    - type: image
+      size: tall
+      tone: surface
+      featured: true
+      image: "https://blog.yizhixiaozhu.top/images/1.png"
+      alt: "Materialis"
+      fallback: "图片暂不可用"
+      position: center
+      title: "Materialis"
+      description: "简洁、清晰、专注内容"
+      url: "/about/"
+
+    - type: link
+      size: standard
+      tone: secondary
+      title: "关于本站"
+      description: "了解 Materialis 主题"
+      icon: info
+      url: "/about/"
+
+    - type: quote
+      size: wide
+      tone: tertiary
+      source: hitokoto # static 或 hitokoto
+      fallback: "保持简单，专注内容。"
+
+    - type: link
+      size: standard
+      tone: secondary
+      title: "GitHub"
+      description: "查看主题源码"
+      icon: code
+      url: "https://github.com/Can1425/Hexo-Theme-Materialis"
+      external: true
+
+    - type: stat
+      size: compact
+      tone: surface
+      source: posts # posts, categories, tags，也可以直接填写 value
+      label: "文章"
+      icon: description
+
+    - type: stat
+      size: square
+      tone: secondary
+      source: categories
+      label: "分类"
+      icon: category
+
+    - type: stat
+      size: square
+      tone: tertiary
+      source: tags
+      label: "标签"
+      icon: sell
+
+    - type: link
+      size: square
+      tone: surface
+      title: "文章归档"
+      description: "浏览全部文章"
+      icon: inventory_2
+      url: "/diary/"
+
+    - type: link
+      size: square
+      tone: primary
+      title: "友情链接"
+      description: "发现更多站点"
+      icon: link
+      url: "/links/"
+
+    - type: link
+      size: pill
+      tone: primary
+      title: "继续阅读"
+      description: "浏览最新文章"
+      icon: auto_stories
+      url: "/diary/"
+
+    - type: stat
+      size: compact
+      tone: surface
+      source: tags
+      label: "标签"
+      icon: sell
 #---end---
 #纪念日设置
 #---start---

@@ -1,44 +1,42 @@
-<!-- 搜索按钮 -->
-<mdui-button-icon id="search-toggle">
-    <mdui-icon name="search"></mdui-icon>
-</mdui-button-icon>
+<s-dialog id="search-dialog" class="search-dialog">
+    <div slot="title" class="materialis-dialog-title">搜索</div>
+    <div slot="text" class="search-dialog-content">
+      <div class="search-header">
+        <s-text-field class="search-input" placeholder="搜索文章、标签、分类..." id="search-input">
+            <material-icon name="search" slot="start"></material-icon>
+        </s-text-field>
+        <s-icon-button class="close-btn" id="search-close">
+            <material-icon name="close"></material-icon>
+        </s-icon-button>
+      </div>
 
-<!-- 搜索弹窗 -->
-<mdui-dialog id="search-dialog" close-on-esc close-on-overlay-click class="search-dialog">
-    <div class="search-header">
-        <mdui-text-field class="search-input" placeholder="搜索文章、标签、分类..." id="search-input">
-            <mdui-icon name="search" slot="icon"></mdui-icon>
-        </mdui-text-field>
-        <mdui-button-icon class="close-btn" id="search-close">
-            <mdui-icon name="close"></mdui-icon>
-        </mdui-button-icon>
-    </div>
-
-    <div class="search-content">
+      <div class="search-content">
         <div id="search-results" class="search-results">
             <div class="search-placeholder">
-                <mdui-icon name="search"></mdui-icon>
+                <material-icon name="search"></material-icon>
                 <div>输入关键词开始搜索</div>
             </div>
         </div>
-    </div>
+      </div>
 
-    <div class="search-footer">
+      <div class="search-footer">
         <span class="result-count" id="result-count"></span>
-        <mdui-button id="search-close-btn">关闭</mdui-button>
+        <s-button id="search-close-btn">关闭</s-button>
+      </div>
     </div>
-</mdui-dialog>
+</s-dialog>
 
 <style>
-.search-dialog::part(overlay) {
-    backdrop-filter: blur(10px) saturate(180%);
-    -webkit-backdrop-filter: blur(10px) saturate(180%); /* Safari 支持 */
-    background: rgba(0, 0, 0, 0.4);
+.search-dialog {
+    width: min(600px, calc(100vw - 32px));
+    height: min(70vh, 720px);
 }
 
-.search-dialog {
-    --mdui-dialog-width: 600px;
-    --mdui-dialog-height: 70vh;
+.search-dialog-content {
+    display: flex;
+    min-height: 0;
+    flex: 1;
+    flex-direction: column;
 }
 
 .search-header {
@@ -73,21 +71,21 @@
 }
 
 .search-results::-webkit-scrollbar-track {
-    background: var(--mdui-color-surface-container);
+    background: var(--s-color-surface-container);
 }
 
 .search-results::-webkit-scrollbar-thumb {
-    background: var(--mdui-color-outline-variant);
+    background: var(--s-color-outline-variant);
     border-radius: 3px;
 }
 
 .search-placeholder {
     text-align: center;
     padding: 60px 20px;
-    color: var(--mdui-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
 }
 
-.search-placeholder mdui-icon {
+.search-placeholder material-icon {
     font-size: 48px;
     margin-bottom: 16px;
     opacity: 0.5;
@@ -98,27 +96,27 @@
     justify-content: space-between;
     align-items: center;
     padding: 16px 24px;
-    border-top: 1px solid var(--mdui-color-outline-variant);
+    border-top: 1px solid var(--s-color-outline-variant);
 }
 
 .result-count {
     font-size: 0.875rem;
-    color: var(--mdui-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
 }
 
 .search-result-item {
     padding: 16px;
     border-radius: 12px;
     margin-bottom: 8px;
-    border: 1px solid var(--mdui-color-outline-variant);
+    border: 1px solid var(--s-color-outline-variant);
     cursor: pointer;
     transition: all 0.3s ease;
-    background: var(--mdui-color-surface);
+    background: var(--s-color-surface);
 }
 
 .search-result-item:hover {
-    background: var(--mdui-color-surface-container-hover);
-    border-color: var(--mdui-color-primary);
+    background: var(--s-color-surface-container-hover);
+    border-color: var(--s-color-primary);
     transform: translateY(-2px);
 }
 
@@ -127,12 +125,12 @@
     align-items: center;
     gap: 8px;
     font-weight: 600;
-    color: var(--mdui-color-on-surface);
+    color: var(--s-color-on-surface);
     margin-bottom: 8px;
 }
 
 .search-result-content {
-    color: var(--mdui-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
     font-size: 0.875rem;
     line-height: 1.4;
     margin-bottom: 8px;
@@ -147,12 +145,12 @@
     display: flex;
     gap: 12px;
     font-size: 0.75rem;
-    color: var(--mdui-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
 }
 
 .search-highlight {
-    background: var(--mdui-color-primary-container);
-    color: var(--mdui-color-on-primary-container);
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
     padding: 1px 4px;
     border-radius: 4px;
     font-weight: 600;
@@ -161,13 +159,13 @@
 .no-results, .search-loading {
     text-align: center;
     padding: 60px 20px;
-    color: var(--mdui-color-on-surface-variant);
+    color: var(--s-color-on-surface-variant);
 }
 
 @media (max-width: 600px) {
     .search-dialog {
-        --mdui-dialog-width: 95vw;
-        --mdui-dialog-height: 80vh;
+        width: 95vw;
+        height: 80vh;
     }
     
     .search-header {
@@ -213,12 +211,12 @@ class HexoSearch {
         const searchCloseBtn = document.getElementById('search-close-btn');
 
         searchToggle.addEventListener('click', () => {
-            this.dialog.open = true;
+            this.dialog.opened = true;
             setTimeout(() => searchInput.focus(), 100);
         });
 
         const closeDialog = () => {
-            this.dialog.open = false;
+            this.dialog.opened = false;
             searchInput.value = '';
             this.showPlaceholder();
         };
@@ -293,7 +291,7 @@ class HexoSearch {
         if (results.length === 0) {
             container.innerHTML = `
                 <div class="no-results">
-                    <mdui-icon name="search_off" style="font-size: 48px; margin-bottom: 16px;"></mdui-icon>
+                    <material-icon name="search_off" style="font-size: 48px; margin-bottom: 16px;"></material-icon>
                     <div>没有找到包含 "${this.escapeHtml(query)}" 的内容</div>
                 </div>
             `;
@@ -307,7 +305,7 @@ class HexoSearch {
         container.querySelectorAll('.search-result-item').forEach((item, index) => {
             item.addEventListener('click', () => {
                 window.location.href = results[index].url;
-                this.dialog.open = false;
+                this.dialog.opened = false;
             });
         });
     }
@@ -321,7 +319,7 @@ class HexoSearch {
         return `
             <div class="search-result-item">
                 <div class="search-result-title">
-                    <mdui-icon name="article" style="font-size: 16px;"></mdui-icon>
+                    <material-icon name="article" style="font-size: 16px;"></material-icon>
                     ${highlightedTitle}
                 </div>
                 <div class="search-result-content">${excerpt}</div>
@@ -366,7 +364,7 @@ class HexoSearch {
     showPlaceholder() {
         document.getElementById('search-results').innerHTML = `
             <div class="search-placeholder">
-                <mdui-icon name="search"></mdui-icon>
+                <material-icon name="search"></material-icon>
                 <div>输入关键词开始搜索</div>
             </div>
         `;

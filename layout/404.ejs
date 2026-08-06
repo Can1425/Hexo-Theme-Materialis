@@ -1,25 +1,25 @@
 <div style="min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px;">
     
-    <mdui-card class="mdui-primary" style="width: 100%; max-width: 400px; padding: 40px 32px;">
+    <s-card readonly  style="width: 100%; max-width: 400px; padding: 40px 32px;">
         <div style="text-align: center;">
-            <mdui-typography variant="h2" style="margin-bottom: 16px;">404</mdui-typography>
+            <materialis-typography variant="h2" style="margin-bottom: 16px;">404</materialis-typography>
             <br>
-            <mdui-typography variant="h6" style="opacity: 0.8;"><%= __('notfound.title') %></mdui-typography>
+            <materialis-typography variant="h6" style="opacity: 0.8;"><%= __('notfound.title') %></materialis-typography>
         </div>
-    </mdui-card>
+    </s-card>
 
-    <mdui-card class="mdui-primary" style="width: 100%; max-width: 400px; padding: 32px;">
+    <s-card readonly  style="width: 100%; max-width: 400px; padding: 32px;">
         <div style="display: flex; flex-direction: column; gap: 16px;">
-            <mdui-button variant="filled" href="<%= url_for('/') %>" full-width>
-                <mdui-icon slot="icon">home</mdui-icon>
+            <s-button variant="filled" class="materialis-full-width" onclick="window.location.href='<%= url_for('/') %>'">
+                <material-icon slot="start">home</material-icon>
                 <%= __('notfound.home') %>
-            </mdui-button>
+            </s-button>
             
-            <mdui-button variant="outlined" onclick="history.back()" full-width>
-                <mdui-icon slot="icon">arrow_back</mdui-icon>
+            <s-button variant="outlined" class="materialis-full-width" onclick="history.back()">
+                <material-icon slot="start">arrow_back</material-icon>
                 <%= __('notfound.back') %>
-            </mdui-button>
+            </s-button>
         </div>
-    </mdui-card>
+    </s-card>
 
 </div>

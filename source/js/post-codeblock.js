@@ -57,17 +57,17 @@
         var actions = document.createElement('span');
         actions.className = 'mac-code-actions';
 
-        var toggle = document.createElement('button');
-        toggle.type = 'button';
+        var toggle = document.createElement('s-icon-button');
+        toggle.setAttribute('size', 'extra-small');
         toggle.className = 'mac-code-btn mac-code-toggle';
         toggle.setAttribute('aria-label', 'Toggle code');
-        toggle.innerHTML = '<mdui-icon name="unfold_less"></mdui-icon>';
+        toggle.innerHTML = '<material-icon name="unfold_less"></material-icon>';
 
-        var copy = document.createElement('button');
-        copy.type = 'button';
+        var copy = document.createElement('s-icon-button');
+        copy.setAttribute('size', 'extra-small');
         copy.className = 'mac-code-btn mac-code-copy';
         copy.setAttribute('aria-label', 'Copy code');
-        copy.innerHTML = '<mdui-icon name="content_copy"></mdui-icon>';
+        copy.innerHTML = '<material-icon name="content_copy"></material-icon>';
 
         actions.appendChild(toggle);
         actions.appendChild(copy);
@@ -123,7 +123,7 @@
     }
 
     function flashCopy(button) {
-        var icon = button.querySelector('mdui-icon');
+        var icon = button.querySelector('material-icon');
         var orig = icon ? icon.name : '';
         if (icon) icon.name = 'check';
         button.classList.add('copied');
@@ -173,7 +173,7 @@
                 var block = toggle.closest('.mac-code-block');
                 if (block) {
                     block.classList.toggle('is-collapsed');
-                    var icon = toggle.querySelector('mdui-icon');
+                    var icon = toggle.querySelector('material-icon');
                     if (icon) {
                         icon.name = block.classList.contains('is-collapsed') ? 'unfold_more' : 'unfold_less';
                     }

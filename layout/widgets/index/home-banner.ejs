@@ -1,0 +1,131 @@
+<%
+const bannerConfig = theme.banner || {};
+const allowedTypes = ['intro', 'image', 'quote', 'link', 'stat'];
+const allowedSizes = ['hero', 'tall', 'wide', 'standard', 'compact', 'square', 'pill'];
+const allowedTones = ['surface', 'primary', 'secondary', 'tertiary'];
+const allowedVariants = ['filled', 'outlined', 'elevated'];
+
+const collectionLength = function(collection) {
+    if (!collection) return 0;
+    if (typeof collection.length === 'number') return collection.length;
+    if (Array.isArray(collection.data)) return collection.data.length;
+    return 0;
+};
+
+const resolveCardUrl = function(value) {
+    if (!value) return '';
+    if (/^(?:[a-z]+:)?\/\//i.test(value) || /^(?:mailto:|tel:|#)/i.test(value)) return value;
+    return url_for(value);
+};
+
+const resolveStatValue = function(card) {
+    if (card.value !== undefined && card.value !== null && card.value !== '') return card.value;
+    if (card.source === 'posts') return collectionLength(site.posts);
+    if (card.source === 'categories') return collectionLength(site.categories);
+    if (card.source === 'tags') return collectionLength(site.tags);
+    return 0;
+};
+
+let cards = Array.isArray(bannerConfig.cards)
+    ? bannerConfig.cards.filter(function(card) { return card && card.enable !== false; })
+    : [];
+
+// Keep one release of compatibility for the previous title/subtitle/projects config.
+if (cards.length === 0) {
+    cards.push({
+        type: 'intro',
+        size: 'hero',
+        tone: 'primary',
+        title: bannerConfig.title || config.title,
+        subtitle: bannerConfig.subtitle || config.subtitle || config.description
+    });
+
+    if (bannerConfig.projects && bannerConfig.projects.enable !== false && Array.isArray(bannerConfig.projects.items)) {
+        bannerConfig.projects.items.forEach(function(project) {
+            cards.push({
+                type: 'link',
+                size: 'standard',
+                tone: allowedTones.includes(project.color) ? project.color : 'surface',
+                title: project.name,
+                description: project.desc,
+                icon: project.icon,
+                url: project.link,
+                external: /^(?:[a-z]+:)?\/\//i.test(project.link || '')
+            });
+        });
+    }
+}
+
+let featuredIndexes = cards.reduce(function(indexes, card, index) {
+    if (card.featured === true && indexes.length < 2) indexes.push(index);
+    return indexes;
+}, []);
+
+if (featuredIndexes.length === 0) {
+    featuredIndexes = cards.slice(0, 2).map(function(card, index) { return index; });
+}
+
+const featuredCards = featuredIndexes.map(function(index) {
+    return { card: cards[index], index: index };
+});
+const railCards = cards.map(function(card, index) {
+    return { card: card, index: index };
+}).filter(function(entry) {
+    return featuredIndexes.indexOf(entry.index) === -1;
+});
+%>
+
+<% if (bannerConfig.enable !== false && cards.length > 0) { %>
+<section class="home-banner" aria-label="站点概览">
+    <div class="home-banner-grid">
+        <% cards.forEach(function(card, index) { %>
+            <%- include('home-banner-card', {
+                card: card,
+                cardIndex: index,
+                allowedTypes: allowedTypes,
+                allowedSizes: allowedSizes,
+                allowedTones: allowedTones,
+                allowedVariants: allowedVariants,
+                resolveCardUrl: resolveCardUrl,
+                resolveStatValue: resolveStatValue,
+                config: config
+            }) %>
+        <% }); %>
+    </div>
+    <div class="home-banner-mobile-featured">
+        <% featuredCards.forEach(function(entry) { %>
+            <%- include('home-banner-card', {
+                card: entry.card,
+                cardIndex: entry.index,
+                allowedTypes: allowedTypes,
+                allowedSizes: allowedSizes,
+                allowedTones: allowedTones,
+                allowedVariants: allowedVariants,
+                resolveCardUrl: resolveCardUrl,
+                resolveStatValue: resolveStatValue,
+                config: config
+            }) %>
+        <% }); %>
+    </div>
+    <% if (railCards.length > 0) { %>
+        <div class="home-banner-mobile-rail" aria-label="更多站点卡片">
+            <div class="home-banner-mobile-track">
+                <% railCards.forEach(function(entry) { %>
+                    <%- include('home-banner-card', {
+                        card: entry.card,
+                        cardIndex: entry.index,
+                        allowedTypes: allowedTypes,
+                        allowedSizes: allowedSizes,
+                        allowedTones: allowedTones,
+                        allowedVariants: allowedVariants,
+                        resolveCardUrl: resolveCardUrl,
+                        resolveStatValue: resolveStatValue,
+                        config: config
+                    }) %>
+                <% }); %>
+            </div>
+        </div>
+    <% } %>
+</section>
+<script defer src="<%= url_for('/js/widgets/home-banner.js') %>"></script>
+<% } %>

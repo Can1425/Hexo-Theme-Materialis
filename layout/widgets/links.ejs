@@ -1,25 +1,23 @@
-<mdui-dialog id="interceptDialog" class="interceptor-dialog" close-on-overlay-click>
-  <div class="mdui-dialog-title">即将离开本站</div>
-  <div class="mdui-dialog-content">
+<s-dialog id="interceptDialog" class="interceptor-dialog">
+  <div slot="title" class="materialis-dialog-title">即将离开本站</div>
+  <div slot="text" class="materialis-dialog-content">
     <div style="text-align: center; margin-bottom: 20px;">
-      <mdui-icon name="open_in_new" style="font-size: 48px; color: var(--mdui-color-primary);"></mdui-icon>
+      <material-icon name="open_in_new" style="font-size: 48px; color: var(--s-color-primary);"></material-icon>
     </div>
     <p>您即将访问外部网站：</p>
     <div class="link-info">
       <strong id="interceptLinkText">链接文本</strong>
       <br>
-      <small style="color: var(--mdui-color-on-surface-variant);" id="interceptDomain">域名</small>
+      <small style="color: var(--s-color-on-surface-variant);" id="interceptDomain">域名</small>
     </div>
-    <div class="mdui-typo-caption" style="margin-top: 16px; color: var(--mdui-color-on-surface-variant);">
-      <mdui-icon name="info" size="small"></mdui-icon>
+    <div class="materialis-typo-caption" style="margin-top: 16px; color: var(--s-color-on-surface-variant);">
+      <material-icon name="info" size="small"></material-icon>
       请注意：外部网站的内容和安全性不在本站控制范围内
     </div>
   </div>
-  <div class="mdui-dialog-actions">
-    <mdui-button id="cancelBtn">取消</mdui-button>
-    <mdui-button variant="filled" id="continueBtn">继续访问</mdui-button>
-  </div>
-</mdui-dialog>
+  <s-button slot="action" id="cancelBtn" variant="text">取消</s-button>
+  <s-button slot="action" variant="filled" id="continueBtn">继续访问</s-button>
+</s-dialog>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -84,21 +82,21 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('interceptDomain').textContent = domain;
     
     // 打开对话框
-    interceptDialog.open = true;
+    interceptDialog.opened = true;
   }
 
   // 继续访问按钮点击事件
   continueBtn.addEventListener('click', function() {
     if (currentLink) {
       window.open(currentLink, '_blank', 'noopener,noreferrer');
-      interceptDialog.open = false;
+      interceptDialog.opened = false;
       currentLink = null;
     }
   });
 
   // 取消按钮点击事件
   cancelBtn.addEventListener('click', function() {
-    interceptDialog.open = false;
+    interceptDialog.opened = false;
     currentLink = null;
   });
 
@@ -111,35 +109,35 @@ document.addEventListener('DOMContentLoaded', function() {
 <style>
 /* 对话框内容样式 */
 .interceptor-dialog {
-  background-color: rgba(var(--mdui-color-surface), 0.95) !important;
+  background-color: color-mix(in srgb, var(--s-color-surface) 95%, transparent) !important;
   backdrop-filter: blur(10px) !important;
   -webkit-backdrop-filter: blur(10px) !important;
   border-radius: 12px !important;
-  border: 1px solid rgba(var(--mdui-color-outline), 0.1) !important;
+  border: 1px solid color-mix(in srgb, var(--s-color-outline) 10%, transparent) !important;
 }
 
-.interceptor-dialog .mdui-dialog-title {
+.interceptor-dialog .materialis-dialog-title {
   font-weight: 600;
   text-align: center;
   padding: 24px 24px 0;
-  color: var(--mdui-color-on-surface);
+  color: var(--s-color-on-surface);
 }
 
-.interceptor-dialog .mdui-dialog-content {
+.interceptor-dialog .materialis-dialog-content {
   padding: 20px 24px;
-  color: var(--mdui-color-on-surface-variant);
+  color: var(--s-color-on-surface-variant);
 }
 
 .interceptor-dialog .link-info {
-  background: rgba(var(--mdui-color-primary), 0.08);
+  background: color-mix(in srgb, var(--s-color-primary) 8%, transparent);
   padding: 16px;
   border-radius: 8px;
   margin: 16px 0;
   text-align: center;
-  border: 1px solid rgba(var(--mdui-color-primary), 0.2);
+  border: 1px solid color-mix(in srgb, var(--s-color-primary) 20%, transparent);
 }
 
-.interceptor-dialog .mdui-dialog-actions {
+.interceptor-dialog .materialis-dialog-actions {
   padding: 8px 24px 24px;
   justify-content: flex-end;
   gap: 8px;

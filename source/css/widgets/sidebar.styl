@@ -1,6 +1,40 @@
 .sidebar-content
-    top: 64px
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important
+    position: fixed
+    top: 80px
+    bottom: 16px
+    left: 16px
+    z-index: 1100
+    width: 280px
+    overflow-y: auto
+    scrollbar-width: thin
+    scrollbar-color: var(--s-color-outline-variant) transparent
+    scrollbar-gutter: stable
+    box-sizing: border-box
+    background: var(--s-color-surface-container-low)
+    border: 1px solid var(--s-color-outline-variant)
+    border-radius: 28px
+    transform: translateX(0)
+    transition: transform 0.3s var(--s-motion-easing-standard)
+
+.sidebar-content::-webkit-scrollbar
+    width: 8px
+
+.sidebar-content::-webkit-scrollbar-track
+    background: transparent
+
+.sidebar-content::-webkit-scrollbar-thumb
+    min-height: 40px
+    border: 2px solid transparent
+    border-radius: 999px
+    background: unquote('color-mix(in srgb, var(--s-color-outline-variant) 58%, transparent)')
+    background-clip: padding-box
+
+.sidebar-content::-webkit-scrollbar-thumb:hover
+    background: var(--s-color-outline)
+    background-clip: padding-box
+
+.sidebar-content[data-open='false']
+    transform: translateX(calc(-100% - 16px))
 
 .sidebar-user-card
     text-align: left
@@ -16,41 +50,61 @@
     display: block
 
 .sidebar-user-name
-    line-height: var(--mdui-typescale-headline-medium-line-height)
-    font-size: var(--mdui-typescale-headline-medium-size)
-    letter-spacing: var(--mdui-typescale-headline-medium-tracking)
-    font-weight: var(--mdui-typescale-headline-medium-weight)
+    line-height: 1.25
+    font-size: 1.6rem
+    font-weight: 650
 
 .sidebar-user-slogen
-    line-height: var(--mdui-typescale-title-medium-line-height)
-    font-size: var(--mdui-typescale-title-medium-size)
-    letter-spacing: var(--mdui-typescale-title-medium-tracking)
-    font-weight: var(--mdui-typescale-title-medium-weight)
+    line-height: 1.45
+    font-size: 0.95rem
+    font-weight: 450
+    color: var(--s-color-on-surface-variant)
 
 .nav-list
     padding: 0.5rem
+    display: grid
+    gap: 0.25rem
 
 .nav-item
+    position: relative
+    display: flex
+    align-items: center
+    gap: 0.75rem
+    min-height: 48px
+    padding: 0 1rem
+    border-radius: 24px
+    overflow: hidden
+    color: var(--s-color-on-surface-variant)
+    text-decoration: none
     margin: 0.1rem 0.5rem
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1)
+    transition: background-color 0.2s ease, color 0.2s ease
+
+.nav-item material-icon
+    font-size: 22px
+
+.nav-item:hover
+    background: var(--s-color-surface-container-high)
+
+.nav-item.is-active
+    color: var(--s-color-on-secondary-container)
+    background: var(--s-color-secondary-container)
+
+.sidebar-scrim
+    display: none
 
 @media (max-width: 840px)
-    .sidebar-content::before
-        content: ""
-        position: fixed
-        top: 0
-        left: 0
-        right: 0
-        bottom: 0
-        background: transparent
-        backdrop-filter: blur(5px)
-        -webkit-backdrop-filter: blur(5px)
-        z-index: -1
-        opacity: 0
-        transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1)
-    
-    .sidebar-content[open]::before
-        opacity: 1
-    
     .sidebar-content
-        backdrop-filter: none
+        top: 72px
+        width: unquote('min(320px, calc(100vw - 32px))')
+
+    .sidebar-content[data-open='true'] + .sidebar-scrim
+        display: block
+        position: fixed
+        inset: 0
+        z-index: 1050
+        border: 0
+        background: unquote('color-mix(in srgb, var(--s-color-scrim) 38%, transparent)')
+        backdrop-filter: blur(4px)
+
+    .sidebar-content[data-open='false'] + .sidebar-scrim
+        display: none
