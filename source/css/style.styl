@@ -61,6 +61,27 @@ body
         right: 16px
         bottom: 76px
 
+/* ===== 阅读进度条（仅文章页） ===== */
+.reading-progress-bar
+    position: fixed
+    top: 0
+    left: 0
+    right: 0
+    height: 3px
+    z-index: 1001
+    background: transparent
+    pointer-events: none
+
+.reading-progress-fill
+    height: 100%
+    width: 0
+    background: linear-gradient(90deg,
+        unquote('var(--s-color-primary)'),
+        unquote('var(--s-color-tertiary)'))
+    border-radius: 0 999px 999px 0
+    transition: width 0.1s linear
+    box-shadow: 0 0 6px unquote('color-mix(in srgb, var(--s-color-primary) 50%, transparent)')
+
 /* ===== 全局滚动条 Sober 风格 ===== */
 html
     scrollbar-width: thin

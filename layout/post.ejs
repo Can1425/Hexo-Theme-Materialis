@@ -1082,6 +1082,9 @@
                 <!-- 内容卡片 -->
                 <s-card readonly variant="filled" class="post-card-wide">
                     <div>
+                        <!-- AI 摘要 -->
+                        <%- include('widgets/ai-summary') %>
+
                         <div class="article-content">
                             <%- page.content %>
                         </div>

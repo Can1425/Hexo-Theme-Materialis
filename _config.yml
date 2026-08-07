@@ -277,6 +277,25 @@ music:
       artist: "Two Steps From Hell"
       cover: ""
 #---end---
+#AI 摘要
+#---start---
+ai_summary:
+  enable: true  # 是否启用 AI 摘要功能
+  # API 服务器地址（兼容 OpenAI 格式，如 https://api.openai.com/v1 或自建代理）
+  server: "https://api.deepseek.com"
+  # API Key（建议前端使用时注意安全性；也可通过自建服务反代）
+  api_key: ""
+  # 使用的模型名称（如 gpt-4o-mini, gpt-4o, deepseek-chat, qwen-plus 等）
+  model: "deepseek-v4-flash"
+  # 摘要长度（中文：约对应字数）
+  max_tokens: 100
+  # 温度参数：0~1，越大越有创造性
+  temperature: 0.3
+  # 自动生成：进入文章页自动调用，false 则显示"生成摘要"按钮让用户手动触发
+  auto_generate: true
+  # 允许的最大文章字数（超出则取前后段避免超限）
+  max_article_length: 8000
+#---end---
 index_generator:
   path: ''
   per_page: 10

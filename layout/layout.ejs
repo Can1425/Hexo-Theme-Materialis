@@ -9,15 +9,11 @@
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="preconnect" href="https://lib.baomitu.com" crossorigin>
     <link rel="preconnect" href="https://cdn.staticfile.org" crossorigin>
-    <link rel="dns-prefetch" href="https://v1.hitokoto.cn">
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons&display=swap" rel="stylesheet">
     <script defer src="https://unpkg.com/sober@2.0.0-alpha.16/dist/sober.min.js"></script>
     <script defer src="https://unpkg.com/sober@2.0.0-alpha.16/dist/theme.min.js"></script>
     <script defer src="<%= url_for('/js/sober-adapter.js') %>"></script>
-    <link rel="stylesheet" href="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.css">
-    <script defer src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
-    <script defer src="https://lib.baomitu.com/fancybox/3.5.7/jquery.fancybox.min.js"></script>
 
     <% if (theme.font.primary === 'lxwk') { %>
         <link rel="stylesheet" href="<%= url_for('/fonts/lxwk/lxwk.css') %>">
@@ -53,6 +49,12 @@
 
         <%- include('widgets/appbar') %>
         <%- include('widgets/sidebar') %>
+
+        <% if (typeof page !== 'undefined' && page.layout === 'post') { %>
+        <div class="reading-progress-bar" id="reading-progress-bar">
+            <div class="reading-progress-fill" id="reading-progress-fill"></div>
+        </div>
+        <% } %>
 
         <main class="main">
             <div class="page-transition-container<%= (typeof page !== 'undefined' && page.layout === 'post') ? ' post-transition-container' : '' %>">
@@ -96,6 +98,30 @@
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
         update();
+    })();
+
+    // ===== 阅读进度条 =====
+    (function () {
+        var fill = document.getElementById('reading-progress-fill');
+        if (!fill) return;
+        var ticking = false;
+
+        function updateProgress() {
+            var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            var scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
+            var progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+            progress = Math.max(0, Math.min(100, progress));
+            fill.style.width = progress + '%';
+            ticking = false;
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) { window.requestAnimationFrame(updateProgress); ticking = true; }
+        }, { passive: true });
+        window.addEventListener('resize', function () {
+            if (!ticking) { window.requestAnimationFrame(updateProgress); ticking = true; }
+        }, { passive: true });
+        updateProgress();
     })();
     </script>
 

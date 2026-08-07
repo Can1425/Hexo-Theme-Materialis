@@ -1,0 +1,554 @@
+<% if (theme.ai_summary && theme.ai_summary.enable) { %>
+<%
+  var aiCfg = theme.ai_summary || {};
+  var server = (aiCfg.server || '').replace(/\/$/, '');
+  var apiKey = aiCfg.api_key || '';
+  var model = aiCfg.model || 'gpt-4o-mini';
+  var maxTokens = aiCfg.max_tokens || 300;
+  var temperature = (aiCfg.temperature != null) ? aiCfg.temperature : 0.3;
+  var autoGenerate = aiCfg.auto_generate !== false;
+  var maxArticleLen = aiCfg.max_article_length || 8000;
+  var postTitle = page.title || '';
+  var postContent = (strip_html(page.content) || '').replace(/\s+/g, ' ').trim();
+  if (postContent.length > maxArticleLen) {
+    var half = Math.floor(maxArticleLen / 2);
+    postContent = postContent.substring(0, half) + '\n...(中间省略)...\n' + postContent.substring(postContent.length - half);
+  }
+%>
+<div class="ai-summary-card" id="ai-summary-card"
+     data-server="<%= server %>"
+     data-api-key="<%= apiKey %>"
+     data-model="<%= model %>"
+     data-max-tokens="<%= maxTokens %>"
+     data-temperature="<%= temperature %>"
+     data-auto-generate="<%= autoGenerate ? '1' : '0' %>"
+     data-post-title="<%= encodeURIComponent(postTitle) %>"
+     data-post-content="<%= encodeURIComponent(postContent) %>"
+>
+  <div class="ai-summary-header">
+    <div class="ai-summary-title">
+      <span class="ai-summary-icon">
+        <material-icon name="auto_awesome"></material-icon>
+      </span>
+      <span class="ai-summary-label">AI 摘要</span>
+      <span class="ai-summary-badge">
+        <material-icon name="robot_2"></material-icon>
+        由 AI 生成
+      </span>
+    </div>
+    <div class="ai-summary-actions">
+      <s-icon-button class="ai-summary-action-btn" id="ai-summary-refresh" aria-label="重新生成">
+        <material-icon name="refresh"></material-icon>
+      </s-icon-button>
+      <s-icon-button class="ai-summary-action-btn" id="ai-summary-copy" aria-label="复制摘要">
+        <material-icon name="content_copy"></material-icon>
+      </s-icon-button>
+    </div>
+  </div>
+
+  <div class="ai-summary-body" id="ai-summary-body">
+    <% if (autoGenerate) { %>
+      <div class="ai-summary-loading" id="ai-summary-loading">
+        <div class="ai-summary-spinner">
+          <svg viewBox="24 24 48 48">
+            <circle cx="48" cy="48" r="18" class="spinner-track"></circle>
+            <circle cx="48" cy="48" r="18" class="spinner-indicator"></circle>
+          </svg>
+        </div>
+        <div class="ai-summary-loading-text">
+          <span id="ai-summary-status">正在生成摘要，请稍候…</span>
+        </div>
+      </div>
+      <div class="ai-summary-text" id="ai-summary-text" style="display:none;"></div>
+    <% } else { %>
+      <div class="ai-summary-manual" id="ai-summary-manual">
+        <p class="ai-summary-hint">点击下方按钮，AI 将根据文章内容自动生成摘要。</p>
+        <s-button variant="filled" id="ai-summary-generate-btn">
+          <material-icon slot="start" name="auto_awesome"></material-icon>
+          生成 AI 摘要
+        </s-button>
+      </div>
+      <div class="ai-summary-loading" id="ai-summary-loading" style="display:none;">
+        <div class="ai-summary-spinner">
+          <svg viewBox="24 24 48 48">
+            <circle cx="48" cy="48" r="18" class="spinner-track"></circle>
+            <circle cx="48" cy="48" r="18" class="spinner-indicator"></circle>
+          </svg>
+        </div>
+        <div class="ai-summary-loading-text">
+          <span id="ai-summary-status">正在生成摘要，请稍候…</span>
+        </div>
+      </div>
+      <div class="ai-summary-text" id="ai-summary-text" style="display:none;"></div>
+    <% } %>
+  </div>
+
+  <div class="ai-summary-footer" id="ai-summary-footer" style="display:none;">
+    <span class="ai-summary-meta">
+      <material-icon name="schedule"></material-icon>
+      生成于 <span id="ai-summary-time">-</span>
+      &nbsp;·&nbsp;
+      <material-icon name="smart_toy"></material-icon>
+      <span id="ai-summary-model"><%= model %></span>
+    </span>
+  </div>
+
+  <div class="ai-summary-error" id="ai-summary-error" style="display:none;">
+    <material-icon name="error"></material-icon>
+    <div class="ai-summary-error-content">
+      <div class="ai-summary-error-title">生成失败</div>
+      <div class="ai-summary-error-msg" id="ai-summary-error-msg">-</div>
+    </div>
+    <s-button variant="tonal" id="ai-summary-retry-btn">
+      <material-icon slot="start" name="refresh"></material-icon>
+      重试
+    </s-button>
+  </div>
+</div>
+
+<style>
+.ai-summary-card {
+    border-radius: 16px;
+    padding: 0;
+    margin: 0 0 24px 0;
+    background: var(--s-color-surface-container-high);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.ai-summary-card:hover {
+    border-color: color-mix(in srgb, var(--s-color-primary) 35%, transparent);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.ai-summary-card::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(180deg,
+        var(--s-color-primary),
+        var(--s-color-tertiary));
+}
+
+.ai-summary-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 20px 12px 28px;
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 35%, transparent);
+}
+
+.ai-summary-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.ai-summary-icon {
+    display: inline-flex;
+    width: 26px;
+    height: 26px;
+    border-radius: 8px;
+    align-items: center;
+    justify-content: center;
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
+    animation: ai-icon-pulse 2.4s ease-in-out infinite;
+}
+
+.ai-summary-icon material-icon {
+    font-size: 15px;
+}
+
+@keyframes ai-icon-pulse {
+    0%, 100% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--s-color-primary) 25%, transparent); }
+    50%      { box-shadow: 0 0 0 6px color-mix(in srgb, var(--s-color-primary) 0%, transparent); }
+}
+
+.ai-summary-label {
+    font-weight: 700;
+    font-size: 1rem;
+    color: var(--s-color-on-surface);
+}
+
+.ai-summary-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 9px;
+    font-size: 0.72rem;
+    border-radius: 999px;
+    background: var(--s-color-surface-container-highest);
+    color: var(--s-color-on-surface-variant);
+    font-weight: 500;
+}
+
+.ai-summary-badge material-icon {
+    font-size: 0.85rem;
+}
+
+.ai-summary-actions {
+    display: flex;
+    gap: 4px;
+}
+
+.ai-summary-action-btn {
+    color: var(--s-color-on-surface-variant);
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.ai-summary-action-btn:hover {
+    color: var(--s-color-primary);
+    transform: translateY(-1px);
+}
+
+.ai-summary-body {
+    padding: 18px 28px 16px 28px;
+    min-height: 80px;
+}
+
+/* ===== 加载中 ===== */
+.ai-summary-loading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 6px 0;
+}
+
+.ai-summary-spinner {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    position: relative;
+}
+
+.ai-summary-spinner svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+    animation: ai-spin 1s linear infinite;
+}
+
+.ai-summary-spinner .spinner-track {
+    fill: none;
+    stroke: color-mix(in srgb, var(--s-color-outline-variant) 35%, transparent);
+    stroke-width: 5;
+}
+
+.ai-summary-spinner .spinner-indicator {
+    fill: none;
+    stroke: var(--s-color-primary);
+    stroke-width: 5;
+    stroke-linecap: round;
+    stroke-dasharray: 56 60;
+}
+
+@keyframes ai-spin {
+    to { transform: rotate(270deg); }
+}
+
+.ai-summary-loading-text {
+    color: var(--s-color-on-surface-variant);
+    font-size: 0.9rem;
+}
+
+/* ===== 摘要正文 ===== */
+.ai-summary-text {
+    color: var(--s-color-on-surface);
+    font-size: 0.94rem;
+    line-height: 1.75;
+    letter-spacing: 0.01em;
+    animation: ai-text-in 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+@keyframes ai-text-in {
+    from { opacity: 0; transform: translateY(6px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== 手动触发模式 ===== */
+.ai-summary-manual {
+    text-align: center;
+    padding: 10px 0;
+}
+
+.ai-summary-hint {
+    color: var(--s-color-on-surface-variant);
+    font-size: 0.88rem;
+    margin: 0 0 14px 0;
+}
+
+/* ===== 底部元信息 ===== */
+.ai-summary-footer {
+    padding: 10px 28px 14px 28px;
+    border-top: 1px dashed color-mix(in srgb, var(--s-color-outline-variant) 35%, transparent);
+}
+
+.ai-summary-meta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.78rem;
+    color: var(--s-color-on-surface-variant);
+    font-weight: 500;
+}
+
+.ai-summary-meta material-icon {
+    font-size: 0.85rem;
+}
+
+/* ===== 错误卡片 ===== */
+.ai-summary-error {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 20px;
+    background: color-mix(in srgb, var(--s-color-error-container) 60%, transparent);
+    border-top: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 30%, transparent);
+    color: var(--s-color-on-error-container);
+}
+
+.ai-summary-error > material-icon {
+    color: var(--s-color-error);
+    flex-shrink: 0;
+    margin-top: 2px;
+    font-size: 1.2rem;
+}
+
+.ai-summary-error-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.ai-summary-error-title {
+    font-weight: 700;
+    margin-bottom: 2px;
+    font-size: 0.9rem;
+}
+
+.ai-summary-error-msg {
+    font-size: 0.8rem;
+    opacity: 0.9;
+    word-break: break-word;
+}
+
+.ai-summary-error s-button {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+
+@media (max-width: 600px) {
+    .ai-summary-header { padding: 12px 16px 10px 20px; }
+    .ai-summary-body   { padding: 14px 20px 14px 20px; }
+    .ai-summary-footer { padding: 8px 20px 12px 20px; }
+    .ai-summary-label  { font-size: 0.95rem; }
+    .ai-summary-badge  { display: none; }
+    .ai-summary-error  { flex-wrap: wrap; }
+    .ai-summary-error s-button { margin-left: 0; margin-top: 8px; }
+}
+</style>
+
+<script>
+// AI 摘要前端调用逻辑（兼容 OpenAI Chat Completions 规范）
+(function () {
+    'use strict';
+
+    var card = document.getElementById('ai-summary-card');
+    if (!card) return;
+
+    var SERVER        = card.dataset.server;
+    var API_KEY       = card.dataset.apiKey;
+    var MODEL         = card.dataset.model;
+    var MAX_TOKENS    = parseInt(card.dataset.maxTokens || '300', 10);
+    var TEMPERATURE   = parseFloat(card.dataset.temperature);
+    if (isNaN(TEMPERATURE)) TEMPERATURE = 0.3;
+    var AUTO          = card.dataset.autoGenerate === '1';
+    var POST_TITLE    = decodeURIComponent(card.dataset.postTitle || '');
+    var POST_CONTENT  = decodeURIComponent(card.dataset.postContent || '');
+    var STORAGE_KEY   = 'ai_summary:' + (location.pathname || '/') + '@' + MODEL;
+
+    // DOM
+    var loadingEl    = document.getElementById('ai-summary-loading');
+    var loadingText  = document.getElementById('ai-summary-status');
+    var textEl       = document.getElementById('ai-summary-text');
+    var manualEl     = document.getElementById('ai-summary-manual');
+    var generateBtn  = document.getElementById('ai-summary-generate-btn');
+    var refreshBtn   = document.getElementById('ai-summary-refresh');
+    var copyBtn      = document.getElementById('ai-summary-copy');
+    var footerEl     = document.getElementById('ai-summary-footer');
+    var timeEl       = document.getElementById('ai-summary-time');
+    var modelEl      = document.getElementById('ai-summary-model');
+    var errorEl      = document.getElementById('ai-summary-error');
+    var errorMsgEl   = document.getElementById('ai-summary-error-msg');
+    var retryBtn     = document.getElementById('ai-summary-retry-btn');
+
+    var SYSTEM_PROMPT = '你是一位专业的文章摘要助手。请用简洁、准确、结构化的中文总结以下文章，要求：\n1. 用不超过 5 句话概括文章的核心主题、关键观点或主要内容；\n2. 如果文章是教程或技术文，保留关键步骤/代码结论；\n3. 输出一段连贯的正文，不要使用 Markdown 标题或列表；\n4. 不要出现"这篇文章/本文"等自我指代；\n5. 字数控制在 250 字以内。';
+
+    function notify(msg, type, icon) {
+        if (window.MaterialisUI && MaterialisUI.notify) {
+            MaterialisUI.notify({ message: msg, type: type || 'info', icon: icon, duration: 2000 });
+        }
+    }
+
+    // 初始化：尝试从本地缓存读取
+    function restore() {
+        try {
+            var saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
+            if (saved && saved.summary && saved.ts) {
+                showSummary(saved.summary, new Date(saved.ts), saved.model || MODEL, true);
+                return true;
+            }
+        } catch (e) {}
+        return false;
+    }
+
+    function showLoading(msg) {
+        if (manualEl)  manualEl.style.display  = 'none';
+        if (errorEl)   errorEl.style.display   = 'none';
+        if (textEl)    textEl.style.display    = 'none';
+        if (footerEl)  footerEl.style.display  = 'none';
+        if (loadingEl) loadingEl.style.display = 'flex';
+        if (loadingText) loadingText.textContent = msg || '正在生成摘要，请稍候…';
+    }
+
+    function showError(msg) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (manualEl)  manualEl.style.display  = 'none';
+        if (textEl)    textEl.style.display    = 'none';
+        if (footerEl)  footerEl.style.display  = 'none';
+        if (errorEl)   errorEl.style.display   = 'flex';
+        if (errorMsgEl) errorMsgEl.textContent = msg || '未知错误';
+    }
+
+    function showSummary(summary, date, model, fromCache) {
+        if (loadingEl) loadingEl.style.display = 'none';
+        if (manualEl)  manualEl.style.display  = 'none';
+        if (errorEl)   errorEl.style.display   = 'none';
+        if (textEl) {
+            textEl.textContent = summary;
+            textEl.style.display = 'block';
+        }
+        if (footerEl) {
+            footerEl.style.display = 'block';
+            if (timeEl) {
+                var d = date || new Date();
+                var mm = String(d.getMonth() + 1).padStart(2, '0');
+                var dd = String(d.getDate()).padStart(2, '0');
+                var hh = String(d.getHours()).padStart(2, '0');
+                var mi = String(d.getMinutes()).padStart(2, '0');
+                timeEl.textContent = d.getFullYear() + '-' + mm + '-' + dd + ' ' + hh + ':' + mi + (fromCache ? '（缓存）' : '');
+            }
+            if (modelEl) modelEl.textContent = model || MODEL;
+        }
+    }
+
+    // 调用 OpenAI 兼容接口生成摘要
+    async function generate() {
+        if (!SERVER || !API_KEY) {
+            showError('未配置 API Server 或 API Key，请在主题 _config.yml 的 ai_summary 中填写。');
+            return;
+        }
+        if (!POST_CONTENT || POST_CONTENT.length < 20) {
+            showError('文章内容过短，无法生成摘要。');
+            return;
+        }
+
+        showLoading();
+        var startTime = Date.now();
+        var statusInterval = setInterval(function () {
+            var sec = Math.floor((Date.now() - startTime) / 1000);
+            if (loadingText) {
+                loadingText.textContent = 'AI 正在思考…（' + sec + 's）';
+            }
+        }, 1000);
+
+        try {
+            var endpoint = SERVER + (SERVER.endsWith('/chat/completions') ? '' : '/chat/completions');
+            var userPrompt = '文章标题：' + POST_TITLE + '\n\n正文：\n' + POST_CONTENT;
+            if (userPrompt.length > 16000) {
+                userPrompt = userPrompt.substring(0, 16000);
+            }
+
+            var res = await fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + API_KEY
+                },
+                body: JSON.stringify({
+                    model: MODEL,
+                    messages: [
+                        { role: 'system', content: SYSTEM_PROMPT },
+                        { role: 'user',   content: userPrompt }
+                    ],
+                    max_tokens: MAX_TOKENS,
+                    temperature: TEMPERATURE,
+                    stream: false
+                })
+            });
+
+            clearInterval(statusInterval);
+
+            if (!res.ok) {
+                var errText = '';
+                try { errText = await res.text(); } catch (_) {}
+                throw new Error('HTTP ' + res.status + ' ' + (errText || res.statusText));
+            }
+
+            var data = await res.json();
+            var summary = '';
+            if (data && data.choices && data.choices[0]) {
+                var msg = data.choices[0].message || data.choices[0].delta;
+                summary = (msg && msg.content) || '';
+            }
+            if (!summary) throw new Error('模型返回为空');
+            summary = summary.trim();
+
+            var now = new Date();
+            showSummary(summary, now, MODEL, false);
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify({
+                    summary: summary,
+                    model: MODEL,
+                    ts: now.getTime()
+                }));
+            } catch (_) {}
+
+        } catch (err) {
+            clearInterval(statusInterval);
+            console.error('[AI 摘要] 生成失败：', err);
+            showError(err && err.message ? err.message : String(err));
+        }
+    }
+
+    function copySummary() {
+        var text = textEl ? textEl.textContent : '';
+        if (!text) return;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(function () {
+                notify('摘要已复制', 'success', 'check_circle');
+            });
+        }
+    }
+
+    // ========= 事件绑定 =========
+    if (generateBtn) generateBtn.addEventListener('click', generate);
+    if (refreshBtn)  refreshBtn.addEventListener('click',  generate);
+    if (retryBtn)    retryBtn.addEventListener('click',    generate);
+    if (copyBtn)     copyBtn.addEventListener('click',     copySummary);
+
+    // ========= 自动生成或读取缓存 =========
+    var hasCache = restore();
+    if (AUTO && !hasCache) {
+        setTimeout(generate, 200);
+    }
+})();
+</script>
+<% } %>
