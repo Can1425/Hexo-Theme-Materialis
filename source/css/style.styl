@@ -12,6 +12,7 @@ body
 html,
 body
     margin: 0
+    overflow-x: clip
 
 .main
     min-height: calc(100vh - 64px)
@@ -30,6 +31,77 @@ body
 
 .top-app-bar::part(layout)
     background: transparent
+
+/* ===== 弹窗高斯模糊（Sober UI s-dialog） ===== */
+s-dialog::part(popover)::backdrop
+    background-color: rgba(0, 0, 0, 0.25)
+    backdrop-filter: blur(40px) saturate(180%)
+    -webkit-backdrop-filter: blur(40px) saturate(180%)
+
+s-dialog::part(popover)
+    background-color: unquote('color-mix(in srgb, var(--s-color-surface-container-high) 82%, transparent)') !important
+    backdrop-filter: blur(30px) saturate(160%)
+    -webkit-backdrop-filter: blur(30px) saturate(160%)
+
+/* ===== Snackbar 通知（Sober UI 风格） ===== */
+.materialis-snackbar-region
+    position: fixed
+    bottom: 24px
+    left: 50%
+    transform: translateX(-50%)
+    z-index: 10000
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 8px
+    pointer-events: none
+
+.materialis-snackbar
+    display: inline-flex
+    align-items: center
+    gap: 8px
+    max-width: 90vw
+    padding: 10px 18px
+    border-radius: 999px !important
+    background: var(--s-color-inverse-surface)
+    color: unquote('var(--s-color-inverse-on-surface, var(--s-color-on-error))')
+    font-size: 0.875rem
+    line-height: 1.4
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2)
+    backdrop-filter: blur(12px)
+    -webkit-backdrop-filter: blur(12px)
+    opacity: 0
+    transform: translateY(16px) scale(0.9)
+    transition: opacity 0.25s ease, transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1)
+    pointer-events: auto
+
+.materialis-snackbar.is-visible
+    opacity: 1
+    transform: translateY(0) scale(1)
+
+.materialis-snackbar material-icon
+    font-size: 18px
+    flex-shrink: 0
+
+.materialis-snackbar[data-type="success"] material-icon
+    color: var(--s-color-primary)
+
+.materialis-snackbar[data-type="error"]
+    background: var(--s-color-error)
+    color: var(--s-color-on-error)
+
+.materialis-snackbar[data-type="error"] material-icon
+    color: var(--s-color-on-error)
+
+@media (max-width: 600px)
+    .materialis-snackbar-region
+        bottom: 16px
+        width: calc(100% - 32px)
+
+    .materialis-snackbar
+        max-width: 100%
+        padding: 10px 14px
+        font-size: 0.82rem
 
 /* ===== 全局回到顶部 FAB ===== */
 .back-to-top-fab

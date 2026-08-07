@@ -69,6 +69,7 @@
 
     function notify(options) {
         var config = typeof options === 'string' ? { message: options } : (options || {});
+        var page = getPage() || document.body;
         var region = document.getElementById('materialis-snackbar-region');
         if (!region) {
             region = document.createElement('div');
@@ -76,7 +77,7 @@
             region.className = 'materialis-snackbar-region';
             region.setAttribute('aria-live', 'polite');
             region.setAttribute('aria-atomic', 'true');
-            document.body.appendChild(region);
+            page.appendChild(region);
         }
 
         var snackbar = document.createElement('div');

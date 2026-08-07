@@ -68,6 +68,16 @@
     min-width: 0;
 }
 
+/* 移动端：强制折叠为单个 more_vert 菜单按钮 */
+/* s-nav-adaptive 因 flex-grow:1 占满空间不会自动 collapsed，
+   限制宽度后组件原生 ResizeWatcher 会触发 collapsed 状态，
+   隐藏所有 nav-adaptive-item 并显示 slot=toggle 里的按钮 */
+@media (max-width: 600px) {
+    .appbar-actions {
+        max-width: 40px;
+    }
+}
+
 .display-mode-dialog {
     width: 320px;
 }

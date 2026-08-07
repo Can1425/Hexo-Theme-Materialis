@@ -159,7 +159,7 @@ banner:
       size: tall
       tone: surface
       featured: true
-      image: "https://blog.yizhixiaozhu.top/images/1.png"
+      image: "https://blog.yizhixiaozhu.top/image/10.webp"
       alt: "Materialis"
       fallback: "图片暂不可用"
       position: center
