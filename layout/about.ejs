@@ -1,382 +1,868 @@
+<%
+const aboutData = (site.data && site.data.about) || {};
+const aboutName = theme.sidebar.name || aboutData.name || config.author || '';
+const aboutTitle = aboutData.title || '';
+const aboutDesc = aboutData.description || '';
+const aboutSkills = Array.isArray(aboutData.skills) ? aboutData.skills : [];
+const aboutContacts = Array.isArray(aboutData.contacts) ? aboutData.contacts : [];
+const aboutProjects = Array.isArray(aboutData.projects) ? aboutData.projects : [];
+
+const collectionLength = function(c) {
+    if (!c) return 0;
+    if (typeof c.length === 'number') return c.length;
+    if (c.data && Array.isArray(c.data)) return c.data.length;
+    return 0;
+};
+const postCount = collectionLength(site.posts);
+const catCount = collectionLength(site.categories);
+const tagCount = collectionLength(site.tags);
+
+const cleanLink = function(link) {
+    return String(link || '').replace(/^mailto:/, '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+};
+const isExternal = function(link) {
+    return /^(?:[a-z]+:)?\/\//i.test(link || '');
+};
+const toneClasses = ['primary', 'secondary', 'tertiary', 'surface'];
+const resolveTone = function(tone, i) {
+    return toneClasses.indexOf(tone) > -1 ? tone : toneClasses[i % toneClasses.length];
+};
+%>
+
 <style>
+/* ===== 关于页（Material Design 3 Expressive） ===== */
 .about-page {
-    max-width: 900px;
+    max-width: 920px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 40px 20px 64px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    align-items: stretch;
+    gap: 28px;
 }
 
-.about-header {
+/* s-card 自定义元素在 flex 容器中不会自动撑满，需显式设置宽度 */
+.about-page > s-card,
+.about-page > .about-hero,
+.about-page > .about-section {
     width: 100%;
-    text-align: center;
-    padding: 40px 32px;
-    border-radius: 24px;
-    background-color: var(--s-color-primary-container);
-    color: var(--s-color-on-primary-container);
+    box-sizing: border-box;
 }
 
-.about-avatar {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
-    border: 4px solid rgba(255, 255, 255, 0.3);
-    margin: 0 auto 20px;
-    object-fit: cover;
-}
-
-.about-name {
-    font-size: 28px;
-    font-weight: 500;
-    margin-bottom: 8px;
-}
-
-.about-title {
-    font-size: 18px;
-    opacity: 0.9;
-    margin-bottom: 16px;
-}
-
-.about-description {
-    font-size: 16px;
-    line-height: 1.6;
-    opacity: 0.8;
-    max-width: 600px;
-    margin: 0 auto;
-}
-
-.about-section {
-    width: 100%;
-    border-radius: 20px;
+/* ===== Hero 头部 ===== */
+.about-hero {
+    position: relative;
     overflow: hidden;
-    background-color: var(--s-color-surface-container);
-    color: var(--s-color-on-surface);
-}
-
-.about-section-header {
-    padding: 24px 32px;
-    background: var(--s-color-surface-container);
+    border-radius: 32px !important;
+    padding: 64px 40px 52px;
+    text-align: center;
+    background: linear-gradient(135deg,
+        var(--s-color-primary-container) 0%,
+        var(--s-color-secondary-container) 100%);
     color: var(--s-color-on-primary-container);
+    box-shadow: 0 10px 40px color-mix(in srgb, var(--s-color-primary) 16%, transparent);
 }
 
-.about-section-content {
-    padding: 32px;
+.about-hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -25%;
+    width: 70%;
+    height: 180%;
+    background: radial-gradient(circle,
+        color-mix(in srgb, var(--s-color-on-primary-container) 16%, transparent) 0%,
+        transparent 65%);
+    pointer-events: none;
 }
 
-.skills-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+.about-hero__deco {
+    position: absolute;
+    top: 22px;
+    right: 26px;
+    font-size: 96px;
+    opacity: 0.16;
+    pointer-events: none;
+    transform: rotate(-12deg);
 }
 
-.skill-chip {
-    height: 36px;
-    background: var(--s-color-secondary-container);
-    color: var(--s-color-on-secondary-container);
-    border-radius: 18px;
+.about-hero__avatar-wrap {
+    position: relative;
+    width: 132px;
+    height: 132px;
+    margin: 0 auto 24px;
 }
 
-.contacts-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
+.about-hero__avatar-wrap::before {
+    content: '';
+    position: absolute;
+    inset: -8px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg,
+        color-mix(in srgb, var(--s-color-primary) 60%, transparent),
+        color-mix(in srgb, var(--s-color-tertiary) 60%, transparent),
+        color-mix(in srgb, var(--s-color-primary) 60%, transparent));
+    opacity: 0.55;
+    filter: blur(6px);
+    animation: about-avatar-spin 12s linear infinite;
 }
 
-.contact-card {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 20px;
-    border-radius: 16px;
-    background-color: var(--s-color-surface-container-high);
-    text-decoration: none;
-    color: inherit;
-    transition: all 0.2s ease;
+.about-hero__avatar-wrap::after {
+    content: '';
+    position: absolute;
+    inset: -3px;
+    border-radius: 50%;
+    border: 3px solid color-mix(in srgb, var(--s-color-surface) 70%, transparent);
 }
 
-.contact-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-    background-color: var(--s-color-surface-container-highest);
+.about-hero__avatar {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50% !important;
+    overflow: hidden;
+    background: var(--s-color-surface-container-high);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
 }
 
-.contact-icon {
-    width: 50px;
-    height: 50px;
+.about-hero__avatar img,
+.about-hero__avatar material-icon {
     display: flex;
     align-items: center;
     justify-content: center;
-    border-radius: 12px;
-    background-color: var(--s-color-primary-container);
-    color: var(--s-color-on-primary-container);
-    font-size: 24px;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    font-size: 56px;
+    color: var(--s-color-on-surface-variant);
 }
 
-.contact-content {
+.about-hero__name {
+    margin: 0 0 8px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-family: 'banner', var(--materialis-font-family, inherit);
+}
+
+.about-hero__title {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 18px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 12%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    font-size: 0.9rem;
+    font-weight: 500;
+    opacity: 0.92;
+}
+
+.about-hero__title material-icon {
+    font-size: 1.05rem;
+}
+
+.about-hero__desc {
+    max-width: 56ch;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.82;
+    overflow-wrap: anywhere;
+}
+
+.about-hero__stats {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.about-hero__stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 8px 16px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--s-color-surface) 50%, transparent);
+    backdrop-filter: blur(10px) saturate(160%);
+    -webkit-backdrop-filter: blur(10px) saturate(160%);
+    color: var(--s-color-on-surface);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), background-color 0.3s ease;
+}
+
+.about-hero__stat:hover {
+    transform: translateY(-2px);
+    background: color-mix(in srgb, var(--s-color-surface) 72%, transparent);
+}
+
+.about-hero__stat-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--s-color-primary);
+}
+
+.about-hero__stat-label {
+    opacity: 0.8;
+}
+
+/* ===== 区块通用 ===== */
+.about-section {
+    position: relative;
+    border-radius: 24px !important;
+    overflow: hidden;
+    background: var(--s-color-surface-container) !important;
+    color: var(--s-color-on-surface);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.about-section__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 22px 28px 0;
+}
+
+.about-section__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: var(--s-color-primary-container);
+    color: var(--s-color-on-primary-container);
+}
+
+.about-section__icon material-icon {
+    font-size: 22px;
+}
+
+.about-section__title {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 650;
+    letter-spacing: -0.01em;
+}
+
+.about-section__body {
+    padding: 22px 28px 28px;
+}
+
+/* ===== 技能 ===== */
+.about-skills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.about-skill {
+    height: 36px;
+    padding: 0 14px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    cursor: default;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.3s ease;
+    will-change: transform;
+}
+
+.about-skill:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 6px 16px color-mix(in srgb, var(--s-color-primary) 22%, transparent);
+}
+
+.about-skill:nth-child(4n+1) {
+    background: var(--s-color-primary-container) !important;
+    color: var(--s-color-on-primary-container) !important;
+}
+.about-skill:nth-child(4n+2) {
+    background: var(--s-color-secondary-container) !important;
+    color: var(--s-color-on-secondary-container) !important;
+}
+.about-skill:nth-child(4n+3) {
+    background: var(--s-color-tertiary-container) !important;
+    color: var(--s-color-on-tertiary-container) !important;
+}
+.about-skill:nth-child(4n) {
+    background: var(--s-color-surface-container-high) !important;
+    color: var(--s-color-on-surface) !important;
+}
+
+/* ===== 联系方式 ===== */
+.about-contacts {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 14px;
+}
+
+.about-contact {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    background: var(--s-color-surface-container-high);
+    color: var(--s-color-on-surface);
+    text-decoration: none;
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 50%, transparent);
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
+                box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1),
+                border-color 0.3s ease,
+                background-color 0.3s ease;
+    will-change: transform;
+}
+
+.about-contact:hover {
+    transform: translateY(-4px);
+    background: var(--s-color-surface-container-highest);
+    border-color: color-mix(in srgb, var(--s-color-primary) 45%, transparent);
+    box-shadow: 0 10px 24px color-mix(in srgb, var(--s-color-primary) 14%, transparent);
+}
+
+.about-contact:active {
+    transform: translateY(-2px) scale(0.99);
+}
+
+.about-contact__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 46px;
+    height: 46px;
+    flex-shrink: 0;
+    border-radius: 14px;
+    background: linear-gradient(135deg,
+        var(--s-color-primary-container),
+        var(--s-color-secondary-container));
+    color: var(--s-color-on-primary-container);
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-contact:hover .about-contact__icon {
+    transform: scale(1.1) rotate(-6deg);
+}
+
+.about-contact__icon material-icon {
+    font-size: 22px;
+}
+
+.about-contact__content {
     display: flex;
     flex-direction: column;
     flex: 1;
+    min-width: 0;
+    gap: 2px;
 }
 
-.contact-name {
-    font-size: 16px;
-    font-weight: 500;
-    margin-bottom: 4px;
+.about-contact__name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.3;
 }
 
-.contact-link {
-    font-size: 14px;
-    opacity: 0.7;
+.about-contact__link {
+    font-size: 0.78rem;
+    opacity: 0.68;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
 }
 
-.projects-grid {
+.about-contact__arrow {
+    flex-shrink: 0;
+    font-size: 1.2rem;
+    color: var(--s-color-outline);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.about-contact:hover .about-contact__arrow {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* ===== 项目 ===== */
+.about-projects {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 18px;
 }
 
-.project-card {
-    border-radius: 16px;
+.about-project {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
     overflow: hidden;
-    background-color: var(--s-color-surface-container-high);
-    transition: all 0.2s ease;
+    background: var(--s-color-surface-container-high);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 45%, transparent);
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1),
+                box-shadow 0.4s cubic-bezier(0.2, 0, 0, 1),
+                border-color 0.3s ease;
+    will-change: transform;
 }
 
-.project-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+.about-project:hover {
+    transform: translateY(-6px);
+    border-color: color-mix(in srgb, var(--s-color-primary) 40%, transparent);
+    box-shadow: 0 14px 32px color-mix(in srgb, var(--s-color-primary) 16%, transparent);
 }
 
-.project-content {
-    padding: 24px;
+.about-project:active {
+    transform: translateY(-2px) scale(0.99);
 }
 
-.project-name {
-    font-size: 18px;
+.about-project__banner {
+    position: relative;
+    height: 92px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.about-project__banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.08) 100%);
+    pointer-events: none;
+}
+
+.about-project__banner-icon {
+    font-size: 40px;
+    color: var(--s-color-on-primary-container);
+    opacity: 0.92;
+    z-index: 1;
+    transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.about-project:hover .about-project__banner-icon {
+    transform: scale(1.18) rotate(-8deg);
+}
+
+.about-project__banner--primary { background: linear-gradient(135deg, var(--s-color-primary-container), var(--s-color-primary) 130%); }
+.about-project__banner--secondary { background: linear-gradient(135deg, var(--s-color-secondary-container), var(--s-color-secondary) 130%); }
+.about-project__banner--tertiary { background: linear-gradient(135deg, var(--s-color-tertiary-container), var(--s-color-tertiary) 130%); }
+.about-project__banner--surface { background: linear-gradient(135deg, var(--s-color-surface-container-highest), var(--s-color-surface-container-high)); }
+.about-project__banner--surface .about-project__banner-icon { color: var(--s-color-on-surface-variant); }
+
+.about-project__body {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+    flex: 1;
+}
+
+.about-project__name {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 650;
+    line-height: 1.3;
+    color: var(--s-color-on-surface);
+    transition: color 0.3s ease;
+}
+
+.about-project:hover .about-project__name {
+    color: var(--s-color-primary);
+}
+
+.about-project__desc {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+    color: var(--s-color-on-surface-variant);
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.about-project__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 2px;
+}
+
+.about-project__tag {
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--s-color-surface-container);
+    color: var(--s-color-on-surface-variant);
+    font-size: 0.72rem;
     font-weight: 500;
-    margin-bottom: 12px;
 }
 
-.project-description {
-    font-size: 14px;
-    line-height: 1.5;
-    opacity: 0.8;
-    margin-bottom: 20px;
-}
-
-.project-link {
+.about-project__action {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-size: 14px;
-    text-decoration: none;
+    gap: 6px;
+    margin-top: auto;
+    padding-top: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
     color: var(--s-color-primary);
-    font-weight: 500;
+    text-decoration: none;
 }
 
-.project-link:hover {
-    text-decoration: underline;
+.about-project__action material-icon {
+    font-size: 1.1rem;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1);
 }
 
-/* 平板设备 */
-@media (max-width: 1024px) {
-    .about-page {
-        padding: 32px 20px;
-        gap: 20px;
-    }
-    
-    .about-header {
-        padding: 32px 24px;
-    }
-    
-    .about-section-content {
-        padding: 24px;
-    }
-    
-    .contacts-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 16px;
-    }
-    
-    .projects-grid {
-        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-        gap: 20px;
-    }
+.about-project:hover .about-project__action material-icon {
+    transform: translateX(4px);
 }
 
-/* 手机设备 */
+/* ===== 空状态 ===== */
+.about-empty {
+    padding: 24px;
+    text-align: center;
+    color: var(--s-color-on-surface-variant);
+    opacity: 0.7;
+}
+
+/* ===== 入场动画 ===== */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.05, 0.7, 0.1, 1),
+                transform 0.6s cubic-bezier(0.05, 0.7, 0.1, 1);
+}
+
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+[data-reveal-item] {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    transition: opacity 0.5s cubic-bezier(0.05, 0.7, 0.1, 1),
+                transform 0.5s cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition-delay: calc(var(--i, 0) * 55ms);
+}
+
+.is-revealed [data-reveal-item] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.about-hero [data-reveal-item] {
+    transition-delay: calc(var(--i, 0) * 80ms + 100ms);
+}
+
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
     .about-page {
-        padding: 24px 16px;
-        gap: 16px;
+        padding: 28px 16px 48px;
+        gap: 22px;
     }
-    
-    .about-header {
-        padding: 24px 20px;
+
+    .about-hero {
+        padding: 48px 24px 40px;
+        border-radius: 28px !important;
     }
-    
-    .about-avatar {
-        width: 100px;
-        height: 100px;
+
+    .about-hero__deco {
+        font-size: 72px;
+        top: 16px;
+        right: 18px;
     }
-    
-    .about-name {
-        font-size: 24px;
+
+    .about-hero__avatar-wrap {
+        width: 108px;
+        height: 108px;
+        margin-bottom: 20px;
     }
-    
-    .about-title {
-        font-size: 16px;
+
+    .about-hero__name {
+        font-size: 2rem;
     }
-    
-    .about-section-content {
-        padding: 20px;
+
+    .about-hero__desc {
+        font-size: 0.92rem;
     }
-    
-    .contacts-grid {
+
+    .about-section__header {
+        padding: 18px 22px 0;
+    }
+
+    .about-section__body {
+        padding: 18px 22px 22px;
+    }
+
+    .about-contacts {
         grid-template-columns: 1fr;
-        gap: 12px;
     }
-    
-    .contact-card {
-        padding: 16px;
-    }
-    
-    .projects-grid {
+
+    .about-projects {
         grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    
-    .project-content {
-        padding: 20px;
     }
 }
 
-/* 小屏手机 */
 @media (max-width: 480px) {
     .about-page {
-        padding: 20px 12px;
+        padding: 20px 12px 40px;
+        gap: 18px;
+    }
+
+    .about-hero {
+        padding: 40px 20px 34px;
+    }
+
+    .about-hero__avatar-wrap {
+        width: 96px;
+        height: 96px;
+    }
+
+    .about-hero__name {
+        font-size: 1.75rem;
+    }
+
+    .about-hero__title {
+        font-size: 0.82rem;
+    }
+
+    .about-hero__stats {
+        gap: 8px;
+        margin-top: 22px;
+    }
+
+    .about-hero__stat {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .about-section__header {
+        padding: 16px 18px 0;
+    }
+
+    .about-section__body {
+        padding: 16px 18px 18px;
+    }
+
+    .about-section__title {
+        font-size: 1.15rem;
+    }
+
+    .about-contact {
+        padding: 14px;
         gap: 12px;
     }
-    
-    .about-header {
-        padding: 20px 16px;
+
+    .about-contact__icon {
+        width: 42px;
+        height: 42px;
     }
-    
-    .about-avatar {
-        width: 90px;
-        height: 90px;
+}
+
+@keyframes about-avatar-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal],
+    [data-reveal-item],
+    .about-hero__avatar-wrap::before,
+    .about-skill,
+    .about-contact,
+    .about-contact__icon,
+    .about-project,
+    .about-project__banner-icon,
+    .about-project__action material-icon,
+    .about-contact__arrow,
+    .about-hero__stat {
+        transition: none !important;
+        animation: none !important;
     }
-    
-    .about-name {
-        font-size: 22px;
-    }
-    
-    .about-description {
-        font-size: 14px;
-    }
-    
-    .about-section-content {
-        padding: 16px;
-    }
-    
-    .contact-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 20px;
-    }
-    
-    .contact-name {
-        font-size: 15px;
-    }
-    
-    .project-name {
-        font-size: 16px;
+
+    [data-reveal],
+    [data-reveal-item] {
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
 </style>
 
 <div class="about-page">
-    <!-- 页面标题 -->
-    <s-card readonly class="about-header">
-        <% if (theme.sidebar.avatar) { %>
-            <img src="<%= theme.sidebar.avatar %>" alt="Avatar" class="about-avatar">
+    <!-- Hero 头部 -->
+    <s-card readonly class="about-hero" data-reveal>
+        <material-icon class="about-hero__deco">auto_awesome</material-icon>
+        <div class="about-hero__avatar-wrap" data-reveal-item style="--i:0">
+            <s-avatar class="about-hero__avatar">
+                <% if (theme.sidebar.avatar) { %>
+                    <img src="<%= theme.sidebar.avatar %>" alt="<%= aboutName %>" loading="lazy">
+                <% } else { %>
+                    <material-icon>person</material-icon>
+                <% } %>
+            </s-avatar>
+        </div>
+        <h1 class="about-hero__name" data-reveal-item style="--i:1"><%= aboutName %></h1>
+        <% if (aboutTitle) { %>
+            <div class="about-hero__title" data-reveal-item style="--i:2">
+                <material-icon>workspace_premium</material-icon>
+                <span><%= aboutTitle %></span>
+            </div>
         <% } %>
-        <div class="about-name"><%= theme.sidebar.name || site.data.about.name %></div>
-        <div class="about-title"><%= site.data.about.title %></div>
-        <div class="about-description"><%= site.data.about.description %></div>
+        <% if (aboutDesc) { %>
+            <p class="about-hero__desc" data-reveal-item style="--i:3"><%= aboutDesc %></p>
+        <% } %>
+        <div class="about-hero__stats" data-reveal-item style="--i:4">
+            <a class="about-hero__stat" href="<%= url_for('/diary/') %>">
+                <span class="about-hero__stat-value"><%= postCount %></span>
+                <span class="about-hero__stat-label"><%= __('diary.articles') %></span>
+            </a>
+            <a class="about-hero__stat" href="<%= url_for('/categories/') %>">
+                <span class="about-hero__stat-value"><%= catCount %></span>
+                <span class="about-hero__stat-label"><%= __('categories.count_suffix') %></span>
+            </a>
+            <a class="about-hero__stat" href="<%= url_for('/tags/') %>">
+                <span class="about-hero__stat-value"><%= tagCount %></span>
+                <span class="about-hero__stat-label"><%= __('tags.count_suffix') %></span>
+            </a>
+        </div>
     </s-card>
 
-    <!-- 技能部分 -->
-    <% if (site.data.about.skills && site.data.about.skills.length > 0) { %>
-        <s-card readonly class="about-section">
-            <div class="about-section-header">
-                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.skills') %></materialis-typography>
+    <!-- 技能 -->
+    <% if (aboutSkills.length > 0) { %>
+    <s-card readonly class="about-section" data-reveal>
+        <div class="about-section__header">
+            <div class="about-section__icon">
+                <material-icon>bolt</material-icon>
             </div>
-            <div class="about-section-content">
-                <div class="skills-container">
-                    <% site.data.about.skills.forEach(function(skill) { %>
-                        <s-chip readonly class="skill-chip" variant="assist">
-                            <%= skill %>
-                        </s-chip>
-                    <% }); %>
-                </div>
+            <h2 class="about-section__title"><%= __('about.skills') %></h2>
+        </div>
+        <div class="about-section__body">
+            <div class="about-skills">
+                <% aboutSkills.forEach(function(skill, i) { %>
+                    <span class="about-skill" data-reveal-item style="--i:<%= i %>"><%= skill %></span>
+                <% }); %>
             </div>
-        </s-card>
+        </div>
+    </s-card>
     <% } %>
 
     <!-- 联系方式 -->
-    <% if (site.data.about.contacts && site.data.about.contacts.length > 0) { %>
-        <s-card readonly class="about-section">
-            <div class="about-section-header">
-                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.contacts') %></materialis-typography>
+    <% if (aboutContacts.length > 0) { %>
+    <s-card readonly class="about-section" data-reveal>
+        <div class="about-section__header">
+            <div class="about-section__icon">
+                <material-icon>share</material-icon>
             </div>
-            <div class="about-section-content">
-                <div class="contacts-grid">
-                    <% site.data.about.contacts.forEach(function(contact) { %>
-                        <a href="<%= contact.link %>" class="contact-card" target="_blank" rel="noopener">
-                            <div class="contact-icon">
-                                <material-icon><%= contact.icon || 'link' %></material-icon>
-                            </div>
-                            <div class="contact-content">
-                                <div class="contact-name"><%= contact.name %></div>
-                                <div class="contact-link"><%= contact.link.replace('mailto:', '').replace('https://', '').replace('http://', '') %></div>
-                            </div>
-                        </a>
-                    <% }); %>
-                </div>
+            <h2 class="about-section__title"><%= __('about.contacts') %></h2>
+        </div>
+        <div class="about-section__body">
+            <div class="about-contacts">
+                <% aboutContacts.forEach(function(contact, i) { %>
+                    <a href="<%= contact.link %>" class="about-contact" data-reveal-item style="--i:<%= i %>" target="_blank" rel="noopener noreferrer">
+                        <div class="about-contact__icon">
+                            <material-icon><%= contact.icon || 'link' %></material-icon>
+                        </div>
+                        <div class="about-contact__content">
+                            <div class="about-contact__name"><%= contact.name %></div>
+                            <div class="about-contact__link"><%= cleanLink(contact.link) %></div>
+                        </div>
+                        <material-icon class="about-contact__arrow">arrow_forward</material-icon>
+                    </a>
+                <% }); %>
             </div>
-        </s-card>
+        </div>
+    </s-card>
     <% } %>
 
     <!-- 项目展示 -->
-    <% if (site.data.about.projects && site.data.about.projects.length > 0) { %>
-        <s-card readonly class="about-section">
-            <div class="about-section-header">
-                <materialis-typography variant="h5" style="font-weight: 500;"><%= __('about.projects') %></materialis-typography>
+    <% if (aboutProjects.length > 0) { %>
+    <s-card readonly class="about-section" data-reveal>
+        <div class="about-section__header">
+            <div class="about-section__icon">
+                <material-icon>collections_bookmark</material-icon>
             </div>
-            <div class="about-section-content">
-                <div class="projects-grid">
-                    <% site.data.about.projects.forEach(function(project) { %>
-                        <div class="project-card">
-                            <div class="project-content">
-                                <div class="project-name"><%= project.name %></div>
-                                <div class="project-description"><%= project.description %></div>
-                                <% if (project.link) { %>
-                                    <a href="<%= project.link %>" class="project-link" target="_blank" rel="noopener">
-                                        <%= __('about.project_detail') %>
-                                        <material-icon>arrow_forward</material-icon>
-                                    </a>
-                                <% } %>
-                            </div>
+            <h2 class="about-section__title"><%= __('about.projects') %></h2>
+        </div>
+        <div class="about-section__body">
+            <div class="about-projects">
+                <% aboutProjects.forEach(function(project, i) {
+                    const pTone = resolveTone(project.tone, i);
+                %>
+                    <div class="about-project" data-reveal-item style="--i:<%= i %>">
+                        <div class="about-project__banner about-project__banner--<%= pTone %>">
+                            <material-icon class="about-project__banner-icon"><%= project.icon || 'code' %></material-icon>
                         </div>
-                    <% }); %>
-                </div>
+                        <div class="about-project__body">
+                            <h3 class="about-project__name"><%= project.name %></h3>
+                            <% if (project.description) { %>
+                                <p class="about-project__desc"><%= project.description %></p>
+                            <% } %>
+                            <% if (Array.isArray(project.tags) && project.tags.length > 0) { %>
+                                <div class="about-project__tags">
+                                    <% project.tags.forEach(function(tag) { %>
+                                        <span class="about-project__tag"><%= tag %></span>
+                                    <% }); %>
+                                </div>
+                            <% } %>
+                            <% if (project.link) { %>
+                                <a href="<%= project.link %>" class="about-project__action" target="_blank" rel="noopener noreferrer">
+                                    <span><%= __('about.project_detail') %></span>
+                                    <material-icon><%= isExternal(project.link) ? 'open_in_new' : 'arrow_forward' %></material-icon>
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                <% }); %>
             </div>
-        </s-card>
+        </div>
+    </s-card>
     <% } %>
 </div>
+
+<script>
+(function () {
+    if (typeof IntersectionObserver === 'undefined') {
+        document.querySelectorAll('[data-reveal], [data-reveal-item]').forEach(function (el) {
+            el.classList.add('is-revealed');
+        });
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.12,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.about-page [data-reveal]').forEach(function (el) {
+        observer.observe(el);
+    });
+
+    // Hero 首屏立即触发
+    requestAnimationFrame(function () {
+        var hero = document.querySelector('.about-hero[data-reveal]');
+        if (hero) {
+            var rect = hero.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                hero.classList.add('is-revealed');
+                observer.unobserve(hero);
+            }
+        }
+    });
+})();
+</script>
