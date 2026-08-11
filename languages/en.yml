@@ -104,6 +104,12 @@ about:
   projects: Projects
   project_detail: View details
 
+privacy:
+  title: Privacy Policy
+  content: This site uses cookies and local storage to optimize your browsing experience. By continuing to use this site, you agree to our privacy policy.
+  accept: Accept
+  learn_more: Learn more
+
 share:
   copy_success: Link copied successfully!
   copy_fail: Copy failed, please copy manually

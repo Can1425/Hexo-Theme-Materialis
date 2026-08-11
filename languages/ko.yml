@@ -104,6 +104,12 @@ about:
   projects: 프로젝트
   project_detail: 자세히 보기
 
+privacy:
+  title: 개인정보 처리방침
+  content: 본 사이트는 쿠키와 로컬 스토리지를 사용하여 브라우징 환경을 최적화합니다. 본 사이트를 계속 이용하면 개인정보 처리방침에 동의하는 것으로 간주됩니다.
+  accept: 동의
+  learn_more: 자세히 알아보기
+
 share:
   copy_success: 링크가 복사되었습니다!
   copy_fail: 복사에 실패했습니다. 수동으로 복사해 주세요

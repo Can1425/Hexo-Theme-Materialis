@@ -1,0 +1,28 @@
+<% if (config.disqus && config.disqus.shortname) { %>
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = '<%= config.disqus.url || page.permalink %>';
+    this.page.identifier = '<%= config.disqus.identifier || page.path %>';
+  };
+  (function() {
+    var d = document, s = d.createElement('script');
+    s.src = 'https://<%= config.disqus.shortname %>.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+  })();
+</script>
+<noscript>
+  <div style="text-align: center; padding: 2rem;">
+    <materialis-typography variant="body2" style="color: var(--s-color-on-surface-variant);">
+      Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">Disqus comments.</a>
+    </materialis-typography>
+  </div>
+</noscript>
+<% } else { %>
+<div class="comment-container" style="text-align: center; padding: 2rem;">
+  <materialis-typography variant="body2" style="color: var(--s-color-on-surface-variant);">
+    Disqus 评论系统未正确配置，请在主题配置中设置 disqus.shortname。
+  </materialis-typography>
+</div>
+<% } %>

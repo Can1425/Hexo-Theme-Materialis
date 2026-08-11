@@ -105,6 +105,12 @@ about:
   projects: 项目
   project_detail: 查看详情
 
+privacy:
+  title: 隐私协议
+  content: 本站使用 Cookie 和本地存储来优化您的浏览体验。继续使用本网站即表示您同意我们的隐私政策。
+  accept: 同意
+  learn_more: 了解更多
+
 share:
   copy_success: 链接复制成功！
   copy_fail: 复制失败，请手动复制

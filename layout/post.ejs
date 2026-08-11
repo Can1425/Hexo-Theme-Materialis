@@ -877,9 +877,9 @@
 }
 
 .post-layout .post-banner {
-    max-width: 1180px;
-    margin: 24px auto 12px;
-    padding: 0 20px;
+    width: 100%;
+    margin: 0 0 12px;
+    padding: 0;
 }
 
 .post-layout .post-banner .banner-title {
@@ -1018,8 +1018,8 @@
 
 @media (max-width: 768px) {
     .post-layout .post-banner {
-        margin-top: 16px;
-        padding: 0 16px;
+        margin: 0 0 12px;
+        padding: 0;
     }
 
     .post-layout .post-banner .banner-title {
@@ -1074,9 +1074,8 @@
 <div class="reading-progress-bar" id="reading-progress-bar"></div>
 
 <section class="layout-main post-layout">
-    <%- include('widgets/post-banner', {titleText1: page.title}) %>
-
     <div class="post-container">
+        <%- include('widgets/post-banner', {titleText1: page.title}) %>
         <div class="post-reading-grid">
             <div class="post-reading-column">
                 <!-- 内容卡片 -->
@@ -1135,6 +1134,8 @@
                                 <%- include('widgets/comments/waline.ejs') %>
                             <% } else if (theme.comment.service === 'giscus') { %>
                                 <%- include('widgets/comments/giscus.ejs') %>
+                            <% } else if (theme.comment.service === 'disqus') { %>
+                                <%- include('widgets/comments/disqus.ejs') %>
                             <% } else { %>
                                 <div style="text-align: center; padding: 2rem;">
                                     <materialis-typography variant="body2" style="color: var(--s-color-on-surface-variant);">

@@ -104,6 +104,12 @@ about:
   projects: プロジェクト
   project_detail: 詳細を見る
 
+privacy:
+  title: プライバシーポリシー
+  content: 本サイトでは、Cookieとローカルストレージを使用して閲覧体験を最適化しています。本サイトを継続して利用することで、プライバシーポリシーに同意したものとみなします。
+  accept: 同意する
+  learn_more: 詳細を見る
+
 share:
   copy_success: リンクをコピーしました！
   copy_fail: コピーに失敗しました。手動でコピーしてください

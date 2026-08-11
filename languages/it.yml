@@ -104,6 +104,12 @@ about:
   projects: Progetti
   project_detail: Vedi dettagli
 
+privacy:
+  title: Informativa sulla privacy
+  content: Questo sito utilizza cookie e archiviazione locale per ottimizzare la tua esperienza di navigazione. Continuando a utilizzare questo sito, accetti la nostra informativa sulla privacy.
+  accept: Accetta
+  learn_more: Ulteriori informazioni
+
 share:
   copy_success: Link copiato con successo!
   copy_fail: Copia fallita, copia manualmente

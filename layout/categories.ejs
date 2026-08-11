@@ -84,7 +84,12 @@
     width: 100%;
     background-color: transparent;
     border-radius: 24px;
-    overflow: hidden;
+    overflow: visible;
+}
+
+/* 分类项分组 */
+.category-group {
+    margin-bottom: 10px;
 }
 
 /* 每个分类项 */
@@ -94,14 +99,34 @@
     gap: 12px;
     padding: 12px 16px;
     color: var(--s-color-on-surface);
-    text-decoration: none;
-    --s-color-on-surface: var(--s-color-on-surface);
-    margin-bottom: 10px;
+    cursor: pointer;
+    user-select: none;
+    -webkit-user-select: none;
     border-radius: 20px !important;
-    transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
     background-color: var(--s-color-surface-container) !important;
     border: 1px solid color-mix(in srgb, var(--s-color-outline) 12%, transparent);
     overflow: hidden;
+}
+
+.category-item:hover {
+    background-color: var(--s-color-surface-container-high) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.category-item.active {
+    background-color: var(--s-color-secondary-container) !important;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 20px 20px 0 0 !important;
+    border-bottom-color: transparent;
+}
+
+.category-name {
+    font-weight: 500;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .category-description {
@@ -109,12 +134,9 @@
     min-width: 0;
     color: var(--s-color-on-surface-variant);
     font-size: 0.875rem;
-}
-
-.category-item:hover {
-    background-color: var(--s-color-surface-container-high) !important;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
-    transform: translateY(-1px);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* 分类图标容器 */
@@ -128,10 +150,21 @@
     background-color: var(--s-color-primary-container);
     color: var(--s-color-on-primary-container);
     flex-shrink: 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-item.active .category-icon-box {
+    background-color: var(--s-color-primary);
+    color: var(--s-color-on-primary);
 }
 
 .category-icon-box material-icon {
     font-size: 24px;
+    transition: transform 0.3s ease;
+}
+
+.category-item.active .category-icon-box material-icon {
+    transform: scale(0.9);
 }
 
 /* 文章数量徽章 */
@@ -141,22 +174,111 @@
     background: var(--s-color-secondary-container) !important;
     color: var(--s-color-on-secondary-container) !important;
     font-weight: 500;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.category-item.active .category-count-chip {
+    background: color-mix(in srgb, var(--s-color-primary) 15%, var(--s-color-surface-container)) !important;
+    color: var(--s-color-primary) !important;
 }
 
 .category-count-chip material-icon {
     font-size: 1rem;
 }
 
-/* 箭头图标 */
+/* 展开箭头 */
 .category-arrow-icon {
     color: var(--s-color-outline);
-    transition: transform 0.2s ease;
+    transition: transform 0.3s ease, color 0.3s ease;
     flex-shrink: 0;
 }
 
 .category-item:hover .category-arrow-icon {
-    transform: translateX(4px);
     color: var(--s-color-primary);
+}
+
+.category-item.active .category-arrow-icon {
+    transform: rotate(90deg);
+    color: var(--s-color-primary);
+}
+
+/* 文章列表（默认隐藏） */
+.category-articles {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: color-mix(in srgb, var(--s-color-surface-container) 50%, transparent);
+    border: 1px solid transparent;
+    border-top: none;
+    border-radius: 0 0 20px 20px;
+}
+
+.category-articles.open {
+    max-height: 2000px;
+    border-color: color-mix(in srgb, var(--s-color-outline) 12%, transparent);
+}
+
+.category-articles-inner {
+    padding: 8px 16px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* 每篇文章项 */
+.category-article-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    text-decoration: none;
+    color: var(--s-color-on-surface);
+    transition: background-color 0.15s ease, padding-left 0.2s ease;
+}
+
+.category-article-item:hover {
+    background-color: color-mix(in srgb, var(--s-color-primary) 8%, transparent);
+    padding-left: 16px;
+}
+
+.category-article-item:not(:last-child) {
+    margin-bottom: 2px;
+}
+
+.article-link-title {
+    flex: 1;
+    min-width: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.9rem;
+    font-weight: 400;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.article-link-title material-icon {
+    font-size: 1rem;
+    flex-shrink: 0;
+    color: var(--s-color-outline);
+}
+
+.article-link-date {
+    flex-shrink: 0;
+    font-size: 0.78rem;
+    color: var(--s-color-on-surface-variant);
+    font-variant-numeric: tabular-nums;
+}
+
+/* 文章为空 */
+.category-articles-empty {
+    padding: 20px;
+    text-align: center;
+    font-size: 0.85rem;
+    color: var(--s-color-on-surface-variant);
+    opacity: 0.7;
 }
 
 /* 列表底部说明 */
@@ -243,6 +365,10 @@
         font-size: 22px;
     }
 
+    .category-group {
+        margin-bottom: 8px;
+    }
+
     .categories-empty-card {
         padding: 40px 24px;
     }
@@ -271,6 +397,17 @@
 
     .category-item {
         border-radius: 16px !important;
+    }
+
+    .category-item.active {
+        border-radius: 16px 16px 0 0 !important;
+    }
+
+    .category-articles {
+        border-radius: 0 0 16px 16px;
+    }
+
+    .category-group {
         margin-bottom: 8px;
     }
 }
@@ -291,19 +428,16 @@
     <!-- 分类列表 -->
     <% if (site.categories.length > 0) { %>
         <div class="categories-list-wrap">
-            <div class="s-list">
-                <% site.categories.sort('name').each(function(category) { %>
-                    <a
-                        class="category-item"
-                        href="<%= url_for(category.path) %>"
-                    >
+            <% site.categories.sort('name').each(function(category) { %>
+                <div class="category-group">
+                    <div class="category-item" onclick="toggleCategory(this)">
                         <!-- 左侧图标 -->
                         <div class="category-icon-box">
                             <material-icon name="folder"></material-icon>
                         </div>
 
                         <!-- 标题 -->
-                        <div><%= category.name %></div>
+                        <div class="category-name"><%= category.name %></div>
 
                         <!-- 描述 / 文章数 -->
                         <div class="category-description">
@@ -327,9 +461,36 @@
                             class="category-arrow-icon"
                             name="chevron_right"
                         ></material-icon>
-                    </a>
-                <% }) %>
-            </div>
+                    </div>
+
+                    <!-- 折叠的文章列表 -->
+                    <div class="category-articles">
+                        <% if (category.posts.length > 0) { %>
+                            <div class="category-articles-inner">
+                                <% category.posts.sort('date', -1).each(function(post) { %>
+                                    <a
+                                        class="category-article-item"
+                                        href="<%= url_for(post.path) %>"
+                                        title="<%= post.title %>"
+                                    >
+                                        <span class="article-link-title">
+                                            <material-icon name="description"></material-icon>
+                                            <%= post.title %>
+                                        </span>
+                                        <span class="article-link-date">
+                                            <%= date(post.date, 'YYYY-MM-DD') %>
+                                        </span>
+                                    </a>
+                                <% }) %>
+                            </div>
+                        <% } else { %>
+                            <div class="category-articles-empty">
+                                <%= __('categories.empty') %>
+                            </div>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
         </div>
 
         <div class="categories-list-desc">
@@ -354,3 +515,25 @@
         </div>
     <% } %>
 </div>
+
+<script>
+function toggleCategory(el) {
+    var group = el.parentNode;
+    var panel = group.querySelector('.category-articles');
+    var isActive = el.classList.contains('active');
+
+    // 关闭所有已展开的分类
+    var allItems = document.querySelectorAll('.category-item.active');
+    var allPanels = document.querySelectorAll('.category-articles.open');
+    for (var i = 0; i < allItems.length; i++) {
+        allItems[i].classList.remove('active');
+        allPanels[i].classList.remove('open');
+    }
+
+    // 如果当前分类未展开，则展开它
+    if (!isActive) {
+        el.classList.add('active');
+        panel.classList.add('open');
+    }
+}
+</script>

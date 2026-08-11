@@ -1,0 +1,256 @@
+<%
+const pc = theme.privacy_consent || {};
+const enable = pc.enable !== false;
+const title = pc.title || __('privacy.title') || '隐私协议';
+const content = pc.content || __('privacy.content') || '本站使用 Cookie 和本地存储来优化您的浏览体验。继续使用本网站即表示您同意我们的隐私政策。';
+const acceptText = pc.accept_text || __('privacy.accept') || '同意';
+const privacyLink = pc.privacy_link || '';
+const privacyLinkText = pc.privacy_link_text || __('privacy.learn_more') || '了解更多';
+const expireDays = parseInt(pc.expire_days) || 365;
+const position = pc.position || 'bottom';
+const isCenter = position === 'center';
+%>
+
+<% if (enable) { %>
+<div class="privacy-consent-overlay<%= isCenter ? ' privacy-center' : ' privacy-bottom' %>" 
+     id="privacy-consent-overlay" 
+     role="dialog" 
+     aria-labelledby="privacy-consent-title" 
+     aria-describedby="privacy-consent-content"
+     aria-modal="<%= isCenter ? 'true' : 'false' %>">
+    <div class="privacy-consent-card">
+        <div class="privacy-consent-body">
+            <h3 class="privacy-consent-title" id="privacy-consent-title">
+                <material-icon name="shield"></material-icon>
+                <span><%= title %></span>
+            </h3>
+            <p class="privacy-consent-text" id="privacy-consent-content"><%= content %></p>
+        </div>
+        <div class="privacy-consent-actions">
+            <% if (privacyLink) { %>
+                <a class="privacy-consent-link" href="<%= url_for(privacyLink) %>" target="_blank">
+                    <%= privacyLinkText %>
+                    <material-icon name="open_in_new"></material-icon>
+                </a>
+            <% } %>
+            <button class="privacy-consent-btn" id="privacy-consent-accept" type="button">
+                <%= acceptText %>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+(function () {
+    var overlay = document.getElementById('privacy-consent-overlay');
+    if (!overlay) return;
+
+    var storageKey = 'materialis_privacy_consent';
+    var expireDays = <%= expireDays %>;
+
+    // 检查是否已同意
+    var consented = localStorage.getItem(storageKey);
+    if (consented) {
+        var data = JSON.parse(consented);
+        if (data.expireAt && Date.now() < data.expireAt) {
+            overlay.remove();
+            return;
+        }
+    }
+
+    // 显示弹窗
+    overlay.classList.add('is-visible');
+
+    // 同意按钮
+    var acceptBtn = document.getElementById('privacy-consent-accept');
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', function () {
+            var expireAt = Date.now() + expireDays * 24 * 60 * 60 * 1000;
+            localStorage.setItem(storageKey, JSON.stringify({ agree: true, expireAt: expireAt }));
+            overlay.classList.remove('is-visible');
+            overlay.addEventListener('transitionend', function handler() {
+                overlay.removeEventListener('transitionend', handler);
+                overlay.remove();
+            });
+        });
+    }
+})();
+</script>
+
+<style>
+.privacy-consent-overlay {
+    position: fixed;
+    z-index: 99999;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.privacy-consent-overlay.is-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+/* 底部横幅 */
+.privacy-consent-overlay.privacy-bottom {
+    bottom: 20px;
+    padding: 0 16px;
+    align-items: flex-end;
+}
+
+.privacy-consent-overlay.privacy-bottom .privacy-consent-card {
+    transform: translateY(20px);
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.privacy-consent-overlay.privacy-bottom.is-visible .privacy-consent-card {
+    transform: translateY(0);
+}
+
+/* 居中弹窗 */
+.privacy-consent-overlay.privacy-center {
+    top: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    align-items: center;
+    padding: 24px;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+.privacy-consent-overlay.privacy-center .privacy-consent-card {
+    transform: scale(0.92);
+    transition: transform 0.35s cubic-bezier(0.2, 0, 0, 1);
+    max-width: 480px;
+}
+
+.privacy-consent-overlay.privacy-center.is-visible .privacy-consent-card {
+    transform: scale(1);
+}
+
+/* 卡片 */
+.privacy-consent-card {
+    background: var(--s-color-surface-container-high, #ece6f0);
+    border-radius: 16px;
+    padding: 20px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: var(--s-elevation-level3, 0 4px 16px rgba(0,0,0,0.15));
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* 标题 */
+.privacy-consent-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 0;
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    color: var(--s-color-on-surface, #1d1b20);
+}
+
+.privacy-consent-title material-icon {
+    font-size: 22px;
+    color: var(--s-color-primary, #6750a4);
+}
+
+/* 正文 */
+.privacy-consent-text {
+    margin: 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--s-color-on-surface-variant, #49454f);
+}
+
+/* 按钮区 */
+.privacy-consent-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.privacy-consent-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--s-color-primary, #6750a4);
+    text-decoration: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    transition: background 0.2s;
+}
+
+.privacy-consent-link:hover {
+    background: color-mix(in srgb, var(--s-color-primary, #6750a4) 10%, transparent);
+}
+
+.privacy-consent-link material-icon {
+    font-size: 16px;
+}
+
+.privacy-consent-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: var(--s-color-primary, #6750a4);
+    color: var(--s-color-on-primary, #fff);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 20px;
+    padding: 10px 24px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s, box-shadow 0.2s;
+    box-shadow: var(--s-elevation-level1, 0 1px 3px rgba(0,0,0,0.12));
+}
+
+.privacy-consent-btn:hover {
+    background: color-mix(in srgb, var(--s-color-primary, #6750a4) 88%, #000);
+    box-shadow: var(--s-elevation-level2, 0 2px 8px rgba(0,0,0,0.18));
+}
+
+.privacy-consent-btn:active {
+    background: color-mix(in srgb, var(--s-color-primary, #6750a4) 82%, #000);
+}
+
+/* 响应式 */
+@media (max-width: 480px) {
+    .privacy-consent-overlay.privacy-bottom {
+        bottom: 12px;
+        padding: 0 10px;
+    }
+
+    .privacy-consent-card {
+        border-radius: 20px;
+        padding: 16px;
+    }
+
+    .privacy-consent-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+    }
+
+    .privacy-consent-btn {
+        width: 100%;
+    }
+
+    .privacy-consent-link {
+        justify-content: center;
+    }
+}
+</style>
+<% } %>

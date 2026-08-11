@@ -3,9 +3,9 @@
 #Comment 请选择一个
 #---start---
 comment:
-  service: twikoo  # 可选: twikoo, waline, giscus
+  service: disqus  # 可选: twikoo, waline, giscus, disqus
 twikoo:
-  envId: https://pinglun.yizhixiaozhu.top # 腾讯云环境ID,vercel填写域名
+  envId: your_server_url # 腾讯云环境ID,vercel填写域名
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
 waline:
   serverURL: your_server_url # 填写你的 Waline 服务器地址
@@ -20,6 +20,10 @@ giscus:
   emitMetadata: false # 是否发送元数据
   inputPosition: bottom # 输入框位置，支持 'top', 'bottom'
   lang: zh-CN # 语言，支持 'zh-CN', 'en'
+disqus:
+  shortname: your_shortname # 你的 Disqus shortname
+  url:  # 可选，自定义页面 URL，默认使用 page.permalink
+  identifier:  # 可选，自定义页面标识符，默认使用 page.path
 #---end---
 # 侧边栏配置
 #---start---
@@ -295,6 +299,18 @@ ai_summary:
   auto_generate: true
   # 允许的最大文章字数（超出则取前后段避免超限）
   max_article_length: 8000
+#---end---
+#隐私协议弹窗
+#---start---
+privacy_consent:
+  enable: true #是否启用隐私协议弹窗
+  title: "隐私协议"  # 弹窗标题
+  content: "本站使用 Cookie 和本地存储来优化您的浏览体验。继续使用本网站即表示您同意我们的隐私政策。"  # 隐私协议内容，支持 HTML
+  accept_text: "同意"  # 同意按钮文字
+  privacy_link: "/privacy/"  # 隐私政策页面链接，留空则不显示
+  privacy_link_text: "了解更多"  # 隐私政策链接文字
+  expire_days: 365  # 同意后记住天数
+  position: bottom  # 弹窗位置：bottom（底部横幅）或 center（居中弹窗）
 #---end---
 index_generator:
   path: ''

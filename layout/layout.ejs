@@ -30,6 +30,34 @@
     <%- css('css/widgets/page-transition.css') %>
     <%- css('css/widgets/loading.css') %>
 
+    <!-- KaTeX 数学公式 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" crossorigin="anonymous">
+    <!-- Markdown 增强样式（mark 高亮、数学公式容器） -->
+    <style>
+        mark {
+            background: color-mix(in srgb, var(--s-color-tertiary) 24%, transparent);
+            color: var(--s-color-on-surface);
+            padding: 0.1em 0.3em;
+            border-radius: 4px;
+        }
+        .katex-block {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 12px 0;
+            text-align: center;
+        }
+        .katex-inline {
+            display: inline;
+        }
+        .katex-inline .katex,
+        .katex-block .katex {
+            font-size: 1.1em;
+        }
+        .katex-block .katex {
+            font-size: 1.21em;
+        }
+    </style>
+
     <% if (theme.custom && theme.custom.css) { %>
         <% theme.custom.css.forEach(function(cssFile) { %>
             <link rel="stylesheet" href="<%- url_for(cssFile) %>">
@@ -68,6 +96,10 @@
 
         <%- include('widgets/footer', { isPost: (typeof page !== 'undefined' && page.layout === 'post') }) %>
         <%- include('widgets/music') %>
+
+        <% if (theme.privacy_consent && theme.privacy_consent.enable) { %>
+            <%- include('widgets/privacy-consent') %>
+        <% } %>
 
         <% if (theme.interceptor && theme.interceptor.enable) { %>
             <%- include('widgets/links.ejs') %>
@@ -151,6 +183,39 @@
 ██║ ╚═╝ ██║██║  ██║   ██║   ███████╗██║  ██║██║██║  ██║███████╗██║███████║
 ╚═╝     ╚═╝╚═╝  ╚═╝   ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝╚═╝  ╚═╝╚══════╝╚═╝╚══════╝
 `);
+
+    // ===== KaTeX 数学渲染（按需加载） =====
+    (function () {
+        var inlines = document.querySelectorAll('.katex-inline');
+        var blocks  = document.querySelectorAll('.katex-block');
+        if (inlines.length === 0 && blocks.length === 0) return;
+
+        var script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js';
+        script.onload = function () {
+            // 渲染行内公式
+            for (var i = 0; i < inlines.length; i++) {
+                var el = inlines[i];
+                var tex = el.textContent || el.innerText;
+                try {
+                    katex.render(tex, el, { throwOnError: false, displayMode: false });
+                } catch (e) {
+                    el.textContent = tex;
+                }
+            }
+            // 渲染块级公式
+            for (var j = 0; j < blocks.length; j++) {
+                var el2 = blocks[j];
+                var tex2 = el2.textContent || el2.innerText;
+                try {
+                    katex.render(tex2, el2, { throwOnError: false, displayMode: true });
+                } catch (e) {
+                    el2.textContent = tex2;
+                }
+            }
+        };
+        document.head.appendChild(script);
+    })();
     </script>
 </body>
 </html>

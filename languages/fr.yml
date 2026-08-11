@@ -104,6 +104,12 @@ about:
   projects: Projets
   project_detail: Voir les détails
 
+privacy:
+  title: Politique de confidentialité
+  content: Ce site utilise des cookies et le stockage local pour optimiser votre expérience de navigation. En continuant à utiliser ce site, vous acceptez notre politique de confidentialité.
+  accept: Accepter
+  learn_more: En savoir plus
+
 share:
   copy_success: Lien copié avec succès !
   copy_fail: Échec de la copie, veuillez copier manuellement
