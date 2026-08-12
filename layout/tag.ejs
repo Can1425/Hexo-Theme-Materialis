@@ -9,21 +9,34 @@
     gap: 24px;
 }
 
+/* 头部卡片 */
 .tags-header {
     width: 100%;
+    box-sizing: border-box;
     text-align: center;
     padding: 40px 32px;
-    border-radius: 24px;
     background-color: var(--s-color-primary-container);
     color: var(--s-color-on-primary-container);
 }
 
+.tags-header-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.tags-header-count s-badge {
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 18%, transparent);
+    color: var(--s-color-on-primary-container);
+}
+
+/* 标签云卡片 */
 .tags-cloud {
     width: 100%;
+    box-sizing: border-box;
+    padding: 32px;
     background-color: var(--s-color-surface-container);
     color: var(--s-color-on-surface);
-    border-radius: 20px;
-    padding: 32px;
 }
 
 .tags-container {
@@ -33,59 +46,44 @@
     justify-content: center;
 }
 
-.tag-chip {
-    height: 36px;
-    background: var(--s-color-secondary-container);
-    color: var(--s-color-on-secondary-container);
-    border-radius: 18px;
-    transition: all 0.2s ease;
-}
-
 .tag-link {
     display: inline-flex;
     text-decoration: none;
 }
 
+/* 标签 chip */
+.tag-chip {
+    height: 36px;
+    border-radius: 18px;
+    background-color: var(--s-color-secondary-container) !important;
+    color: var(--s-color-on-secondary-container) !important;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.tag-chip s-badge {
+    background: color-mix(in srgb, var(--s-color-on-secondary-container) 18%, transparent);
+    color: var(--s-color-on-secondary-container);
+}
+
 .tag-link:hover .tag-chip {
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background: var(--s-color-primary-container);
-    color: var(--s-color-on-primary-container);
 }
 
-.tags-empty-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 40px;
-}
-
-.tags-empty-card {
+/* 空状态 */
+.tags-empty {
     width: 100%;
     max-width: 500px;
-    padding: 60px 40px;
-    text-align: center;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-color: var(--s-color-surface-container);
     color: var(--s-color-on-surface);
+    border-radius: 24px;
+    --s-color-outline: var(--s-color-on-surface-variant);
 }
 
 .tags-empty-icon {
-    font-size: 80px;
-    margin-bottom: 24px;
-    opacity: 0.6;
-    color: var(--s-color-primary-container);
-}
-
-.tags-empty-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    font-size: 48px;
+    color: var(--s-color-primary);
+    opacity: 0.7;
 }
 
 /* 平板设备 */
@@ -94,11 +92,11 @@
         padding: 32px 20px;
         gap: 20px;
     }
-    
+
     .tags-header {
         padding: 32px 24px;
     }
-    
+
     .tags-cloud {
         padding: 24px;
     }
@@ -110,26 +108,17 @@
         padding: 24px 16px;
         gap: 16px;
     }
-    
+
     .tags-header {
         padding: 24px 20px;
     }
-    
+
     .tags-cloud {
         padding: 20px;
     }
-    
+
     .tags-container {
         gap: 10px;
-    }
-    
-    .tags-empty-card {
-        padding: 40px 24px;
-    }
-    
-    .tags-empty-icon {
-        font-size: 60px;
-        margin-bottom: 20px;
     }
 }
 
@@ -139,19 +128,19 @@
         padding: 20px 12px;
         gap: 12px;
     }
-    
+
     .tags-header {
         padding: 20px 16px;
     }
-    
+
     .tags-cloud {
         padding: 16px;
     }
-    
+
     .tags-container {
         gap: 8px;
     }
-    
+
     .tag-chip {
         height: 32px;
         font-size: 14px;
@@ -167,7 +156,11 @@
         </materialis-typography>
         <materialis-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
             <% if (site.tags.length > 0) { %>
-                <%= __('tags.count_prefix') %> <s-badge style="margin: 0 8px;"><%= site.tags.length %></s-badge> <%= __('tags.count_suffix') %>
+                <span class="tags-header-count">
+                    <%= __('tags.count_prefix') %>
+                    <s-badge><%= site.tags.length %></s-badge>
+                    <%= __('tags.count_suffix') %>
+                </span>
             <% } else { %>
                 <%= __('tags.empty') %>
             <% } %>
@@ -179,8 +172,9 @@
         <s-card readonly class="tags-cloud">
             <div class="tags-container">
                 <% site.tags.sort('name').each(function(tag) { %>
-                    <a class="tag-link" href="<%- url_for(tag.path) %>">
+                    <a class="tag-link" href="<%- url_for(tag.path) %>" title="<%= tag.name %>">
                         <s-chip readonly class="tag-chip" variant="assist">
+                            <material-icon name="sell" slot="start"></material-icon>
                             <%= tag.name %>
                             <s-badge slot="end"><%= tag.length %></s-badge>
                         </s-chip>
@@ -190,18 +184,16 @@
         </s-card>
     <% } else { %>
         <!-- 空状态 -->
-        <div class="tags-empty-state">
-            <s-card readonly class="tags-empty-card">
-                <material-icon class="tags-empty-icon">local_offer</material-icon>
-                <div class="tags-empty-content">
-                    <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
-                        <%= __('tags.empty') %>
-                    </materialis-typography>
-                    <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
-                        <%= __('tags.empty_desc') %>
-                    </materialis-typography>
-                </div>
-            </s-card>
-        </div>
+        <s-card readonly class="tags-empty">
+            <s-empty>
+                <material-icon class="tags-empty-icon" name="local_offer"></material-icon>
+                <materialis-typography variant="h5" style="font-weight: 500; color: inherit;">
+                    <%= __('tags.empty') %>
+                </materialis-typography>
+                <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5; color: inherit;">
+                    <%= __('tags.empty_desc') %>
+                </materialis-typography>
+            </s-empty>
+        </s-card>
     <% } %>
 </div>

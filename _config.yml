@@ -250,15 +250,15 @@ banner:
 #---start---
 memorial_days:
   enable: true  # 是否启用纪念日黑白效果
-  dates:  # 纪念日日期列表 (月-日格式)
-    - 7.7
-    - 9.18
-    - 12.13
+  dates:  # 纪念日日期列表 (月.日 格式)，建议加引号避免被解析为数字
+    - "7.7"
+    - "9.18"
+    - "12.13"
 #---end---
 #链接拦截器
 #---start---
 interceptor:
-  enable: flase  # 是否启用链接拦截器功能
+  enable: false  # 是否启用链接拦截器功能
 #---end---
 #音乐球
 #---start---

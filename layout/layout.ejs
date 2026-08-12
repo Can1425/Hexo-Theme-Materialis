@@ -101,7 +101,7 @@
             <%- include('widgets/privacy-consent') %>
         <% } %>
 
-        <% if (theme.interceptor && theme.interceptor.enable) { %>
+        <% if (theme.interceptor && theme.interceptor.enable === true) { %>
             <%- include('widgets/links.ejs') %>
         <% } %>
 
@@ -163,13 +163,14 @@
         <% }) %>
     <% } %>
 
-    <% if (theme.memorial_days && theme.memorial_days.enable) { %>
+    <% if (theme.memorial_days && theme.memorial_days.enable === true) { %>
     <script>
     (function () {
         var today = new Date();
         var todayStr = (today.getMonth() + 1) + '.' + today.getDate();
-        var memorialDays = JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>');
-        if (memorialDays.includes(todayStr)) document.documentElement.classList.add('memorial-day');
+        var memorialDays = (JSON.parse('<%- JSON.stringify(theme.memorial_days.dates || []) %>') || [])
+            .map(function (d) { return String(d).trim(); });
+        if (memorialDays.indexOf(todayStr) !== -1) document.documentElement.classList.add('memorial-day');
     })();
     </script>
     <% } %>

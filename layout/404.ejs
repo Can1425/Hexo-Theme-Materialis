@@ -1,25 +1,88 @@
-<div style="min-height: 80vh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 24px; padding: 40px;">
-    
-    <s-card readonly  style="width: 100%; max-width: 400px; padding: 40px 32px;">
-        <div style="text-align: center;">
-            <materialis-typography variant="h2" style="margin-bottom: 16px;">404</materialis-typography>
-            <br>
-            <materialis-typography variant="h6" style="opacity: 0.8;"><%= __('notfound.title') %></materialis-typography>
-        </div>
+<style>
+.notfound-page {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px;
+}
+
+/* 404 大卡片 */
+.notfound-card {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
+    border-radius: 28px;
+    --s-color-outline: var(--s-color-on-surface-variant);
+}
+
+.notfound-icon {
+    font-size: 72px;
+    color: var(--s-color-primary);
+    opacity: 0.7;
+}
+
+.notfound-code {
+    font-weight: 600;
+    color: var(--s-color-primary);
+}
+
+/* 操作按钮卡片 */
+.notfound-actions {
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--s-color-surface-container);
+    color: var(--s-color-on-surface);
+    border-radius: 20px;
+}
+
+.notfound-actions-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+}
+
+/* 小屏手机 */
+@media (max-width: 480px) {
+    .notfound-page {
+        padding: 24px 16px;
+        gap: 16px;
+    }
+
+    .notfound-icon {
+        font-size: 56px;
+    }
+}
+</style>
+
+<div class="notfound-page">
+    <!-- 404 展示 -->
+    <s-card readonly class="notfound-card">
+        <s-empty>
+            <material-icon class="notfound-icon" name="search_off"></material-icon>
+            <materialis-typography variant="h2" class="notfound-code">404</materialis-typography>
+            <materialis-typography variant="h6" style="opacity: 0.8; color: inherit;">
+                <%= __('notfound.title') %>
+            </materialis-typography>
+        </s-empty>
     </s-card>
 
-    <s-card readonly  style="width: 100%; max-width: 400px; padding: 32px;">
-        <div style="display: flex; flex-direction: column; gap: 16px;">
+    <!-- 操作按钮 -->
+    <s-card readonly class="notfound-actions">
+        <div class="notfound-actions-inner">
             <s-button variant="filled" class="materialis-full-width" onclick="window.location.href='<%= url_for('/') %>'">
-                <material-icon slot="start">home</material-icon>
+                <material-icon slot="start" name="home"></material-icon>
                 <%= __('notfound.home') %>
             </s-button>
-            
+
             <s-button variant="outlined" class="materialis-full-width" onclick="history.back()">
-                <material-icon slot="start">arrow_back</material-icon>
+                <material-icon slot="start" name="arrow_back"></material-icon>
                 <%= __('notfound.back') %>
             </s-button>
         </div>
     </s-card>
-
 </div>

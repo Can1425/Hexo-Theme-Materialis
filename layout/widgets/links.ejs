@@ -56,15 +56,12 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 
-  // 判断是否为外部链接
+  // 判断是否为外部链接（排除本站域名，避免站内绝对链接被误拦）
   function isExternalLink(href) {
-    return (
-      href.startsWith('http://') ||
-      href.startsWith('https://') ||
-      href.startsWith('//') ||
-      href.startsWith('mailto:') ||
-      href.startsWith('tel:')
-    );
+    if (href.startsWith('mailto:') || href.startsWith('tel:')) return true;
+    if (!(href.startsWith('http://') || href.startsWith('https://') || href.startsWith('//'))) return false;
+    var externalHost = new URL(href, window.location.origin).hostname;
+    return externalHost !== window.location.hostname;
   }
 
   // 判断是否为图片链接

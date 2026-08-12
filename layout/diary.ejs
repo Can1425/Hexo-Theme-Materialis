@@ -1,40 +1,4 @@
 <style>
-.post-card-title {
-    background-color: var(--s-color-surface-container-low);
-}
-
-.post-card-title-text {
-    color: var(--s-color-on-surface-container-low);
-}
-
-.article-title {
-    color: var(--s-color-primary);
-}
-
-.article-card {
-    background-color: var(--s-color-surface-container-low);
-}
-
-.banner-title {
-    background-color: var(--s-color-primary);
-}
-
-.banner-title-text1 {
-    color: var(--s-color-surface-container-low);
-}
-
-.banner-title-text2 {
-    color: var(--s-color-surface-container-low);
-}
-
-.post-card-wide {
-    background-color: var(--s-color-surface-container-low);
-}
-
-.article-content {
-    color: var(--s-color-on-surface);
-}
-
 .archives-page {
     max-width: 900px;
     margin: 0 auto;
@@ -45,21 +9,34 @@
     gap: 24px;
 }
 
+/* 头部卡片 */
 .archives-header {
     width: 100%;
+    box-sizing: border-box;
     text-align: center;
     padding: 40px 32px;
-    border-radius: 24px;
     background-color: var(--s-color-primary-container);
     color: var(--s-color-on-primary-container);
 }
 
+.archives-header-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.archives-header-count s-badge {
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 18%, transparent);
+    color: var(--s-color-on-primary-container);
+}
+
+/* 年份卡片 */
 .archives-year-card {
     width: 100%;
-    border-radius: 20px;
-    overflow: hidden;
     background-color: var(--s-color-surface-container);
     color: var(--s-color-on-surface);
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .archives-year-header {
@@ -75,6 +52,11 @@
     gap: 20px;
 }
 
+.archives-year-avatar {
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 12%, transparent);
+    color: var(--s-color-on-primary-container);
+}
+
 .archives-year-info {
     display: flex;
     flex-direction: column;
@@ -82,6 +64,7 @@
     flex: 1;
 }
 
+/* 文章列表 */
 .archives-post-list {
     display: flex;
     flex-direction: column;
@@ -106,6 +89,12 @@
 .archives-post-item:hover {
     background-color: var(--s-color-surface-container-highest);
     transform: translateX(4px);
+}
+
+.archives-post-icon {
+    color: var(--s-color-primary);
+    opacity: 0.8;
+    flex-shrink: 0;
 }
 
 .archives-post-content {
@@ -137,14 +126,17 @@
 .archives-post-categories {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
 }
 
+/* 分类 chip */
 .archives-post-category {
-    background: var(--s-color-surface-container-highest);
-    padding: 2px 8px;
-    border-radius: 6px;
+    height: 22px;
+    padding: 0 8px;
     font-size: 12px;
+    background: var(--s-color-surface-container-highest);
+    color: var(--s-color-on-surface-variant);
+    border: none;
 }
 
 .archives-post-arrow {
@@ -157,39 +149,20 @@
     transform: translateX(4px);
 }
 
-.archives-empty-state {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 40px;
-}
-
-.archives-empty-card {
+/* 空状态 */
+.archives-empty {
     width: 100%;
     max-width: 500px;
-    padding: 60px 40px;
-    text-align: center;
-    border-radius: 24px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     background-color: var(--s-color-surface-container);
     color: var(--s-color-on-surface);
+    border-radius: 24px;
+    --s-color-outline: var(--s-color-on-surface-variant);
 }
 
 .archives-empty-icon {
-    font-size: 80px;
-    margin-bottom: 24px;
-    opacity: 0.6;
-    color: var(--s-color-primary-container);
-}
-
-.archives-empty-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+    font-size: 56px;
+    color: var(--s-color-primary);
+    opacity: 0.7;
 }
 
 /* 平板设备 */
@@ -198,15 +171,15 @@
         padding: 32px 20px;
         gap: 20px;
     }
-    
+
     .archives-header {
         padding: 32px 24px;
     }
-    
+
     .archives-year-header {
         padding: 20px 24px;
     }
-    
+
     .archives-post-item {
         padding: 18px 24px;
     }
@@ -218,41 +191,32 @@
         padding: 24px 16px;
         gap: 16px;
     }
-    
+
     .archives-header {
         padding: 24px 20px;
     }
-    
+
     .archives-year-header {
         padding: 16px 20px;
     }
-    
+
     .archives-year-content {
         gap: 16px;
     }
-    
+
     .archives-post-item {
         padding: 16px 20px;
         gap: 12px;
     }
-    
+
     .archives-post-meta {
         flex-direction: column;
         align-items: flex-start;
         gap: 4px;
     }
-    
+
     .archives-post-categories {
         gap: 6px;
-    }
-    
-    .archives-empty-card {
-        padding: 40px 24px;
-    }
-    
-    .archives-empty-icon {
-        font-size: 60px;
-        margin-bottom: 20px;
     }
 }
 
@@ -262,55 +226,56 @@
         padding: 20px 12px;
         gap: 12px;
     }
-    
+
     .archives-header {
         padding: 20px 16px;
     }
-    
+
     .archives-year-header {
         padding: 16px;
     }
-    
+
     .archives-year-content {
         flex-direction: column;
         align-items: flex-start;
         gap: 12px;
         text-align: left;
     }
-    
+
     .archives-year-info {
         align-items: flex-start;
     }
-    
+
     .archives-post-item {
         padding: 14px 16px;
         gap: 10px;
     }
-    
+
     .archives-post-title {
         font-size: 15px;
     }
-    
+
     .archives-post-meta {
         font-size: 13px;
     }
 }
-
-
 </style>
 
 <div class="archives-page">
-    
     <!-- 页面标题 -->
     <s-card readonly class="archives-header">
         <materialis-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></materialis-typography>
         <materialis-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            <%= __('diary.total') %> <s-badge style="margin: 0 8px;"><%= site.posts.length %></s-badge> <%= __('diary.articles') %>
+            <span class="archives-header-count">
+                <%= __('diary.total') %>
+                <s-badge><%= site.posts.length %></s-badge>
+                <%= __('diary.articles') %>
+            </span>
         </materialis-typography>
     </s-card>
 
     <!-- 按年份分组 -->
-    <% 
+    <%
         const postsByYear = {};
         site.posts.sort('-date').each(function(post) {
             const year = post.date.year();
@@ -320,7 +285,7 @@
             postsByYear[year].push(post);
         });
     %>
-    
+
     <% Object.keys(postsByYear).sort().reverse().forEach(function(year) { %>
         <!-- 年份卡片 -->
         <s-card readonly class="archives-year-card">
@@ -328,25 +293,25 @@
             <div class="archives-year-header">
                 <div class="archives-year-content">
                     <s-avatar class="archives-year-avatar">
-                        <material-icon>calendar_today</material-icon>
+                        <material-icon name="calendar_today"></material-icon>
                     </s-avatar>
                     <div class="archives-year-info">
-                        <materialis-typography variant="h5" style="font-weight: 500;">
+                        <materialis-typography variant="h5" style="font-weight: 500; color: inherit;">
                             <%= year %> <%= __('diary.year') %>
                         </materialis-typography>
-                        <materialis-typography variant="body" style="opacity: 0.8;">
+                        <materialis-typography variant="body" style="opacity: 0.8; color: inherit;">
                             <%= postsByYear[year].length %> <%= __('diary.articles') %>
                         </materialis-typography>
                     </div>
                 </div>
             </div>
-            
+
             <!-- 文章列表 -->
             <div class="archives-post-list">
                 <% postsByYear[year].forEach(function(post, index) { %>
                     <a href="<%= url_for(post.path) %>" class="archives-post-item">
-                        <material-icon class="archives-post-icon">article</material-icon>
-                        
+                        <material-icon class="archives-post-icon" name="article"></material-icon>
+
                         <div class="archives-post-content">
                             <div class="archives-post-title">
                                 <%= post.title %>
@@ -354,17 +319,17 @@
                             <div class="archives-post-meta">
                                 <span><%= post.date.format('MM-DD') %></span>
                                 <% if (post.categories && post.categories.length) { %>
+                                    <span>·</span>
                                     <div class="archives-post-categories">
-                                        <span>·</span>
                                         <% post.categories.forEach(function(cat, catIndex) { %>
-                                            <span class="archives-post-category"><%= cat.name %></span>
+                                            <s-chip readonly class="archives-post-category" variant="assist"><%= cat.name %></s-chip>
                                         <% }); %>
                                     </div>
                                 <% } %>
                             </div>
                         </div>
-                        
-                        <material-icon class="archives-post-arrow">chevron_right</material-icon>
+
+                        <material-icon class="archives-post-arrow" name="chevron_right"></material-icon>
                     </a>
                 <% }); %>
             </div>
@@ -373,19 +338,16 @@
 
     <!-- 空状态 -->
     <% if (!site.posts || site.posts.length === 0) { %>
-        <div class="archives-empty-state">
-            <s-card readonly class="archives-empty-card">
-                <material-icon class="archives-empty-icon">article</material-icon>
-                <div class="archives-empty-content">
-                    <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500;">
-                        <%= __('diary.no_articles') %>
-                    </materialis-typography>
-                    <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5;">
-                        <%= __('diary.no_articles_desc') %>
-                    </materialis-typography>
-                </div>
-            </s-card>
-        </div>
+        <s-card readonly class="archives-empty">
+            <s-empty>
+                <material-icon class="archives-empty-icon" name="article"></material-icon>
+                <materialis-typography variant="h5" style="margin-bottom: 8px; font-weight: 500; color: inherit;">
+                    <%= __('diary.no_articles') %>
+                </materialis-typography>
+                <materialis-typography variant="body" style="opacity: 0.7; line-height: 1.5; color: inherit;">
+                    <%= __('diary.no_articles_desc') %>
+                </materialis-typography>
+            </s-empty>
+        </s-card>
     <% } %>
-
 </div>
