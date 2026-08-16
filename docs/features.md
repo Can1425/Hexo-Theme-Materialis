@@ -242,6 +242,45 @@ shuoshuo:
 
 ---
 
+## RSS 订阅
+
+顶栏右上角的 RSS 订阅按钮（桌面端与移动端均显示）。
+
+```yaml
+# RSS 订阅地址（留空则不显示顶栏 RSS 按钮）
+# 若使用 hexo-generator-feed 插件，默认生成 /atom.xml，可填写 /atom.xml 或 /rss.xml
+rss: /atom.xml
+```
+
+**启用步骤：**
+
+1. 安装 feed 生成插件:
+
+   ```bash
+   npm install hexo-generator-feed --save
+   ```
+
+2. 在 Hexo 根目录 `_config.yml` 中配置插件（可选，不配置使用默认值）:
+
+   ```yaml
+   feed:
+     type: atom        # 订阅类型: atom / rss2 / json1
+     path: atom.xml    # 输出路径，与主题 `rss` 配置保持一致
+     limit: 20         # 订阅中显示的文章数量，默认 20
+   ```
+
+3. 主题 `_config.yml` 中填写订阅地址:
+
+   ```yaml
+   rss: /atom.xml
+   ```
+
+> 💡 主题 `rss` 支持填完整 URL（如 `https://example.com/atom.xml` 或外站订阅源），也支持相对路径 `/atom.xml`。
+>
+> ⚠️ 未安装 feed 插件时，点击按钮会 404。`rss` 留空可隐藏按钮。
+
+---
+
 ## 首页分页
 
 ```yaml

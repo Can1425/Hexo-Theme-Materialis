@@ -93,6 +93,7 @@ hexo deploy   # 部署到远程
 | 🎨 自定义代码 | 自定义 CSS / JS / head / footer | `custom` | [配置](docs/features.md#自定义代码) |
 | ✍️ 字体设置 | 霞鹜文楷 / 钉钉体 / 苹方 | `font` | [配置](docs/features.md#字体设置) |
 | 📌 Footer 定制 | 版权、ICP 备案、自定义徽章 | `footer` | [配置](docs/features.md#footer-页脚) |
+| 📡 RSS 订阅 | 顶栏右上角订阅按钮（桌面 / 移动端） | `rss` | [配置](docs/features.md#rss-订阅) |
 
 ## 🤝 贡献
 

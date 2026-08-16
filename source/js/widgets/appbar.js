@@ -81,4 +81,18 @@
                 .catch(function () { MaterialisUI.notify({ message: '复制失败', type: 'error' }); });
         });
     }
+
+    var rssTrigger = document.getElementById('rss-trigger');
+    if (rssTrigger) {
+        rssTrigger.addEventListener('click', function () {
+            var url = rssTrigger.dataset.rssUrl;
+            if (!url) return;
+            var external = /^(?:[a-z]+:)?\/\//i.test(url);
+            if (external) {
+                window.open(url, '_blank', 'noopener,noreferrer');
+            } else {
+                window.location.href = url;
+            }
+        });
+    }
 })();

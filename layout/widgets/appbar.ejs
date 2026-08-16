@@ -19,6 +19,12 @@
             <material-icon slot="icon" name="palette"></material-icon>
             <span slot="text">动态配色</span>
         </s-nav-adaptive-item>
+        <% if (theme.rss) { %>
+        <s-nav-adaptive-item id="rss-trigger" selectable="false" data-rss-url="<%= url_for(theme.rss) %>">
+            <material-icon slot="icon" name="rss_feed"></material-icon>
+            <span slot="text"><%= __('appbar.rss') %></span>
+        </s-nav-adaptive-item>
+        <% } %>
         <% if (page && page.layout === 'post') { %>
         <s-nav-adaptive-item id="toc-toggle" selectable="false">
             <material-icon slot="icon" name="menu_book"></material-icon>

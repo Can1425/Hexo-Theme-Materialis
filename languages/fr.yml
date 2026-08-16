@@ -59,6 +59,7 @@ appbar:
   dark_mode: Mode sombre
   auto_mode: Suivre le système
   theme_tooltip: Thème
+  rss: Abonnement RSS
 
 tags:
   title: Étiquettes

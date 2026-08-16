@@ -59,6 +59,7 @@ appbar:
   dark_mode: Dark mode
   auto_mode: Follow system
   theme_tooltip: Theme
+  rss: RSS Feed
 
 tags:
   title: Tags

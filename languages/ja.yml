@@ -59,6 +59,7 @@ appbar:
   dark_mode: ダークモード
   auto_mode: システムに従う
   theme_tooltip: テーマ
+  rss: RSS 購読
 
 tags:
   title: タグ

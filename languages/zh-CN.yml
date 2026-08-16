@@ -59,6 +59,7 @@ appbar:
   dark_mode: 暗色模式
   auto_mode: 跟随系统
   theme_tooltip: 主题
+  rss: RSS 订阅
 
 
 tags:

@@ -32,6 +32,9 @@ sidebar:
   name: "system:error"
   slogen: "长风破浪会有时，直挂云帆济沧海。"
   avatar: "https://blog.yizhixiaozhu.top/images/1.png"
+# RSS 订阅地址(留空则不显示顶栏 RSS 按钮)
+# 若使用 hexo-generator-feed 插件,默认生成 /atom.xml,可填写 /atom.xml 或 /rss.xml
+rss: /atom.xml
 # 导航菜单
 nav:
   - name: "首页"
