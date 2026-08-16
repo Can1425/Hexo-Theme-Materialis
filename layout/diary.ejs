@@ -1,47 +1,153 @@
 <style>
+/* ===== 归档页（Material Design 3 Expressive · 无边界 + 毛玻璃 + 动画） ===== */
 .archives-page {
-    max-width: 900px;
+    position: relative;
+    max-width: 920px;
     margin: 0 auto;
-    padding: 40px 20px;
+    padding: 40px 20px 64px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 24px;
+    align-items: stretch;
+    gap: 28px;
 }
 
-/* 头部卡片 */
-.archives-header {
+/* ===== 无边界：清除 sober s-card 默认阴影（MD3E 规范） ===== */
+.archives-page s-card,
+.archives-page s-avatar,
+.archives-page s-badge,
+.archives-page s-chip {
+    --s-elevation-level1: none !important;
+    --s-elevation-level2: none !important;
+    --s-elevation-level3: none !important;
+    --s-elevation-level4: none !important;
+    --s-elevation-level5: none !important;
+    box-shadow: none !important;
+}
+
+/* s-card 自定义元素默认 display:inline-block / width:360px，在 flex 容器中需显式撑满 */
+.archives-page > s-card {
     width: 100%;
     box-sizing: border-box;
-    text-align: center;
-    padding: 40px 32px;
-    background-color: var(--s-color-primary-container);
-    color: var(--s-color-on-primary-container);
 }
 
-.archives-header-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.archives-header-count s-badge {
-    background: color-mix(in srgb, var(--s-color-on-primary-container) 18%, transparent);
-    color: var(--s-color-on-primary-container);
-}
-
-/* 年份卡片 */
-.archives-year-card {
+/* ===== Hero 头部 ===== */
+.archives-hero {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    background-color: var(--s-color-surface-container);
-    color: var(--s-color-on-surface);
-    border-radius: 20px;
+    box-sizing: border-box;
     overflow: hidden;
+    border-radius: 32px !important;
+    padding: 56px 40px 48px;
+    text-align: center;
+    background: linear-gradient(135deg,
+        var(--s-color-primary-container) 0%,
+        var(--s-color-secondary-container) 100%) !important;
+    color: var(--s-color-on-primary-container);
+}
+
+.archives-hero__deco {
+    position: absolute;
+    top: 20px;
+    right: 26px;
+    font-size: 96px;
+    opacity: 0.16;
+    pointer-events: none;
+    transform: rotate(-12deg);
+}
+
+.archives-hero__title {
+    position: relative;
+    margin: 0 0 8px;
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-family: 'banner', var(--materialis-font-family, inherit);
+}
+
+.archives-hero__subtitle {
+    position: relative;
+    max-width: 52ch;
+    margin: 0 auto;
+    font-size: 1rem;
+    line-height: 1.7;
+    opacity: 0.82;
+}
+
+.archives-hero__stats {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.archives-hero__stat {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 6px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--s-color-surface) 38%, transparent);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid color-mix(in srgb, var(--s-color-surface) 55%, transparent);
+    color: var(--s-color-on-surface);
+    font-size: 0.85rem;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s ease;
+}
+
+.archives-hero__stat:hover {
+    transform: translateY(-2px) scale(1.04);
+    background: color-mix(in srgb, var(--s-color-surface) 58%, transparent);
+}
+
+.archives-hero__stat material-icon {
+    font-size: 1.1rem;
+    align-self: center;
+    color: var(--s-color-primary);
+}
+
+.archives-hero__stat-value {
+    font-size: 1.15rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+    color: var(--s-color-primary);
+}
+
+.archives-hero__stat-label {
+    opacity: 0.8;
+}
+
+/* ===== 年份卡片（毛玻璃） ===== */
+.archives-year-card {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 28px !important;
+    overflow: hidden;
+    background: color-mix(in srgb, var(--s-color-surface-container) 62%, transparent) !important;
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 55%, transparent);
+    color: var(--s-color-on-surface);
+    transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1);
+}
+
+.archives-year-card:hover {
+    transform: translateY(-2px);
 }
 
 .archives-year-header {
-    padding: 24px 32px;
-    background: var(--s-color-primary-container);
+    padding: 22px 28px;
+    background: linear-gradient(135deg,
+        color-mix(in srgb, var(--s-color-primary-container) 88%, transparent),
+        color-mix(in srgb, var(--s-color-secondary-container) 68%, transparent));
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     color: var(--s-color-on-primary-container);
 }
 
@@ -49,12 +155,14 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: 20px;
+    gap: 16px;
 }
 
 .archives-year-avatar {
-    background: color-mix(in srgb, var(--s-color-on-primary-container) 12%, transparent);
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 14%, transparent);
     color: var(--s-color-on-primary-container);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .archives-year-info {
@@ -64,7 +172,31 @@
     flex: 1;
 }
 
-/* 文章列表 */
+.archives-year-title {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: inherit;
+}
+
+.archives-year-title s-badge {
+    font-size: 0.8rem;
+    background: color-mix(in srgb, var(--s-color-on-primary-container) 18%, transparent);
+    color: var(--s-color-on-primary-container);
+}
+
+.archives-year-count {
+    margin: 2px 0 0;
+    font-size: 0.88rem;
+    opacity: 0.8;
+    color: inherit;
+}
+
+/* ===== 文章列表 ===== */
 .archives-post-list {
     display: flex;
     flex-direction: column;
@@ -75,11 +207,11 @@
     display: flex;
     align-items: center;
     gap: 16px;
-    padding: 20px 32px;
+    padding: 18px 28px;
     text-decoration: none;
     color: inherit;
-    transition: all 0.2s ease;
-    border-bottom: 1px solid var(--s-color-outline-variant);
+    transition: background-color 0.3s ease, transform 0.3s cubic-bezier(0.2, 0, 0, 1);
+    border-bottom: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 45%, transparent);
 }
 
 .archives-post-item:last-child {
@@ -87,14 +219,48 @@
 }
 
 .archives-post-item:hover {
-    background-color: var(--s-color-surface-container-highest);
+    background: color-mix(in srgb, var(--s-color-surface-container-highest) 60%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
     transform: translateX(4px);
 }
 
-.archives-post-icon {
-    color: var(--s-color-primary);
-    opacity: 0.8;
+/* 日期徽章（毛玻璃小卡片） */
+.archives-post-date {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 52px;
+    height: 52px;
     flex-shrink: 0;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--s-color-primary-container) 55%, transparent);
+    backdrop-filter: blur(12px) saturate(160%);
+    -webkit-backdrop-filter: blur(12px) saturate(160%);
+    border: 1px solid color-mix(in srgb, var(--s-color-primary) 22%, transparent);
+    color: var(--s-color-on-primary-container);
+    line-height: 1;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.archives-post-item:hover .archives-post-date {
+    transform: scale(1.08) rotate(-4deg);
+}
+
+.archives-post-date__day {
+    font-size: 1.15rem;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.archives-post-date__month {
+    margin-top: 3px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    opacity: 0.78;
+    text-transform: uppercase;
 }
 
 .archives-post-content {
@@ -102,25 +268,42 @@
     flex-direction: column;
     flex: 1;
     min-width: 0;
+    gap: 6px;
 }
 
 .archives-post-title {
-    font-weight: 500;
-    margin-bottom: 6px;
+    font-size: 1rem;
+    font-weight: 550;
     line-height: 1.4;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    transition: color 0.3s ease;
+}
+
+.archives-post-item:hover .archives-post-title {
+    color: var(--s-color-primary);
 }
 
 .archives-post-meta {
     display: flex;
     align-items: center;
     gap: 12px;
-    font-size: 14px;
-    opacity: 0.7;
+    font-size: 0.8rem;
+    opacity: 0.72;
     line-height: 1.4;
     flex-wrap: wrap;
+}
+
+.archives-post-meta .archives-post-date-text {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-variant-numeric: tabular-nums;
+}
+
+.archives-post-meta .archives-post-date-text material-icon {
+    font-size: 0.9rem;
 }
 
 .archives-post-categories {
@@ -134,28 +317,37 @@
     height: 22px;
     padding: 0 8px;
     font-size: 12px;
-    background: var(--s-color-surface-container-highest);
+    background: color-mix(in srgb, var(--s-color-surface-container-highest) 80%, transparent);
     color: var(--s-color-on-surface-variant);
     border: none;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
 .archives-post-arrow {
     flex-shrink: 0;
     color: var(--s-color-outline);
-    transition: transform 0.2s ease;
+    transition: transform 0.3s cubic-bezier(0.2, 0, 0, 1), color 0.3s ease;
 }
 
 .archives-post-item:hover .archives-post-arrow {
     transform: translateX(4px);
+    color: var(--s-color-primary);
 }
 
-/* 空状态 */
+/* ===== 空状态（毛玻璃） ===== */
 .archives-empty {
+    position: relative;
+    z-index: 1;
     width: 100%;
-    max-width: 500px;
-    background-color: var(--s-color-surface-container);
+    max-width: 520px;
+    margin: 0 auto;
+    border-radius: 28px !important;
+    background: color-mix(in srgb, var(--s-color-surface-container) 60%, transparent) !important;
+    backdrop-filter: blur(28px) saturate(180%);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid color-mix(in srgb, var(--s-color-outline-variant) 55%, transparent);
     color: var(--s-color-on-surface);
-    border-radius: 24px;
     --s-color-outline: var(--s-color-on-surface-variant);
 }
 
@@ -165,116 +357,147 @@
     opacity: 0.7;
 }
 
-/* 平板设备 */
-@media (max-width: 1024px) {
-    .archives-page {
-        padding: 32px 20px;
-        gap: 20px;
-    }
-
-    .archives-header {
-        padding: 32px 24px;
-    }
-
-    .archives-year-header {
-        padding: 20px 24px;
-    }
-
-    .archives-post-item {
-        padding: 18px 24px;
-    }
+/* ===== 入场动画 ===== */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.6s cubic-bezier(0.05, 0.7, 0.1, 1),
+                transform 0.6s cubic-bezier(0.05, 0.7, 0.1, 1);
 }
 
-/* 手机设备 */
+[data-reveal].is-revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+[data-reveal-item] {
+    opacity: 0;
+    transform: translateY(18px) scale(0.97);
+    transition: opacity 0.5s cubic-bezier(0.05, 0.7, 0.1, 1),
+                transform 0.5s cubic-bezier(0.05, 0.7, 0.1, 1);
+    transition-delay: calc(var(--i, 0) * 55ms);
+}
+
+.is-revealed [data-reveal-item] {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+}
+
+.archives-hero [data-reveal-item] {
+    transition-delay: calc(var(--i, 0) * 80ms + 100ms);
+}
+
+/* ===== 响应式 ===== */
 @media (max-width: 768px) {
     .archives-page {
-        padding: 24px 16px;
-        gap: 16px;
+        padding: 28px 16px 48px;
+        gap: 22px;
     }
 
-    .archives-header {
-        padding: 24px 20px;
+    .archives-hero {
+        padding: 44px 24px 38px;
+        border-radius: 28px !important;
+    }
+
+    .archives-hero__deco {
+        font-size: 72px;
+        top: 16px;
+        right: 18px;
+    }
+
+    .archives-hero__title {
+        font-size: 2rem;
+    }
+
+    .archives-hero__subtitle {
+        font-size: 0.92rem;
     }
 
     .archives-year-header {
-        padding: 16px 20px;
+        padding: 18px 22px;
     }
 
-    .archives-year-content {
-        gap: 16px;
+    .archives-year-title {
+        font-size: 1.3rem;
     }
 
     .archives-post-item {
-        padding: 16px 20px;
-        gap: 12px;
-    }
-
-    .archives-post-meta {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 4px;
-    }
-
-    .archives-post-categories {
-        gap: 6px;
+        padding: 16px 22px;
+        gap: 14px;
     }
 }
 
-/* 小屏手机 */
 @media (max-width: 480px) {
     .archives-page {
-        padding: 20px 12px;
-        gap: 12px;
+        padding: 20px 12px 40px;
+        gap: 18px;
     }
 
-    .archives-header {
-        padding: 20px 16px;
+    .archives-hero {
+        padding: 38px 18px 32px;
+    }
+
+    .archives-hero__title {
+        font-size: 1.75rem;
+    }
+
+    .archives-hero__stats {
+        gap: 8px;
+        margin-top: 22px;
+    }
+
+    .archives-hero__stat {
+        padding: 8px 13px;
+        font-size: 0.8rem;
     }
 
     .archives-year-header {
-        padding: 16px;
+        padding: 16px 18px;
     }
 
     .archives-year-content {
-        flex-direction: column;
-        align-items: flex-start;
         gap: 12px;
-        text-align: left;
-    }
-
-    .archives-year-info {
-        align-items: flex-start;
     }
 
     .archives-post-item {
         padding: 14px 16px;
-        gap: 10px;
+        gap: 12px;
+    }
+
+    .archives-post-date {
+        width: 46px;
+        height: 46px;
+        border-radius: 14px;
+    }
+
+    .archives-post-date__day {
+        font-size: 1rem;
+    }
+
+    .archives-post-date__month {
+        font-size: 0.66rem;
     }
 
     .archives-post-title {
-        font-size: 15px;
+        font-size: 0.94rem;
     }
 
     .archives-post-meta {
-        font-size: 13px;
+        font-size: 0.76rem;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-reveal],
+    [data-reveal-item] {
+        transition: none !important;
+        opacity: 1 !important;
+        transform: none !important;
     }
 }
 </style>
 
 <div class="archives-page">
-    <!-- 页面标题 -->
-    <s-card readonly class="archives-header">
-        <materialis-typography variant="h3" style="margin-bottom: 12px; font-weight: 500;"><%= __('diary.title') %></materialis-typography>
-        <materialis-typography variant="h6" style="opacity: 0.8; font-weight: 400;">
-            <span class="archives-header-count">
-                <%= __('diary.total') %>
-                <s-badge><%= site.posts.length %></s-badge>
-                <%= __('diary.articles') %>
-            </span>
-        </materialis-typography>
-    </s-card>
-
-    <!-- 按年份分组 -->
     <%
         const postsByYear = {};
         site.posts.sort('-date').each(function(post) {
@@ -286,9 +509,35 @@
         });
     %>
 
+    <!-- Hero 头部 -->
+    <s-card readonly class="archives-hero" data-reveal>
+        <material-icon class="archives-hero__deco" name="auto_stories"></material-icon>
+        <h1 class="archives-hero__title" data-reveal-item style="--i:0"><%= __('diary.title') %></h1>
+
+        <% if (site.posts && site.posts.length > 0) { %>
+            <p class="archives-hero__subtitle" data-reveal-item style="--i:1">
+                <%= __('diary.total') %> <%= site.posts.length %> <%= __('diary.articles') %>
+            </p>
+
+            <div class="archives-hero__stats" data-reveal-item style="--i:2">
+                <span class="archives-hero__stat">
+                    <material-icon>article</material-icon>
+                    <span class="archives-hero__stat-value"><%= site.posts.length %></span>
+                    <span class="archives-hero__stat-label"><%= __('diary.articles') %></span>
+                </span>
+                <span class="archives-hero__stat">
+                    <material-icon>calendar_month</material-icon>
+                    <span class="archives-hero__stat-value"><%= Object.keys(postsByYear).length %></span>
+                    <span class="archives-hero__stat-label"><%= __('diary.year') %></span>
+                </span>
+            </div>
+        <% } %>
+    </s-card>
+
+    <!-- 按年份分组 -->
     <% Object.keys(postsByYear).sort().reverse().forEach(function(year) { %>
         <!-- 年份卡片 -->
-        <s-card readonly class="archives-year-card">
+        <s-card readonly class="archives-year-card" data-reveal>
             <!-- 年份标题 -->
             <div class="archives-year-header">
                 <div class="archives-year-content">
@@ -296,12 +545,13 @@
                         <material-icon name="calendar_today"></material-icon>
                     </s-avatar>
                     <div class="archives-year-info">
-                        <materialis-typography variant="h5" style="font-weight: 500; color: inherit;">
+                        <h2 class="archives-year-title">
                             <%= year %> <%= __('diary.year') %>
-                        </materialis-typography>
-                        <materialis-typography variant="body" style="opacity: 0.8; color: inherit;">
+                            <s-badge><%= postsByYear[year].length %></s-badge>
+                        </h2>
+                        <p class="archives-year-count">
                             <%= postsByYear[year].length %> <%= __('diary.articles') %>
-                        </materialis-typography>
+                        </p>
                     </div>
                 </div>
             </div>
@@ -309,19 +559,24 @@
             <!-- 文章列表 -->
             <div class="archives-post-list">
                 <% postsByYear[year].forEach(function(post, index) { %>
-                    <a href="<%= url_for(post.path) %>" class="archives-post-item">
-                        <material-icon class="archives-post-icon" name="article"></material-icon>
+                    <a href="<%= url_for(post.path) %>" class="archives-post-item" data-reveal-item style="--i:<%= index %>">
+                        <div class="archives-post-date">
+                            <span class="archives-post-date__day"><%= post.date.format('DD') %></span>
+                            <span class="archives-post-date__month"><%= post.date.format('MM') %></span>
+                        </div>
 
                         <div class="archives-post-content">
                             <div class="archives-post-title">
                                 <%= post.title %>
                             </div>
                             <div class="archives-post-meta">
-                                <span><%= post.date.format('MM-DD') %></span>
+                                <span class="archives-post-date-text">
+                                    <material-icon name="schedule"></material-icon>
+                                    <%= post.date.format('YYYY-MM-DD') %>
+                                </span>
                                 <% if (post.categories && post.categories.length) { %>
-                                    <span>·</span>
                                     <div class="archives-post-categories">
-                                        <% post.categories.forEach(function(cat, catIndex) { %>
+                                        <% post.categories.forEach(function(cat) { %>
                                             <s-chip readonly class="archives-post-category" variant="assist"><%= cat.name %></s-chip>
                                         <% }); %>
                                     </div>
@@ -351,3 +606,42 @@
         </s-card>
     <% } %>
 </div>
+
+<script>
+(function () {
+    if (typeof IntersectionObserver === 'undefined') {
+        document.querySelectorAll('[data-reveal], [data-reveal-item]').forEach(function (el) {
+            el.classList.add('is-revealed');
+        });
+        return;
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('is-revealed');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, {
+        threshold: 0.1,
+        rootMargin: '0px 0px -40px 0px'
+    });
+
+    document.querySelectorAll('.archives-page [data-reveal]').forEach(function (el) {
+        observer.observe(el);
+    });
+
+    // Hero 首屏立即触发
+    requestAnimationFrame(function () {
+        var hero = document.querySelector('.archives-hero[data-reveal]');
+        if (hero) {
+            var rect = hero.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                hero.classList.add('is-revealed');
+                observer.unobserve(hero);
+            }
+        }
+    });
+})();
+</script>
