@@ -1,6 +1,77 @@
 # 🎯 特色功能配置
 
-本文档介绍主题的各类特色功能，所有配置均在 `themes/materialis/_config.yml` 中。
+本文档介绍主题的各类特色功能，所有配置均在 themes/materialis/_config.yml 中。
+
+---
+
+## 文章浏览统计
+
+文章页顶部 banner 显示阅读次数。
+
+```yaml
+post_views:
+  enable: true        # 是否启用
+  service: local      # local（自研 localStorage 计数）或 busuanzi（不蒜子）
+```
+
+**两种模式：**
+
+| 模式 | 说明 |
+|---|---|
+| `local` | 自研计数，存入浏览器 localStorage，按文章路径 + 30 分钟窗口去重计数，无需任何后端 |
+| `busuanzi` | 接入 [不蒜子](https://busuanzi.ibruce.info)，显示全站/页面 PV，需联网 |
+
+---
+
+## 首页打字机效果
+
+首页 intro 卡片的副标题以打字机方式逐字输出，循环切换多条短语。
+
+在 `banner.cards` 的 intro 卡片中配置：
+
+```yaml
+banner:
+  cards:
+    - type: intro
+      subtitle: "A Material Design 3 Expressive theme for Hexo."
+      typing: true            # 开启打字机效果
+      typing_phrases:         # 打字机短语列表（留空则使用 subtitle）
+        - "A Material Design 3 Expressive theme for Hexo."
+        - "简洁、清晰、专注内容。"
+```
+
+> 💡 `typing: false` 或省略时，副标题静态显示 `subtitle` 内容。
+
+---
+
+## 站点运行时长
+
+侧边栏用户卡片下方显示站点已运行时长（X 年 X 个月 X 天，实时计算）。
+
+```yaml
+site_runtime:
+  enable: true           # 是否启用
+  start_date: "2023-08-26"  # 建站日期 YYYY-MM-DD
+```
+
+---
+
+## 相关文章推荐
+
+文章页内容下方展示与当前文章同分类 / 同标签的相关文章卡片；无匹配时自动回退为最新文章。
+
+```yaml
+related_posts:
+  enable: true   # 是否启用
+  max_count: 3   # 最多显示篇数
+```
+
+**匹配规则：**
+
+- 同分类：每个匹配分类 +2 分
+- 同标签：每个匹配标签 +1 分
+- 按分数降序取前 `max_count` 篇
+- 全站无任何匹配时，回退显示最新的 `max_count` 篇文章
 
 ---
 

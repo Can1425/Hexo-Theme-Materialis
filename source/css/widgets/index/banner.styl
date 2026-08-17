@@ -144,6 +144,29 @@
     opacity: 0.82
     overflow-wrap: anywhere
 
+/* 打字机副标题 */
+.home-banner-subtitle--typing
+    display: inline-flex
+    align-items: center
+    min-height: 1.45em
+
+.home-banner-typing-caret
+    display: inline-block
+    width: 2px
+    height: 1.1em
+    margin-left: 3px
+    border-radius: 999px
+    background: currentColor
+    animation: home-banner-caret-blink 1s steps(1) infinite
+
+@keyframes home-banner-caret-blink
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+
+@media (prefers-reduced-motion: reduce)
+    .home-banner-typing-caret
+        animation: none
+
 .home-banner-actions
     display: flex
     flex-wrap: wrap

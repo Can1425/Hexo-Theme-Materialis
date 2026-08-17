@@ -76,7 +76,10 @@ post:
   comment_disabled: Fonction de commentaire non activée
   min_read: min de lecture
   words: mots
+  related: Articles similaires
 
+sidebar:
+  runtime: En ligne depuis
 index:
   no_articles: Aucun article
   no_articles_desc: Aucun article publié pour l'instant

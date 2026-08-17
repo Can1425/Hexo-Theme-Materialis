@@ -60,6 +60,15 @@
     color: var(--s-color-on-tertiary-container) !important;
 }
 
+.post-banner-chip-views {
+    background: color-mix(in srgb, var(--s-color-surface-container-high) 85%, transparent) !important;
+    color: var(--s-color-on-surface-variant) !important;
+}
+
+.post-banner-chip-views span {
+    font-variant-numeric: tabular-nums;
+}
+
 .post-banner-chip material-icon {
     flex: 0 0 auto;
     font-size: 1rem;

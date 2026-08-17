@@ -77,7 +77,10 @@ post:
   comment_disabled: 評論功能未啟用
   min_read: 分鐘閱讀
   words: 字
+  related: 相關文章
 
+sidebar:
+  runtime: 已運行
 index:
   no_articles: 暫無文章
   no_articles_desc: 還沒有發佈任何文章

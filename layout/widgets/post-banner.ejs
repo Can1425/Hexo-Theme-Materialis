@@ -22,6 +22,24 @@
                     <%= page.tags.data[0].name %>
                 </s-chip>
             <% } %>
+
+            <% if (theme.post_views && theme.post_views.enable) { %>
+                <s-chip readonly class="post-banner-chip post-banner-chip-views" variant="assist">
+                    <material-icon name="visibility" slot="start"></material-icon>
+                    <span data-post-views>…</span>
+                </s-chip>
+            <% } %>
         </div>
     </s-card>
 </div>
+
+<% if (theme.post_views && theme.post_views.enable) { %>
+<script>
+window.POST_VIEWS_CONFIG = {
+    enable: true,
+    service: '<%= theme.post_views.service === 'busuanzi' ? 'busuanzi' : 'local' %>',
+    pageId: '<%= page.path %>'
+};
+</script>
+<script defer src="<%= url_for('/js/widgets/post-views.js') %>"></script>
+<% } %>

@@ -76,7 +76,10 @@ post:
   comment_disabled: 댓글 기능이 활성화되지 않았습니다
   min_read: 분 읽기
   words: 자
+  related: 관련 글
 
+sidebar:
+  runtime: 운영 시간
 index:
   no_articles: 아직 게시물이 없습니다
   no_articles_desc: 아직 게시물을 발행하지 않았습니다

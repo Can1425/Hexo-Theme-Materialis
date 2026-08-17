@@ -35,6 +35,25 @@ sidebar:
 # RSS 订阅地址(留空则不显示顶栏 RSS 按钮)
 # 若使用 hexo-generator-feed 插件,默认生成 /atom.xml,可填写 /atom.xml 或 /rss.xml
 rss: /atom.xml
+# 文章浏览统计(文章页 banner 显示阅读次数)
+#---start---
+post_views:
+  enable: true  # 是否启用
+  service: local  # local(自研 localStorage 计数) 或 busuanzi(不蒜子)
+#---end---
+# 首页打字机效果:在 banner.cards 的 intro 卡片中设置 typing: true 并添加 typing_phrases 即可启用,示例见 banner 配置
+# 站点运行时长(侧边栏显示建站天数)
+#---start---
+site_runtime:
+  enable: true  # 是否启用
+  start_date: "2023-08-26"  # 建站日期 YYYY-MM-DD
+#---end---
+# 相关文章推荐(文章底部显示同分类/标签的文章)
+#---start---
+related_posts:
+  enable: true  # 是否启用
+  max_count: 3  # 最多显示篇数
+#---end---
 # 导航菜单
 nav:
   - name: "首页"
@@ -187,6 +206,7 @@ banner:
       tone: tertiary
       source: hitokoto # static 或 hitokoto
       fallback: "保持简单，专注内容。"
+      typing: true # 开启打字机效果(一言/引用内容逐字打出),false 则静态显示
 
     - type: link
       size: standard

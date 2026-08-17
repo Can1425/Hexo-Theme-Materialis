@@ -76,7 +76,10 @@ post:
   comment_disabled: Comment function not enabled
   min_read: min read
   words: words
+  related: Related Posts
 
+sidebar:
+  runtime: Uptime
 index:
   no_articles: No articles
   no_articles_desc: No articles published yet

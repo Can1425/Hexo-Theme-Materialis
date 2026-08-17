@@ -26,7 +26,9 @@ const cardClass = 'home-banner-card home-banner-card--' + type + ' home-banner-c
                     </s-chip>
                 <% } %>
                 <h1 class="home-banner-title"><%= card.title || config.title %></h1>
-                <% if (card.subtitle) { %><p class="home-banner-subtitle"><%= card.subtitle %></p><% } %>
+                <% if (card.subtitle) { %>
+                    <p class="home-banner-subtitle"><%= card.subtitle %></p>
+                <% } %>
                 <% if (Array.isArray(card.actions) && card.actions.length > 0) { %>
                     <div class="home-banner-actions">
                         <% card.actions.forEach(function(action, actionIndex) { %>
@@ -75,15 +77,32 @@ const cardClass = 'home-banner-card home-banner-card--' + type + ' home-banner-c
                 <% } %>
             </div>
         <% } else if (type === 'quote') { %>
+            <%
+            const quoteTyping = card.typing === true;
+            const quotePhrases = (Array.isArray(card.typing_phrases) && card.typing_phrases.length > 0)
+                ? card.typing_phrases : [];
+            const quoteFallback = card.fallback || card.text || '保持简单，专注内容。';
+            %>
             <blockquote
                 class="home-banner-content home-banner-quote"
                 data-home-banner-quote
                 data-quote-source="<%= card.source || 'static' %>"
                 data-quote-endpoint="<%= card.endpoint || 'https://v1.hitokoto.cn' %>"
-                data-quote-fallback="<%= card.fallback || card.text || '保持简单，专注内容。' %>"
+                data-quote-fallback="<%= quoteFallback %>"
+                <% if (quoteTyping) { %>
+                data-banner-typing
+                data-typing-mode="<%= quotePhrases.length > 0 ? 'loop' : 'once' %>"
+                data-phrases="<%= quotePhrases.length > 0 ? JSON.stringify(quotePhrases).replace(/"/g, '&quot;') : '' %>"
+                <% } %>
             >
                 <material-icon class="home-banner-quote-icon" name="format_quote"></material-icon>
-                <p class="home-banner-quote-text" data-quote-text><%= card.text || card.fallback || '保持简单，专注内容。' %></p>
+                <p class="home-banner-quote-text" data-quote-text>
+                    <% if (quoteTyping) { %>
+                        <span class="home-banner-typing-text"></span><span class="home-banner-typing-caret"></span>
+                    <% } else { %>
+                        <%= card.text || card.fallback || '保持简单，专注内容。' %>
+                    <% } %>
+                </p>
                 <footer class="home-banner-quote-source" data-quote-cite><%= card.cite || '' %></footer>
             </blockquote>
         <% } else if (type === 'stat') { %>

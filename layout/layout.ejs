@@ -112,6 +112,9 @@
 
     <script type="module" src="<%= url_for('/js/loading.js') %>"></script>
     <script defer src="<%= url_for('/js/widgets/appbar.js') %>"></script>
+    <% if (theme.site_runtime && theme.site_runtime.enable) { %>
+    <script defer src="<%= url_for('/js/widgets/site-runtime.js') %>"></script>
+    <% } %>
     <script defer src="<%= url_for('/js/page-transition.js') %>"></script>
     <script>
     (function () {

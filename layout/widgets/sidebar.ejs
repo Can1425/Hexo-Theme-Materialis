@@ -15,6 +15,16 @@
     </div>
     <% } %>
 
+    <% if (theme.site_runtime && theme.site_runtime.enable && theme.site_runtime.start_date) { %>
+    <div class="sidebar-runtime" data-runtime-start="<%= theme.site_runtime.start_date %>">
+        <material-icon name="history"></material-icon>
+        <div class="sidebar-runtime-text">
+            <span class="sidebar-runtime-label"><%= __('sidebar.runtime') %></span>
+            <span class="sidebar-runtime-value" data-runtime-value>…</span>
+        </div>
+    </div>
+    <% } %>
+
     <nav class="nav-list">
         <% if (theme.nav && theme.nav.length > 0) { %>
             <% theme.nav.forEach(function(item) { %>

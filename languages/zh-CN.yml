@@ -77,6 +77,10 @@ post:
   comment_disabled: 评论功能未启用
   min_read: 分钟阅读
   words: 字
+  related: 相关文章
+
+sidebar:
+  runtime: 已运行
 
 index:
   no_articles: 暂无文章

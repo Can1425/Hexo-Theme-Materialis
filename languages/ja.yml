@@ -76,7 +76,10 @@ post:
   comment_disabled: コメント機能は有効になっていません
   min_read: 分で読了
   words: 字
+  related: 関連記事
 
+sidebar:
+  runtime: 稼働時間
 index:
   no_articles: 記事はまだありません
   no_articles_desc: まだ記事を公開していません
